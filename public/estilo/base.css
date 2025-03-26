@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Segoe';
+    src: url(../fonts/seguiemj.ttf);
+}
+
+@font-face {
+    font-family: "Sifonn";
+    src: url(../fonts/SIFONN_PRO.otf);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    background-color: #32353d;
+    margin: 0;
+    padding: 0;
+}
+
+.main-header {
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #26282D;
+    padding: 0 0.4rem;
+}
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1; 
+    justify-content: center;   
+}
+
+.main-logo img {
+    width: auto;
+    height: 8vh;
+}
+
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    margin-left: -100%;
+    transition: all 0.2s linear;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+}
+
+.main-nav.show {
+    margin-left: 0;
+}
+
+.nav-links {
+    background-color: #32353d;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: "Segoe";
+}
+
+.link-item {
+    margin-top: 2rem;
+    color: #fcd031;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    font-family: "Segoe";
+    font-size: 3vh;
+}
+
+.link-item::after {
+    position: absolute;
+    content: "";
+    background-color: #fcd031;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    transition: 0.3s ease all;
+}
+
+.link-item:hover::after {
+    width: 100%;
+}
+
+.button-menu {
+    z-index: 200;
+    width: 40px;
+    height: 40px;
+    border: none;
+    display: flex;
+    background: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.button-menu span {
+    width: 37px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background: #fcd031;
+    border-radius: 3px;
+    transform-origin: 4px 0px;
+    transition: all 0.2s linear;
+}
+
+.button-menu.close span {
+    opacity: 1;
+    transform: rotate(45deg) translate(0px, 0px);
+    background: #fcd031;
+}
+
+.button-menu.close span:nth-child(2) {
+    transform: rotate(-45deg) translate(-8px, 5px);
+}
+
+.button-menu.close span:nth-child(3) {
+    display: none;
+}
+
+
+/* -------------- footer --------- */
+
+.pie {
+    width: 100%;
+    height: 13vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #26282D;
+}
+
+.caja {
+    display: flex;
+    flex-direction: row;
+    margin: 0vh 2vw 0vh 2vw;
+}
+
+.caja img {
+    height: 5vh;
+    width: auto;
+}
+
+.copy {
+    margin: 0vh 2vw 0vh 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.copy p {
+    color: #fff;
+    text-decoration: none;
+    font-family: "Segoe";
+    font-size: 10px;
+}
+
+.copy a {
+    color: white;
+    font-size: 1vh;
+}
+
+a:-webkit-any-link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+
+
+/* -----------------cokies------------------- */
+
+@media screen and (min-width: 768px) {
+    .button-menu {
+        display: none;
+    }
+    .main-nav {
+        position: static;
+        margin-left: 0;
+        flex-basis: 70%;
+        height: 100%;
+    }
+    .nav-links {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        background: #26272c;
+    }
+    .link-item {
+        display: inline-block;
+        margin-top: 0;
+        margin-right: 2rem;
+    }
+    .caja img {
+        height: 7vh;
+        width: auto;
+        padding: 5px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .pie {
+        width: 100%;
+        height: 13vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #26282D;
+    }
+    .caja {
+        display: flex;
+        flex-direction: row;
+        margin: 0vh 2vw 0vh 2vw;
+    }
+    .caja img {
+        height: 5vh;
+        width: auto;
+        margin: 1vw;
+    }
+    .copy {
+        margin: 0vh 2vw 0vh 2vw;
+        display: flex;
+        justify-content: space-between;
+    }
+    .copy p {
+        color: #fff;
+        text-decoration: none;
+        font-family: "Segoe";
+        font-size: 10px;
+    }
+    .copy a {
+        color: white;
+        font-size: 1vh;
+    }
+    a:-webkit-any-link {
+        cursor: pointer;
+        text-decoration: none;
+    }
+}

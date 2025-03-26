@@ -1,0 +1,26 @@
+.principal{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    justify-content: center;
+    background-color: azure;
+    padding: 15px;
+}
+.tarjeta{
+    display: flex;
+    padding: 15px;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    
+    background-size: 100% 100%;
+}
+.tarjeta__header{
+    height: 30%;
+}
+.tarjeta__body{
+    height: 50%;
+}
