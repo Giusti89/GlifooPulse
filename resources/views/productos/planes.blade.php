@@ -8,8 +8,11 @@
 
                 <div class="tarjeta__body">
                     <p class="tarjeta__descripcion">{{$item->descripcion}}</p>
-
                 </div>
+                <div class="tarjeta__body">
+                    <p class="tarjeta__descripcion">{{$item->precio}}</p>
+                </div>
+
                 <div class="tarjeta__footer">
                    
                     <a href=" {{ route('registro', $item->id) }}"  target="_blank">
