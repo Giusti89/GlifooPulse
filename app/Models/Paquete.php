@@ -29,7 +29,7 @@ class Paquete extends Model
 
     public function landing()
     {
-        return $this->belongsTo(landing::class);
+        return $this->belongsTo(Landing::class);
     }
 
     protected static function boot()

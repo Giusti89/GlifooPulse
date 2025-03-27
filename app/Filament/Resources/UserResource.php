@@ -34,11 +34,18 @@ class UserResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-               
+
+                Forms\Components\Select::make('rol_id')
+                    ->label('Rol')
+                    ->relationship('rol', 'nombre')
+                    ->required()                    
+                    ->live(),
+
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->hiddenOn(['edit'])
@@ -59,9 +66,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -71,6 +76,10 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('estado.nombre')
+                    ->numeric()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('rol.nombre')
                     ->numeric()
                     ->sortable(),
             ])

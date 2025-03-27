@@ -20,16 +20,7 @@ return new class extends Migration
                 ->constrained('estados')
                 ->onDelete('cascade');
         });
-        DB::table('users')->insert([
-            [
-                'name' => 'Giusti',
-                'email' => 'giusti.17@hotmail.com',
-                'lastname' => 'Villarroel',
-                'phone' => '+59172501311',
-                'password' => Hash::make('17041989'),
-                'estado_id' => '1',
-            ],
-        ]);
+        
     }
 
     /**

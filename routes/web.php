@@ -10,9 +10,12 @@ Route::controller(InicioController::class)->group(function () {
     Route::get('/', 'index')
         ->name('inicio');        
 });
-Route::get('./admin/login', function () {
-    return redirect('/admin/login'); 
-})->name('custom.filament.login');
+
+
+
+Route::get('./usuario/login', function () {
+    return redirect('/usuario/login'); 
+})->name('usuariologin');
 
 
 
