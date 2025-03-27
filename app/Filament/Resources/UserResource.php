@@ -33,11 +33,14 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required()
+                    ->unique()
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('email')
                     ->email()
+                    ->unique()
                     ->required()
+                    ->hiddenOn(['edit'])
                     ->maxLength(255),
 
                 Forms\Components\Select::make('rol_id')

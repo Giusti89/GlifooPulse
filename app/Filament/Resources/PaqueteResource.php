@@ -107,7 +107,7 @@ class PaqueteResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->before(function (paquete $paquete) {
-                        Storage::delete('public/paquetes/' . $paquete->image_url);
+                        Storage::delete('public/' . $paquete->image_url);
                     })
 
 

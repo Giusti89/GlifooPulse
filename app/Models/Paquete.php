@@ -39,7 +39,7 @@ class Paquete extends Model
         static::updating(function ($ticket) {
 
             if ($ticket->isDirty('image_url')) {
-                Storage::disk('public/paquetew')->delete($ticket->getOriginal('image_url'));
+                Storage::disk('public')->delete('/' . $ticket->getOriginal('image_url'));
             }
         });
 
