@@ -24,9 +24,10 @@ Route::controller(PlanesController::class)->group(function () {
         ->name('planes');        
 });
 
-Route::get('./admin/register/{id}', function () {
+Route::get('./usuario/register', function () {
     return redirect('custom.filament.register'); 
 })->name('registro');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('./admin', function () {

@@ -9,8 +9,8 @@
                 <div class="tarjeta__body">
                     <p class="tarjeta__descripcion">{{$item->descripcion}}</p>
                 </div>
-                <div class="tarjeta__body">
-                    <p class="tarjeta__descripcion">{{$item->precio}}</p>
+                <div class="tarjeta__precio">
+                    <p class="tarjeta__descripcion">{{$item->precio}} $ </p>
                 </div>
 
                 <div class="tarjeta__footer">

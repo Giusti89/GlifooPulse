@@ -3,11 +3,11 @@
     flex-wrap: wrap;
     width: 80%;
     justify-content: center;
-    background-color: azure;
     padding: 15px;
 }
 .tarjeta{
     display: flex;
+    color: aliceblue;
     padding: 15px;
     flex-direction: column;
     width: 300px;
@@ -20,7 +20,25 @@
 }
 .tarjeta__header{
     height: 30%;
+    color:#fcd031 ;
 }
 .tarjeta__body{
-    height: 50%;
+    display: flex;
+    height: 60%;
+    justify-content: center;
+    align-items: center;
+    text-align: justify; 
+}
+.tarjeta__precio{
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    color:#fcd031;
+}
+.tarjeta__footer{
+    height: 30%;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
