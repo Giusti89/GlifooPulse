@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LandingResource\Pages;
-use App\Filament\Resources\LandingResource\RelationManagers;
-use App\Models\Landing;
+use App\Filament\Resources\SpotResource\Pages;
+use App\Filament\Resources\SpotResource\RelationManagers;
+use App\Models\Spot;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,23 +13,18 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class LandingResource extends Resource
+class SpotResource extends Resource
 {
-    protected static ?string $model = Landing::class;
-    protected static ?string $navigationLabel = 'Maquetas';
-    protected static ?string $navigationIcon = 'heroicon-m-rocket-launch';
-    protected static ?int $navigationSort = 4;
+    protected static ?string $model = Spot::class;
+
+    protected static ?string $navigationIcon = 'heroicon-s-sparkles';
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('descripcion')
-                    ->required(),
-
+                //
             ]);
     }
 
@@ -37,17 +32,28 @@ class LandingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('descripcion'),
+                tables\Columns\TextColumn::make('tiutlo')
+                ->searchable(),
 
+                tables\Columns\TextColumn::make('slug')
+                ->searchable(),
+
+                tables\Columns\TextColumn::make('user.name')
+                    ->searchable(),
+
+                tables\Columns\TextColumn::make('estado')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('user.suscripciones.paquete.landing.nombre')
+                    ->label('Tipo depublicidad')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -66,9 +72,8 @@ class LandingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLandings::route('/'),
-            'create' => Pages\CreateLanding::route('/create'),
-            'edit' => Pages\EditLanding::route('/{record}/edit'),
+            'index' => Pages\ListSpots::route('/'),            
+            'edit' => Pages\EditSpot::route('/{record}/edit'),
         ];
     }
 }

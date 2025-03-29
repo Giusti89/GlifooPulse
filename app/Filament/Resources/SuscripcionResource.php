@@ -23,8 +23,9 @@ class SuscripcionResource extends Resource
 {
     protected static ?string $model = Suscripcion::class;
 
+
     protected static ?string $navigationLabel = 'Suscripciones';
-    protected static ?string $navigationIcon = 'heroicon-m-user-circle';
+    protected static ?string $navigationIcon = 'heroicon-m-currency-dollar';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -89,7 +90,7 @@ class SuscripcionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('paquete.nombre')
                     ->numeric()
@@ -101,15 +102,21 @@ class SuscripcionResource extends Resource
                     ->date()
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('paquete.landing.nombre')
+                    ->label('Tipo depublicidad')
+                    ->sortable()
+                    ->searchable(),
+
             ])
             ->filters([
                 //
             ])
             ->actions([
-                
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
                 Action::make('renovar')
-                    ->label('Renovar Suscripción')
+                    ->label('Renovar ')
+                    ->color('success')
 
                     ->form([
                         Forms\Components\TextInput::make('meses_adicionales')

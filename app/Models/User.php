@@ -49,39 +49,45 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    // rol
     public function rol()
     {
         return $this->belongsTo(Rol::class);
     }
-
+    // suscripcion
     public function suscripciones()
     {
-        return $this->hasMany(suscripcion::class);
+        return $this->hasMany(Suscripcion::class);
     }
+    // estado
     public function estado(): BelongsTo
     {
         return $this->belongsTo(Estado::class);
     }
-    
+    // spot
+    public function spot()
+    {
+        return $this->hasMany(Spot::class);
+    }
+    // devolucion rol
     public function hasRole(string $role): bool
     {
         return $this->rol->nombre === $role;
     }
-
+    //accesos de panel
     public function canAccessPanel(Panel $panel): bool
     {
-       // Si el usuario es Administrador General, puede acceder a todos los paneles
-    if ($this->hasRole('Administrador General')) {
-        return true;
-    }
+        
+        if ($this->hasRole('Administrador General')) {
+            return true;
+        }
 
-    // Permitir acceso al userPanelProvider solo a usuarios con rol "usuario"
-    if ($panel->getId() === 'usuario' && $this->hasRole('Usuario')) {
-        return true;
-    }
+        
+        if ($panel->getId() === 'usuario' && $this->hasRole('Usuario')) {
+            return true;
+        }
 
-    // Si no cumple ninguna condición, denegar acceso
-    return false;
+        
+        return false;
     }
-   
 }

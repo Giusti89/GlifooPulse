@@ -25,10 +25,10 @@ class UsuarioPanelProvider extends PanelProvider
         return $panel
             ->id('usuario')
             ->path('usuario')
-            ->login()
+            ->login() 
             ->registration() 
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Usuario/Resources'), for: 'App\\Filament\\Usuario\\Resources')
             ->discoverPages(in: app_path('Filament/Usuario/Pages'), for: 'App\\Filament\\Usuario\\Pages')
