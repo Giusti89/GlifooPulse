@@ -22,9 +22,9 @@ class PublicidadController extends Controller
         $marca = $tipopublicidad->nombre;
         // user.suscripciones.paquete.landing.nombre
         // dd($nombreCliente, $titulo, $id, $marca);
-        if ($marca == "Glifoo plan basic") {
+        if ($marca == "Glifoo basic") {
             return view("/basico", compact('titulo','nombreCliente'));
-        } elseif ($marca == "Glifoo plan medium") {
+        } elseif ($marca == "Glifoo bussines") {
             return view("/basico", compact('titulo','nombreCliente'));
         }
     }

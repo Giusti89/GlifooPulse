@@ -3,7 +3,7 @@
     align-items: center;
     flex: 1;
     flex-direction: column;
-    background-color: aqua;
+    
     width: 100%;
 }
 
@@ -38,7 +38,7 @@
 .texto {
     display: flex;
     text-align: center;
-    background-color: antiquewhite;
+    
     width: 50%;
     padding: 10px;
 }
@@ -51,7 +51,7 @@
     padding: 10px;
     gap: 15px;
     width: 55%;
-    background-color: blueviolet;
+    
 }
 
 .redes img {
@@ -61,8 +61,71 @@
 .direccion{
     display: flex;
     width: 55%;
-    background-color: blueviolet;
+    
 }
 .direccion p{
     text-align: center;
+}
+@media (max-width: 768px) {
+    .basicoprincipal {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        flex-direction: column;
+        
+        width: 100%;
+    }
+    
+    .banner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .banner img {
+        width: 350px;
+        height: auto;
+        object-fit: contain;        
+    }
+    .seccionuno {
+        display: flex;
+        flex-direction: column;
+        width: 100%;    
+        gap: 25px;
+        margin-bottom: 20px;
+    }
+
+    .texto {
+        display: flex;
+        text-align: center;
+        
+        width: 100%;
+        padding: 5px;
+        font-size: 0.7rem;
+    }
+    
+    .redes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 15px;
+        width: 95%;
+        
+    }
+    .redes img {
+        width: 45px;
+        height: auto;
+    }
+    .direccion{
+        display: flex;
+        width: 100%;
+        
+    }
+    .direccion p{
+        text-align: center;
+        font-size: 0.5rem;
+    }
 }

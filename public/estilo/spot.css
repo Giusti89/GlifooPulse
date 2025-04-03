@@ -1,6 +1,6 @@
 /* ======== CONFIGURACIÓN GENERAL ======== */
 :root {
-    --primary-color: #007bff;
+    --primary-color: #595959;
     --secondary-color: #0056b3;
     --text-color: #333;
     --background-color: #f8f9fa;
@@ -94,5 +94,11 @@ footer {
     .btn {
         font-size: 1em;
         padding: 8px 16px;
+    }
+    .container {
+        width: 90%;
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 20px;
     }
 }
