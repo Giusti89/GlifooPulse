@@ -1,0 +1,26 @@
+.cuerpo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    width: 80%;
+    flex: 1;
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    color:#fcd031;
+    margin: 15px;
+}
+.botones{
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    margin: 15px;
+}
+.boton{
+    margin: 15px;
+}

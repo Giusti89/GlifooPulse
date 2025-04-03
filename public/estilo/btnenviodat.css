@@ -1,0 +1,28 @@
+ .modificar {
+    background-color: #B760D5 ;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.modificar:hover {
+    background-color: #9F00D8;
+}
+
+.modificar:active {
+    background-color: red;
+}
+@media (max-width: 768px) {
+    .modificar {
+        background-color: #B760D5 ;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8rem;
+    }
+}

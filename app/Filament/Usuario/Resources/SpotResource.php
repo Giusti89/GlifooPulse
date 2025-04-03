@@ -12,13 +12,18 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
+
+
 
 class SpotResource extends Resource
 {
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    
+
 
     public static function getEloquentQuery(): Builder
     {
@@ -29,7 +34,20 @@ class SpotResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Section::make('Publicidad')
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('titulo')
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                            ->maxLength(255),
+                       
+                    ]),
             ]);
     }
 
@@ -37,7 +55,7 @@ class SpotResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('tiutlo')
+                tables\Columns\TextColumn::make('titulo')
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('slug')
@@ -78,7 +96,7 @@ class SpotResource extends Resource
     {
         return [
             'index' => Pages\ListSpots::route('/'),
-            
+
             'edit' => Pages\EditSpot::route('/{record}/edit'),
         ];
     }

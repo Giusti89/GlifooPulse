@@ -6,12 +6,15 @@ use App\Filament\Resources\SpotResource\Pages;
 use App\Filament\Resources\SpotResource\RelationManagers;
 use App\Models\Spot;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
 
 class SpotResource extends Resource
 {
@@ -24,7 +27,20 @@ class SpotResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Section::make('Publicidad')
+                ->columns(3)
+                ->schema([
+                    Forms\Components\TextInput::make('titulo')
+                        ->required()
+                        ->maxLength(255),
+
+                    Forms\Components\TextInput::make('slug')
+                        ->required()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                        ->maxLength(255),
+                   
+                ]),
             ]);
     }
 
@@ -32,7 +48,7 @@ class SpotResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('tiutlo')
+                tables\Columns\TextColumn::make('titulo')
                 ->searchable(),
 
                 tables\Columns\TextColumn::make('slug')

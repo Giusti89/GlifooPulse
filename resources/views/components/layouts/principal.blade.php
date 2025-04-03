@@ -33,7 +33,7 @@
                 @endauth
                 
                 <a class="link-item" href="{{ route('inicio') }}">Glifoo Pulse</a>
-                <a class="link-item" href="#">Socios</a>               
+                <a class="link-item" href="{{route('socios')}}">Socios</a>               
                 <a class="link-item" href="{{ route('planes') }}">Productos</a>                
                 <a class="link-item" href="{{ route('usuariologin') }}">Login</a>
                 
