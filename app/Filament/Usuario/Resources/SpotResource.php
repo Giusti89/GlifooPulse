@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Set;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -27,7 +28,10 @@ class SpotResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+        return parent::getEloquentQuery()
+            ->whereHas('suscripcion', function ($query) {
+                $query->where('user_id', auth()->id());
+            });
     }
 
     public static function form(Form $form): Form
@@ -46,7 +50,7 @@ class SpotResource extends Resource
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
                             ->maxLength(255),
-                       
+
                     ]),
             ]);
     }

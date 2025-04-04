@@ -17,7 +17,7 @@ class Suscripcion extends Model
         'estado'
     ];
 
-   
+
 
     public function user()
     {
@@ -27,6 +27,10 @@ class Suscripcion extends Model
     public function paquete()
     {
         return $this->belongsTo(Paquete::class);
+    }
+    public function spot()
+    {
+        return $this->hasOne(Spot::class, 'suscripcion_id', 'id');
     }
 
     public function sells()

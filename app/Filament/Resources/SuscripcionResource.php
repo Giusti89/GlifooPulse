@@ -63,7 +63,7 @@ class SuscripcionResource extends Resource
                     ->numeric()
                     ->minValue(1)
                     ->default(1)
-                    ->required()
+                    
                     ->live()
                     ->afterStateUpdated(function (Get $get, Set $set) {
                         if ($get('fecha_inicio')) {
@@ -89,6 +89,9 @@ class SuscripcionResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
                     ->sortable(),

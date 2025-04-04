@@ -12,20 +12,20 @@ class PublicidadController extends Controller
     {
         $publicidad = Spot::where('slug', $slug)->first();
         $tipopublicidad = Landing::where('id', $publicidad->tipolanding)->first();
-        $usuario = $publicidad->user->id;
+        
         if (!$publicidad) {
             return redirect()->route('error');
         }
-        $nombreCliente = $publicidad->user->name;
+        
         $titulo = $publicidad->titulo;
         $id = $publicidad->user_id;
         $marca = $tipopublicidad->nombre;
         // user.suscripciones.paquete.landing.nombre
         // dd($nombreCliente, $titulo, $id, $marca);
         if ($marca == "Glifoo basic") {
-            return view("/basico", compact('titulo','nombreCliente'));
+            return view("/basico", compact('titulo'));
         } elseif ($marca == "Glifoo bussines") {
-            return view("/basico", compact('titulo','nombreCliente'));
+            return view("/basico", compact('titulo'));
         }
     }
 }

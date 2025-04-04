@@ -55,7 +55,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Rol::class);
     }
     // suscripcion
-    public function suscripciones()
+    public function suscripcion()
     {
         return $this->hasMany(Suscripcion::class);
     }

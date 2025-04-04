@@ -20,18 +20,19 @@ class CreateSuscripcion extends CreateRecord
 
     protected function afterCreate(): void
     {
+        $suscripcion = $this->record; // Ya es la suscripción
+
+        $paquete = $suscripcion->paquete; // Accede a la relación paquete
+        if ($paquete && $paquete->landing) {
+            $tipoLanding = $paquete->landing->id;
         
-        $suscripcion = $this->record->user->suscripciones()->latest()->first();
 
-        if ($suscripcion && $suscripcion->paquete && $suscripcion->paquete->landing) {
-            $tipoLanding = $suscripcion->paquete->landing->id; 
-            
         } else {
-            $tipoLanding = 'default'; 
+            $tipoLanding = 'default';
         }
-
+        
         Spot::create([
-            'user_id' => $this->record->user_id,
+            'suscripcion_id' => $suscripcion->id, 
             'tipolanding' => $tipoLanding,
             'estado' => 0,
         ]);

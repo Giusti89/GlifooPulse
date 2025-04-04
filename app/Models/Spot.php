@@ -14,11 +14,11 @@ class Spot extends Model
         'slug',
         'tipolanding',
         'estado',
-        'user_id',
+        'suscripcion_id',
     ];
 
-    public function user()
+    public function suscripcion()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Suscripcion::class, 'suscripcion_id', 'id');
     }
 }

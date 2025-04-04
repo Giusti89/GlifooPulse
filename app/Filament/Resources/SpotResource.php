@@ -48,6 +48,10 @@ class SpotResource extends Resource
     {
         return $table
             ->columns([
+
+                tables\Columns\TextColumn::make('id')
+                ->searchable(),
+
                 tables\Columns\TextColumn::make('titulo')
                 ->searchable(),
 
