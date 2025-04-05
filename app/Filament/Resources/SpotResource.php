@@ -21,7 +21,7 @@ class SpotResource extends Resource
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-sparkles';
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -58,13 +58,13 @@ class SpotResource extends Resource
                 tables\Columns\TextColumn::make('slug')
                 ->searchable(),
 
-                tables\Columns\TextColumn::make('user.name')
+                tables\Columns\TextColumn::make('suscripcion.user.name')
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('estado')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('user.suscripciones.paquete.landing.nombre')
+                Tables\Columns\TextColumn::make('suscripcion.paquete.landing.nombre')
                     ->label('Tipo depublicidad')
                     ->sortable()
                     ->searchable(),

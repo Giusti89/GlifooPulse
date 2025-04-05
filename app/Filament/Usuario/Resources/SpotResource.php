@@ -59,28 +59,23 @@ class SpotResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('titulo')
-                    ->searchable(),
+                tables\Columns\TextColumn::make('titulo'),
+                    
 
                 tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
+                    ->label('Url'),
 
-                tables\Columns\TextColumn::make('user.name')
-                    ->searchable(),
-
-                tables\Columns\TextColumn::make('estado')
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('user.suscripciones.paquete.landing.nombre')
+                Tables\Columns\TextColumn::make('suscripcion.paquete.landing.nombre')
                     ->label('Tipo depublicidad')
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Llenar datos'),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

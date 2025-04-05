@@ -32,6 +32,7 @@ class Suscripcion extends Model
     {
         return $this->hasOne(Spot::class, 'suscripcion_id', 'id');
     }
+    
 
     public function sells()
     {

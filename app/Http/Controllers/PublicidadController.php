@@ -18,10 +18,11 @@ class PublicidadController extends Controller
         }
         
         $titulo = $publicidad->titulo;
+        $usuario = $publicidad->suscripcion->user->name;
         $id = $publicidad->user_id;
         $marca = $tipopublicidad->nombre;
-        // user.suscripciones.paquete.landing.nombre
-        // dd($nombreCliente, $titulo, $id, $marca);
+        
+      
         if ($marca == "Glifoo basic") {
             return view("/basico", compact('titulo'));
         } elseif ($marca == "Glifoo bussines") {

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SuscripcionResource\Pages;
 
 use App\Filament\Resources\SuscripcionResource;
+use App\Models\Contenido;
 use App\Models\Landing;
 use App\Models\Paquete;
 use App\Models\Spot;
@@ -20,9 +21,9 @@ class CreateSuscripcion extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $suscripcion = $this->record; // Ya es la suscripción
+        $suscripcion = $this->record; 
 
-        $paquete = $suscripcion->paquete; // Accede a la relación paquete
+        $paquete = $suscripcion->paquete; 
         if ($paquete && $paquete->landing) {
             $tipoLanding = $paquete->landing->id;
         
@@ -31,10 +32,13 @@ class CreateSuscripcion extends CreateRecord
             $tipoLanding = 'default';
         }
         
-        Spot::create([
+        $spot =  Spot::create([
             'suscripcion_id' => $suscripcion->id, 
             'tipolanding' => $tipoLanding,
             'estado' => 0,
+        ]);
+        Contenido::create([
+            'spot_id' => $spot->id, 
         ]);
     }
 }

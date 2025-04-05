@@ -19,10 +19,6 @@ class SocioController extends Controller
             'spots.titulo',
             'spots.slug as spot_slug',
             'users.name as user_name',
-            'users.lastname as user_lastname',
-            'suscripcions.fecha_inicio',
-            'suscripcions.fecha_fin',
-            'spots.estado as spot_status'
         )
         ->get();
     

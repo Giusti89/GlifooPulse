@@ -21,7 +21,7 @@ class PaqueteResource extends Resource
     protected static ?string $model = Paquete::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-briefcase';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
 
     protected static function getLandingFromLocalId($landing_id)
     {
