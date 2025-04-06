@@ -13,7 +13,8 @@
     
     
     <!-- 🔹 Favicon -->
-    <link rel="icon" href="{{ asset('./img/logos/Boton.ico') }}" type="image/x-icon">
+    
+    <link rel="icon" href="{{ $icono ? asset($icono) : asset('./img/logos/Boton.ico') }}" type="image/x-icon">
 
     <!-- 🔹 CSS -->
     <link rel="stylesheet" href="{{ asset('estilo/spot.css') }}">

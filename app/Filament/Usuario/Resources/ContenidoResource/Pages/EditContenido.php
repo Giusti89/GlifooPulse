@@ -10,10 +10,8 @@ class EditContenido extends EditRecord
 {
     protected static string $resource = ContenidoResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getRedirectUrl(): string
     {
-        return [
-           
-        ];
+        return $this->getResource()::getUrl('index');
     }
 }

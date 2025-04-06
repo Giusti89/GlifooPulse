@@ -1,4 +1,4 @@
-<x-layouts.spotbasic titulo="{{ $titulo }}">
+<x-layouts.spotbasic titulo="{{ $titulo }}" icono="{{'/storage/' .$contenido->logo_url}}">
     <link rel="stylesheet" href="{{ asset('./estilo/basico.css') }}">
     <div class="basicoprincipal">
         <div class="banner">
