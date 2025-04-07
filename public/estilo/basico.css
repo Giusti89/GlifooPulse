@@ -41,9 +41,10 @@
     border-radius: 50%;
 }
 
-.titulo{
+.titulo {
     margin-bottom: 20px;
 }
+
 .cuerpo {
     display: flex;
     width: 60vw;
@@ -107,13 +108,19 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 40px;
     }
 
-    .banner img {
-        width: 350px;
-        height: auto;
-        object-fit: contain;
+    .img-banner {
+        height: 35vh;
+        /* altura menor en móviles */
+        object-fit: cover;
+    }
+
+    .logo-perfil {
+        width: 80px;
+        height: 80px;
+        bottom: -40px;
     }
 
     .seccionuno {
