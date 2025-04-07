@@ -76,7 +76,8 @@ class ContenidoResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('spot_id')
+                tables\Columns\TextColumn::make('spot.titulo')
+                    ->label('Titulo')
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('texto'),
