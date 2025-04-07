@@ -18,6 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\MenuItem;
+use Swindon\FilamentHashids\Middleware\FilamentHashidsMiddleware;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -29,7 +30,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login() 
-            ->registration()     
+            ->registration() 
+            ->middleware([
+                FilamentHashidsMiddleware::class,                
+            ])    
             ->colors([
                 'primary' => Color::Green,
             ])

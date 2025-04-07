@@ -24,6 +24,7 @@ class SpotResource extends Resource
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Configuracion Inicial';
     protected static ?int $navigationSort = 1;
 
 

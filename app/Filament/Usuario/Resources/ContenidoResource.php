@@ -22,6 +22,8 @@ class ContenidoResource extends Resource
     protected static ?string $model = Contenido::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Configuracion Contenidos';
+
     protected static ?int $navigationSort = 2;
 
     public static function getEloquentQuery(): Builder
@@ -37,7 +39,7 @@ class ContenidoResource extends Resource
         return $form
             ->schema([
                 Section::make('Basico')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('texto')
                             ->required()

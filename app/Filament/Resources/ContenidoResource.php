@@ -26,7 +26,7 @@ class ContenidoResource extends Resource
         return $form
             ->schema([
                 Section::make('Basico')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('texto')
                             ->required()
