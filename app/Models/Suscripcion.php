@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Swindon\FilamentHashids\Traits\HasHashid;
 
 class Suscripcion extends Model
@@ -33,14 +34,16 @@ class Suscripcion extends Model
     }
     public function spot()
     {
-        return $this->hasOne(Spot::class, 'suscripcion_id', 'id');
+        return $this->hasMany(Spot::class);
     }
-    
+
 
     public function sells()
     {
         return $this->hasMany(Sell::class);
     }
+
+    
 
     public function setFechaFinAttribute($value)
     {

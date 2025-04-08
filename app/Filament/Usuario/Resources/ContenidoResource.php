@@ -49,7 +49,7 @@ class ContenidoResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\FileUpload::make('logo_url')
+                        Forms\Components\FileUpload::make('banner_url')
                             ->image()
                             ->imageEditor()
                             ->directory(function () {
@@ -58,7 +58,8 @@ class ContenidoResource extends Resource
                                 return 'paquetes/' . Str::slug($user->name);
                             })
                             ->required(),
-                        Forms\Components\FileUpload::make('banner_url')
+
+                        Forms\Components\FileUpload::make('logo_url')
                             ->image()
                             ->imageEditor()
                             ->directory(function () {
@@ -85,13 +86,14 @@ class ContenidoResource extends Resource
                 tables\Columns\TextColumn::make('pie')
                     ->searchable(),
 
+                Tables\Columns\ImageColumn::make('logo_url')
+                    ->disk('public')
+                    ->label('Logo'),
+
                 Tables\Columns\ImageColumn::make('banner_url')
                     ->disk('public')
                     ->label('Banner'),
 
-                Tables\Columns\ImageColumn::make('logo_url')
-                    ->disk('public')
-                    ->label('Logo'),
             ])
             ->filters([
                 //

@@ -38,6 +38,7 @@ class Paquete extends Model
         parent::boot();
 
         static::updating(function ($ticket) {
+            
 
             if ($ticket->isDirty('image_url')) {
                 Storage::disk('public')->delete('/' . $ticket->getOriginal('image_url'));

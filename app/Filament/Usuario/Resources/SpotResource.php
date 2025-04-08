@@ -44,10 +44,12 @@ class SpotResource extends Resource
                     ->columns(3)
                     ->schema([
                         Forms\Components\TextInput::make('titulo')
+                            ->label('Titulo')
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('slug')
+                            ->label('Nombre Link')
                             ->required()
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
@@ -62,7 +64,7 @@ class SpotResource extends Resource
         return $table
             ->columns([
                 tables\Columns\TextColumn::make('titulo'),
-                    
+
 
                 tables\Columns\TextColumn::make('slug')
                     ->label('Url'),

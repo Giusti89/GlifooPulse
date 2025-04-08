@@ -24,7 +24,7 @@ class Spot extends Model
         return $this->belongsTo(Suscripcion::class, 'suscripcion_id', 'id');
     }
     
-    public function contenidos()
+    public function contenido()
     {
         return $this->hasMany(Contenido::class, 'spot_id', 'id');
     }

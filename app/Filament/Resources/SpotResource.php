@@ -21,7 +21,7 @@ class SpotResource extends Resource
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-sparkles';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
