@@ -26,8 +26,7 @@
             <div class="direccion">
                 <p>
                     {{ $contenido->pie }} <br>
-                    La Orquesta Gobernadoras de Bolivia es una institución dedicada a la promoción y enriquecimiento del
-                    patrimonio musical en Bolivia
+                    
                 </p>
 
             </div>
