@@ -38,16 +38,20 @@ class ContenidoResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Basico')
-                    ->columns(2)
+                Section::make('Textos')
+                    ->columns(1)
                     ->schema([
                         Forms\Components\TextInput::make('texto')
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\TextInput::make('pie')
+                        Forms\Components\RichEditor::make('pie')
                             ->required()
                             ->maxLength(255),
+                    ]),
+                Section::make('Imagenes')
+                    ->columns(2)
+                    ->schema([
 
                         Forms\Components\FileUpload::make('banner_url')
                             ->image()
@@ -70,6 +74,7 @@ class ContenidoResource extends Resource
                             ->required(),
                     ]),
 
+
             ]);
     }
 
@@ -81,18 +86,18 @@ class ContenidoResource extends Resource
                     ->label('Titulo')
                     ->searchable(),
 
-                tables\Columns\TextColumn::make('texto'),
-
-                tables\Columns\TextColumn::make('pie')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('banner_url')
+                    ->disk('public')
+                    ->label('Banner'),
 
                 Tables\Columns\ImageColumn::make('logo_url')
                     ->disk('public')
                     ->label('Logo'),
 
-                Tables\Columns\ImageColumn::make('banner_url')
-                    ->disk('public')
-                    ->label('Banner'),
+
+                tables\Columns\TextColumn::make('texto')
+                ->limit(20),
+
 
             ])
             ->filters([

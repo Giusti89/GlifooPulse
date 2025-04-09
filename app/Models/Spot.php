@@ -28,4 +28,13 @@ class Spot extends Model
     {
         return $this->hasMany(Contenido::class, 'spot_id', 'id');
     }
+    public function social()
+{
+    return $this->hasMany(Social::class);
+}
+
+public function visit()
+{
+    return $this->hasMany(Visit::class);
+}
 }

@@ -17,16 +17,18 @@
                     </p>
                 </div>
                 <div class="redes">
-                    <img src="{{ asset('./img/logos/correo.png') }}" alt="">
-                    <img src="{{ asset('./img/logos/correo.png') }}" alt="">
-                    <img src="{{ asset('./img/logos/correo.png') }}" alt="">
-                    <img src="{{ asset('./img/logos/correo.png') }}" alt="">
+                    @foreach ($redes as $item)
+                        <a href="{{$item->url}}" target="_blank" rel="noopener">
+                            <img src="{{ asset('/storage/' . $item->image_url) }}" alt="">
+                        </a>
+                    @endforeach
+
+
                 </div>
             </div>
             <div class="direccion">
                 <p>
-                    {{ $contenido->pie }} <br>
-                    
+                    {!! $contenido->pie !!} <br>
                 </p>
 
             </div>

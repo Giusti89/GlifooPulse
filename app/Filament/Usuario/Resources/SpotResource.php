@@ -50,6 +50,7 @@ class SpotResource extends Resource
 
                         Forms\Components\TextInput::make('slug')
                             ->label('Nombre Link')
+                            ->prefix('https://glifoo.org/')
                             ->required()
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
