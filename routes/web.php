@@ -37,6 +37,8 @@ Route::controller(SocioController::class)->group(function () {
 Route::controller(PublicidadController::class)->group(function () {
     Route::get('/{slug}', 'show')
         ->name('publicidad');
+    Route::get('/enlace/{id}','redirecion')
+    ->name('redireccion');
 
    
 });
