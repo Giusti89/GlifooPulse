@@ -35,6 +35,6 @@ class Social extends Model
     }
     public function spot()
     {
-        return $this->belongsTo(Spot::class);
+        return $this->belongsTo(Spot::class, 'spot_id', 'id');
     }
 }

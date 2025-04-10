@@ -13,6 +13,7 @@ use Filament\Forms\Components\Section;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -31,10 +32,13 @@ class SocialResource extends Resource
                     ->columns(2)
                     ->schema([
                         Forms\Components\Select::make('spot_id')
-                            ->label(' Seleccione Proyecto')
-                            ->relationship('spot', 'titulo')
-                            ->required()
-                            ->live(),
+                            ->label('Seleccione Proyecto')
+                            ->options(
+                                \App\Models\Spot::whereHas('suscripcion', function ($query) {
+                                    $query->where('user_id', Auth::id());
+                                })->pluck('titulo', 'id')
+                            )
+                            ->required(),
 
                         Forms\Components\TextInput::make('nombre')
                             ->label(' Nombre red social')
@@ -77,7 +81,7 @@ class SocialResource extends Resource
                 tables\Columns\TextColumn::make('url')
                     ->label('Nombre'),
 
-                    Tables\Columns\ImageColumn::make('image_url')
+                Tables\Columns\ImageColumn::make('image_url')
                     ->disk('public')
                     ->label('Logo'),
 

@@ -23,18 +23,18 @@ class Spot extends Model
     {
         return $this->belongsTo(Suscripcion::class, 'suscripcion_id', 'id');
     }
-    
+
     public function contenido()
     {
         return $this->hasMany(Contenido::class, 'spot_id', 'id');
     }
     public function social()
-{
-    return $this->hasMany(Social::class);
-}
+    {
+        return $this->hasMany(Social::class,'spot_id', 'id');
+    }
 
-public function visit()
-{
-    return $this->hasMany(Visit::class);
-}
+    public function visit()
+    {
+        return $this->hasMany(Visit::class);
+    }
 }
