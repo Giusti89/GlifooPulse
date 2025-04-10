@@ -23,8 +23,9 @@ class SpotResource extends Resource
 {
     protected static ?string $model = Spot::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-wrench';
     protected static ?string $navigationLabel = 'Configuracion Inicial';
+    protected static ?string $pluralModelLabel = 'Configuracion Inicial';
     protected static ?int $navigationSort = 1;
 
 
@@ -64,14 +65,14 @@ class SpotResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('titulo'),
-
+                tables\Columns\TextColumn::make('titulo')
+                ->label('Título'),
 
                 tables\Columns\TextColumn::make('slug')
                     ->label('Url'),
 
                 Tables\Columns\TextColumn::make('suscripcion.paquete.landing.nombre')
-                    ->label('Tipo depublicidad')
+                    ->label('Tipo de publicidad')
                     ->sortable(),
             ])
             ->filters([

@@ -21,8 +21,19 @@ class SocialResource extends Resource
 {
     protected static ?string $model = Social::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-oval-left-ellipsis';
+    protected static ?string $navigationLabel = 'Configuracion Enlaces Sociales';
+    protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
+
     protected static ?int $navigationSort = 3;
+    
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereHas('spot.suscripcion', function ($query) {
+                $query->where('user_id', auth()->id());
+            });
+    }
 
     public static function form(Form $form): Form
     {
@@ -71,6 +82,7 @@ class SocialResource extends Resource
     {
         return $table
             ->columns([
+
                 tables\Columns\TextColumn::make('spot.titulo')
                     ->label('Titulo')
                     ->searchable(),
@@ -78,8 +90,14 @@ class SocialResource extends Resource
                 tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre'),
 
+                tables\Columns\TextColumn::make('clicks')
+                    ->label('Interacciones'),
+
                 tables\Columns\TextColumn::make('url')
-                    ->label('Nombre'),
+                    ->label('Enlace'),
+
+                tables\Columns\TextColumn::make('clicks')
+                    ->label('Interacciones'),
 
                 Tables\Columns\ImageColumn::make('image_url')
                     ->disk('public')

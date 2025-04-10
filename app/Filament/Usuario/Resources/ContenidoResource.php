@@ -21,8 +21,9 @@ class ContenidoResource extends Resource
 {
     protected static ?string $model = Contenido::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-folder';
     protected static ?string $navigationLabel = 'Configuracion Contenidos';
+    protected static ?string $pluralModelLabel = 'Configuracion Contenido';
 
     protected static ?int $navigationSort = 2;
 
