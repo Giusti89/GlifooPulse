@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Visit extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'spot_id',
+        'ip',
+        'user_agent',
+        'visited_at'
+    ];
 
     public function spot()
     {

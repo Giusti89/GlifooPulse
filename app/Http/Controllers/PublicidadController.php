@@ -6,6 +6,7 @@ use App\Models\Contenido;
 use App\Models\Landing;
 use App\Models\Social;
 use App\Models\Spot;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -31,6 +32,12 @@ class PublicidadController extends Controller
 
 
         if ($marca == "Glifoo basic") {
+            Visit::create([
+                'spot_id' => $publicidad->id,
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+                'visited_at' => now(),
+            ]);
             return view("/basico", compact('titulo', 'contenido', 'redes'));
         } elseif ($marca == "Glifoo bussines") {
             return view("/basico", compact('titulo'));
