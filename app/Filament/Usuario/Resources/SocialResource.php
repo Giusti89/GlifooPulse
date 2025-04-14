@@ -26,7 +26,7 @@ class SocialResource extends Resource
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
 
     protected static ?int $navigationSort = 3;
-    
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -94,6 +94,7 @@ class SocialResource extends Resource
                     ->label('Interacciones'),
 
                 tables\Columns\TextColumn::make('url')
+                    ->limit(20)
                     ->label('Enlace'),
 
                 tables\Columns\TextColumn::make('clicks')
