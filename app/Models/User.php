@@ -32,64 +32,69 @@ class User extends Authenticatable implements FilamentUser
         'rol_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    // rol
-    public function rol()
-    {
-        return $this->belongsTo(Rol::class);
-    }
-    // suscripcion
-    public function suscripcion()
-    {
-        return $this->hasMany(Suscripcion::class);
-    }
-    // estado
-    public function estado(): BelongsTo
-    {
-        return $this->belongsTo(Estado::class);
-    }
-    // spot
-    public function spot()
-    {
-        return $this->hasMany(Spot::class);
-    }
+    /**
+     * metodos
+     * *
+     * *
+     * *
+     * 
+     */
     // devolucion rol
     public function hasRole(string $role): bool
     {
         return $this->rol->nombre === $role;
     }
+
+    // verificar si tiene suscripcion
+    public function tieneSuscripcionActiva(): bool
+    {
+        return $this->suscripcion()->where('estado', true)->exists();
+    }
+
     //accesos de panel
     public function canAccessPanel(Panel $panel): bool
     {
-        
         if ($this->hasRole('Administrador General')) {
             return true;
         }
 
-        
         if ($panel->getId() === 'usuario' && $this->hasRole('Usuario')) {
             return true;
         }
-
-        
         return false;
     }
+   /**
+    * realciones
+    *
+    *
+    *
+
+    */
+  
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class);
+    }
+   
+    public function suscripcion()
+    {
+        return $this->hasOne(Suscripcion::class);;
+    }
+
+   
 }

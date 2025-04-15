@@ -18,7 +18,7 @@ class Contenido extends Model
         'pie',
         'logo_url',
         'spot_id',
-        
+
     ];
     public function spot()
     {
@@ -31,15 +31,18 @@ class Contenido extends Model
 
         static::updating(function ($ticket) {
 
-            if ($ticket->isDirty('banner_url')&&$ticket->isDirty('logo_url')) {
+            if ($ticket->isDirty('banner_url') && $ticket->isDirty('logo_url')) {
                 Storage::disk('public')->delete('/' . $ticket->getOriginal('banner_url'));
                 Storage::disk('public')->delete('/' . $ticket->getOriginal('logo_url'));
             }
         });
 
         static::deleting(function ($ticket) {
-            Storage::disk('public')->delete($ticket->banner_url);
-            Storage::disk('public')->delete($ticket->logo_url);
+            if ($ticket->isDirty('banner_url') && $ticket->isDirty('logo_url')) {
+                Storage::disk('public')->delete($ticket->banner_url);
+                Storage::disk('public')->delete($ticket->logo_url);
+                
+            }
         });
     }
 }

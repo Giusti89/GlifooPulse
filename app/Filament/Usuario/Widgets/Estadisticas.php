@@ -28,7 +28,7 @@ class Estadisticas extends BaseWidget
             return [
                 Card::make('Visitas totales', 0),
                 Card::make('Visitas este mes', 0),
-                Card::make('Redes sociales', 'No tiene spots activos'),
+                Card::make('Redes sociales', 'No tiene redes configuradas'),
             ];
         }
 

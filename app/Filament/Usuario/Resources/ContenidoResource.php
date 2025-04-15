@@ -34,6 +34,7 @@ class ContenidoResource extends Resource
                 $query->where('user_id', auth()->id());
             });
     }
+   
 
     public static function form(Form $form): Form
     {
@@ -97,7 +98,7 @@ class ContenidoResource extends Resource
 
 
                 tables\Columns\TextColumn::make('texto')
-                ->limit(20),
+                    ->limit(20),
 
 
             ])

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\VerificarSuscripcionActiva;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -30,7 +31,8 @@ class UsuarioPanelProvider extends PanelProvider
             ->profile()
             ->registration() 
             ->middleware([
-                FilamentHashidsMiddleware::class,                
+                FilamentHashidsMiddleware::class,
+                                           
             ])
             ->colors([
                 'primary' => Color::Blue,
@@ -55,9 +57,11 @@ class UsuarioPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                
             ])
             ->authMiddleware([
                 Authenticate::class,
+                VerificarSuscripcionActiva::class,
             ]);
     }
 }

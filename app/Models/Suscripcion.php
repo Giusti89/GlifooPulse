@@ -42,7 +42,11 @@ class Suscripcion extends Model
     {
         return $this->hasMany(Sell::class);
     }
-
+    
+    public function tieneSuscripcionActiva()
+    {
+        return optional($this->suscripcion)->estado === true;
+    }
 
 
     public function setFechaFinAttribute($value)
