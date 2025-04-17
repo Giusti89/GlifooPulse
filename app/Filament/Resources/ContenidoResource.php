@@ -29,11 +29,11 @@ class ContenidoResource extends Resource
                 Section::make('Basico')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('texto')
+                        Forms\Components\Textarea::make('texto')
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\TextInput::make('pie')
+                            Forms\Components\Textarea::make('pie')
                             ->required()
                             ->maxLength(255),
 
@@ -64,10 +64,11 @@ class ContenidoResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('spot_id')
+                tables\Columns\TextColumn::make('user.suscripcion.spot.name')
                     ->searchable(),
 
-                tables\Columns\TextColumn::make('texto'),
+                tables\Columns\TextColumn::make('texto')
+                ->limit(20),
 
                 tables\Columns\TextColumn::make('pie')
                     ->searchable(),

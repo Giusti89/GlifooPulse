@@ -65,6 +65,7 @@ class SocialResource extends Resource
 
                         Forms\Components\FileUpload::make('image_url')
                             ->image()
+                            ->maxSize(2048)
                             ->label('Logo red social')
                             ->imageEditor()
                             ->directory(function () {
@@ -110,6 +111,7 @@ class SocialResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

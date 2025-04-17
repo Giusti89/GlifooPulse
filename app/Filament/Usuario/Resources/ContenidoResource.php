@@ -43,7 +43,7 @@ class ContenidoResource extends Resource
                 Section::make('Textos')
                     ->columns(1)
                     ->schema([
-                        Forms\Components\TextInput::make('texto')
+                        Forms\Components\Textarea::make('texto')
                             ->required()
                             ->maxLength(255),
 
