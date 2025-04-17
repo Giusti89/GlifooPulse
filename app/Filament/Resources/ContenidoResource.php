@@ -26,16 +26,30 @@ class ContenidoResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Basico')
-                    ->columns(2)
+                Section::make('Textos')
+                    ->columns(1)
                     ->schema([
                         Forms\Components\Textarea::make('texto')
                             ->required()
                             ->maxLength(255),
 
-                            Forms\Components\Textarea::make('pie')
+                        Forms\Components\RichEditor::make('pie')
                             ->required()
                             ->maxLength(255),
+                    ]),
+                Section::make('Imagenes')
+                    ->columns(2)
+                    ->schema([
+
+                        Forms\Components\FileUpload::make('banner_url')
+                            ->image()
+                            ->imageEditor()
+                            ->directory(function () {
+                                $user = auth()->user();
+
+                                return 'paquetes/' . Str::slug($user->name);
+                            })
+                            ->required(),
 
                         Forms\Components\FileUpload::make('logo_url')
                             ->image()
@@ -46,16 +60,8 @@ class ContenidoResource extends Resource
                                 return 'paquetes/' . Str::slug($user->name);
                             })
                             ->required(),
-                        Forms\Components\FileUpload::make('banner_url')
-                            ->image()
-                            ->imageEditor()
-                            ->directory(function () {
-                                $user = auth()->user();
-
-                                return 'paquetes/' . Str::slug($user->name);
-                            })
-                            ->required(),
                     ]),
+
 
             ]);
     }
@@ -64,14 +70,13 @@ class ContenidoResource extends Resource
     {
         return $table
             ->columns([
-                tables\Columns\TextColumn::make('user.suscripcion.spot.name')
+                tables\Columns\TextColumn::make('spot.suscripcion.user.name')
+                ->label('Usuario')
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('texto')
-                ->limit(20),
-
-                tables\Columns\TextColumn::make('pie')
-                    ->searchable(),
+                ->label('Texto de inicio')
+                    ->limit(20),
 
                 Tables\Columns\ImageColumn::make('banner_url')
                     ->disk('public')

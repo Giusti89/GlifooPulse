@@ -16,6 +16,7 @@ class SocioController extends Controller
         ->join('users', 'suscripcions.user_id', '=', 'users.id')
         ->select(
             'spots.id',
+            'spots.estado',
             'spots.titulo',
             'spots.slug as spot_slug',
             'users.name as user_name',

@@ -21,6 +21,10 @@ class SpotResource extends Resource
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-sparkles';
+    protected static ?string $navigationLabel = 'Landings Usuarios';
+    protected static ?string $pluralModelLabel = 'Landingpages Usuarios';
+
+
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -28,19 +32,24 @@ class SpotResource extends Resource
         return $form
             ->schema([
                 Section::make('Publicidad')
-                ->columns(3)
-                ->schema([
-                    Forms\Components\TextInput::make('titulo')
-                        ->required()
-                        ->maxLength(255),
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('titulo')
+                            ->required()
+                            ->maxLength(255),
 
-                    Forms\Components\TextInput::make('slug')
-                        ->required()
-                        ->live(onBlur: true)
-                        ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                        ->maxLength(255),
-                   
-                ]),
+                        Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                            ->maxLength(255),
+                            
+                        Forms\Components\Toggle::make('estado')
+                            ->label('Publicar web')
+                            ->hiddenOn(['create'])
+                            ->default(false),
+
+                    ]),
             ]);
     }
 
@@ -50,13 +59,13 @@ class SpotResource extends Resource
             ->columns([
 
                 tables\Columns\TextColumn::make('id')
-                ->searchable(),
+                    ->searchable(),
 
                 tables\Columns\TextColumn::make('titulo')
-                ->searchable(),
+                    ->searchable(),
 
                 tables\Columns\TextColumn::make('slug')
-                ->searchable(),
+                    ->searchable(),
 
                 tables\Columns\TextColumn::make('suscripcion.user.name')
                     ->searchable(),
@@ -92,7 +101,7 @@ class SpotResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSpots::route('/'),            
+            'index' => Pages\ListSpots::route('/'),
             'edit' => Pages\EditSpot::route('/{record}/edit'),
         ];
     }

@@ -9,40 +9,47 @@ use App\Models\Spot;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class PublicidadController extends Controller
 {
     public function show($slug)
     {
-        $publicidad = Spot::where('slug', $slug)->first();
-        $tipopublicidad = Landing::where('id', $publicidad->tipolanding)->first();
-        $contenido = Contenido::where('spot_id', $publicidad->id)->first();
+        try {
+            $publicidad = Spot::where('slug', $slug)->first();
 
-        $redes = Social::where('spot_id', $publicidad->id)->get();
+            if (!$publicidad) {
+                return redirect()->route('error');
+            }
 
+            $tipopublicidad = Landing::find($publicidad->tipolanding);
+            $contenido = Contenido::where('spot_id', $publicidad->id)->first();
+            $redes = Social::where('spot_id', $publicidad->id)->get();
 
-        if (!$publicidad) {
-            return redirect()->route('error');
-        }
+            $titulo = $publicidad->titulo;
+            $usuario = optional(optional($publicidad->suscripcion)->user)->name; // Para evitar error si no existe
+            $id = $publicidad->user_id;
+            $marca = optional($tipopublicidad)->nombre;
 
-        $titulo = $publicidad->titulo;
-        $usuario = $publicidad->suscripcion->user->name;
-        $id = $publicidad->user_id;
-        $marca = $tipopublicidad->nombre;
-
-
-        if ($marca == "Glifoo basic") {
-            Visit::create([
-                'spot_id' => $publicidad->id,
-                'ip' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-                'visited_at' => now(),
-            ]);
-            return view("/basico", compact('titulo', 'contenido', 'redes'));
-        } elseif ($marca == "Glifoo bussines") {
-            return view("/basico", compact('titulo'));
+            if ($marca == "Glifoo basic") {
+                Visit::create([
+                    'spot_id' => $publicidad->id,
+                    'ip' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                    'visited_at' => now(),
+                ]);
+                return view("/basico", compact('titulo', 'contenido', 'redes'));
+            } elseif ($marca == "Glifoo bussines") {
+                return view("/basico", compact('titulo'));
+            } else {
+                return redirect()->route('error');
+            }
+        } catch (\Exception $e) {
+            Log::error("Error en PublicidadController@show: " . $e->getMessage());
+            return redirect()->route('error')->with('error', 'Ocurrió un error al mostrar la publicidad.');
         }
     }
+
 
     public function redirecion(string $encryptedId)
     {

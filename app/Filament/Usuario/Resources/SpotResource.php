@@ -57,6 +57,11 @@ class SpotResource extends Resource
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
                             ->maxLength(255),
 
+                        Forms\Components\Toggle::make('estado')
+                            ->label('Publicar web')
+                            ->hiddenOn(['create'])
+                            ->default(false),
+
                     ]),
             ]);
     }
@@ -66,7 +71,7 @@ class SpotResource extends Resource
         return $table
             ->columns([
                 tables\Columns\TextColumn::make('titulo')
-                ->label('Título'),
+                    ->label('Título'),
 
                 tables\Columns\TextColumn::make('slug')
                     ->label('Url'),

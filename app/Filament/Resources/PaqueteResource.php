@@ -66,6 +66,11 @@ class PaqueteResource extends Resource
                             ->imageEditor()
                             ->directory('paquetes')
                             ->required(),
+                            
+                        Forms\Components\Toggle::make('estado')
+                            ->label('Estado Activo')
+                            ->hiddenOn(['create'])
+                            ->default(false),
                     ]),
 
             ]);
