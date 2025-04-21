@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\Checkfecha;
 use App\Http\Middleware\VerificarSuscripcionActiva;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -29,7 +30,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->path('usuario')
             ->login() 
             ->profile()
-            ->registration() 
+            // ->registration() 
             ->middleware([
                 FilamentHashidsMiddleware::class,
                                            
@@ -62,6 +63,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 VerificarSuscripcionActiva::class,
+                Checkfecha::class,
             ]);
     }
 }
