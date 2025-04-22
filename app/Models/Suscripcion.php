@@ -42,12 +42,11 @@ class Suscripcion extends Model
     {
         return $this->hasMany(Sell::class);
     }
-    
+
     public function tieneSuscripcionActiva()
     {
         return optional($this->suscripcion)->estado === true;
     }
-
 
     public function setFechaFinAttribute($value)
     {
@@ -67,11 +66,11 @@ class Suscripcion extends Model
     protected static function booted()
     {
         static::deleting(function ($suscripcion) {
-            
+
             $spots = Spot::where('suscripcion_id', $suscripcion->id)->get();
 
             foreach ($spots as $spot) {
-                
+
                 $contenidos = Contenido::where('spot_id', $spot->id)->get();
                 foreach ($contenidos as $contenido) {
                     if ($contenido->logo_url) {
@@ -80,21 +79,66 @@ class Suscripcion extends Model
                     if ($contenido->banner_url) {
                         Storage::disk('public')->delete('/' . ltrim($contenido->banner_url, '/'));
                     }
-                    $contenido->delete(); 
+                    $contenido->delete();
                 }
 
-                
+
                 $socials = Social::where('spot_id', $spot->id)->get();
                 foreach ($socials as $social) {
                     if ($social->image_url) {
                         Storage::disk('public')->delete('/' . ltrim($social->image_url, '/'));
                     }
-                    $social->delete(); 
+                    $social->delete();
                 }
 
-                
+
                 $spot->delete();
             }
         });
+    }
+
+    public function diasRestantes()
+    {
+        $fechaFin = Carbon::parse($this->fecha_fin);
+        $hoy = Carbon::now();
+
+        if ($hoy->gt($fechaFin)) {
+            $diasPasados = $hoy->diffInDays($fechaFin);
+            return [
+                'dias' => -$diasPasados,
+                'texto' => "Vencido hace {$diasPasados} días",
+                'color' => 'danger'
+            ];
+        }
+
+        $dias = $hoy->diffInDays($fechaFin);
+
+        $resultado = [
+            'dias' => $dias,
+            'texto' => "{$dias} días restantes",
+            'color' => 'success'
+        ];
+
+        if ($dias == 0) {
+            $resultado['texto'] = 'Vence hoy';
+            $resultado['color'] = 'warning';
+        } elseif ($dias == 1) {
+            $resultado['texto'] = 'Vence mañana';
+            $resultado['color'] = 'warning';
+        } elseif ($dias <= 7) {
+            $resultado['color'] = 'warning';
+        }
+
+        return $resultado;
+    }
+
+    public function getDiasRestantesTextoAttribute()
+    {
+        return $this->diasRestantes()['texto'];
+    }
+
+    public function getDiasRestantesColorAttribute()
+    {
+        return $this->diasRestantes()['color'];
     }
 }

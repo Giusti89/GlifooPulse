@@ -63,7 +63,7 @@ class SuscripcionResource extends Resource
                     ->numeric()
                     ->minValue(1)
                     ->default(1)
-                    
+
                     ->live()
                     ->afterStateUpdated(function (Get $get, Set $set) {
                         if ($get('fecha_inicio')) {
@@ -105,10 +105,11 @@ class SuscripcionResource extends Resource
                     ->date()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('paquete.landing.nombre')
-                    ->label('Tipo depublicidad')
-                    ->sortable()
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('dias_restantes_texto')
+                    ->label('Días restantes')
+                    ->color(function ($record) {
+                        return $record->dias_restantes_color;
+                    }),
 
             ])
             ->filters([
