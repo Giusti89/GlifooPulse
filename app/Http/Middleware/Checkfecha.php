@@ -8,6 +8,8 @@ use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Redirect;
+
 
 class Checkfecha
 {
@@ -21,10 +23,9 @@ class Checkfecha
         $user = Auth::user();
 
         if (!$user->suscripcion) {
+            
             Auth::logout();
-            return redirect('/')->withErrors([
-                'subscription' => 'No tienes una suscripción activa. Por favor, contacta al administrador.',
-            ]);
+            return Redirect::route('inicio')->with('msj', 'sinsuscripcion');
         }
 
         $fechaActual = Carbon::now();
@@ -57,13 +58,12 @@ class Checkfecha
 
             return $next($request);
         }
-        session()->forget(['inicio', 'final']);
+       
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
+        
 
-        return redirect('/')->withErrors([
-            'subscription' => 'Tu suscripción ha vencido. Por favor, comunicate con el administrador del servicio.',
-        ]);
+        return Redirect::route('inicio')->with('msj', 'susterminada');
     }
 }
