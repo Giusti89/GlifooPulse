@@ -19,45 +19,51 @@ class Checkfecha
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
+
+        if (!$user->suscripcion) {
+            Auth::logout();
+            return redirect('/')->withErrors([
+                'subscription' => 'No tienes una suscripción activa. Por favor, contacta al administrador.',
+            ]);
+        }
+
         $fechaActual = Carbon::now();
+        $inicio = Carbon::parse($user->suscripcion->fecha_inicio);
+        $fin = Carbon::parse($user->suscripcion->fecha_fin);
+        $diasRestantes = $fechaActual->diffInDays($fin, false);
 
-        $fechaInscripcion = Carbon::parse($user->suscripcion->fecha_inicio);
-        $fechaFinalizacion = Carbon::parse($user->suscripcion->fecha_fin);
+        if ($fechaActual->between($inicio, $fin)) {
 
-        $diferenciaDias = Carbon::parse($fechaActual)->diffInDays($fechaFinalizacion);
+            // Mostrar la advertencia si quedan pocos días y aún no fue notificado
+            if ($diasRestantes <= 5 && !session()->has('notificado_suscripcion')) {
+                session()->put('notificado_suscripcion', true);
 
-
-        if ($fechaActual->gte($fechaInscripcion) && $fechaActual->lte($fechaFinalizacion)) {
-
-            if ($diferenciaDias <= 5) {
-                
                 Notification::make()
-                    ->title('¡Le quedan, ' . $diferenciaDias . ' dias de suscripcion!')
+                    ->title("¡Le quedan $diasRestantes días de suscripción!")
                     ->icon('heroicon-o-user')
                     ->iconColor('danger')
                     ->send();
-                return $next($request);
             }
-            
-            Notification::make()
-                ->title('¡Bienvenido de nuevo, ' . $user->name . '!')
-                ->icon('heroicon-o-user')
-                ->iconColor('success')
-                ->send();
+
+            if (!session()->has('notificado_bienvenida')) {
+                session()->put('notificado_bienvenida', true);
+
+                Notification::make()
+                    ->title("¡Bienvenido de nuevo, {$user->name}!")
+                    ->icon('heroicon-o-user')
+                    ->iconColor('success')
+                    ->send();
+            }
+
             return $next($request);
-        } else {
-            $request->session()->forget('inicio');
-            $request->session()->forget('final');
-
-            Auth::guard('web')->logout();
-
-            $request->session()->invalidate();
-
-            $request->session()->regenerateToken();
-
-            return redirect('/')->withErrors([
-                'subscription' => 'Tu suscripción ha vencido. Por favor, comunicate con el administrador del servicio.',
-            ]);
         }
+        session()->forget(['inicio', 'final']);
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return redirect('/')->withErrors([
+            'subscription' => 'Tu suscripción ha vencido. Por favor, comunicate con el administrador del servicio.',
+        ]);
     }
 }

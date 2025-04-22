@@ -32,8 +32,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->profile()
             // ->registration() 
             ->middleware([
-                FilamentHashidsMiddleware::class,
-                                           
+                FilamentHashidsMiddleware::class,                   
             ])
             ->colors([
                 'primary' => Color::Blue,
@@ -57,13 +56,12 @@ class UsuarioPanelProvider extends PanelProvider
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-                
+                DispatchServingFilamentEvent::class,                
             ])
             ->authMiddleware([
                 Authenticate::class,
                 VerificarSuscripcionActiva::class,
-                Checkfecha::class,
+                Checkfecha::class, 
             ]);
     }
 }
