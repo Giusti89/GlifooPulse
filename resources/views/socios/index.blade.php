@@ -9,9 +9,16 @@
             @foreach ($results as $item)
                 @if ($item->estado == true)
                     <div class="boton">
-                        <x-layouts.btnenviodat rutaEnvio="publicidad" dato="{{ $item->spot_slug }}"
-                            nombre="{{ $item->user_name }}">
-                        </x-layouts.btnenviodat>
+                        <a href="{{ route('publicidad', $item->spot_slug) }}">
+                            <div class="tarjeta" style="background-image: url(/storage/{{ $item->logo_url }})">
+                                <div class="titulo">
+                                    {{ $item->titulo }}
+                                </div>
+
+                            </div>
+                        </a>
+                       
+
                     </div>
                 @endif
             @endforeach

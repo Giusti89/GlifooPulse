@@ -24,3 +24,21 @@
 .boton{
     margin: 15px;
 }
+.tarjeta{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    flex-direction: column;
+    width: 250px;
+    height: 125px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    
+    background-size: 100% 100%;
+}
+.tarjeta .titulo{
+    font-size: 1.6rem;
+    color: white;
+}
