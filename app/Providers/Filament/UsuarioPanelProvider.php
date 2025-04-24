@@ -30,7 +30,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->path('usuario')
             ->login() 
             ->profile()
-            // ->registration() 
+            ->registration() 
             ->middleware([
                 FilamentHashidsMiddleware::class,                   
             ])

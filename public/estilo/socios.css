@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    
     width: 80%;
     flex: 1;
 }
@@ -30,7 +29,7 @@
     align-items: center;
     padding: 15px;
     flex-direction: column;
-    width: 250px;
+    width: 230px;
     height: 125px;
     margin: 10px;
     border: 1px solid black;
@@ -38,7 +37,8 @@
     
     background-size: 100% 100%;
 }
-.tarjeta .titulo{
+.subtitulo{
     font-size: 1.6rem;
-    color: white;
+    color:#fcd031;
+    text-align: center;
 }

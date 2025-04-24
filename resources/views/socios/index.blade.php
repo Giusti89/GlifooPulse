@@ -11,13 +11,12 @@
                     <div class="boton">
                         <a href="{{ route('publicidad', $item->spot_slug) }}">
                             <div class="tarjeta" style="background-image: url(/storage/{{ $item->logo_url }})">
-                                <div class="titulo">
-                                    {{ $item->titulo }}
-                                </div>
-
+                            </div>
+                            <div class="subtitulo">
+                                {{ $item->titulo }}
                             </div>
                         </a>
-                       
+
 
                     </div>
                 @endif

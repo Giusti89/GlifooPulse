@@ -1,0 +1,13 @@
+.principal {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    justify-content: center;
+    padding: 15px;
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    color:#fcd031;
+    margin: 15px;
+}
