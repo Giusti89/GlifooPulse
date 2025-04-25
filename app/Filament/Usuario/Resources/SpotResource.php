@@ -20,6 +20,7 @@ use Filament\Tables\Actions\Action;
 
 
 
+
 class SpotResource extends Resource
 {
     protected static ?string $model = Spot::class;
@@ -93,6 +94,7 @@ class SpotResource extends Resource
                     ->url(fn ($record) => $record->slug ? route('publicidad', ['slug' => $record->slug]) : null)
                     ->openUrlInNewTab()
                     ->visible(fn ($record) => filled($record->slug)),
+                    
 
             ])
             ->bulkActions([
