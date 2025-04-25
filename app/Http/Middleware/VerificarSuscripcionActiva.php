@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Redirect;
+
 
 class VerificarSuscripcionActiva
 {
@@ -23,7 +25,7 @@ class VerificarSuscripcionActiva
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            abort(403, 'Tu suscripción está en verificación.');
+            return Redirect::route('inicio')->with('msj', 'verifsus');
             
         }else{
             return $next($request);

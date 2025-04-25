@@ -11,6 +11,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
 
 
 
@@ -21,8 +23,6 @@ class Register extends BaseRegister
     public function mount(): void
     {
         parent::mount();
-
-        // Obtenemos el request a través del contenedor de servicios
         $request = app(Request::class);
         $this->paquete_id = $request->query('paquete');
 
@@ -117,5 +117,9 @@ class Register extends BaseRegister
             'meses_suscripcion' => $meses
         ]);
         return $user;
+    }
+    protected function getRedirectUrl(): string
+    {
+        return Redirect::route('inicio')->with('msj', 'suscripcion');
     }
 }

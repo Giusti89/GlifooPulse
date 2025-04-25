@@ -19,4 +19,24 @@
     </script>
 @endif
 
+@if (session('msj') == 'suscripcion')
+    <script>
+        Swal.fire({
+            title: "Su registro fue exitoso",
+            text: "Recibira un mensaje a su numero de celular.",
+            icon: "success"
+        });
+    </script>
+@endif
+
+@if (session('msj') == 'verifsus')
+    <script>
+        Swal.fire({
+            title: "registro en verificacion",
+            text: "Tu suscripcion esta en verificacion recibiras un mensaje a tu numero de celular.",
+            icon: "warning"
+        });
+    </script>
+@endif
+
 <!-- mensajes de confirmacion -->
