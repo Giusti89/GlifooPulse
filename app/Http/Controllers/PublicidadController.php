@@ -8,6 +8,7 @@ use App\Models\Social;
 use App\Models\Spot;
 use App\Models\Visit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
@@ -27,17 +28,21 @@ class PublicidadController extends Controller
             $redes = Social::where('spot_id', $publicidad->id)->get();
 
             $titulo = $publicidad->titulo;
-            $usuario = optional(optional($publicidad->suscripcion)->user)->name; // Para evitar error si no existe
+            $usuario = optional(optional($publicidad->suscripcion)->user)->name;
             $id = $publicidad->user_id;
             $marca = optional($tipopublicidad)->nombre;
 
             if ($marca == "Glifoo basic") {
-                Visit::create([
-                    'spot_id' => $publicidad->id,
-                    'ip' => request()->ip(),
-                    'user_agent' => request()->userAgent(),
-                    'visited_at' => now(),
-                ]);
+                $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
+
+                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                    Visit::create([
+                        'spot_id' => $publicidad->id,
+                        'ip' => request()->ip(),
+                        'user_agent' => request()->userAgent(),
+                        'visited_at' => now(),
+                    ]);
+                }
                 return view("/basico", compact('titulo', 'contenido', 'redes'));
             } elseif ($marca == "Glifoo bussines") {
                 return view("/basico", compact('titulo'));

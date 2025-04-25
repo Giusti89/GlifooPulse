@@ -95,6 +95,16 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasOne(Suscripcion::class);;
     }
-
+    public function spot()
+    {
+        return $this->hasOneThrough(
+            Spot::class,
+            Suscripcion::class,
+            'user_id',     
+            'suscripcion_id',
+            'id',          
+            'id'           
+        );
+    }
    
 }

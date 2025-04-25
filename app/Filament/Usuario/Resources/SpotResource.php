@@ -16,6 +16,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Set;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Filament\Tables\Actions\Action;
 
 
 
@@ -86,6 +87,12 @@ class SpotResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Llenar datos'),
+                    Action::make('vista_preliminar')
+                    ->label('Vista preliminar')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => $record->slug ? route('publicidad', ['slug' => $record->slug]) : null)
+                    ->openUrlInNewTab()
+                    ->visible(fn ($record) => filled($record->slug)),
 
             ])
             ->bulkActions([
