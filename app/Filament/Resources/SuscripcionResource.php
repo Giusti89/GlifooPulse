@@ -73,6 +73,11 @@ class SuscripcionResource extends Resource
                         }
                     }),
 
+                Forms\Components\DatePicker::make('fecha_fin')
+                    ->label('Fecha de finalización')
+                    ->required()
+                    ->readOnly(),
+
                 Forms\Components\Toggle::make('estado')
                     ->label('Estado Activo')
                     ->hiddenOn(['create'])

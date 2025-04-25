@@ -101,7 +101,7 @@ class Register extends BaseRegister
             'lastname' => $data['lastname'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => bcrypt($data['password']),
+            'password' => $data['password'],
         ]);
 
 
