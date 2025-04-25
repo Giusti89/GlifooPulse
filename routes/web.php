@@ -43,9 +43,8 @@ Route::controller(PublicidadController::class)->group(function () {
    
 });
 
-
-Route::get('./usuario/register', function () {
-    return redirect('custom.filament.register');
+Route::get('/usuario/register/{paquete?}', function ($paquete = null) {
+    return redirect()->route('filament.usuario.auth.register', ['paquete' => $paquete]);
 })->name('registro');
 
 
