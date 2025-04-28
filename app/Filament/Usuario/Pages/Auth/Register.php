@@ -130,8 +130,10 @@ class Register extends BaseRegister
         Contenido::create([
             'spot_id' => $spot->id,
         ]);
-        $userAdmin=User::find(1);
-        Mail::to($userAdmin)->send(new Pedidos);
+        $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
+        if (!empty($adminEmails)) {
+            Mail::to($adminEmails)->send(new Pedidos($user, $suscripcion, $paquete));
+        }
         
         return $user;
     }

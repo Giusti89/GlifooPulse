@@ -12,13 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class Pedidos extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $user;
+    public $suscripcion;
+    public $paquete;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($user, $suscripcion, $paquete)
     {
-        //
+        $this->user = $user;
+        $this->suscripcion = $suscripcion;
+        $this->paquete = $paquete;
     }
 
     /**
@@ -27,7 +31,7 @@ class Pedidos extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pedidos',
+            subject: 'Servicio GlifooPulse',
         );
     }
 
