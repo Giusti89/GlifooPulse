@@ -18,10 +18,9 @@ class Pedidos extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $suscripcion, $paquete)
+    public function __construct($user, $paquete)
     {
         $this->user = $user;
-        $this->suscripcion = $suscripcion;
         $this->paquete = $paquete;
     }
 

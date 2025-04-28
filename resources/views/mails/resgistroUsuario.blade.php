@@ -1,7 +1,11 @@
-<h1>Solicitud de registro</h1>
+<h1>Solicitud de registro al servicio Glifoo pulse</h1>
 <p>
-    El usuario {{$user ['name'] }} <br>
-    Con correo {{$user ['email'] }} <br>
-    Numero de celular  {{$user ['phone'] }} <br>
-    Escogio el paquete  {{$paquete ['nombre'] }}
+    El usuario: <b>{{$user ['name'] }}</b> <br>
+    Con correo: <b>{{$user ['email'] }}</b> <br>
+    Numero de celular: <b>{{$user ['phone'] }}</b>  <br>
+    Escogio el paquete: <b> {{$paquete ['nombre'] }}</b> <br>
+    Con un costo de: <b>{{$paquete ['precio'] }}</b><br>
+    Fecha de registro <b>{{$user ['cteated_at'] }}</b>  <br>
+    --------------------------------------------------------- <br>
+    Glifoo-comunicación digital
 </p> 

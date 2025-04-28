@@ -132,7 +132,7 @@ class Register extends BaseRegister
         ]);
         $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
         if (!empty($adminEmails)) {
-            Mail::to($adminEmails)->send(new Pedidos($user, $suscripcion, $paquete));
+            Mail::to($adminEmails)->send(new Pedidos($user,$paquete));
         }
         
         return $user;
