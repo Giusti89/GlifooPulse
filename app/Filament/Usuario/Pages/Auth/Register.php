@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Mail\Pedidos;
 use App\Models\Contenido;
 use Filament\Pages\Auth\Register as BaseRegister;
 
@@ -13,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -85,52 +87,54 @@ class Register extends BaseRegister
     }
 
     protected function handleRegistration(array $data): User
-{
-    if (!isset($data['paquete_id'])) {
-        $data['paquete_id'] = $this->paquete_id;
+    {
+        if (!isset($data['paquete_id'])) {
+            $data['paquete_id'] = $this->paquete_id;
 
-        if (is_null($data['paquete_id'])) {
-            throw new \RuntimeException('Se debe seleccionar un paquete para el registro');
+            if (is_null($data['paquete_id'])) {
+                throw new \RuntimeException('Se debe seleccionar un paquete para el registro');
+            }
         }
+
+        // 1. Crear el usuario
+        $user = User::create([
+            'name' => $data['name'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],   
+            'phone' => $data['phone'],
+            'password' => $data['password'],
+        ]);
+
+        // 2. Crear la suscripción
+        $paquete = Paquete::findOrFail($data['paquete_id']);
+        $meses = $paquete->meses_suscripcion ?? 1;
+
+        $suscripcion = Suscripcion::create([
+            'user_id' => $user->id,
+            'paquete_id' => $data['paquete_id'],
+            'fecha_inicio' => now(),
+            'fecha_fin' => now()->addMonths($meses),
+            'meses_suscripcion' => $meses
+        ]);
+
+        // 3. Crear el spot asociado
+        $tipoLanding = $paquete->landing->id ?? 'default';
+
+        $spot = Spot::create([
+            'suscripcion_id' => $suscripcion->id,
+            'tipolanding' => $tipoLanding,
+            'estado' => 0,
+        ]);
+
+        // 4. Crear contenido por defecto
+        Contenido::create([
+            'spot_id' => $spot->id,
+        ]);
+        $userAdmin=User::find(1);
+        Mail::to($userAdmin)->send(new Pedidos);
+        
+        return $user;
     }
-
-    // 1. Crear el usuario
-    $user = User::create([
-        'name' => $data['name'],
-        'lastname' => $data['lastname'],
-        'email' => $data['email'],
-        'phone' => $data['phone'],
-        'password' => $data['password'],
-    ]);
-
-    // 2. Crear la suscripción
-    $paquete = Paquete::findOrFail($data['paquete_id']);
-    $meses = $paquete->meses_suscripcion ?? 1;
-
-    $suscripcion = Suscripcion::create([
-        'user_id' => $user->id,
-        'paquete_id' => $data['paquete_id'],
-        'fecha_inicio' => now(),
-        'fecha_fin' => now()->addMonths($meses),
-        'meses_suscripcion' => $meses
-    ]);
-
-    // 3. Crear el spot asociado
-    $tipoLanding = $paquete->landing->id ?? 'default';
-
-    $spot = Spot::create([
-        'suscripcion_id' => $suscripcion->id,
-        'tipolanding' => $tipoLanding,
-        'estado' => 0,
-    ]);
-
-    // 4. Crear contenido por defecto
-    Contenido::create([
-        'spot_id' => $spot->id,
-    ]);
-
-    return $user;
-}
     protected function getRedirectUrl(): string
     {
         return Redirect::route('inicio')->with('msj', 'suscripcion');

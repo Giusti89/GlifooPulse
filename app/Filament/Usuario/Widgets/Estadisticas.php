@@ -55,7 +55,7 @@ class Estadisticas extends BaseWidget
                 ->icon('heroicon-s-exclamation-circle');
         } else {
             foreach ($stats['socials'] as $social) {
-                $cards[] = Card::make($social->nombre, $social->clicks.' clicks')
+                $cards[] = Card::make($social->nombre, $social->clicks.' vistas')
                     ;
             }
         }
