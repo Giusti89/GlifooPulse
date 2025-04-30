@@ -36,10 +36,11 @@ Route::controller(SocioController::class)->group(function () {
 
 Route::controller(PublicidadController::class)->group(function () {
     Route::get('/{slug}', 'show')
+        ->middleware('check.suscripcion')
         ->name('publicidad');
 
-    Route::get('/enlace/{id}','redirecion')
-    ->name('redireccion');   
+    Route::get('/enlace/{id}', 'redirecion')
+        ->name('redireccion');
 });
 
 Route::get('/usuario/register/{paquete?}', function ($paquete = null) {

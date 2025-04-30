@@ -57,9 +57,21 @@ class Suscripcion extends Model
             $this->attributes['fecha_fin'] = $value;
         }
     }
-    public function renovar($meses)
+
+    public function renovar(int $meses)
     {
-        $this->fecha_fin = Carbon::parse($this->fecha_fin)->addMonths($meses);
+        $fechaActual = now();
+        $fechaFinActual = Carbon::parse($this->fecha_fin);
+
+        if ($fechaFinActual->isFuture()) {
+            $this->fecha_inicio = $fechaFinActual;
+            $this->fecha_fin = $fechaFinActual->copy()->addMonths($meses);
+        } else {
+            $this->fecha_inicio = $fechaActual;
+            $this->fecha_fin = $fechaActual->copy()->addMonths($meses);
+        }
+
+        
         $this->save();
     }
 

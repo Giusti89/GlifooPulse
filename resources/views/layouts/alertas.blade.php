@@ -32,8 +32,18 @@
 @if (session('msj') == 'verifsus')
     <script>
         Swal.fire({
-            title: "registro en verificacion",
+            title: "Registro en verificacion",
             text: "Tu suscripcion esta en verificacion recibiras un mensaje a tu numero de celular.",
+            icon: "warning"
+        });
+    </script>
+@endif
+
+@if (session('msj') == 'pagvencida')
+    <script>
+        Swal.fire({
+            title: "Restringido",
+            text: "La pagina web no esta disponible.",
             icon: "warning"
         });
     </script>

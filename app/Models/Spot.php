@@ -33,8 +33,10 @@ class Spot extends Model
         return $this->hasMany(Social::class, 'spot_id', 'id');
     }
 
-    public function visits() 
+    public function visits()
     {
         return $this->hasMany(Visit::class, 'spot_id', 'id');
     }
+
+    
 }
