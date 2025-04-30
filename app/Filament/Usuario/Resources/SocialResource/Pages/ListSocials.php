@@ -24,8 +24,8 @@ class ListSocials extends ListRecords
 
         if ($spot && (is_null($spot->slug) || $spot->slug === '')) {
             Notification::make()
-                ->title("¡Requiere configuracion previa!")
-                ->body('Antes de poder agregar redes sociales, debes  ingresar a la configuración inicial.')
+                ->title("¡Requiere configuración previa!")
+                ->body('Antes de poder agregar enlaces, debes  ingresar a la configuración inicial.')
                 ->icon('heroicon-o-user')
                 ->persistent()
                 ->iconColor('warning')
