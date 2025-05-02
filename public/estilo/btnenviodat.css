@@ -1,5 +1,5 @@
  .modificar {
-    background-color: #B760D5 ;
+    background-color: #f5c209;
     padding: 10px 20px;
     color: white;
     border: none;
@@ -9,7 +9,8 @@
 }
 
 .modificar:hover {
-    background-color: #9F00D8;
+    background-color: #fcd031;
+    color: black;
 }
 
 .modificar:active {

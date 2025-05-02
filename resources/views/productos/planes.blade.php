@@ -15,10 +15,13 @@
                     </div>
 
                     <div class="tarjeta__footer">
+                        @php
+                            $encryptedId = Crypt::encrypt($item->id);
+                        @endphp
 
-                        <a href=" {{ route('registro', $item->id) }}" target="_blank">
-                            <button class="tarjeta__boton">Contacto</button>
-                        </a>
+                        <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}" 
+                            nombre="REGISTRATE">
+                        </x-layouts.btnenviodat>
 
                     </div>
 
@@ -26,5 +29,6 @@
             @endif
         @endforeach
     </div>
+
 
 </x-layouts.principal>

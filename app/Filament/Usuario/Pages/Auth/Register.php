@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
@@ -28,12 +29,23 @@ class Register extends BaseRegister
     {
         parent::mount();
         $request = app(Request::class);
-        $this->paquete_id = $request->query('paquete');
 
-        if ($this->paquete_id && Paquete::find($this->paquete_id)) {
-            $this->form->fill([
-                'paquete_id' => $this->paquete_id
-            ]);
+        $paqueteEncriptado = $request->query('paquete');
+
+        if ($paqueteEncriptado) {
+            try {
+                $paqueteId = Crypt::decrypt($paqueteEncriptado);
+                $this->paquete_id = $paqueteId;
+
+                if (Paquete::find($paqueteId)) {
+                    $this->form->fill([
+                        'paquete_id' => $paqueteId
+                    ]);
+                }
+            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+
+                abort(403, 'El paquete proporcionado no es válido.');
+            }
         }
     }
 
@@ -100,7 +112,7 @@ class Register extends BaseRegister
         $user = User::create([
             'name' => $data['name'],
             'lastname' => $data['lastname'],
-            'email' => $data['email'],   
+            'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => $data['password'],
         ]);
@@ -132,9 +144,9 @@ class Register extends BaseRegister
         ]);
         $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
         if (!empty($adminEmails)) {
-            Mail::to($adminEmails)->send(new Pedidos($user,$paquete));
+            Mail::to($adminEmails)->send(new Pedidos($user, $paquete));
         }
-        
+
         return $user;
     }
     protected function getRedirectUrl(): string

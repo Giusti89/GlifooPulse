@@ -32,6 +32,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->id('usuario')
             ->path('usuario')
             ->login() 
+            ->default()
             ->profile()
             ->registration(Register::class)
             ->middleware([

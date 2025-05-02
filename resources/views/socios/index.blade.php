@@ -16,8 +16,6 @@
                                 {{ $item->titulo }}
                             </div>
                         </a>
-
-
                     </div>
                 @endif
             @endforeach

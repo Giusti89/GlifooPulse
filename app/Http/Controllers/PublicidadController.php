@@ -31,7 +31,9 @@ class PublicidadController extends Controller
             $usuario = optional(optional($publicidad->suscripcion)->user)->name;
             $id = $publicidad->user_id;
             $marca = optional($tipopublicidad)->nombre;
+        
 
+            // GLIFOO BASICO
             if ($marca == "Glifoo basic") {
                 $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
 
@@ -44,8 +46,19 @@ class PublicidadController extends Controller
                     ]);
                 }
                 return view("/basico", compact('titulo', 'contenido', 'redes'));
-            } elseif ($marca == "Glifoo bussines") {
-                return view("/basico", compact('titulo'));
+                // GLIFOO MEDIUM
+            } elseif ($marca == "Glifoo medium") {
+                $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
+
+                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                    Visit::create([
+                        'spot_id' => $publicidad->id,
+                        'ip' => request()->ip(),
+                        'user_agent' => request()->userAgent(),
+                        'visited_at' => now(),
+                    ]);
+                }
+                return view("/medium", compact('titulo', 'contenido', 'redes'));
             } else {
                 return redirect()->route('error');
             }
