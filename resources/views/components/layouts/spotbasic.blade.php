@@ -30,7 +30,10 @@
 
     <!-- 🔹 Footer con enlaces internos y externos -->
     <footer>
-        <p>&copy; Glifoo 2025 - Todos los derechos reservados </p>
+        <a href="{{ route('inicio') }}">
+            <p>&copy; Glifoo 2025 - Todos los derechos reservados </p>
+        </a>
+        
     </footer>
 
 </body>

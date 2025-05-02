@@ -22,7 +22,7 @@ Route::get('./usuario/login', function () {
 
 
 Route::controller(PlanesController::class)->group(function () {
-    Route::get('/productos/planes', 'index')
+    Route::get('/productos', 'index')
         ->name('planes');
 });
 

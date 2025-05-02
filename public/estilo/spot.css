@@ -80,6 +80,11 @@ footer {
     margin-top: 30px;
     width: 80%;
 }
+footer a{
+    color: white;
+    cursor: pointer;  
+    text-decoration: none;  
+}
 
 /* ======== MEDIA QUERIES (RESPONSIVE DESIGN) ======== */
 @media (max-width: 768px) {
