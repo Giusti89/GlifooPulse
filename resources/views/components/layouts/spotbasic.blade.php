@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('estilo/spot.css') }}">
 
 </head>
-<body>    
+<body style="background-color:{{ $backgroud ?? 'white'}}">    
 
     <!-- 🔹 Contenido principal -->
     <main class="main-content">

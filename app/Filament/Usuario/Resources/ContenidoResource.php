@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\ColorPicker;
 
 
 
@@ -34,7 +35,7 @@ class ContenidoResource extends Resource
                 $query->where('user_id', auth()->id());
             });
     }
-   
+
 
     public static function form(Form $form): Form
     {
@@ -50,6 +51,12 @@ class ContenidoResource extends Resource
                         Forms\Components\RichEditor::make('pie')
                             ->required()
                             ->maxLength(255),
+
+                        ColorPicker::make('background') 
+                            ->label('Color de fondo')
+                            ->default('#ffffff') 
+                            ->rgb() 
+                            ->required(),
                     ]),
                 Section::make('Imagenes')
                     ->columns(2)

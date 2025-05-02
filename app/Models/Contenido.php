@@ -18,6 +18,7 @@ class Contenido extends Model
         'pie',
         'logo_url',
         'spot_id',
+        'background',
 
     ];
     public function spot()
