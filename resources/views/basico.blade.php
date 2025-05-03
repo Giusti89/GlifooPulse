@@ -1,4 +1,5 @@
-<x-layouts.spotbasic titulo="{{ $titulo }}" icono="{{ '/storage/' . $contenido->logo_url }}" backgroud="{{$contenido->background}}">
+<x-layouts.spotbasic titulo="{{ $titulo }}" icono="{{ '/storage/' . $contenido->logo_url }}"
+    backgroud="{{ $contenido->background }}">
     <link rel="stylesheet" href="{{ asset('./estilo/basico.css') }}">
     <div class="basicoprincipal">
         <div class="banner">
@@ -17,14 +18,21 @@
                     </p>
                 </div>
                 <div class="redes">
-                    @foreach ($redes as $item)
-                        @php
-                            $encryptedId = Crypt::encrypt($item->id);
-                        @endphp
-                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
-                            <img src="{{ asset('/storage/' . $item->image_url) }}" alt="">
-                        </a>
-                    @endforeach
+                    <h1> <b>Enlaces</b> </h1>
+                    <div class="cajabot">
+                        @foreach ($redes as $item)
+                            @php
+                                $encryptedId = Crypt::encrypt($item->id);
+                            @endphp
+                            <div class="boton">
+                                <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
+                                    <img src="{{ asset('/storage/' . $item->image_url) }}" alt="{{ $item->nombre }}">
+                                </a>
+                                <h4>{{ $item->nombre }}</h4>
+                            </div>
+                        @endforeach
+                    </div>
+
 
 
                 </div>

@@ -62,7 +62,7 @@
 
 .texto {
     display: flex;
-    text-align: center;
+    text-align: justify;
 
     width: 50%;
     padding: 10px;
@@ -70,6 +70,7 @@
 
 .redes {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -96,11 +97,24 @@
     flex-direction: column;
     width: 30%;
     justify-content: center;
-
 }
 
 .direccion p {
     text-align: center;
+}
+.cajabot{
+    display: flex;
+    gap: 15px;
+}
+.boton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;   
+    gap: 15px;
+}
+.boton h4{
+    color: red;
 }
 
 @media (max-width: 768px) {
