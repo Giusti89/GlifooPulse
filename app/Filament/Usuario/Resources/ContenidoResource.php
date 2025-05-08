@@ -41,24 +41,24 @@ class ContenidoResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Textos')
+                Section::make('Descripción')
                     ->columns(1)
                     ->schema([
                         Forms\Components\Textarea::make('texto')
+                        ->label('Descripción')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(400),
 
-                        Forms\Components\RichEditor::make('pie')
-                            ->required()
+                            Forms\Components\Textarea::make('texto')
+                            ->label('Dirección')
                             ->maxLength(255),
 
                         ColorPicker::make('background') 
                             ->label('Color de fondo')
                             ->default('#ffffff') 
-                            ->rgb() 
-                            ->required(),
+                            ->rgb(),
                     ]),
-                Section::make('Imagenes')
+                Section::make('Contenido digital')
                     ->columns(2)
                     ->schema([
 

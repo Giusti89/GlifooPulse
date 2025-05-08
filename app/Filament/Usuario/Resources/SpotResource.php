@@ -47,7 +47,7 @@ class SpotResource extends Resource
                     ->columns(3)
                     ->schema([
                         Forms\Components\TextInput::make('titulo')
-                            ->label('Titulo')
+                            ->label('Nombre de Empresa')
                             ->required()
                             ->maxLength(255),
 
@@ -73,7 +73,7 @@ class SpotResource extends Resource
         return $table
             ->columns([
                 tables\Columns\TextColumn::make('titulo')
-                    ->label('Título'),
+                    ->label('Nombre de Empresa'),
 
                 tables\Columns\TextColumn::make('slug')
                     ->label('Url'),

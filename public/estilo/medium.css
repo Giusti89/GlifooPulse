@@ -1,9 +1,14 @@
 .basicoprincipal {
-    display: flex;
-    align-items: center;
+    display: flex;    
     flex: 1;
-    flex-direction: column;
-    width: 100%;
+    width: 100%;    
+}
+
+.sideA {
+    display: flex;
+    flex-direction: column;   
+    width: 60vw;
+    align-items: center;
 }
 
 .banner {
@@ -11,22 +16,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 130px;
+    margin-bottom: 90px;
 }
-
 .img-banner {
-    height: 65vh;
-    width: 100%;
+    width: 800px;
+    height: 45vh;
     object-fit: cover;
 }
 
 .logo-perfil {
     position: absolute;
-    bottom: -60px;
+    bottom: -80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     border: 4px solid white;
     background-color: white;
@@ -41,77 +45,83 @@
     border-radius: 50%;
 }
 
-.titulo {
-    margin-bottom: 20px;
+.sideA .titulo {
+    display: flex;
+    justify-content: center;
 }
 
-.cuerpo {
+.descrip p {
+    text-align: justify;
+    width: 400px;
+    margin-bottom: 5vh;
+    margin-top: 15px;
+}
+
+.map {
     display: flex;
-    width: 60vw;
+    flex-direction: column;
     justify-content: center;
+}
+
+.mapframe iframe {
+    width: 300px;
+    height: 300px;
+}
+.pie p {
+    width: 300px;
+    text-align: center;
+}
+
+.sideC {
+    position: sticky;
+    top: 20px; /* Distancia desde la parte superior cuando se pega */
+    align-self: flex-start;
+    height: fit-content;    
+    display: flex;   
     align-items: center;
     flex-direction: column;
-}
-
-.seccionuno {
-    display: flex;
-    width: 95%;
-    gap: 50px;
-    margin-bottom: 40px;
-}
-
-.texto {
-    display: flex;
-    text-align: center;
-
-    width: 50%;
-    padding: 10px;
+    width: 20vw;
 }
 
 .redes {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     padding: 10px;
     margin: 5px;
     gap: 15px;
-    width: 55%;
+    width: 25vw;
 
 }
-
 .redes img {
-    width: 90px;
+    width: 70px;
     height: auto;
     border-radius: 50%;
     aspect-ratio: 1;
     object-fit: cover;
 }
 
-.direccion {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    justify-content: center;
-
+.redes img:hover {
+    transform: rotate(15deg) scale(1.1);
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-.direccion p {
-    text-align: center;
-}
 
 @media (max-width: 768px) {
     .basicoprincipal {
         display: flex;
+        flex-direction: column;
         align-items: center;
         flex: 1;
-        flex-direction: column;
-
         width: 100%;
     }
+   
 
     .banner {
         display: flex;
+        width: 100%;
         justify-content: center;
         align-items: center;
         margin-bottom: 40px;
@@ -119,7 +129,6 @@
 
     .img-banner {
         height: 35vh;
-        /* altura menor en móviles */
         object-fit: cover;
     }
 
@@ -128,48 +137,36 @@
         height: 80px;
         bottom: -40px;
     }
+    .descrip p {
+        text-align: justify;
+        width: 250px;
+        margin-bottom: 5vh;
+        margin-top: 15px;
+    }
 
-    .seccionuno {
-        display: flex;
+    .sideC { 
+        display: flex;   
+        align-items: center;
         flex-direction: column;
         width: 100%;
-        gap: 25px;
-        margin-bottom: 20px;
     }
-
-    .texto {
+    
+    .red {
         display: flex;
-        text-align: center;
-
-        width: 100%;
-        padding: 5px;
-        font-size: 0.7rem;
-    }
-
-    .redes {
-        display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         padding: 10px;
-        gap: 15px;
-        width: 95%;
-
+        margin: 5px;
+        gap: 5px;
     }
-
     .redes img {
-        width: 40px;
+        width: 50px;
         height: auto;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        object-fit: cover;
     }
-
-    .direccion {
-        display: flex;
-        width: 100%;
-
-    }
-
-    .direccion p {
-        text-align: center;
-        font-size: 0.5rem;
-    }
+   
 }
