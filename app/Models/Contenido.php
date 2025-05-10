@@ -19,8 +19,10 @@ class Contenido extends Model
         'logo_url',
         'spot_id',
         'background',
-
+        'latitude',
+        'longitude',
     ];
+    
     public function spot()
     {
         return $this->belongsTo(Spot::class, 'spot_id', 'id');
@@ -42,7 +44,6 @@ class Contenido extends Model
             if ($ticket->isDirty('banner_url') && $ticket->isDirty('logo_url')) {
                 Storage::disk('public')->delete($ticket->banner_url);
                 Storage::disk('public')->delete($ticket->logo_url);
-                
             }
         });
     }

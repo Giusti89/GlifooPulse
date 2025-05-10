@@ -25,7 +25,7 @@
                     <h1> <b>Dirección</b> </h1>
                 </div>
                 <div class="mapframe">
-                    <iframe src="https://www.google.com/maps?q=-16.492190,-68.115285&hl=es&z=16&output=embed"
+                    <iframe src="https://www.google.com/maps?q={{$contenido->latitude}},{{$contenido->longitude}}&hl=es&z=16&output=embed"
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
