@@ -6,6 +6,7 @@
 
 .titulo {
     text-align: center;
+    line-height: 1;
 }
 
 .sideA {
@@ -58,7 +59,7 @@
 .descrip p {
     text-align: center;
     width: 400px;
-    margin-bottom: 5vh;
+    margin-bottom: 60px;
     margin-top: 15px;
 }
 
@@ -130,13 +131,12 @@
         width: 100%;
     }
 
-
     .banner {
         display: flex;
         width: 100vw;
         justify-content: center;
         align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 60px;
     }
 
     .img-banner {
@@ -154,7 +154,7 @@
     .descrip p {
         text-align: center;
         width: 250px;
-        margin-bottom: 5vh;
+        margin-bottom: 28px;
         margin-top: 15px;
     }
 
