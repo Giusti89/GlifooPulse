@@ -9,7 +9,7 @@
                     <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="Logo de perfil">
                 </div>
             </div>
-            
+
             <div class="titulo">
                 <h1> <b>{{ $titulo }}</b> </h1>
             </div>
@@ -22,16 +22,21 @@
 
             <div class="map">
                 <div class="titulo">
-                    <h1> <b>Dirección</b> </h1>
+                    <h4> <b>Dirección</b> </h4>
                 </div>
+                <div class="direc">
+                    {{ $contenido->pie }}
+                </div>
+
                 <div class="mapframe">
-                    <iframe src="https://www.google.com/maps?q={{$contenido->latitude}},{{$contenido->longitude}}&hl=es&z=16&output=embed"
+                    <iframe
+                        src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
             </div>
-        </div>       
+        </div>
 
         <div class="sideC">
             <h1> <b>Enlaces</b> </h1>
@@ -44,7 +49,6 @@
                         <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
                             <img src="{{ asset('/storage/' . $item->image_url) }}" alt="{{ $item->nombre }}">
                         </a>
-                        <h4>{{ $item->nombre }}</h4>
                     </div>
                 @endforeach
             </div>
