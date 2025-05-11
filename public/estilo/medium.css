@@ -1,12 +1,16 @@
 .basicoprincipal {
-    display: flex;    
+    display: flex;
     flex: 1;
-    width: 100%;    
+    width: 100%;
+}
+
+.titulo {
+    text-align: center;
 }
 
 .sideA {
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;
     width: 60vw;
     align-items: center;
 }
@@ -18,6 +22,7 @@
     align-items: center;
     margin-bottom: 90px;
 }
+
 .img-banner {
     width: 800px;
     height: 45vh;
@@ -63,13 +68,16 @@
     justify-content: center;
     align-items: center;
 }
-.direc{
+
+.direc {
     text-align: center;
 }
+
 .mapframe iframe {
     width: 300px;
     height: 300px;
 }
+
 .pie p {
     width: 300px;
     text-align: center;
@@ -77,10 +85,11 @@
 
 .sideC {
     position: sticky;
-    top: 20px; /* Distancia desde la parte superior cuando se pega */
+    top: 20px;
+    /* Distancia desde la parte superior cuando se pega */
     align-self: flex-start;
-    height: fit-content;    
-    display: flex;   
+    height: fit-content;
+    display: flex;
     align-items: center;
     flex-direction: column;
     width: 20vw;
@@ -96,8 +105,8 @@
     margin: 5px;
     gap: 15px;
     width: 25vw;
-
 }
+
 .redes img {
     width: 70px;
     height: auto;
@@ -120,56 +129,63 @@
         flex: 1;
         width: 100%;
     }
-   
+
 
     .banner {
         display: flex;
-        width: 50vw;
+        width: 100vw;
         justify-content: center;
         align-items: center;
         margin-bottom: 40px;
     }
 
     .img-banner {
+        width: 100%;
         height: 35vh;
         object-fit: cover;
     }
 
     .logo-perfil {
-        width: 100px;
-        height: 100px;
+        width: 180px;
+        height: 180px;
         bottom: -40px;
     }
+
     .descrip p {
-        text-align: justify;
+        text-align: center;
         width: 250px;
         margin-bottom: 5vh;
         margin-top: 15px;
     }
 
-    .sideC { 
-        display: flex;   
+    .sideC {
+        display: flex;
         align-items: center;
         flex-direction: column;
         width: 100%;
     }
-    
+
     .red {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        margin: 5px;
-        gap: 5px;
+        
     }
+
+    .redes {
+        display: flex;      
+        width: 80px;
+        justify-content: center;
+        align-items: center;      
+        
+    }
+
     .redes img {
-        width: 50px;
+        width: 60px;
         height: auto;
         border-radius: 50%;
         aspect-ratio: 1;
         object-fit: cover;
     }
-   
+
 }

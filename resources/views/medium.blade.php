@@ -39,7 +39,7 @@
         </div>
 
         <div class="sideC">
-            <h1> <b>Enlaces</b> </h1>
+            <h4> <b>Enlaces</b> </h4>
             <div class="red">
                 @foreach ($redes as $item)
                     @php
