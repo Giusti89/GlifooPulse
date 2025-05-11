@@ -167,9 +167,10 @@
 
     .red {
         display: flex;
-        flex-direction: row;
+        justify-content: center;
         flex-wrap: wrap;
         
+        align-items: center;
     }
 
     .redes {
@@ -177,7 +178,7 @@
         width: 80px;
         justify-content: center;
         align-items: center;      
-        
+          
     }
 
     .redes img {
