@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Illuminate\Database\Eloquent\Builder;
-
+use Carbon\Carbon;
 
 
 
@@ -18,7 +18,25 @@ class Estadisticas extends BaseWidget
     protected function getStats(): array
     {
         $user = auth()->user();
-        
+        $suscripcion = \App\Models\Suscripcion::where('user_id', $user->id)->first();
+
+        $tiempoRestante = null;
+
+        if ($suscripcion && $suscripcion->fecha_fin) {
+            $hoy = Carbon::now();
+            $fin = Carbon::parse($suscripcion->fecha_fin);
+
+            if ($fin->isPast()) {
+                $tiempoRestante = 'Expirada';
+            } else {
+                $diasRestantes = $hoy->diffInDays($fin);
+                $mesesRestantes = $hoy->diffInMonths($fin);
+
+                $tiempoRestante = $mesesRestantes > 0
+                    ? "$mesesRestantes mes(es) restantes"
+                    : "$diasRestantes día(s) restantes";
+            }
+        }
         // Obtener los spots con sus relaciones
         $spots = Spot::with(['socials', 'visits'])
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', $user->id))
@@ -47,6 +65,8 @@ class Estadisticas extends BaseWidget
                 ->icon('heroicon-s-users'),
             Card::make('Visitas este mes', $stats['monthly_visits'])
                 ->icon('heroicon-s-calendar'),
+            Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
+                ->icon('heroicon-s-clock'),
         ];
 
         // Cards para redes sociales
@@ -55,13 +75,10 @@ class Estadisticas extends BaseWidget
                 ->icon('heroicon-s-exclamation-circle');
         } else {
             foreach ($stats['socials'] as $social) {
-                $cards[] = Card::make($social->nombre, $social->clicks.' vistas')
-                    ;
+                $cards[] = Card::make($social->nombre, $social->clicks . ' vistas');
             }
         }
 
         return $cards;
     }
-
-    
 }

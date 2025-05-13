@@ -18,6 +18,7 @@ class LandingResource extends Resource
     protected static ?string $model = Landing::class;
     protected static ?string $navigationLabel = 'Maquetas';
     protected static ?string $navigationIcon = 'heroicon-m-rocket-launch';
+    protected static ?string $navigationGroup = 'Productos Glifoo';
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form

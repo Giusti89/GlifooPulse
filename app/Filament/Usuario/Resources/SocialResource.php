@@ -24,7 +24,6 @@ class SocialResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Configuracion Enlaces Sociales';
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
-
     protected static ?int $navigationSort = 3;
 
     public static function getEloquentQuery(): Builder
@@ -51,29 +50,60 @@ class SocialResource extends Resource
                             )
                             ->required(),
 
-                        Forms\Components\TextInput::make('nombre')
-                            ->label(' Nombre red social')
-                            ->helperText('Your full name here, including any middle names.')
-                            ->required()
-                            ->maxLength(255),
-
                         Forms\Components\TextInput::make('url')
                             ->label(' Enlace red social')
-                            ->helperText('Your full name here, including any middle names.')
                             ->required()
+                            ->helperText('Ingrese la url de su enlace')
+                            ->maxLength(255),
+
+                    ]),
+
+                Section::make('Recursos')
+                    ->columns()
+                    ->schema([
+                        Forms\Components\Select::make('enlace_id')
+                            ->label('Seleccione su red social')
+                            ->options(function () {
+                                return \App\Models\Enlace::pluck('nombre', 'id')->toArray();
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $enlace = \App\Models\Enlace::find($state);
+
+                                if ($enlace) {
+                                    $set('nombre', $enlace->nombre);
+
+                                    $userDirectory = 'paquetes/' . \Str::slug(auth()->user()->name);
+                                    $imageName = basename($enlace->logo_path);
+                                    $newPath = "$userDirectory/$imageName";
+
+                                    if (!\Storage::disk('public')->exists($newPath)) {
+                                        \Storage::disk('public')->copy($enlace->logo_path, $newPath);
+                                    }
+
+                                    $set('image_url', [$newPath]);
+                                }
+                            }),
+
+                        Forms\Components\TextInput::make('nombre')
+                            ->label(' Nombre red social')
+                            ->helperText('Llenar en caso de ser otro enlace')
                             ->maxLength(255),
 
                         Forms\Components\FileUpload::make('image_url')
                             ->image()
                             ->maxSize(2048)
+                            ->visibility('public')
                             ->label('Logo red social')
                             ->imageEditor()
                             ->directory(function () {
                                 $user = auth()->user();
 
                                 return 'paquetes/' . Str::slug($user->name);
-                            })
-                            ->required(),
+                            }),
+
+
 
                     ]),
             ]);
@@ -111,7 +141,7 @@ class SocialResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                 Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

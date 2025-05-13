@@ -20,6 +20,8 @@ class ContenidoResource extends Resource
     protected static ?string $model = Contenido::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Contenido Usuarios';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form

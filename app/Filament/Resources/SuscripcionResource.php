@@ -26,6 +26,8 @@ class SuscripcionResource extends Resource
 
     protected static ?string $navigationLabel = 'Suscripciones';
     protected static ?string $navigationIcon = 'heroicon-m-currency-dollar';
+    protected static ?string $navigationGroup = 'Datos de Usuarios';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form

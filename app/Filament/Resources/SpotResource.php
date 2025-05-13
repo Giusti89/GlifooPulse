@@ -22,6 +22,7 @@ class SpotResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-sparkles';
     protected static ?string $navigationLabel = 'Landings Usuarios';
+    protected static ?string $navigationGroup = 'Contenido Usuarios';
     protected static ?string $pluralModelLabel = 'Landingpages Usuarios';
 
 
