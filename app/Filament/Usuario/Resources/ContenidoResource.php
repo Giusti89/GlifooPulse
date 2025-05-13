@@ -98,7 +98,7 @@ class ContenidoResource extends Resource
                         $tienePlanMedium = Suscripcion::where('user_id', $user->id)
                             ->where('estado', 1) // Asumiendo que 1 es activo
                             ->whereHas('paquete', function ($query) {
-                                $query->where('nombre', 'like', '%Medium%');
+                                $query->where('nombre', 'like', '%Enterprise%');
                             })
                             ->where('fecha_fin', '>=', now())
                             ->exists();

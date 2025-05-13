@@ -47,7 +47,7 @@ class PublicidadController extends Controller
                 }
                 return view("/basico", compact('titulo', 'contenido', 'redes'));
                 // GLIFOO MEDIUM
-            } elseif ($marca == "Glifoo medium") {
+            } elseif ($marca == "Glifoo Enterprise") {
                 $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
 
                 if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
@@ -58,7 +58,7 @@ class PublicidadController extends Controller
                         'visited_at' => now(),
                     ]);
                 }
-                return view("/medium", compact('titulo', 'contenido', 'redes'));
+                return view("/Enterprise", compact('titulo', 'contenido', 'redes'));
             } else {
                 return redirect()->route('error');
             }
