@@ -7,6 +7,7 @@
 .titulo {
     text-align: center;
     line-height: 1;
+    color: white;
 }
 
 .sideA {
@@ -61,6 +62,7 @@
     width: 400px;
     margin-bottom: 60px;
     margin-top: 15px;
+    color: white;
 }
 
 .map {
@@ -69,9 +71,12 @@
     justify-content: center;
     align-items: center;
 }
-
+.map .titulo{
+    margin-bottom: 15px;
+}
 .direc {
     text-align: center;
+    color: white;
 }
 
 .mapframe iframe {
@@ -82,6 +87,7 @@
 .pie p {
     width: 300px;
     text-align: center;
+    color: white;
 }
 
 .sideC {
@@ -94,6 +100,7 @@
     align-items: center;
     flex-direction: column;
     width: 20vw;
+    color: white;
 }
 
 .redes {

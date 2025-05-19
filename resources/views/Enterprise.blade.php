@@ -10,22 +10,19 @@
                 </div>
             </div>
 
-            <div class="titulo">
+            <div class="titulo" style="color:{{ $contenido->ctexto }}">
                 <h1> <b>{{ $titulo }}</b> </h1>
             </div>
 
             <div class="descrip">
-                <p>
+                <p style="color:{{ $contenido->ctexto }}">
                     {{ $contenido->texto }}
                 </p>
             </div>
 
             <div class="map">
-                <div class="titulo">
+                <div class="titulo" style="color:{{ $contenido->ctexto }}">
                     <h4> <b>Dirección</b> </h4>
-                </div>
-                <div class="direc">
-                    {{ $contenido->pie }}
                 </div>
 
                 <div class="mapframe">
@@ -34,12 +31,16 @@
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
+                    <div class="direc" style="color:{{ $contenido->ctexto }}">
+                        {{ $contenido->pie }}
+                    </div>
                 </div>
             </div>
+            
         </div>
 
         <div class="sideC">
-            <h4> <b>Enlaces</b> </h4>
+            <h4 style="color:{{ $contenido->ctexto }}"> <b>Enlaces</b> </h4>
             <div class="red">
                 @foreach ($redes as $item)
                     @php

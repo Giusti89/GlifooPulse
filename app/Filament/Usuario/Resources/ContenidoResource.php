@@ -61,7 +61,14 @@ class ContenidoResource extends Resource
 
                         ColorPicker::make('background')
                             ->label('Color de fondo')
+                             ->helperText('Se admiten valores hexadecimales')
                             ->default('#ffffff')
+                            ->rgb(),
+                            
+                        ColorPicker::make('ctexto')
+                            ->label('Color del los textos')
+                            ->default('#ffffff')
+                             ->helperText('Se admiten valores hexadecimales')
                             ->rgb(),
                     ]),
                 Section::make('Contenido digital')

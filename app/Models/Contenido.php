@@ -21,6 +21,7 @@ class Contenido extends Model
         'background',
         'latitude',
         'longitude',
+        'ctexto',
     ];
     
     public function spot()
