@@ -13,7 +13,6 @@
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('./css/index.css') }}">
     <link rel="icon" href="{{ asset('./img/logos/Boton.ico') }}">
     <link rel="stylesheet" href="{{ asset('estilo/base.css') }}">
     <link rel="stylesheet" href="{{ $url ?? '' }}">
@@ -74,7 +73,7 @@
                     <img src="{{ asset('./img/logos/Whatsapp.png') }}" alt="">
                 </a>
                 <a href="https://www.tiktok.com/@glifoo?lang=es" target="_blank" rel="noopener"><img
-                        src="./img/logos/TikTok.png" alt=""></a>
+                        src="{{ asset('./img/logos/TikTok.png') }}" alt=""></a>
                 <a href="https://twitter.com/Glifoo_cc" target="_blank" rel="noopener">
                     <img src="{{ asset('./img/logos/Twitter.png') }}" alt="">
                 </a>
