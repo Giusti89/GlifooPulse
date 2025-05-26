@@ -10,6 +10,7 @@ use App\Models\Paquete;
 use App\Models\Spot;
 use App\Models\Suscripcion;
 use App\Models\User;
+use App\Models\Sell;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
@@ -62,6 +63,7 @@ class Register extends BaseRegister
                         $this->getPaqueteFormComponent(),
                         $this->getPasswordFormComponent(),
                         $this->getPasswordConfirmationFormComponent(),
+                        $this->getLastMesesSuscripcion(),
                     ])
 
                     ->statePath('data'),
@@ -89,6 +91,16 @@ class Register extends BaseRegister
             ->autofocus();
     }
 
+    protected function getLastMesesSuscripcion(): Component
+    {
+        return TextInput::make('meses')
+            ->label(__('Meses de suscripción'))
+            ->required()
+            ->maxLength(255)
+            ->autofocus();
+    }
+
+
     protected function getPhoneNumberFormComponent(): Component
     {
         return TextInput::make('phone')
@@ -107,6 +119,7 @@ class Register extends BaseRegister
                 throw new \RuntimeException('Se debe seleccionar un paquete para el registro');
             }
         }
+      
 
         // 1. Crear el usuario
         $user = User::create([
@@ -116,20 +129,27 @@ class Register extends BaseRegister
             'phone' => $data['phone'],
             'password' => $data['password'],
         ]);
+  
 
         // 2. Crear la suscripción
         $paquete = Paquete::findOrFail($data['paquete_id']);
-        $meses = $paquete->meses_suscripcion ?? 1;
+        $meses =$data['meses'] ?? 1;
 
         $suscripcion = Suscripcion::create([
             'user_id' => $user->id,
             'paquete_id' => $data['paquete_id'],
             'fecha_inicio' => now(),
             'fecha_fin' => now()->addMonths($meses),
-            'meses_suscripcion' => $meses
+        ]);
+      
+        // 3 Crear la venta 
+        $cuenta = Sell::create([
+            'suscripcion_id' => $suscripcion->id,
+            'total'=>number_format($paquete->precio * $meses, 2),
+            'fecha' => now(),
         ]);
 
-        // 3. Crear el spot asociado
+        // 4. Crear el spot asociado
         $tipoLanding = $paquete->landing->id ?? 'default';
 
         $spot = Spot::create([
@@ -138,13 +158,14 @@ class Register extends BaseRegister
             'estado' => 0,
         ]);
 
-        // 4. Crear contenido por defecto
+        // 5. Crear contenido por defecto
         Contenido::create([
             'spot_id' => $spot->id,
         ]);
+        // 6. Envio email
         $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
         if (!empty($adminEmails)) {
-            Mail::to($adminEmails)->send(new Pedidos($user, $paquete));
+            Mail::to($adminEmails)->send(new Pedidos($user, $paquete, $meses));
         }
 
         return $user;

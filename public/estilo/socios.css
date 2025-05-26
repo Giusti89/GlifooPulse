@@ -23,6 +23,9 @@
 }
 
 .boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 15px;
 }
 
@@ -30,7 +33,7 @@
      display: flex;
     justify-content: center;
     align-items: center;   
-    width: 230px;
+    width: 270px;
     height: 125px;
     margin: 10px;
     
@@ -41,7 +44,9 @@
 }
 
 .subtitulo {
+    justify-self: center;
     font-size: 1.6rem;
+    width: 270px;
     color: #fcd031;
     text-align: center;
 }

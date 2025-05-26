@@ -15,13 +15,15 @@ class Pedidos extends Mailable
     public $user;
     public $suscripcion;
     public $paquete;
+    public $meses;
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $paquete)
+    public function __construct($user, $paquete,$meses)
     {
         $this->user = $user;
         $this->paquete = $paquete;
+        $this->meses = $meses;
     }
 
     /**
