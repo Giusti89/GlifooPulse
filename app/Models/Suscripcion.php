@@ -36,7 +36,11 @@ class Suscripcion extends Model
     {
         return $this->hasMany(Spot::class);
     }
-
+    
+    public function renewals()
+    {
+        return $this->hasMany(Renewal::class);
+    }
 
     public function sells()
     {
@@ -64,14 +68,14 @@ class Suscripcion extends Model
         $fechaFinActual = Carbon::parse($this->fecha_fin);
 
         if ($fechaFinActual->isFuture()) {
-            $this->fecha_inicio = $fechaFinActual;
+            
             $this->fecha_fin = $fechaFinActual->copy()->addMonths($meses);
         } else {
-            $this->fecha_inicio = $fechaActual;
+            
             $this->fecha_fin = $fechaActual->copy()->addMonths($meses);
         }
 
-        
+
         $this->save();
     }
 

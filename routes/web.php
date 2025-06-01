@@ -3,9 +3,10 @@
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\PublicidadController;
+use App\Http\Controllers\RenovacionController;
 use App\Http\Controllers\SocioController;
 use Illuminate\Support\Facades\Route;
-
+use App\Livewire\RenovacionForm;
 
 
 Route::controller(InicioController::class)->group(function () {
@@ -18,6 +19,8 @@ Route::controller(InicioController::class)->group(function () {
 Route::get('./usuario/login', function () {
     return redirect('/usuario/login');
 })->name('usuariologin');
+
+Route::get('/renovacion', RenovacionForm::class)->name('renovacion.form');
 
 
 

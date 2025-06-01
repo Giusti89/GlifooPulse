@@ -1,0 +1,165 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    width: 100%;
+    max-width: 28rem;
+    margin: 1rem;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    
+}
+
+label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    outline: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+input{
+     width: 90%;
+}
+
+select {
+    background-color: white;
+}
+
+select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5)
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* Botón deshabilitado */
+button[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Mejora visual del formulario */
+.form-group input[readonly] {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+
+/* Efecto hover para el botón */
+button:not([disabled]):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Transición suave */
+button, select {
+    transition: all 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: rgb(9 9 11);
+        color: #f3f4f6;
+    }
+
+    .form-container {
+        background-color: #18181b;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    }
+
+    input,
+    select,
+    button {
+        background-color: #374151;
+        border-color: #4b5563;
+        color: white;
+    }
+
+    button {
+        background-color: #2563eb;
+    }
+
+    label {
+        color: #e5e7eb;
+    }
+
+    .form-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-subtitle {
+        font-size: 1.125rem;
+        color: white;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+}

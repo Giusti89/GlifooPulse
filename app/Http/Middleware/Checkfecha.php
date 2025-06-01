@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class Checkfecha
         $user = Auth::user();
 
         if (!$user->suscripcion) {
-            
+
             Auth::logout();
             return Redirect::route('inicio')->with('msj', 'sinsuscripcion');
         }
@@ -43,6 +44,14 @@ class Checkfecha
                     ->title("¡Le quedan $diasRestantes días de suscripción!")
                     ->icon('heroicon-o-user')
                     ->iconColor('danger')
+                    ->persistent()
+                    ->actions([
+                        Action::make('renovar')
+                            ->label('Renovar ahora')  // Texto del botón
+                            ->button()  // Estilo de botón
+                            ->color('primary')  // Color (opcional)
+                            ->url(route('renovacion.form'))  // URL del formulario
+                    ])
                     ->send();
             }
 
@@ -58,11 +67,11 @@ class Checkfecha
 
             return $next($request);
         }
-       
+
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
-        
+
 
         return Redirect::route('inicio')->with('msj', 'susterminada');
     }
