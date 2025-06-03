@@ -39,7 +39,7 @@ class Social extends Model
     }
     public function tipoRed()
     {
-        return $this->belongsTo(TipoRed::class, 'tipored_id');
+        return $this->belongsTo(Tipored::class, 'tipored_id');
     }
     public static function getLandingFromLocalId($id)
     {

@@ -18,7 +18,7 @@ class Enlace extends Model
     
      public function tipoRed()
     {
-        return $this->belongsTo(TipoRed::class, 'tipored_id');
+        return $this->belongsTo(Tipored::class, 'tipored_id');
     }
 
     protected static function boot()
