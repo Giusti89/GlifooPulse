@@ -40,6 +40,13 @@ class RecursosGlifooResource extends Resource
                     ->imageEditor()
                     ->directory('RedesSociales')
                     ->required(),
+
+                Forms\Components\Select::make('tipored_id')
+                    ->label('Tipo red')
+                    ->relationship('tipored', 'nombre')
+                    ->required()
+                    ->default(fn() => request()->query('tipored_id'))
+                    ->live(),
             ]);
     }
 
@@ -49,6 +56,10 @@ class RecursosGlifooResource extends Resource
             ->columns([
                 tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre'),
+
+                tables\Columns\TextColumn::make('tipored.nombre')
+                    ->searchable()
+                    ->label('Tipo de enlace'),
 
                 Tables\Columns\ImageColumn::make('logo_path')
                     ->label('Logo')

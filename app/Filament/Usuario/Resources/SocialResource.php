@@ -75,7 +75,11 @@ class SocialResource extends Resource
                                     $set('nombre', $enlace->nombre);
 
                                     $userDirectory = 'paquetes/' . \Str::slug(auth()->user()->name);
-                                    $imageName = basename($enlace->logo_path);
+                                    $timestamp = now()->format('Ymd_His');
+                                    $originalName = pathinfo($enlace->logo_path, PATHINFO_FILENAME);
+                                    $extension = pathinfo($enlace->logo_path, PATHINFO_EXTENSION);
+                                    
+                                    $imageName =  "{$originalName}_{$timestamp}.{$extension}";
                                     $newPath = "$userDirectory/$imageName";
 
                                     if (!\Storage::disk('public')->exists($newPath)) {
@@ -91,8 +95,17 @@ class SocialResource extends Resource
                             ->helperText('Llenar en caso de ser otro enlace')
                             ->maxLength(255),
 
+                        Forms\Components\Select::make('tipored_id')
+                            ->label('Tipo red')
+                            ->helperText('Seleecionar si es una red social u otra red')
+                            ->relationship('tipored', 'nombre')
+                            ->required()
+                            ->default(fn() => request()->query('tipored_id'))
+                            ->live(),
+
                         Forms\Components\FileUpload::make('image_url')
                             ->image()
+                            
                             ->maxSize(2048)
                             ->visibility('public')
                             ->label('Logo red social')

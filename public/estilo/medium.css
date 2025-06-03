@@ -71,9 +71,11 @@
     justify-content: center;
     align-items: center;
 }
-.map .titulo{
+
+.map .titulo {
     margin-bottom: 15px;
 }
+
 .direc {
     text-align: center;
     color: white;
@@ -93,11 +95,11 @@
 .sideC {
     position: sticky;
     top: 20px;
-    /* Distancia desde la parte superior cuando se pega */
     align-self: flex-start;
     height: fit-content;
     display: flex;
     align-items: center;
+
     flex-direction: column;
     width: 20vw;
     color: white;
@@ -115,6 +117,19 @@
     width: 25vw;
 }
 
+.redesT {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    gap: 15px;
+    width: 25vw;
+}
+
+
 .redes img {
     width: 70px;
     height: auto;
@@ -127,6 +142,21 @@
     transform: rotate(15deg) scale(1.1);
     transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
+
+
+.otrared {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 90px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-size: 100% 100%;
+    object-fit: cover;
+
+}
+
 
 
 @media (max-width: 768px) {
@@ -174,18 +204,29 @@
 
     .red {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         flex-wrap: wrap;
-        
+
         align-items: center;
     }
 
     .redes {
-        display: flex;      
+        display: flex;
+        flex-direction: row;
         width: 80px;
         justify-content: center;
-        align-items: center;      
-          
+        align-items: center;
+
+    }
+
+    .redesT {
+        display: flex;
+        flex-direction: row;
+
+        width: 80px;
+        justify-content: center;
+        align-items: center;
     }
 
     .redes img {
@@ -194,6 +235,22 @@
         border-radius: 50%;
         aspect-ratio: 1;
         object-fit: cover;
+    }
+
+    .sociales {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .redS,
+    .ored {
+        display: flex;
+        width: 300px;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
     }
 
 }

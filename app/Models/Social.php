@@ -15,6 +15,7 @@ class Social extends Model
         'clicks',
         'spot_id',
         'image_url',
+        'tipored_id',
     ];
 
     protected static function boot()
@@ -30,11 +31,18 @@ class Social extends Model
 
         static::deleting(function ($ticket) {
             Storage::disk('public')->delete($ticket->image_url);
-           
         });
     }
     public function spot()
     {
         return $this->belongsTo(Spot::class, 'spot_id', 'id');
+    }
+    public function tipoRed()
+    {
+        return $this->belongsTo(TipoRed::class, 'tipored_id');
+    }
+    public static function getLandingFromLocalId($id)
+    {
+        return $id ?? null;
     }
 }

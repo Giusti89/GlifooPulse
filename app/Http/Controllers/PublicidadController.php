@@ -25,7 +25,7 @@ class PublicidadController extends Controller
 
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
-            $redes = Social::where('spot_id', $publicidad->id)->get();
+           $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
 
             $titulo = $publicidad->titulo;
             $usuario = optional(optional($publicidad->suscripcion)->user)->name;

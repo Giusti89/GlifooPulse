@@ -36,22 +36,75 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="sideC">
-            <h4 style="color:{{ $contenido->ctexto }}"> <b>Enlaces</b> </h4>
             <div class="red">
-                @foreach ($redes as $item)
+                {{-- Redes Sociales --}}
+                <div class="redS">
                     @php
-                        $encryptedId = Crypt::encrypt($item->id);
+                        $otrasRedes = $redes->where('tipoRed.nombre', 'Red Social');
                     @endphp
-                    <div class="redes">
-                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
-                            <img src="{{ asset('/storage/' . $item->image_url) }}" alt="{{ $item->nombre }}">
-                        </a>
+                    @if ($otrasRedes->isNotEmpty())
+                        <div class="subtitulo">
+                            <h4 class="redesT" style="color:{{ $contenido->ctexto }}"> <b>Redes Sociales</b> </h4>
+                        </div>
+                        <div class="sociales">
+                            @foreach ($redes->where(fn($red) => optional($red->tipoRed)->nombre === 'Red Social' || $red->tipoRed === null) as $item)
+                                @php
+                                    $encryptedId = Crypt::encrypt($item->id);
+                                @endphp
+                                <div class="redes">
+                                    <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
+                                        <img src="{{ asset('/storage/' . $item->image_url) }}"
+                                            alt="{{ $item->nombre }}">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+
+                    @endif
+
+                </div>
+
+                {{-- Otras Redes --}}
+
+                <div class="ored">
+                    @php
+                        $otrasRedes = $redes->where('tipoRed.nombre', 'Otra Red');
+                    @endphp
+                    @if ($otrasRedes->isNotEmpty())
+                        <div class="subtitulo">
+                            <h4 class="redesT" style="color:{{ $contenido->ctexto }}"><b>Otros Enlaces</b></h4>
+                        </div>
+                    @endif
+                    <div class="otro">
+                        @if ($otrasRedes->isNotEmpty())
+
+                            @foreach ($otrasRedes as $item)
+                                @php
+                                    $encryptedId = Crypt::encrypt($item->id);
+                                @endphp
+                                <div class="redes">
+                                    <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener"
+                                        style="text-decoration: none">
+                                        <div class="otrared"
+                                            style="background-image: url(/storage/{{ $item->image_url }})">
+                                            <p style="color:{{ $contenido->ctexto }}"> <b>{{ $item->nombre }}</b>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+
+
+
+                        @endif
                     </div>
-                @endforeach
+                </div>
+
+
             </div>
         </div>
 

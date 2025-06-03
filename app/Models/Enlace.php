@@ -12,8 +12,14 @@ class Enlace extends Model
 
     protected $fillable = [
         'nombre',
-        'logo_path',       
+        'logo_path',  
+        'tipored_id',     
     ];
+    
+     public function tipoRed()
+    {
+        return $this->belongsTo(TipoRed::class, 'tipored_id');
+    }
 
     protected static function boot()
     {
