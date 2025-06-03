@@ -2,7 +2,7 @@
 @if (session('msj') == 'susterminada')
     <script>
         Swal.fire({
-            title: "No se pudo realizar la solicitud",
+            title: "Suscripcion finalizada",
             text: "Su suscripción a terminado pongase en contacto con el porveedor del servicio.",
             icon: "warning"
         });
@@ -45,6 +45,16 @@
             title: "Restringido",
             text: "La pagina web no esta disponible.",
             icon: "warning"
+        });
+    </script>
+@endif
+
+@if (session('msj') == 'solievi')
+    <script>
+        Swal.fire({
+            title: "Solicitud entregada",
+            text: "Su solicitud fue entregada de manera correcta.",
+            icon: "success"
         });
     </script>
 @endif

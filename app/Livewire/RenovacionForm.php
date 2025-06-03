@@ -72,8 +72,6 @@ class RenovacionForm extends Component
         }
 
 
-        // Crear solicitud de renovación (NO actualizar fecha_fin aún)
-
     }
 
     public function render()

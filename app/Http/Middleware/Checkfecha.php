@@ -8,6 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Notifications\Actions\Action;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
 
@@ -68,11 +69,13 @@ class Checkfecha
             return $next($request);
         }
 
+        $userId = Auth::id();
+        $encryptedId = Crypt::encrypt($userId);
+
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
 
-
-        return Redirect::route('inicio')->with('msj', 'susterminada');
+        return Redirect::route('resuscrip', ['renovacion' => $encryptedId]);
     }
 }

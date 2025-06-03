@@ -14,14 +14,20 @@ Route::controller(InicioController::class)->group(function () {
         ->name('inicio');
 });
 
+Route::controller(RenovacionController::class)->group(function () {
+    Route::get('/resuscripcion/{renovacion}', 'create')
+        ->name('resuscrip');
 
+    Route::post('/resuscripcion/{renovacion}', 'store')
+        ->name('resuscripcion.store');
+});
 
 Route::get('./usuario/login', function () {
     return redirect('/usuario/login');
 })->name('usuariologin');
 
-Route::get('/renovacion', RenovacionForm::class)->name('renovacion.form');
 
+Route::get('/renovacion', RenovacionForm::class)->name('renovacion.form');
 
 
 Route::controller(PlanesController::class)->group(function () {
@@ -30,7 +36,7 @@ Route::controller(PlanesController::class)->group(function () {
 });
 
 Route::controller(SocioController::class)->group(function () {
-    Route::get('/socios/index', 'index')
+    Route::get('/socios', 'index')
         ->name('socios');
 
     Route::get('/socios/{slug}', 'show')
