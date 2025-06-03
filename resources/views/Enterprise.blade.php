@@ -81,25 +81,23 @@
                     @endif
                     <div class="otro">
                         @if ($otrasRedes->isNotEmpty())
-
                             @foreach ($otrasRedes as $item)
                                 @php
                                     $encryptedId = Crypt::encrypt($item->id);
+                                    $colorTexto = $contenido->ctexto ?? '#000000'; // Valor por defecto
                                 @endphp
                                 <div class="redes">
                                     <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener"
-                                        style="text-decoration: none">
+                                        style="text-decoration: none; color: {{ $colorTexto }}">
                                         <div class="otrared"
-                                            style="background-image: url(/storage/{{ $item->image_url }})">
-                                            <p style="color:{{ $contenido->ctexto }}"> <b>{{ $item->nombre }}</b>
+                                            style="background-image: url(/storage/{{ $item->image_url }}); color: {{ $colorTexto }}">
+                                            <p style="color: {{ $colorTexto }}">
+                                                <b>{{ $item->nombre }}</b>
                                             </p>
                                         </div>
                                     </a>
                                 </div>
                             @endforeach
-
-
-
                         @endif
                     </div>
                 </div>
