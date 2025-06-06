@@ -79,15 +79,27 @@ class SellResource extends Resource
                         ]);
 
                         // Activa la suscripción
-                        $record->suscripcion->update([
+                        $suscripcion = $record->suscripcion;
+                        $suscripcion->update([
                             'estado' => '1',
                         ]);
 
+                        // Buscar renovación pendiente asociada a esta suscripción
+                        $renewal = $suscripcion->renewals()
+                            ->where('estado', 'pendiente') // o el estado que uses
+                            ->latest()
+                            ->first();
+
+                        if ($renewal) {
+                            $suscripcion->renovar($renewal->meses); // 👈 usa tu método ya creado
+                            $renewal->update(['estado' => 'verificada']); // Marcar como aprobada
+                        }
+
                         Notification::make()
-                            ->title('Pago registrado')
+                            ->title('Pago registrado y suscripción renovada')
                             ->success()
                             ->send();
-                    }),
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

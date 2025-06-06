@@ -36,7 +36,7 @@ class Suscripcion extends Model
     {
         return $this->hasMany(Spot::class);
     }
-    
+
     public function renewals()
     {
         return $this->hasMany(Renewal::class);
@@ -64,17 +64,16 @@ class Suscripcion extends Model
 
     public function renovar(int $meses)
     {
-        $fechaActual = now();
-        $fechaFinActual = Carbon::parse($this->fecha_fin);
+        $ahora = now();
 
-        if ($fechaFinActual->isFuture()) {
-            
-            $this->fecha_fin = $fechaFinActual->copy()->addMonths($meses);
+        if ($this->fecha_fin && $ahora->lt(Carbon::parse($this->fecha_fin))) {
+            // La suscripción aún está activa → solo extiendo la fecha_fin
+            $this->fecha_fin = Carbon::parse($this->fecha_fin)->addMonths($meses);
         } else {
-            
-            $this->fecha_fin = $fechaActual->copy()->addMonths($meses);
+            // La suscripción ha vencido → reinicio desde ahora
+            $this->fecha_inicio = $ahora;
+            $this->fecha_fin = $ahora->copy()->addMonths($meses);
         }
-
 
         $this->save();
     }

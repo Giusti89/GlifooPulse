@@ -3,7 +3,7 @@
     <script>
         Swal.fire({
             title: "Suscripcion finalizada",
-            text: "Su suscripción a terminado pongase en contacto con el porveedor del servicio.",
+            text: "Su suscripción a terminado ingresara a un formulario de resuscripcion.",
             icon: "warning"
         });
     </script>

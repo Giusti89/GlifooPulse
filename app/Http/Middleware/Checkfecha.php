@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Suscripcion;
 use Closure;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
@@ -72,10 +73,13 @@ class Checkfecha
         $userId = Auth::id();
         $encryptedId = Crypt::encrypt($userId);
 
+        $suscripcion = Suscripcion::where('user_id', $userId)->first();
+        $suscripcion->update(['estado' =>'0']);
+
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
 
-        return Redirect::route('resuscrip', ['renovacion' => $encryptedId]);
+        return Redirect::route('resuscrip', ['renovacion' => $encryptedId])->with('msj', 'susterminada');
     }
 }

@@ -120,20 +120,6 @@ class SuscripcionResource extends Resource
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
-                Action::make('renovar')
-                    ->label('Renovar ')
-                    ->color('success')
-
-                    ->form([
-                        Forms\Components\TextInput::make('meses_adicionales')
-                            ->label('Meses Adicionales')
-                            ->numeric()
-                            ->default(1)
-                            ->minValue(1)
-                            ->required(),
-                    ])
-                    ->action(fn($record, $data) => $record->renovar($data['meses_adicionales']))
-                    ->visible(fn($record) => $record->fecha_fin !== null),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

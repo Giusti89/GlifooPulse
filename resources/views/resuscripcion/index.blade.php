@@ -27,6 +27,11 @@
                 @endif
             </button>
         </form>
+
+        <a style="text-decoration: none;color:white" href="{{ route('inicio') }}">
+            <button type="cancel" style="background:red">volver</button>
+        </a>
+
     </div>
 
 </x-layouts.renovacion>
