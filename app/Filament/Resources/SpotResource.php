@@ -44,7 +44,7 @@ class SpotResource extends Resource
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
                             ->maxLength(255),
-                            
+
                         Forms\Components\Toggle::make('estado')
                             ->label('Publicar web')
                             ->hiddenOn(['create'])
@@ -57,9 +57,10 @@ class SpotResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->columns([
 
-                tables\Columns\TextColumn::make('id')
+                tables\Columns\TextColumn::make('suscripcion.user.name')
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('titulo')
@@ -68,13 +69,11 @@ class SpotResource extends Resource
                 tables\Columns\TextColumn::make('slug')
                     ->searchable(),
 
-                tables\Columns\TextColumn::make('suscripcion.user.name')
+                tables\Columns\IconColumn::make('estado')
+                    ->boolean()
                     ->searchable(),
 
-                tables\Columns\TextColumn::make('estado')
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('suscripcion.paquete.landing.nombre')
+                Tables\Columns\TextColumn::make('suscripcion.paquete.nombre')
                     ->label('Tipo depublicidad')
                     ->sortable()
                     ->searchable(),

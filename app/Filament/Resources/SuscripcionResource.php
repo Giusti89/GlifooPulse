@@ -91,14 +91,14 @@ class SuscripcionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('paquete.nombre')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('estado')
+                    ->boolean()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_inicio')
                     ->date()
@@ -106,7 +106,6 @@ class SuscripcionResource extends Resource
                 Tables\Columns\TextColumn::make('fecha_fin')
                     ->date()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('dias_restantes_texto')
                     ->label('Días restantes')
                     ->color(function ($record) {

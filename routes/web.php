@@ -5,6 +5,7 @@ use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\PublicidadController;
 use App\Http\Controllers\RenovacionController;
 use App\Http\Controllers\SocioController;
+use App\Http\Controllers\VentasController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\RenovacionForm;
 

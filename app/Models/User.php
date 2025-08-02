@@ -61,6 +61,13 @@ class User extends Authenticatable implements FilamentUser
         return $this->suscripcion()->where('estado', true)->exists();
     }
 
+    public function landingsCompradas()
+    {
+        return $this->belongsToMany(Landing::class, 'landing_user_compras')
+            ->withPivot('fecha_compra', 'precio')
+            ->withTimestamps();
+    }
+
     //accesos de panel
     public function canAccessPanel(Panel $panel): bool
     {
@@ -73,14 +80,24 @@ class User extends Authenticatable implements FilamentUser
         }
         return false;
     }
-   /**
-    * realciones
-    *
-    *
-    *
+    
+    public function tieneAccesoALanding($landingId)
+    {
+        $landing = Landing::find($landingId);
 
-    */
-  
+        if (!$landing->pago) {
+            return true; // Landings gratuitas son accesibles
+        }
+
+        return $this->landingsCompradas()->where('landing_id', $landingId)->exists();
+    }
+    /**
+     * realciones
+     *
+     *
+     *
+     */
+
     public function rol()
     {
         return $this->belongsTo(Rol::class);
@@ -90,21 +107,19 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(Estado::class);
     }
-   
+
     public function suscripcion()
     {
-        return $this->hasOne(Suscripcion::class);;
+        return $this->hasOne(Suscripcion::class);
     }
     public function spot()
     {
         return $this->hasOneThrough(
             Spot::class,
             Suscripcion::class,
-            'user_id',     
+            'user_id',
             'suscripcion_id',
-            'id',          
-            'id'           
+            'id',
         );
     }
-   
 }

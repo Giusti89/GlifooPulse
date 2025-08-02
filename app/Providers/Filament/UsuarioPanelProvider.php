@@ -33,6 +33,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->path('usuario')
             ->login() 
             ->default()
+            ->passwordReset()
             ->profile()
             ->registration(Register::class)
             ->middleware([
@@ -64,8 +65,8 @@ class UsuarioPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-                VerificarSuscripcionActiva::class,
                 Checkfecha::class, 
+                VerificarSuscripcionActiva::class,
             ]);
     }
 }

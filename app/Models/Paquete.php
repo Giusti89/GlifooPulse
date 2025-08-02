@@ -20,7 +20,6 @@ class Paquete extends Model
         'enlace',
         'estado',
         'marco',
-        'landing_id'
     ];
 
     public function suscripcion()
@@ -28,9 +27,9 @@ class Paquete extends Model
         return $this->hasMany(suscripcion::class);
     }
 
-    public function landing()
+    public function landings()
     {
-        return $this->belongsTo(Landing::class);
+        return $this->hasMany(Landing::class);
     }
 
     protected static function boot()

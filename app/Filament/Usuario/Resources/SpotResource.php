@@ -4,6 +4,8 @@ namespace App\Filament\Usuario\Resources;
 
 use App\Filament\Usuario\Resources\SpotResource\Pages;
 use App\Filament\Usuario\Resources\SpotResource\RelationManagers;
+use App\Livewire\LandingVista;
+use App\Models\Landing;
 use App\Models\Spot;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -17,9 +19,8 @@ use Filament\Forms\Set;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Filament\Tables\Actions\Action;
-
-
-
+use Filament\Forms\Components\ViewField;
+use Illuminate\Support\Facades\Storage;
 
 class SpotResource extends Resource
 {
@@ -28,6 +29,8 @@ class SpotResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-wrench';
     protected static ?string $navigationLabel = 'Configuracion Inicial';
     protected static ?string $pluralModelLabel = 'Configuracion Inicial';
+    protected static ?string $navigationGroup = 'Configuracion pagina web';
+
     protected static ?int $navigationSort = 1;
 
 
@@ -43,8 +46,9 @@ class SpotResource extends Resource
     {
         return $form
             ->schema([
+
                 Section::make('Publicidad')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('titulo')
                             ->label('Nombre de Empresa')
@@ -59,11 +63,53 @@ class SpotResource extends Resource
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
                             ->maxLength(255),
 
+                        Forms\Components\Select::make('tipolanding')
+                            ->label('Plantilla (Landing) disponible')
+                            ->options(function () {
+                                $user = Auth::user();
+
+                                if (!$user || !$user->suscripcion || !$user->suscripcion->paquete) {
+                                    return [];
+                                }
+
+                                $landingsGratis = $user->suscripcion->paquete->landings()
+                                    ->where('pago', false)
+                                    ->get();
+
+                                $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
+                                    ->where('landing_user_compras.user_id', $user->id)
+                                    ->select('landings.id', 'landings.nombre')
+                                    ->get();
+
+                                $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
+
+                                return $landings->pluck('nombre', 'id');
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $landing = \App\Models\Landing::find($state);
+
+                                if ($landing) {
+                                    $landing->preview_url = Storage::url($landing->preview_url);
+                                    $set('landing_preview', $landing->toArray());
+                                }
+                            }),
+
+                        Forms\Components\Hidden::make('landing_preview')
+                            ->dehydrated(false),
+ 
+                        ViewField::make('landing_preview')
+                            ->label('Vista previa de plantilla')
+                            ->view('filament.forms.components.landing-preview')
+                            ->dehydrated(false)
+                            ->columnSpan('full'),
+
                         Forms\Components\Toggle::make('estado')
                             ->label('Publicar web')
                             ->hiddenOn(['create'])
                             ->default(false),
-
                     ]),
             ]);
     }
@@ -77,10 +123,6 @@ class SpotResource extends Resource
 
                 tables\Columns\TextColumn::make('slug')
                     ->label('Url'),
-
-                Tables\Columns\TextColumn::make('suscripcion.paquete.landing.nombre')
-                    ->label('Tipo de publicidad')
-                    ->sortable(),
             ])
             ->filters([
                 //
@@ -88,13 +130,12 @@ class SpotResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Llenar datos'),
-                    Action::make('vista_preliminar')
+                Action::make('vista_preliminar')
                     ->label('Vista preliminar')
                     ->icon('heroicon-o-eye')
-                    ->url(fn ($record) => $record->slug ? route('publicidad', ['slug' => $record->slug]) : null)
+                    ->url(fn($record) => $record->slug ? route('publicidad', ['slug' => $record->slug]) : null)
                     ->openUrlInNewTab()
-                    ->visible(fn ($record) => filled($record->slug)),
-                    
+                    ->visible(fn($record) => filled($record->slug)),
 
             ])
             ->bulkActions([

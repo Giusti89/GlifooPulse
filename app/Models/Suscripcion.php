@@ -69,10 +69,13 @@ class Suscripcion extends Model
         if ($this->fecha_fin && $ahora->lt(Carbon::parse($this->fecha_fin))) {
             // La suscripción aún está activa → solo extiendo la fecha_fin
             $this->fecha_fin = Carbon::parse($this->fecha_fin)->addMonths($meses);
+            $this->estado=1;
+
         } else {
             // La suscripción ha vencido → reinicio desde ahora
             $this->fecha_inicio = $ahora;
             $this->fecha_fin = $ahora->copy()->addMonths($meses);
+            $this->estado=1;
         }
 
         $this->save();

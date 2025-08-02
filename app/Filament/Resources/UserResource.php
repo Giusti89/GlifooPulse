@@ -48,7 +48,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('rol_id')
                     ->label('Rol')
                     ->relationship('rol', 'nombre')
-                    ->required()                    
+                    ->required()
                     ->live(),
 
                 Forms\Components\TextInput::make('password')
@@ -65,10 +65,13 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('lastname')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
 
@@ -76,16 +79,20 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('estado.nombre')
-                    ->numeric()
-                    ->sortable(),
 
-                Tables\Columns\TextColumn::make('rol.nombre')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('estado.nombre')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'suspendido' => 'warning',
+                        'activo' => 'success',
+                        'inactivo' => 'danger',
+                    })
                     ->sortable(),
             ])
             ->filters([
@@ -114,7 +121,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),            
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

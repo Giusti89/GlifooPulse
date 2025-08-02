@@ -56,6 +56,7 @@ class RenovacionController extends Controller
                 'suscripcion_id' => $user->suscripcion->id,
                 'total' => number_format($user->suscripcion->paquete->precio * $request->meses, 2),
                 'fecha' => now(),
+                'concepto'=>"renovacion",
             ]);
 
             $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();

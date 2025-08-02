@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Carbon\Carbon;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class LandingResource extends Resource
 {
@@ -27,9 +29,45 @@ class LandingResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->helperText('Este nombre debe ser identico al del archivo html'),
+
+
                 Forms\Components\Textarea::make('descripcion')
                     ->required(),
+
+                Forms\Components\TextInput::make('precio')
+                    ->required()
+                    ->numeric()
+                    ->default(0.00),
+
+                Forms\Components\Select::make('paquete_id')
+                    ->label('Paquete')
+                    ->relationship('paquete', 'nombre')
+                    ->required()
+                    ->live(),
+
+                Forms\Components\FileUpload::make('preview_url')
+                    ->label('Muestra visual')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('plantilla')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(TemporaryUploadedFile $file): string =>
+                        Carbon::now()->format('Ymd_His') . '_' . $file->getClientOriginalName()
+                    )
+                    ->helperText(function ($state) {
+                        return $state ? 'Subido: ' . Carbon::now()->format('d/m/Y H:i') : 'Suba su archivo aquí';
+                    }),
+
+                Forms\Components\TextInput::make('grupo')
+                    ->required()
+                    ->maxLength(255)
+                    ->helperText('Nombre de la carpeta en que se almacenara la plantilla'),
+
+                Forms\Components\Toggle::make('pago')
+                    ->label('Es de pago?')
+                    ->default(false),
 
             ]);
     }
@@ -41,6 +79,18 @@ class LandingResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('descripcion'),
+
+                Tables\Columns\TextColumn::make('paquete.nombre')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('grupo')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('pago')
+                    ->label('plantilla de pago')
+                    ->badge()
+                    ->formatStateUsing(fn(bool $state): string => $state ? 'Sí' : 'No')
+                    ->color(fn(bool $state): string => $state ? 'success' : 'danger'),
 
             ])
             ->filters([

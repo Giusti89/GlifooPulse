@@ -1,0 +1,80 @@
+.principal {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    justify-content: center;
+    padding: 15px;
+}
+
+.tarjeta {
+    display: flex;
+    color: aliceblue;
+    padding: 15px;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    background-size: 100% 100%;
+}
+
+.tarjeta__header {
+    height: 30%;
+    color: #fcd031;
+}
+
+.tarjeta__body {
+    display: flex;
+    height: 60%;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+}
+
+.tarjeta__precio {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    color: #fcd031;
+}
+
+.tarjeta__footer {
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-buy {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-buy:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-buy:active {
+    transform: translateY(0);
+}
+
+.btn-buy[disabled],
+.btn-buy.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

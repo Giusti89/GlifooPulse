@@ -31,6 +31,7 @@ class ContenidoResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-c-folder';
     protected static ?string $navigationLabel = 'Configuracion Contenidos';
     protected static ?string $pluralModelLabel = 'Configuracion Contenido';
+    protected static ?string $navigationGroup = 'Configuracion pagina web';
 
     protected static ?int $navigationSort = 2;
 
@@ -61,14 +62,14 @@ class ContenidoResource extends Resource
 
                         ColorPicker::make('background')
                             ->label('Color de fondo')
-                             ->helperText('Se admiten valores hexadecimales')
+                            ->helperText('Se admiten valores hexadecimales')
                             ->default('#ffffff')
                             ->rgb(),
-                            
+
                         ColorPicker::make('ctexto')
                             ->label('Color del los textos')
                             ->default('#ffffff')
-                             ->helperText('Se admiten valores hexadecimales')
+                            ->helperText('Se admiten valores hexadecimales')
                             ->rgb(),
                     ]),
                 Section::make('Contenido digital')
@@ -105,7 +106,7 @@ class ContenidoResource extends Resource
                         $tienePlanMedium = Suscripcion::where('user_id', $user->id)
                             ->where('estado', 1) // Asumiendo que 1 es activo
                             ->whereHas('paquete', function ($query) {
-                                $query->where('nombre', 'like', '%Enterprise%');
+                                $query->where('nombre', 'like', '%Glifoo Enterprise%');
                             })
                             ->where('fecha_fin', '>=', now())
                             ->exists();

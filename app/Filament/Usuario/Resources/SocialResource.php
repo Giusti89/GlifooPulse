@@ -24,6 +24,8 @@ class SocialResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Configuracion Enlaces Sociales';
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
+    protected static ?string $navigationGroup = 'Configuracion pagina web';
+
     protected static ?int $navigationSort = 3;
 
     public static function getEloquentQuery(): Builder

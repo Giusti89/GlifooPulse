@@ -1,6 +1,6 @@
-<x-layouts.spotbasic titulo="{{ $titulo }}" icono="{{ '/storage/' . $contenido->logo_url }}"
-    backgroud="{{ $contenido->background }}">
+<x-layouts.plantilla :titulo="$titulo" :descripcion="$contenido->descripcion_seo ?? null" :keywords="$contenido->keywords_seo ?? null" :imagenOg="'/storage/' . $contenido->banner_url" :backgroud="$contenido->background" : icono="{{ '/storage/' . $contenido->logo_url }}">
     <link rel="stylesheet" href="{{ asset('./estilo/medium.css') }}">
+
     <div class="basicoprincipal">
         <div class="sideA">
             <div class="banner">
@@ -63,13 +63,9 @@
                                 </div>
                             @endforeach
                         </div>
-
                     @endif
-
                 </div>
-
                 {{-- Otras Redes --}}
-
                 <div class="ored">
                     @php
                         $otrasRedes = $redes->where('tipoRed.nombre', 'Otra Red');
@@ -101,11 +97,7 @@
                         @endif
                     </div>
                 </div>
-
-
             </div>
         </div>
-
     </div>
-
-</x-layouts.spotbasic>
+</x-layouts.plantilla>

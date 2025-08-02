@@ -55,13 +55,6 @@ class PaqueteResource extends Resource
                             ->prefix('https://wa.me/')
                             ->maxLength(255),
 
-                        Forms\Components\Select::make('landing_id')
-                            ->label('Landing')
-                            ->relationship('landing', 'nombre')
-                            ->required()
-                            ->default(fn() => self::getLandingFromLocalId(request()->query('landing_id')))
-                            ->live(),
-
                         Forms\Components\FileUpload::make('image_url')
                             ->image()
                             ->imageEditor()
@@ -88,10 +81,7 @@ class PaqueteResource extends Resource
                     ->sortable(),
                 Tables\Columns\IconColumn::make('estado')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('landing.nombre')
-                    ->numeric()
-                    ->sortable()
-                    ->searchable(),
+                
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -147,6 +147,7 @@ class Register extends BaseRegister
             'suscripcion_id' => $suscripcion->id,
             'total'=>number_format($paquete->precio * $meses, 2),
             'fecha' => now(),
+            'concepto'=>"suscripcion",
         ]);
 
         // 4. Crear el spot asociado

@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login() 
             ->profile()
+            ->passwordReset()
             ->middleware([
                 FilamentHashidsMiddleware::class,                
             ])    

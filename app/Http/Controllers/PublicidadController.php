@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class PublicidadController extends Controller
 {
@@ -18,53 +20,37 @@ class PublicidadController extends Controller
     {
         try {
             $publicidad = Spot::where('slug', $slug)->first();
-
-            if (!$publicidad) {
-                return redirect()->route('error');
-            }
-
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
-           $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
+            $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
 
             $titulo = $publicidad->titulo;
-            $usuario = optional(optional($publicidad->suscripcion)->user)->name;
-            $id = $publicidad->user_id;
+            $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
+
+
             $marca = optional($tipopublicidad)->nombre;
-        
 
-            // GLIFOO BASICO
-            if ($marca == "Glifoo basic") {
-                $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
-
-                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                    Visit::create([
-                        'spot_id' => $publicidad->id,
-                        'ip' => request()->ip(),
-                        'user_agent' => request()->userAgent(),
-                        'visited_at' => now(),
-                    ]);
-                }
-                return view("/basico", compact('titulo', 'contenido', 'redes'));
-                // GLIFOO MEDIUM
-            } elseif ($marca == "Glifoo Enterprise") {
-                $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
-
-                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                    Visit::create([
-                        'spot_id' => $publicidad->id,
-                        'ip' => request()->ip(),
-                        'user_agent' => request()->userAgent(),
-                        'visited_at' => now(),
-                    ]);
-                }
-                return view("/Enterprise", compact('titulo', 'contenido', 'redes'));
-            } else {
-                return redirect()->route('error');
+            if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                Visit::create([
+                    'spot_id' => $publicidad->id,
+                    'ip' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                    'visited_at' => now(),
+                ]);
             }
+
+            $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
+            $plantilla = Str::slug($tipopublicidad->nombre ?? 'default'); 
+            $vista = "plantillas.$grupo.$plantilla";
+            
+            if (!View::exists($vista)) {
+                 return redirect()->route('inicio')->with('msj', 'pagvencida');
+            }
+            return view($vista, compact('titulo', 'contenido', 'redes'));
+
         } catch (\Exception $e) {
             Log::error("Error en PublicidadController@show: " . $e->getMessage());
-            return redirect()->route('error')->with('error', 'Ocurrió un error al mostrar la publicidad.');
+            return redirect()->route('inicio')->with('msj', 'pagvencida');
         }
     }
 

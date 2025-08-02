@@ -51,6 +51,16 @@ class SellResource extends Resource
                     ->label('Pago')
                     ->numeric(),
 
+                tables\Columns\TextColumn::make('concepto')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'renovacion' => 'warning',
+                        'suscripcion' => 'success',
+                        'inactivo' => 'danger',
+                    })
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('fecha')
                     ->label('Fecha')
                     ->sortable()
@@ -59,6 +69,11 @@ class SellResource extends Resource
                 Tables\Columns\TextColumn::make('estadov.nombre')
                     ->label('estado')
                     ->sortable()
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'pagado' => 'success',
+                        'por pagar' => 'danger',
+                    })
                     ->searchable(),
             ])
             ->filters([
@@ -72,33 +87,33 @@ class SellResource extends Resource
                     ->visible(fn($record) => $record->estadov->nombre === 'por pagar')
                     ->requiresConfirmation()
                     ->action(function ($record) {
-                        // Actualiza la venta
-                        $record->update([
-                            'pago' => $record->total,
-                            'estadov_id' => 2, // ID del estado "pagado"
-                        ]);
+                        switch ($record->concepto) {
+                            case 'suscripcion':
+                                $record->procesarSuscripcion();
+                                break;
 
-                        // Activa la suscripción
-                        $suscripcion = $record->suscripcion;
-                        $suscripcion->update([
-                            'estado' => '1',
-                        ]);
+                            case 'renovacion':
+                                $record->procesarRenovacion();
+                                break;
 
-                        // Buscar renovación pendiente asociada a esta suscripción
-                        $renewal = $suscripcion->renewals()
-                            ->where('estado', 'pendiente') // o el estado que uses
-                            ->latest()
-                            ->first();
+                            case 'plantilla':
+                                $record->procesarPlantilla();
+                                break;
 
-                        if ($renewal) {
-                            $suscripcion->renovar($renewal->meses); // 👈 usa tu método ya creado
-                            $renewal->update(['estado' => 'verificada']); // Marcar como aprobada
+                                Notification::make()
+                                    ->title('Plantilla comprada correctamente')
+                                    ->success()
+                                    ->send();
+                                break;
+
+                            default:
+                                Notification::make()
+                                    ->title('Pago registrado')
+                                    ->body('No se ejecutaron acciones adicionales')
+                                    ->success()
+                                    ->send();
+                                break;
                         }
-
-                        Notification::make()
-                            ->title('Pago registrado y suscripción renovada')
-                            ->success()
-                            ->send();
                     })
             ])
             ->bulkActions([

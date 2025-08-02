@@ -48,6 +48,7 @@ class RenovacionForm extends Component
                 'suscripcion_id' => $this->suscripcion->id,
                 'total' => number_format($this->suscripcion->paquete->precio * $this->meses, 2),
                 'fecha' => now(),
+                'concepto'=>"renovacion",
             ]);
 
             $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
