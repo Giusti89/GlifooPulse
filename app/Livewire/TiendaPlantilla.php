@@ -2,13 +2,17 @@
 
 namespace App\Livewire;
 
+use App\Mail\Plantilla;
 use App\Models\Landing;
 use App\Models\Sell;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class TiendaPlantilla extends Component
 {
@@ -55,6 +59,13 @@ class TiendaPlantilla extends Component
             'landing_id'     => $landing->id,
         ]);
         $this->pendientes[] = $landingId;
+
+
+        $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
+        
+        if (!empty($adminEmails)) {
+            Mail::to($adminEmails)->send(new Plantilla($usuario, $landing));
+        }
 
         Notification::make()
 

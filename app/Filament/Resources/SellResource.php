@@ -57,7 +57,7 @@ class SellResource extends Resource
                         'draft' => 'gray',
                         'renovacion' => 'warning',
                         'suscripcion' => 'success',
-                        'inactivo' => 'danger',
+                        'plantilla' => 'warning',
                     })
                     ->searchable(),
 
