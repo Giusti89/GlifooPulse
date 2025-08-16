@@ -45,4 +45,39 @@ class Social extends Model
     {
         return $id ?? null;
     }
+
+    public static function getBotonesDisponiblesPorUsuario($userId)
+    {
+        // Obtenemos el usuario
+        $user = User::with(['suscripcion.paquete.landings'])->find($userId);
+
+        if (!$user || !$user->suscripcion || !$user->suscripcion->paquete) {
+            return collect(); // Ningún botón
+        }
+
+        // Landings gratuitas del paquete
+        $landingsGratis = $user->suscripcion->paquete->landings()
+            ->where('pago', false)
+            ->pluck('id');
+
+        // Landings compradas por el usuario
+        $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
+            ->where('landing_user_compras.user_id', $user->id)
+            ->pluck('landings.id');
+
+        // IDs de landings disponibles
+        $landingsPermitidas = $landingsGratis->concat($landingsCompradas)->unique();
+
+        // Ahora filtramos botones por esas landings
+        return Enlace::join('enlace_landings', 'enlaces.id', '=', 'enlace_landings.enlace_id')
+            ->whereIn('enlace_landings.landing_id', $landingsPermitidas)
+            ->select('enlaces.id', 'enlaces.nombre', 'enlaces.logo_path')
+            ->distinct()
+            ->get();
+    }
+
+    protected static function getLandingFromSpot($spotId)
+    {
+        return Spot::with('suscripcion.landing')->find($spotId)?->suscripcion?->landing;
+    }
 }

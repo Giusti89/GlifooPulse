@@ -12,13 +12,23 @@ class Enlace extends Model
 
     protected $fillable = [
         'nombre',
-        'logo_path',  
-        'tipored_id',     
+        'logo_path',
+        'tipored_id',
     ];
-    
-     public function tipoRed()
+
+    public function tipoRed()
     {
         return $this->belongsTo(Tipored::class, 'tipored_id');
+    }
+    
+    public function landings()
+    {
+        return $this->belongsToMany(
+            Landing::class,
+            'enlace_landing',
+            'enlace_id',
+            'landing_id'
+        );
     }
 
     protected static function boot()
@@ -31,11 +41,8 @@ class Enlace extends Model
                 Storage::disk('public')->delete('/' . $ticket->getOriginal('logo_path'));
             }
         });
-
         static::deleting(function ($ticket) {
             Storage::disk('public')->delete($ticket->logo_path);
-           
         });
     }
-
 }

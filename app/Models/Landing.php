@@ -61,4 +61,13 @@ class Landing extends Model
     {
         return $this->hasMany(Landing::class, 'paquete_id');
     }
+    public function enlaces()
+    {
+        return $this->belongsToMany(
+            Enlace::class,
+            'enlace_landing',
+            'landing_id',
+            'enlace_id'
+        );
+    }
 }

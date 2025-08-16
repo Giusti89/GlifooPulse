@@ -44,9 +44,6 @@ class User extends Authenticatable implements FilamentUser
     ];
     /**
      * metodos
-     * *
-     * *
-     * *
      * 
      */
     // devolucion rol
@@ -93,9 +90,6 @@ class User extends Authenticatable implements FilamentUser
     }
     /**
      * realciones
-     *
-     *
-     *
      */
 
     public function rol()

@@ -18,7 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-
+use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 
 
 
@@ -79,7 +80,8 @@ class Register extends BaseRegister
             ->required()
             ->default($this->paquete_id)
             ->disabled(fn() => !is_null($this->paquete_id))
-            ->hidden(fn() => !is_null($this->paquete_id));
+            ->hidden(fn() => !is_null($this->paquete_id))
+            ->live();
     }
 
     protected function getLastNameFormComponent(): Component
@@ -96,8 +98,34 @@ class Register extends BaseRegister
         return TextInput::make('meses')
             ->label(__('Meses de suscripción'))
             ->required()
-            ->maxLength(255)
-            ->autofocus();
+            ->numeric()
+            ->minValue(1)
+            ->default(function () {
+                // Caso 1: Paquete viene desde botón
+                if ($this->paquete_id) {
+                    $paquete = Paquete::find($this->paquete_id);
+                    return $paquete->precio == 0 ? 12 : null;
+                }
+
+                return null;
+            })
+            ->hidden(function (callable $get) {
+                // Caso 1: Paquete viene desde botón
+                if ($this->paquete_id) {
+                    $paquete = Paquete::find($this->paquete_id);
+                    return $paquete->precio == 0;
+                }
+
+                // Caso 2: Paquete seleccionado desde formulario
+                $paqueteId = $get('paquete_id');
+                if ($paqueteId) {
+                    $paquete = Paquete::find($paqueteId);
+                    return $paquete->precio == 0;
+                }
+
+                return false;
+            })
+            ->reactive();
     }
 
 
@@ -106,6 +134,7 @@ class Register extends BaseRegister
         return TextInput::make('phone')
             ->label(__('Celular'))
             ->tel()
+            ->maxLength(12)
             ->required()
             ->autofocus();
     }
@@ -119,7 +148,7 @@ class Register extends BaseRegister
                 throw new \RuntimeException('Se debe seleccionar un paquete para el registro');
             }
         }
-      
+
 
         // 1. Crear el usuario
         $user = User::create([
@@ -129,26 +158,29 @@ class Register extends BaseRegister
             'phone' => $data['phone'],
             'password' => $data['password'],
         ]);
-  
+
 
         // 2. Crear la suscripción
         $paquete = Paquete::findOrFail($data['paquete_id']);
-        $meses =$data['meses'] ?? 1;
+        $meses = $data['meses'] ?? 1;
 
         $suscripcion = Suscripcion::create([
             'user_id' => $user->id,
             'paquete_id' => $data['paquete_id'],
             'fecha_inicio' => now(),
             'fecha_fin' => now()->addMonths($meses),
+            'estado' => $paquete->precio == 0,
         ]);
-      
+
+
         // 3 Crear la venta 
         $cuenta = Sell::create([
             'suscripcion_id' => $suscripcion->id,
-            'total'=>number_format($paquete->precio * $meses, 2),
+            'total' => number_format($paquete->precio * $meses, 2),
             'fecha' => now(),
-            'concepto'=>"suscripcion",
+            'concepto' => "suscripcion",
         ]);
+
 
         // 4. Crear el spot asociado
         $tipoLanding = $paquete->landing->id ?? 'default';
@@ -167,6 +199,17 @@ class Register extends BaseRegister
         $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
         if (!empty($adminEmails)) {
             Mail::to($adminEmails)->send(new Pedidos($user, $paquete, $meses));
+        }
+
+        if ($paquete->precio == 0) {
+            Filament::auth()->login($user);
+            session()->regenerate();
+            session()->regenerate();
+
+            Notification::make()
+                ->title('¡Bienvenido a tu suscripción gratuita!')
+                ->success()
+                ->send();
         }
 
         return $user;

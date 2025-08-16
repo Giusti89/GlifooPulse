@@ -17,9 +17,6 @@ use Filament\Forms\Components\Section;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Livewire;
-
-
-
 use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Set;
@@ -35,6 +32,24 @@ class ContenidoResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static function getPlanConditions(): array
+    {
+        static $conditions;
+
+        if ($conditions === null) {
+            $user = auth()->user();
+            $suscripcion = $user->suscripcion;
+
+            $conditions = [
+                'isFreePlan' => optional($suscripcion->paquete)->precio == 0,
+                'isEnterprisePlan' => $suscripcion->estado &&
+                    str_contains(optional($suscripcion->paquete)->nombre, 'Glifoo Enterprise'),
+            ];
+        }
+
+        return $conditions;
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -46,6 +61,10 @@ class ContenidoResource extends Resource
 
     public static function form(Form $form): Form
     {
+
+        $conditions = self::getPlanConditions();
+
+        $isFreePlan = fn() => optional(auth()->user()->suscripcion->paquete)->precio == 0;
         return $form
             ->schema([
                 Section::make('Descripción')
@@ -58,7 +77,11 @@ class ContenidoResource extends Resource
 
                         Forms\Components\Textarea::make('pie')
                             ->label('Dirección')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->required(!$conditions['isFreePlan'])
+                            ->hidden($conditions['isFreePlan'])
+                            ->disabled($conditions['isFreePlan']),
+
 
                         ColorPicker::make('background')
                             ->label('Color de fondo')
@@ -81,10 +104,11 @@ class ContenidoResource extends Resource
                             ->imageEditor()
                             ->directory(function () {
                                 $user = auth()->user();
-
                                 return 'paquetes/' . Str::slug($user->name);
                             })
-                            ->required(),
+                            ->required(!$isFreePlan)
+                            ->hidden($isFreePlan)
+                            ->disabled($isFreePlan),
 
                         Forms\Components\FileUpload::make('logo_url')
                             ->image()
@@ -142,8 +166,6 @@ class ContenidoResource extends Resource
                                     'lng' => $record->longitude ?? -63.1821
                                 ]);
                             })
-
-
                     ])
 
 
@@ -152,6 +174,7 @@ class ContenidoResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $conditions = self::getPlanConditions();
         return $table
             ->columns([
                 tables\Columns\TextColumn::make('spot.titulo')
@@ -160,7 +183,8 @@ class ContenidoResource extends Resource
 
                 Tables\Columns\ImageColumn::make('banner_url')
                     ->disk('public')
-                    ->label('Banner'),
+                    ->label('Banner')
+                    ->hidden($conditions['isFreePlan']),
 
                 Tables\Columns\ImageColumn::make('logo_url')
                     ->disk('public')
@@ -181,7 +205,7 @@ class ContenidoResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    
                 ]),
             ]);
     }

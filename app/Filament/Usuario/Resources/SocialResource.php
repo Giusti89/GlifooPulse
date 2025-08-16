@@ -15,7 +15,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Filament\Forms\Components\ViewField;
+use Filament\Forms\Components\View;
+use Illuminate\Support\Facades\Storage;
 
 class SocialResource extends Resource
 {
@@ -66,7 +68,10 @@ class SocialResource extends Resource
                         Forms\Components\Select::make('enlace_id')
                             ->label('Seleccione su red social')
                             ->options(function () {
-                                return \App\Models\Enlace::pluck('nombre', 'id')->toArray();
+                                $userId = auth()->id();
+                                return \App\Models\Social::getBotonesDisponiblesPorUsuario($userId)
+                                    ->pluck('nombre', 'id')
+                                    ->toArray();
                             })
                             ->searchable()
                             ->reactive()
@@ -75,20 +80,16 @@ class SocialResource extends Resource
 
                                 if ($enlace) {
                                     $set('nombre', $enlace->nombre);
+                                    $set('tipored_id', $enlace->tipored_id);
 
-                                    $userDirectory = 'paquetes/' . \Str::slug(auth()->user()->name);
-                                    $timestamp = now()->format('Ymd_His');
-                                    $originalName = pathinfo($enlace->logo_path, PATHINFO_FILENAME);
-                                    $extension = pathinfo($enlace->logo_path, PATHINFO_EXTENSION);
-                                    
-                                    $imageName =  "{$originalName}_{$timestamp}.{$extension}";
-                                    $newPath = "$userDirectory/$imageName";
+                                    // Copiar imagen al storage del usuario
+                                    $userDirectory = 'paquetes/' . Str::slug(auth()->user()->name);
+                                    $newPath = "{$userDirectory}/" . Str::uuid() . '.' . pathinfo($enlace->logo_path, PATHINFO_EXTENSION);
 
-                                    if (!\Storage::disk('public')->exists($newPath)) {
-                                        \Storage::disk('public')->copy($enlace->logo_path, $newPath);
-                                    }
+                                    Storage::disk('public')->makeDirectory($userDirectory);
+                                    Storage::disk('public')->copy($enlace->logo_path, $newPath);
 
-                                    $set('image_url', [$newPath]);
+                                    $set('image_url', $newPath); // Guarda la nueva ruta
                                 }
                             }),
 
@@ -105,19 +106,13 @@ class SocialResource extends Resource
                             ->default(fn() => request()->query('tipored_id'))
                             ->live(),
 
-                        Forms\Components\FileUpload::make('image_url')
-                            ->image()
-                            
-                            ->maxSize(2048)
-                            ->visibility('public')
-                            ->label('Logo red social')
-                            ->imageEditor()
-                            ->directory(function () {
-                                $user = auth()->user();
+                        Forms\Components\Hidden::make('image_url')
+                            ->dehydrated(),
 
-                                return 'paquetes/' . Str::slug($user->name);
-                            }),
-
+                        ViewField::make('vista')
+                            ->label('Vista previa de plantilla')
+                            ->view('filament.forms.components.vistaboton')
+                            ->columnSpan('full'),
 
 
                     ]),
