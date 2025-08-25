@@ -40,14 +40,17 @@ class PublicidadController extends Controller
             }
 
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
-            $plantilla = Str::slug($tipopublicidad->nombre ?? 'default'); 
+            $plantilla = Str::slug($tipopublicidad->nombre ?? 'default');
             $vista = "plantillas.$grupo.$plantilla";
-            
-            if (!View::exists($vista)) {
-                 return redirect()->route('inicio')->with('msj', 'pagvencida');
-            }
-            return view($vista, compact('titulo', 'contenido', 'redes'));
 
+            if (!View::exists($vista)) {
+                return redirect()->route('inicio')->with('msj', 'pagvencida');
+            }
+            if ($publicidad->estado) {
+                return view($vista, compact('titulo', 'contenido', 'redes'));
+            }else {
+                return redirect()->route('inicio')->with('msj', 'pagvencida');
+            }
         } catch (\Exception $e) {
             Log::error("Error en PublicidadController@show: " . $e->getMessage());
             return redirect()->route('inicio')->with('msj', 'pagvencida');

@@ -11,7 +11,7 @@ class Plantilla extends Page
     protected static ?string $navigationGroup = 'Novedades';
     protected static ?string $navigationLabel = 'Tienda de plantillas';
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
 
     

@@ -96,7 +96,7 @@ class ContenidoResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                   
                 ]),
             ]);
     }
@@ -112,7 +112,7 @@ class ContenidoResource extends Resource
     {
         return [
             'index' => Pages\ListContenidos::route('/'),
-            'create' => Pages\CreateContenido::route('/create'),
+           
             'edit' => Pages\EditContenido::route('/{record}/edit'),
         ];
     }

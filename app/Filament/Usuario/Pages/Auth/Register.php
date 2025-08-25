@@ -4,6 +4,7 @@ namespace App\Filament\Pages\Auth;
 
 use App\Mail\Pedidos;
 use App\Models\Contenido;
+use App\Models\Landing;
 use Filament\Pages\Auth\Register as BaseRegister;
 
 use App\Models\Paquete;
@@ -183,11 +184,11 @@ class Register extends BaseRegister
 
 
         // 4. Crear el spot asociado
-        $tipoLanding = $paquete->landing->id ?? 'default';
+        $tipoLanding = Landing::findOrFail($data['paquete_id']); 
 
         $spot = Spot::create([
             'suscripcion_id' => $suscripcion->id,
-            'tipolanding' => $tipoLanding,
+            'tipolanding' => $tipoLanding->id,
             'estado' => 0,
         ]);
 

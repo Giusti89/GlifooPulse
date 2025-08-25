@@ -105,11 +105,6 @@ class SpotResource extends Resource
                             ->view('filament.forms.components.landing-preview')
                             ->dehydrated(false)
                             ->columnSpan('full'),
-
-                        Forms\Components\Toggle::make('estado')
-                            ->label('Publicar web')
-                            ->hiddenOn(['create'])
-                            ->default(false),
                     ]),
             ]);
     }
