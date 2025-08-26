@@ -46,7 +46,7 @@
                             class="inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     </button>
                 </div>
-s
+
                 <!-- URL para Compartir -->
                 <div>
                     <h3 class="font-medium text-gray-900 dark:text-white mb-3">Compartir tu web</h3>
