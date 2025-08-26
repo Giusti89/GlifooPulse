@@ -17,6 +17,7 @@ class Spot extends Model
         'tipolanding',
         'estado',
         'suscripcion_id',
+        'contador',
     ];
 
     public function suscripcion()
@@ -38,4 +39,10 @@ class Spot extends Model
     {
         return $this->hasMany(Visit::class, 'spot_id', 'id');
     }    
+    // MÉTODOS
+     public function incrementarVisita()
+    {
+        $this->increment('contador');
+        $this->save();
+    }
 }

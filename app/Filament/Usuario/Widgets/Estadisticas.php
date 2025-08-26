@@ -4,6 +4,7 @@ namespace App\Filament\Usuario\Widgets;
 
 use App\Models\Social;
 use App\Models\Spot;
+use App\Models\Suscripcion;
 use App\Models\Visit;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -18,8 +19,7 @@ class Estadisticas extends BaseWidget
     protected function getStats(): array
     {
         $user = auth()->user();
-        $suscripcion = \App\Models\Suscripcion::where('user_id', $user->id)->first();
-
+        $suscripcion = Suscripcion::where('user_id', $user->id)->first();
         $tiempoRestante = null;
 
         if ($suscripcion && $suscripcion->fecha_fin) {
@@ -37,48 +37,60 @@ class Estadisticas extends BaseWidget
                     : "$diasRestantes día(s) restantes";
             }
         }
-        // Obtener los spots con sus relaciones
-        $spots = Spot::with(['socials', 'visits'])
+        // Obtener los spots con el nuevo contador
+        $spots = Spot::with(['socials'])
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', $user->id))
             ->get();
 
         if ($spots->isEmpty()) {
             return [
-                Card::make('Visitas totales', 0),
-                Card::make('Visitas este mes', 0),
-                Card::make('Redes sociales', 'No tiene redes configuradas'),
+                Card::make('Visitas totales', 0)
+                    ->icon('heroicon-s-users'),
+                Card::make('Redes sociales', 'No tiene redes configuradas')
+                    ->icon('heroicon-s-exclamation-circle'),
+                Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
+                    ->icon('heroicon-s-clock'),
             ];
         }
 
         // Calcular métricas
-        $stats = [
-            'total_visits' => $spots->sum(fn($spot) => $spot->visits->count()),
-            'monthly_visits' => $spots->sum(fn($spot) => $spot->visits
-                ->where('visited_at', '>=', now()->startOfMonth())
-                ->count()),
-            'socials' => $spots->flatMap->socials
-        ];
+        // Calcular métricas simplificadas
+        $totalVisits = $spots->sum('contador');
+        $socials = $spots->flatMap->socials;
 
         // Cards base
         $cards = [
-            Card::make('Visitas totales', $stats['total_visits'])
-                ->icon('heroicon-s-users'),
-            Card::make('Visitas este mes', $stats['monthly_visits'])
-                ->icon('heroicon-s-calendar'),
+            Card::make('Visitas totales', number_format($totalVisits))
+                ->icon('heroicon-s-users')
+                ->color('success'),
+
             Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
-                ->icon('heroicon-s-clock'),
+                ->icon('heroicon-s-clock')
+                ->color($tiempoRestante === 'Expirada' ? 'danger' : 'warning'),
         ];
 
         // Cards para redes sociales
-        if ($stats['socials']->isEmpty()) {
+        if ($socials->isEmpty()) {
             $cards[] = Card::make('Redes sociales', 'No tiene redes configuradas')
-                ->icon('heroicon-s-exclamation-circle');
+                ->icon('heroicon-s-exclamation-circle')
+                ->color('gray');
         } else {
-            foreach ($stats['socials'] as $social) {
-                $cards[] = Card::make($social->nombre, $social->clicks . ' vistas');
+            // Agregar card con el total de redes sociales
+            $cards[] = Card::make('Total redes sociales', number_format($socials->count()))
+                ->icon('heroicon-s-share')
+                ->color('primary');
+
+            // Opcional: agregar las redes individuales si son pocas
+            if ($socials->count() <= 5) {
+                foreach ($socials as $social) {
+                    $cards[] = Card::make($social->nombre, number_format($social->clicks) . ' clicks')
+                        ->icon('heroicon-s-arrow-trending-up')
+                        ->color('info');
+                }
             }
         }
 
         return $cards;
     }
+   
 }

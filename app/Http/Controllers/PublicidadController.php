@@ -31,12 +31,7 @@ class PublicidadController extends Controller
             $marca = optional($tipopublicidad)->nombre;
 
             if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                Visit::create([
-                    'spot_id' => $publicidad->id,
-                    'ip' => request()->ip(),
-                    'user_agent' => request()->userAgent(),
-                    'visited_at' => now(),
-                ]);
+                $publicidad->incrementarVisita();
             }
 
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
@@ -48,7 +43,7 @@ class PublicidadController extends Controller
             }
             if ($publicidad->estado) {
                 return view($vista, compact('titulo', 'contenido', 'redes'));
-            }else {
+            } else {
                 return redirect()->route('inicio')->with('msj', 'pagvencida');
             }
         } catch (\Exception $e) {

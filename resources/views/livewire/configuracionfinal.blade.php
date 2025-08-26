@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    Gestión de Landing Page
+                    Gestión de la web
                 </h1>
                 <p class="text-gray-600 dark:text-gray-400">
                     Controla el estado y comparte tu enlace
@@ -30,7 +30,7 @@
                 <div
                     class="flex items-center justify-between py-4 border-t border-b border-gray-100 dark:border-gray-700 mb-6">
                     <div>
-                        <h3 class="font-medium text-gray-900 dark:text-white">Estado de la Landing</h3>
+                        <h3 class="font-medium text-gray-900 dark:text-white">Estado de tu Web</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             {{ $spot->estado ? 'Tu página es visible al público' : 'Tu página está oculta' }}
                         </p>
@@ -46,10 +46,10 @@
                             class="inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     </button>
                 </div>
-
+s
                 <!-- URL para Compartir -->
                 <div>
-                    <h3 class="font-medium text-gray-900 dark:text-white mb-3">Compartir tu landing</h3>
+                    <h3 class="font-medium text-gray-900 dark:text-white mb-3">Compartir tu web</h3>
                     <div class="flex items-center space-x-3">
                         <div class="flex-1">
                             <input type="text" id="enlace-landing-{{ $spot->id }}" value="{{ url($spot->slug) }}"
@@ -74,7 +74,7 @@
                 <div
                     class="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-4 text-center">
                     <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {{ $spot->visits->count() }}
+                        {{ $spot->contador }}
                     </div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Visitas totales</div>
                 </div>
