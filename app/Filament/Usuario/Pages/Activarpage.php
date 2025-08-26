@@ -11,7 +11,7 @@ class Activarpage extends Page
     {
         return __('Configuración final');
     }
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-s-play-circle';
 
     protected static string $view = 'filament.usuario.pages.activarpage';
     protected static ?string $navigationGroup = 'Configuracion pagina web';
