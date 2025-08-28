@@ -31,20 +31,28 @@
                     class="flex items-center justify-between py-4 border-t border-b border-gray-100 dark:border-gray-700 mb-6">
                     <div>
                         <h3 class="font-medium text-gray-900 dark:text-white">Estado de tu Web</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ $spot->estado ? 'Tu página es visible al público' : 'Tu página está oculta' }}
-                        </p>
+                        @if (!$spot->slug)
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                {{ $spot->estado ? 'Tu página es visible al público' : 'Aun no configuraste tu sitio web' }}
+                            </p>
+                        @else
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                {{ $spot->estado ? 'Tu página es visible al público' : 'Tu página está oculta' }}
+                            </p>
+                        @endif
                     </div>
-
-                    <button wire:click="toggleEstado" wire:loading.attr="disabled"
-                        class="px-4 py-2 font-medium text-white rounded-lg transition-colors
+                    @if ($spot->slug)
+                        <button wire:click="toggleEstado" wire:loading.attr="disabled"
+                            class="px-4 py-2 font-medium text-white rounded-lg transition-colors
             {{ $spot->estado
                 ? 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700'
                 : 'bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700' }}">
-                        {{ $spot->estado ? '🔴 Click aqui para desactivar' : '🟢 Click aqui para activar' }}
-                        <span wire:loading
-                            class="inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    </button>
+                            {{ $spot->estado ? '🔴 Click aqui para desactivar' : '🟢 Click aqui para activar' }}
+                            <span wire:loading
+                                class="inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        </button>
+                    @endif
+
                 </div>
 
                 <!-- URL para Compartir -->
@@ -52,16 +60,20 @@
                     <h3 class="font-medium text-gray-900 dark:text-white mb-3">Compartir tu web</h3>
                     <div class="flex items-center space-x-3">
                         <div class="flex-1">
-                            <input type="text" id="enlace-landing-{{ $spot->id }}" value="{{ url($spot->slug) }}"
-                                readonly
-                                class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm" />
+                            @if ($spot->slug)
+                                <input type="text" id="enlace-landing-{{ $spot->id }}"
+                                    value="{{ url($spot->slug) }}" readonly
+                                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm" />
+                                <button wire:click="copiarEnlace" wire:loading.attr="disabled"
+                                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2">
+                                    <span wire:loading.remove>📋</span>
+                                    <span wire:loading>⏳</span>
+                                    <span>Copiar</span>
+                                </button>
+                            @endif
+
                         </div>
-                        <button wire:click="copiarEnlace" wire:loading.attr="disabled"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2">
-                            <span wire:loading.remove>📋</span>
-                            <span wire:loading>⏳</span>
-                            <span>Copiar</span>
-                        </button>
+
                     </div>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
                         Comparte este enlace con tus clientes o en tus redes sociales
@@ -91,21 +103,21 @@
     </div>
 </div>
 <script>
-document.addEventListener('livewire:initialized', () => {
-    Livewire.on('copiar-enlace', (event) => {
-        // Crear un elemento temporal para copiar
-        const tempInput = document.createElement('input');
-        tempInput.value = event.enlace;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        
-        // Notificación
-        Livewire.dispatch('notify', {
-            type: 'success',
-            message: 'Enlace copiado al portapapeles!'
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('copiar-enlace', (event) => {
+            // Crear un elemento temporal para copiar
+            const tempInput = document.createElement('input');
+            tempInput.value = event.enlace;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // Notificación
+            Livewire.dispatch('notify', {
+                type: 'success',
+                message: 'Enlace copiado al portapapeles!'
+            });
         });
     });
-});
 </script>

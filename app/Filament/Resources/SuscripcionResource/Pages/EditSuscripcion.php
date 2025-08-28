@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SuscripcionResource\Pages;
 
 use App\Filament\Resources\SuscripcionResource;
+use App\Models\Spot;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -13,7 +14,7 @@ class EditSuscripcion extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+          
         ];
     }
     protected function afterSave(): void
@@ -21,7 +22,7 @@ class EditSuscripcion extends EditRecord
         $suscripcion = $this->record;
 
         
-        $spot = \App\Models\Spot::where('suscripcion_id', $suscripcion->id)->first();
+        $spot = Spot::where('suscripcion_id', $suscripcion->id)->first();
 
         // Verificamos que exista un spot y que el paquete tenga una landing asociada
         if ($spot && $suscripcion->paquete && $suscripcion->paquete->landing) {

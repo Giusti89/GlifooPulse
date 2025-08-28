@@ -19,6 +19,13 @@ class Estadisticas extends BaseWidget
     protected function getStats(): array
     {
         $user = auth()->user();
+
+        $spot = Spot::with('suscripcion')
+            ->whereHas('suscripcion', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->firstOrFail();
+
         $suscripcion = Suscripcion::where('user_id', $user->id)->first();
         $tiempoRestante = null;
 
@@ -42,17 +49,20 @@ class Estadisticas extends BaseWidget
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', $user->id))
             ->get();
 
+        // $urlCompleta = $spot ? url($spot->slug) : 'No configurada';
+
         if ($spots->isEmpty()) {
             return [
                 Card::make('Visitas totales', 0)
                     ->icon('heroicon-s-users'),
+
                 Card::make('Redes sociales', 'No tiene redes configuradas')
                     ->icon('heroicon-s-exclamation-circle'),
+
                 Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
                     ->icon('heroicon-s-clock'),
             ];
         }
-
         // Calcular métricas
         // Calcular métricas simplificadas
         $totalVisits = $spots->sum('contador');
@@ -67,6 +77,14 @@ class Estadisticas extends BaseWidget
             Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
                 ->icon('heroicon-s-clock')
                 ->color($tiempoRestante === 'Expirada' ? 'danger' : 'warning'),
+
+            // Card::make('Tu página web', $urlCompleta)
+            //     ->icon('heroicon-s-globe-alt')
+            //     ->color('primary')
+            //     ->extraAttributes([
+            //         'class' => 'break-all whitespace-normal overflow-visible',
+            //         'style' => 'word-break: break-all; line-height: 1.0;'
+            //     ]),
         ];
 
         // Cards para redes sociales
@@ -81,16 +99,13 @@ class Estadisticas extends BaseWidget
                 ->color('primary');
 
             // Opcional: agregar las redes individuales si son pocas
-            if ($socials->count() <= 5) {
-                foreach ($socials as $social) {
-                    $cards[] = Card::make($social->nombre, number_format($social->clicks) . ' clicks')
-                        ->icon('heroicon-s-arrow-trending-up')
-                        ->color('info');
-                }
+
+            foreach ($socials as $social) {
+                $cards[] = Card::make($social->nombre, number_format($social->clicks) . ' visitas')
+                    ->icon('heroicon-s-arrow-trending-up')
+                    ->color('info');
             }
         }
-
         return $cards;
     }
-   
 }

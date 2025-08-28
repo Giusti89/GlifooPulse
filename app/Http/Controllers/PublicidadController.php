@@ -26,24 +26,25 @@ class PublicidadController extends Controller
 
             $titulo = $publicidad->titulo;
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
-
-
             $marca = optional($tipopublicidad)->nombre;
-
-            if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                $publicidad->incrementarVisita();
-            }
-
+            
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
             $plantilla = Str::slug($tipopublicidad->nombre ?? 'default');
             $vista = "plantillas.$grupo.$plantilla";
 
+
             if (!View::exists($vista)) {
+
+                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                    $publicidad->incrementarVisita();
+                }
+
                 return redirect()->route('inicio')->with('msj', 'pagvencida');
             }
-            if ($publicidad->estado) {
+            if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
                 return view($vista, compact('titulo', 'contenido', 'redes'));
             } else {
+
                 return redirect()->route('inicio')->with('msj', 'pagvencida');
             }
         } catch (\Exception $e) {
@@ -51,7 +52,6 @@ class PublicidadController extends Controller
             return redirect()->route('inicio')->with('msj', 'pagvencida');
         }
     }
-
 
     public function redirecion(string $encryptedId)
     {

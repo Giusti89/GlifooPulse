@@ -15,17 +15,14 @@ class Configuracionfinal extends Component
 
     public function mount()
     {
-        // 1. Guarda el usuario autenticado si lo necesitas en la vista
         $this->usuario = Auth::user();
-
-        // 2. Obtén el spot que pertenezca a la suscripción de este usuario
+       
         $this->spot = Spot::with('suscripcion')
             ->whereHas('suscripcion', function ($q) {
                 $q->where('user_id', $this->usuario->id);
             })
-            ->firstOrFail(); // 404 si no existe o no pertenece
-
-        // A partir de aquí $this->spot está garantizado para este usuario
+            ->firstOrFail();
+        
     }
     public function toggleEstado()
     {

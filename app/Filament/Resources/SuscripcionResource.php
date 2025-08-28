@@ -94,6 +94,9 @@ class SuscripcionResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.lastname')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('paquete.nombre')
                     ->numeric()
                     ->sortable(),
@@ -121,8 +124,7 @@ class SuscripcionResource extends Resource
                 // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 

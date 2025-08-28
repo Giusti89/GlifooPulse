@@ -43,6 +43,10 @@ class SellResource extends Resource
                     ->numeric()
                     ->searchable(),
 
+                tables\Columns\TextColumn::make('suscripcion.user.lastname')
+                    ->numeric()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('total')
                     ->label('Pago total')
                     ->numeric(),
@@ -117,9 +121,7 @@ class SellResource extends Resource
                     })
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 
