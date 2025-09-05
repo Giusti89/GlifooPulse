@@ -101,16 +101,16 @@ class PaqueteResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
-                    ->before(function (paquete $paquete) {
-                        Storage::delete('public/' . $paquete->image_url);
-                    })
+                // Tables\Actions\DeleteAction::make()
+                //     ->before(function (paquete $paquete) {
+                //         Storage::delete('public/' . $paquete->image_url);
+                //     })
 
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                   
                 ]),
             ]);
     }
