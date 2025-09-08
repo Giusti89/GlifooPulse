@@ -1,28 +1,38 @@
+/* ESTILOS BASE */
 .basicoprincipal {
     display: flex;
     align-items: center;
-    flex: 1;
     flex-direction: column;
     width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+/* BANNER CON BACKGROUND IMAGE */
 .banner {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 130px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .img-banner {
-    width: 1200px;
+    width: 100%;
     height: 35vh;
-    object-fit: cover;
+    min-height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
 }
 
 .logo-perfil {
     position: absolute;
-    
+    bottom: -60px;
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -30,7 +40,7 @@
     border-radius: 50%;
     border: 4px solid white;
     background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
 
@@ -41,46 +51,103 @@
     border-radius: 50%;
 }
 
+/* TÍTULO */
 .titulo {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%;
 }
 
+.titulo h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* CUERPO PRINCIPAL */
 .cuerpo {
     display: flex;
-    justify-content: center;
-    width: 950px;
     flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
     margin-bottom: 35px;
+    gap: 40px;
 }
 
+/* SECCIÓN DE TEXTO */
 .seccionuno {
-    display: flex;    
+    display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    width: 100%;
 }
 
-.texto {
-    display: flex;
+.text {
     text-align: justify;
-    padding: 10px;
+    padding: 20px;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    max-width: 800px;
 }
 
-.redes img {
-    width: 100px;
-    height: auto;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    object-fit: cover;
+/* SECCIÓN DE REDES */
+.redes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 40px;
 }
 
-.redes img:hover {
-    transform: rotate(15deg) scale(1.1);
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.direccion p {
+.contenedor {
+    width: 100%;
     text-align: center;
+}
+
+.subtitulo {
+    margin: 20px 0;
+}
+
+.subtitulo h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* REDES SOCIALES (ÍCONOS CIRCULARES) */
+.sociales {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.red-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.redes .red-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.redes .red-item img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* OTRAS REDES (BOTONES RECTANGULARES) */
+.otro {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 15px 0;
 }
 
 .otrared {
@@ -90,124 +157,178 @@
     width: 180px;
     height: 90px;
     cursor: pointer;
-    background-size: 100% 100%;
-    object-fit: cover;
-}
-
-.otrared a {
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    padding: 15px;
+    box-sizing: border-box;
     text-decoration: none;
 }
 
-.redesT {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    margin: 5px;
-    gap: 15px;
-    width: 25vw;
+.otrared:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.sociales {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.otro {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    
-}
-
-.subtitulo {
-    margin: 15px;
-    justify-content: center;
-}
-.contenedor{
-    width: 100%;
+.otrared p {
+    margin: 0;
     text-align: center;
-    align-items: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    font-size: 0.9rem;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+    .banner, .cuerpo {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .img-banner {
+        height: 30vh;
+    }
+    
+    .logo-perfil {
+        width: 150px;
+        height: 150px;
+        bottom: -50px;
+    }
+    
+    .titulo h1 {
+        font-size: 2.2rem;
+    }
 }
 
 @media (max-width: 768px) {
     .basicoprincipal {
-        display: flex;
-        align-items: center;
-        flex: 1;
-        flex-direction: column;
-
-        width: 100%;
+        padding: 15px;
     }
-
+    
     .banner {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 100px;
     }
-
+    
     .img-banner {
-        height: 35vh;
-        /* altura menor en móviles */
-        object-fit: cover;
+        height: 25vh;
+        min-height: 150px;
     }
+    
+    .logo-perfil {
+        width: 120px;
+        height: 120px;
+        bottom: -40px;
+    }
+    
+    .titulo h1 {
+        font-size: 2rem;
+    }
+    
+    .text {
+        font-size: 1rem;
+        padding: 15px;
+    }
+    
+    .redes {
+        gap: 30px;
+    }
+    
+    .subtitulo h3 {
+        font-size: 1.3rem;
+    }
+    
+    .redes .red-item img {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .otrared {
+        width: 150px;
+        height: 75px;
+    }
+    
+    .otrared p {
+        font-size: 0.8rem;
+    }
+}
 
+@media (max-width: 576px) {
+    .img-banner {
+        height: 20vh;
+        min-height: 120px;
+    }
+    
+    .logo-perfil {
+        width: 100px;
+        height: 100px;
+        bottom: -30px;
+    }
+    
+    .titulo h1 {
+        font-size: 1.8rem;
+    }
+    
+    .text {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+    .sociales, .otro {
+        gap: 15px;
+    }
+    
+    .redes .red-item img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .otrared {
+        width: 130px;
+        height: 65px;
+    }
+    
+    .otrared p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .basicoprincipal {
+        padding: 10px;
+    }
+    
+    .img-banner {
+        height: 18vh;
+        min-height: 100px;
+    }
+    
     .logo-perfil {
         width: 80px;
         height: 80px;
-        bottom: -40px;
+        bottom: -25px;
     }
-
-    .seccionuno {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 25px;
-        margin-bottom: 20px;
+    
+    .titulo h1 {
+        font-size: 1.6rem;
     }
-
-    .texto {
-        display: flex;
-        text-align: center;
-
-        width: 100%;
-        padding: 5px;
-        font-size: 0.7rem;
+    
+    .sociales, .otro {
+        gap: 10px;
     }
-
-    .redes {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        gap: 15px;
-        width: 95%;
-
-    }
-
-    .redes img {
+    
+    .redes .red-item img {
         width: 40px;
-        height: auto;
+        height: 40px;
     }
-
-    .direccion {
-        display: flex;
-        width: 100%;
-
+    
+    .otrared {
+        width: 110px;
+        height: 55px;
     }
-
-    .direccion p {
-        text-align: center;
-        font-size: 0.5rem;
+    
+    .otrared p {
+        font-size: 0.7rem;
     }
 }
