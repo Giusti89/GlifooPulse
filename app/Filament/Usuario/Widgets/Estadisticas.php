@@ -28,6 +28,7 @@ class Estadisticas extends BaseWidget
 
         $suscripcion = Suscripcion::where('user_id', $user->id)->first();
         $tiempoRestante = null;
+        $descripcionTiempo = '';
 
         if ($suscripcion && $suscripcion->fecha_fin) {
             $hoy = Carbon::now();
@@ -44,71 +45,76 @@ class Estadisticas extends BaseWidget
                 $descripcionTiempo = "Restan {$mesesRestantes} mes(es) y {$diasRestantes} día(s) de suscripción";
             }
         }
+
         // Obtener los spots con el nuevo contador
         $spots = Spot::with(['socials'])
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', $user->id))
             ->get();
 
-        // $urlCompleta = $spot ? url($spot->slug) : 'No configurada';
-
         if ($spots->isEmpty()) {
             return [
                 Stat::make('Visitas totales', 0)
-                    ->icon('heroicon-s-users'),
+                    ->icon('heroicon-o-users')
+                    ->color('gray')
+                    ->description('No hay visitas registradas'),
 
-                Stat::make('Redes sociales', 'No tiene redes configuradas')
-                    ->icon('heroicon-s-exclamation-circle'),
+                Stat::make('Redes sociales', '0 configuradas')
+                    ->icon('heroicon-o-exclamation-circle')
+                    ->color('gray')
+                    ->description('No tiene redes configuradas'),
 
                 Stat::make('Tiempo de suscripción', $tiempoRestante ?? 'Sin datos')
-                    ->description($descripcionTiempo ?? '')
+                    ->description($descripcionTiempo ?? 'Información no disponible')
                     ->descriptionIcon('heroicon-m-clock')
                     ->icon('heroicon-o-calendar')
                     ->color(($tiempoRestante ?? '') === 'Expirada' ? 'danger' : 'success'),
             ];
         }
+
         // Calcular métricas
-        // Calcular métricas simplificadas
         $totalVisits = $spots->sum('contador');
         $socials = $spots->flatMap->socials;
 
-        // Cards base
-        $cards = [
+        // Cards base con Stat (no Card)
+        $stats = [
             Stat::make('Visitas totales', number_format($totalVisits))
-                ->icon('heroicon-s-users')
-                ->color('success'),
+                ->icon('heroicon-o-eye')
+                ->color('success')
+                ->description('Total de visitas a tu página')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
 
             Stat::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
-                ->icon('heroicon-s-clock')
+                ->description($descripcionTiempo)
+                ->descriptionIcon('heroicon-m-clock')
+                ->icon('heroicon-o-calendar')
                 ->color($tiempoRestante === 'Expirada' ? 'danger' : 'warning'),
-
-            // Card::make('Tu página web', $urlCompleta)
-            //     ->icon('heroicon-s-globe-alt')
-            //     ->color('primary')
-            //     ->extraAttributes([
-            //         'class' => 'break-all whitespace-normal overflow-visible',
-            //         'style' => 'word-break: break-all; line-height: 1.0;'
-            //     ]),
         ];
 
-        // Cards para redes sociales
+        // Stats para redes sociales
         if ($socials->isEmpty()) {
-            $cards[] = Card::make('Redes sociales', 'No tiene redes configuradas')
-                ->icon('heroicon-s-exclamation-circle')
-                ->color('gray');
+            $stats[] = Stat::make('Redes sociales', '0')
+                ->icon('heroicon-o-share')
+                ->color('gray')
+                ->description('No tiene redes configuradas');
         } else {
-            // Agregar card con el total de redes sociales
-            $cards[] = Card::make('Total redes sociales', number_format($socials->count()))
-                ->icon('heroicon-s-share')
-                ->color('primary');
+            // Agregar stat con el total de redes sociales
+            $stats[] = Stat::make('Total redes', number_format($socials->count()))
+                ->icon('heroicon-o-share')
+                ->color('primary')
+                ->description('Redes sociales configuradas');
 
-            // Opcional: agregar las redes individuales si son pocas
-
-            foreach ($socials as $social) {
-                $cards[] = Card::make($social->nombre, number_format($social->clicks) . ' visitas')
-                    ->icon('heroicon-s-arrow-trending-up')
-                    ->color('info');
+            // Agregar las redes individuales más importantes (máximo 3 para no saturar)
+            $topSocials = $socials->sortByDesc('clicks')->take(3);
+            
+            foreach ($topSocials as $social) {
+                $stats[] = Stat::make($social->nombre, number_format($social->clicks))
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->color('info')
+                    ->description('visitas')
+                    ->descriptionIcon('heroicon-m-user');
             }
         }
-        return $cards;
+
+        return $stats;
     }
 }
