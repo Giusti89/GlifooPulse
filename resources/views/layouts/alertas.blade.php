@@ -59,4 +59,13 @@
     </script>
 @endif
 
+@if (session('msj') == 'resusenviada')
+    <script>
+        Swal.fire({
+            title: "Tu solicitud de resuscripcion ya fue enviada",
+            text: "Su solicitud fue ya fué envida.",
+            icon: "warning"
+        });
+    </script>
+@endif
 <!-- mensajes de confirmacion -->

@@ -35,13 +35,13 @@ class Estadisticas extends BaseWidget
 
             if ($fin->isPast()) {
                 $tiempoRestante = 'Expirada';
+                $descripcionTiempo = 'La suscripción ya terminó';
             } else {
-                $diasRestantes = $hoy->diffInDays($fin);
-                $mesesRestantes = $hoy->diffInMonths($fin);
-
-                $tiempoRestante = $mesesRestantes > 0
-                    ? "$mesesRestantes mes(es) restantes"
-                    : "$diasRestantes día(s) restantes";
+                $diff = $hoy->diff($fin);
+                $mesesRestantes = $diff->m + ($diff->y * 12);
+                $diasRestantes = $diff->d;
+                $tiempoRestante = "{$mesesRestantes} mes(es) y {$diasRestantes} día(s)";
+                $descripcionTiempo = "Restan {$mesesRestantes} mes(es) y {$diasRestantes} día(s) de suscripción";
             }
         }
         // Obtener los spots con el nuevo contador
@@ -53,14 +53,17 @@ class Estadisticas extends BaseWidget
 
         if ($spots->isEmpty()) {
             return [
-                Card::make('Visitas totales', 0)
+                Stat::make('Visitas totales', 0)
                     ->icon('heroicon-s-users'),
 
-                Card::make('Redes sociales', 'No tiene redes configuradas')
+                Stat::make('Redes sociales', 'No tiene redes configuradas')
                     ->icon('heroicon-s-exclamation-circle'),
 
-                Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
-                    ->icon('heroicon-s-clock'),
+                Stat::make('Tiempo de suscripción', $tiempoRestante ?? 'Sin datos')
+                    ->description($descripcionTiempo ?? '')
+                    ->descriptionIcon('heroicon-m-clock')
+                    ->icon('heroicon-o-calendar')
+                    ->color(($tiempoRestante ?? '') === 'Expirada' ? 'danger' : 'success'),
             ];
         }
         // Calcular métricas
@@ -70,11 +73,11 @@ class Estadisticas extends BaseWidget
 
         // Cards base
         $cards = [
-            Card::make('Visitas totales', number_format($totalVisits))
+            Stat::make('Visitas totales', number_format($totalVisits))
                 ->icon('heroicon-s-users')
                 ->color('success'),
 
-            Card::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
+            Stat::make('Tiempo de suscripción', $tiempoRestante ?? 'No disponible')
                 ->icon('heroicon-s-clock')
                 ->color($tiempoRestante === 'Expirada' ? 'danger' : 'warning'),
 

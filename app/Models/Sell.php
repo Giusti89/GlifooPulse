@@ -69,7 +69,7 @@ class Sell extends Model
 
         if ($renewal) {
             $this->suscripcion->renovar($renewal->meses);
-            $renewal->update(['estado' => '1']);
+            $renewal->update(['estado' => '2']);
         }
 
         Notification::make()

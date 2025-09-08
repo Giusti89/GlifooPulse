@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Renewal;
 use App\Models\Suscripcion;
 use Closure;
 use Carbon\Carbon;
@@ -36,10 +37,16 @@ class Checkfecha
         $fin = Carbon::parse($user->suscripcion->fecha_fin);
         $diasRestantes = $fechaActual->diffInDays($fin, false);
 
+         $tieneRenovacionPendiente = Renewal::whereHas('suscripcion', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })
+            ->where('estado', 'pendiente')
+            ->exists();
+
         if ($fechaActual->between($inicio, $fin)) {
 
             // Mostrar la advertencia si quedan pocos días y aún no fue notificado
-            if ($diasRestantes <= 5 && !session()->has('notificado_suscripcion')) {
+            if ($diasRestantes <= 5 && !$tieneRenovacionPendiente) {
                 session()->put('notificado_suscripcion', true);
 
                 Notification::make()
@@ -54,16 +61,6 @@ class Checkfecha
                             ->color('primary')  // Color (opcional)
                             ->url(route('renovacion.form'))  // URL del formulario
                     ])
-                    ->send();
-            }
-
-            if (!session()->has('notificado_bienvenida')) {
-                session()->put('notificado_bienvenida', true);
-
-                Notification::make()
-                    ->title("¡Bienvenido de nuevo, {$user->name}!")
-                    ->icon('heroicon-o-user')
-                    ->iconColor('success')
                     ->send();
             }
 
