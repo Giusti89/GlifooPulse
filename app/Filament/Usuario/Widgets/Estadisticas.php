@@ -104,7 +104,7 @@ class Estadisticas extends BaseWidget
                 ->description('Redes sociales configuradas');
 
             // Agregar las redes individuales más importantes (máximo 3 para no saturar)
-            $topSocials = $socials->sortByDesc('clicks')->take(3);
+            $topSocials = $socials->sortByDesc('clicks');
             
             foreach ($topSocials as $social) {
                 $stats[] = Stat::make($social->nombre, number_format($social->clicks))
