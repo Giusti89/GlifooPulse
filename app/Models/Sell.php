@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Mail\Confrenovacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Sell extends Model
 {
@@ -57,6 +59,13 @@ class Sell extends Model
 
     public function procesarRenovacion()
     {
+        $user=$this->suscripcion?->user;
+        $adminEmails = User::where('id', $user->id)->pluck('email')->toArray();
+
+        if (!empty($adminEmails)) {
+            Mail::to($adminEmails)->send(new Confrenovacion($user));
+        }
+
         $this->update([
             'pago' => $this->total,
             'estadov_id' => 2,
