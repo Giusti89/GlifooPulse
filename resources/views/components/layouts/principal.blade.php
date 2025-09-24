@@ -28,10 +28,6 @@
         </a>
         <nav id="nav" class="main-nav">
             <div class="nav-links">
-                @auth
-                    <a class="link-item" href="{{ route('usuariologin') }}">Administrar</a>
-                @endauth
-
                 <a class="link-item" href="{{ route('inicio') }}">Glifoo Pulse</a>
                 <a class="link-item" href="{{ route('socios') }}">Clientes</a>
                 <a class="link-item" href="{{ route('planes') }}">Servicios</a>

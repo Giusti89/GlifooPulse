@@ -184,20 +184,22 @@ class Register extends BaseRegister
 
 
         // 4. Crear el spot asociado
-        $tipoLanding = Landing::findOrFail($data['paquete_id']); 
+        $tipoLanding = Landing::findOrFail($data['paquete_id']);
 
         $spot = Spot::create([
             'suscripcion_id' => $suscripcion->id,
             'tipolanding' => $tipoLanding->id,
             'estado' => 0,
         ]);
+        // 5. Crear contenido por defecto si es un paquete tipo landing page
+        if ($paquete->tipoproducto->nombre === "Landing page") {
+            Contenido::create([
+                'spot_id' => $spot->id,
+            ]);
+        }
 
-        // 5. Crear contenido por defecto
-        Contenido::create([
-            'spot_id' => $spot->id,
-        ]);
         // 6. Envio email
-        $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
+        $adminEmails = User::where('id', 1)->pluck('email')->toArray();
         if (!empty($adminEmails)) {
             Mail::to($adminEmails)->send(new Pedidos($user, $paquete, $meses));
         }
@@ -213,9 +215,14 @@ class Register extends BaseRegister
                 ->send();
         }
 
+        Notification::make()
+            ->title('¡Se completo la suscripcion recibira un mensaje en su correo!')
+            ->success()
+            ->send();
+
         return $user;
     }
-    protected function getRedirectUrl(): string
+    protected function getRedirectUrl()
     {
         return Redirect::route('inicio')->with('msj', 'suscripcion');
     }

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+
 
 class SellResource extends Resource
 {
@@ -84,41 +86,49 @@ class SellResource extends Resource
                 //
             ])
             ->actions([
-                Action::make('realizarPago')
-                    ->label('Realizar Pago')
-                    ->icon('heroicon-m-currency-dollar')
-                    ->color('success')
-                    ->visible(fn($record) => $record->estadov->nombre === 'por pagar')
-                    ->requiresConfirmation()
-                    ->action(function ($record) {
-                        switch ($record->concepto) {
-                            case 'suscripcion':
-                                $record->procesarSuscripcion();
-                                break;
+                ActionGroup::make([
+                    Action::make('realizarPago')
+                        ->label('Realizar Pago')
+                        ->icon('heroicon-m-currency-dollar')
+                        ->color('success')
+                        // ->visible(fn($record) => $record->estadov->nombre === 'por pagar')
 
-                            case 'renovacion':
-                                $record->procesarRenovacion();
-                                break;
+                        ->color(fn(Sell $record): string => $record->estadov->nombre === 'por pagar' ? 'success' : 'gray')
+                        ->disabled(fn(Sell $record): bool => $record->estadov->nombre === 'pagado')
 
-                            case 'plantilla':
-                                $record->procesarPlantilla();
-                                break;
 
-                                Notification::make()
-                                    ->title('Plantilla comprada correctamente')
-                                    ->success()
-                                    ->send();
-                                break;
+                        ->requiresConfirmation()
+                        ->action(function ($record) {
+                            switch ($record->concepto) {
+                                case 'suscripcion':
+                                    $record->procesarSuscripcion();
+                                    break;
 
-                            default:
-                                Notification::make()
-                                    ->title('Pago registrado')
-                                    ->body('No se ejecutaron acciones adicionales')
-                                    ->success()
-                                    ->send();
-                                break;
-                        }
-                    })
+                                case 'renovacion':
+                                    $record->procesarRenovacion();
+                                    break;
+
+                                case 'plantilla':
+                                    $record->procesarPlantilla();
+                                    break;
+
+                                    Notification::make()
+                                        ->title('Plantilla comprada correctamente')
+                                        ->success()
+                                        ->send();
+                                    break;
+
+                                default:
+                                    Notification::make()
+                                        ->title('Pago registrado')
+                                        ->body('No se ejecutaron acciones adicionales')
+                                        ->success()
+                                        ->send();
+                                    break;
+                            }
+                        })
+                ])
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([]),

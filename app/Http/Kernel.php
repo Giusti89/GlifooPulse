@@ -70,5 +70,15 @@ class Kernel extends HttpKernel
         'suscripcion.activa' => \App\Http\Middleware\VerificarSuscripcionActiva::class,
         'Checkfecha' => \App\Http\Middleware\Checkfecha::class,
         'check.suscripcion' => \App\Http\Middleware\CheckSpot::class,
+        'RedirectToProperPanelMiddleware' => \App\Http\Middleware\RedirectToProperPanelMiddleware::class,
+        'SuscripcionActiva' => \App\Http\Middleware\SuscripcionActiva::class,        
+        'VerificarSuscripcionActiva' => \App\Http\Middleware\VerificarSuscripcionActiva::class,
+        'Esadmin' => \App\Http\Middleware\Esadmin::class,
+        
+        'EnsureSubscriptionIsValid' => \App\Http\Middleware\EnsureSubscriptionIsValid::class,
+
+
+
+        
     ];
 }

@@ -51,11 +51,26 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->rol->nombre === $role;
     }
-
+    public function nombreRol(): string
+    {
+        return $this->rol?->nombre ?? 'Sin rol';
+    }
     // verificar si tiene suscripcion
     public function tieneSuscripcionActiva(): bool
     {
         return $this->suscripcion()->where('estado', true)->exists();
+    }
+    public function getSuscripcionActiva(): ?Suscripcion
+    {
+        return $this->suscripcion()
+            ->where('estado', true)
+            ->latest()
+            ->first();
+    }
+
+    public function tieneTipoproducto(string $nombreTipo): bool
+    {
+        return optional($this->paquete?->tipoproducto)->nombre === $nombreTipo;
     }
 
     public function landingsCompradas()
@@ -63,6 +78,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Landing::class, 'landing_user_compras')
             ->withPivot('fecha_compra', 'precio')
             ->withTimestamps();
+    }
+
+    public function tienePaquete($tipoPaquete)
+    {
+        return $this->paquete && $this->paquete->nombre === $tipoPaquete;
     }
 
     //accesos de panel
@@ -75,9 +95,13 @@ class User extends Authenticatable implements FilamentUser
         if ($panel->getId() === 'usuario' && $this->hasRole('Usuario')) {
             return true;
         }
+        if ($panel->getId() === 'catalogo' && $this->tieneTipoproducto('Catalogo')) {
+            return true;
+        }
+
         return false;
     }
-    
+
     public function tieneAccesoALanding($landingId)
     {
         $landing = Landing::find($landingId);
@@ -114,6 +138,18 @@ class User extends Authenticatable implements FilamentUser
             'user_id',
             'suscripcion_id',
             'id',
+        );
+    }
+
+    public function paquete()
+    {
+        return $this->hasOneThrough(
+            Paquete::class,
+            Suscripcion::class,
+            'user_id',
+            'id',
+            'id',
+            'paquete_id'
         );
     }
 }

@@ -21,8 +21,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Swindon\FilamentHashids\Middleware\FilamentHashidsMiddleware;
 use App\Filament\Pages\Auth\Register;
-
-
+use App\Http\Middleware\RedirectToProperPanelMiddleware;
+use App\Http\Middleware\SuscripcionActiva;
 
 class UsuarioPanelProvider extends PanelProvider
 {
@@ -31,13 +31,13 @@ class UsuarioPanelProvider extends PanelProvider
         return $panel
             ->id('usuario')
             ->path('usuario')
-            ->login() 
+            ->login()
             ->default()
             ->passwordReset()
             ->profile()
             ->registration(Register::class)
             ->middleware([
-                FilamentHashidsMiddleware::class,                   
+                FilamentHashidsMiddleware::class,
             ])
             ->colors([
                 'primary' => Color::Blue,
@@ -61,12 +61,12 @@ class UsuarioPanelProvider extends PanelProvider
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,                
+                DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
-                Checkfecha::class, 
-                VerificarSuscripcionActiva::class,
+                SuscripcionActiva::class,
+                Checkfecha::class,
+                RedirectToProperPanelMiddleware::class,
             ]);
     }
 }

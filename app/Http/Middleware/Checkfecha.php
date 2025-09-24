@@ -29,6 +29,8 @@ class Checkfecha
         if (!$user->suscripcion) {
 
             Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
             return Redirect::route('inicio')->with('msj', 'sinsuscripcion');
         }
 
@@ -37,7 +39,7 @@ class Checkfecha
         $fin = Carbon::parse($user->suscripcion->fecha_fin);
         $diasRestantes = $fechaActual->diffInDays($fin, false);
 
-         $tieneRenovacionPendiente = Renewal::whereHas('suscripcion', function ($q) use ($user) {
+        $tieneRenovacionPendiente = Renewal::whereHas('suscripcion', function ($q) use ($user) {
             $q->where('user_id', $user->id);
         })
             ->where('estado', 'pendiente')
@@ -71,7 +73,7 @@ class Checkfecha
         $encryptedId = Crypt::encrypt($userId);
 
         $suscripcion = Suscripcion::where('user_id', $userId)->first();
-        $suscripcion->update(['estado' =>'0']);
+        $suscripcion->update(['estado' => '0']);
 
         Auth::logout();
         session()->invalidate();

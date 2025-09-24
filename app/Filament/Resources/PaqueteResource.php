@@ -13,8 +13,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Support\Facades\Storage;
-
 
 class PaqueteResource extends Resource
 {
@@ -37,11 +37,17 @@ class PaqueteResource extends Resource
         return $form
             ->schema([
                 Section::make('Publicidad')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('nombre')
                             ->required()
                             ->maxLength(255),
+
+                        Forms\Components\Select::make('tipoproducto_id')
+                            ->label('Paquete')
+                            ->relationship('tipoproducto', 'nombre')
+                            ->required()
+                            ->reactive(),
 
                         Forms\Components\Textarea::make('descripcion')
                             ->required(),
@@ -55,12 +61,49 @@ class PaqueteResource extends Resource
                             ->prefix('https://wa.me/')
                             ->maxLength(255),
 
+                        Forms\Components\Select::make('tipo_estadisticas')
+                            ->label('Tipo de estadísticas')
+                            ->options([
+                                'ninguna' => 'Ninguna',
+                                'basica' => 'Básica',
+                                'avanzada' => 'Avanzada',
+                            ])
+                            ->default('ninguna')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
+
+                        Forms\Components\TextInput::make('max_redes_sociales')
+                            ->label('Cantidad maxima de redes sociales'),
+
+                        Forms\Components\TextInput::make('max_productos')
+                            ->label('Cantidad maxima de productos para el store')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
+                        Forms\Components\TextInput::make('max_imagenes_producto')
+                            ->label('Cantidad maxima de imagenes por producto')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
+                        Forms\Components\TextInput::make('max_categorias')
+                            ->label('Cantidad maxima de categorias')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
+                        Forms\Components\Select::make('seo_level')
+                            ->label('Control de Seo')
+                            ->options([
+                                'basico' => 'Basico',
+                                'medio' => 'Medio',
+                                'completo' => 'Completo',
+                            ])
+                            ->default('ninguna')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
+
                         Forms\Components\FileUpload::make('image_url')
                             ->image()
                             ->imageEditor()
                             ->directory('paquetes')
                             ->required(),
-                            
+
                         Forms\Components\Toggle::make('estado')
                             ->label('Estado Activo')
                             ->hiddenOn(['create'])
@@ -76,42 +119,67 @@ class PaqueteResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('precio')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\IconColumn::make('estado')
                     ->boolean(),
-                
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
+
+                Tables\Columns\TextColumn::make('tipo_estadisticas')
+                    ->label('tipo de estadisticas')
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\ImageColumn::make('image_url')
-                    ->disk('public')
-                    ->label('Imagen'),
+                Tables\Columns\TextColumn::make('max_redes_sociales')
+                    ->label('limite redes sociales')
+                    ->numeric(),
+
+                Tables\Columns\TextColumn::make('max_productos')
+                    ->label('limite productos')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('max_imagenes_producto')
+                    ->label('limite imagenes/productos')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('max_categorias')
+                    ->label('limite categorias')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('seo_level')
+                    ->label('nivel de seo')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+
+
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                //max_redes_sociales
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make()
-                //     ->before(function (paquete $paquete) {
-                //         Storage::delete('public/' . $paquete->image_url);
-                //     })
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
 
-
+                ])
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                   
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 

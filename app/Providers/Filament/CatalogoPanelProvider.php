@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Http\Middleware\Esadmin;
+use App\Http\Middleware\Checkfecha;
 use App\Http\Middleware\RedirectToProperPanelMiddleware;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -19,36 +19,36 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\MenuItem;
+use App\Filament\Pages\Auth\Register;
+use App\Http\Middleware\EnsureSubscriptionIsValid;
+use App\Http\Middleware\SuscripcionActiva;
 use Swindon\FilamentHashids\Middleware\FilamentHashidsMiddleware;
 
 
-class AdminPanelProvider extends PanelProvider
+class CatalogoPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')            
-            ->path('admin')
+            ->id('catalogo')
+            ->path('catalogo')
             ->profile()
             ->passwordReset()
             ->middleware([
                 FilamentHashidsMiddleware::class,
             ])
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Orange,
             ])
-
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Catalogo/Resources'), for: 'App\\Filament\\Catalogo\\Resources')
+            ->discoverPages(in: app_path('Filament/Catalogo/Pages'), for: 'App\\Filament\\Catalogo\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Catalogo/Widgets'), for: 'App\\Filament\\Catalogo\\Widgets')
             ->widgets([
-                // Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                Widgets\AccountWidget::class,
+                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -63,7 +63,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-                RedirectToProperPanelMiddleware::class,
+                Checkfecha::class,
+                EnsureSubscriptionIsValid::class,
             ]);
     }
 }

@@ -12,8 +12,8 @@
 @if (session('msj') == 'sinsuscripcion')
     <script>
         Swal.fire({
-            title: "No se pudo realizar la solicitud",
-            text: "Tu suscripcion esta en verificación.",
+            title: "Suscripción en verificación",
+            text: "Tu suscripción esta en verificación.",
             icon: "warning"
         });
     </script>
@@ -64,6 +64,15 @@
         Swal.fire({
             title: "Tu solicitud de resuscripcion ya fue enviada",
             text: "Su solicitud fue ya fué envida.",
+            icon: "warning"
+        });
+    </script>
+@endif
+@if (session('msj') == 'prohibido')
+    <script>
+        Swal.fire({
+            title: "Acceso denegado",
+            text: "Acceso no permitido.",
             icon: "warning"
         });
     </script>

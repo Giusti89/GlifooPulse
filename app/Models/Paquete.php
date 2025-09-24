@@ -20,11 +20,22 @@ class Paquete extends Model
         'enlace',
         'estado',
         'marco',
+        'max_productos',
+        'max_redes_sociales',
+        'tipo_estadisticas',
+        'max_imagenes_producto',
+        'max_categorias',
+        'seo_level',
     ];
 
     public function suscripcion()
     {
         return $this->hasMany(suscripcion::class);
+    }
+
+    public function tipoproducto()
+    {
+        return $this->belongsTo(Tipoproducto::class, 'tipoproducto_id');
     }
 
     public function landings()
@@ -37,7 +48,7 @@ class Paquete extends Model
         parent::boot();
 
         static::updating(function ($ticket) {
-            
+
 
             if ($ticket->isDirty('image_url')) {
                 Storage::disk('public')->delete('/' . $ticket->getOriginal('image_url'));
