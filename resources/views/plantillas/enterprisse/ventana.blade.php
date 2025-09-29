@@ -15,8 +15,8 @@
             <div class="logo-perfil">
                 <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="Logo de perfil">
             </div>
-            <h1 class="titulo">{{ $titulo }}</h1>
-            <p class="descrip">{{ $contenido->texto }}</p>
+            <h1 class="titulo" style="color:{{ $contenido->ctexto }}">{{ $titulo }}</h1>
+            <p class="descrip" style="color:{{ $contenido->ctexto }}">{{ $contenido->texto }}</p>
         </div>
 
         <!-- Redes sociales -->
@@ -27,7 +27,7 @@
 
         @if ($redesSociales->isNotEmpty())
             <div class="glass-card redes">
-                <h3>Redes Sociales</h3>
+                <h3 style="color:{{ $contenido->ctexto }}" >Redes Sociales</h3>
                 <div class="social-icons">
                     @foreach ($redesSociales as $item)
                         @php $encryptedId = Crypt::encrypt($item->id); @endphp
@@ -42,7 +42,7 @@
         <!-- Otros Enlaces -->
         @if ($otrasRedes->isNotEmpty())
             <div class="glass-card otros-enlaces">
-                <h3>Otros Enlaces</h3>
+                <h3 style="color:{{ $contenido->ctexto }}">Otros Enlaces</h3>
                 <div class="otro">
                     @foreach ($otrasRedes as $item)
                         @php
