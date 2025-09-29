@@ -24,10 +24,12 @@
 }
 .tarjeta__body{
     display: flex;
+    flex-direction: column;
     height: 60%;
     justify-content: center;
     align-items: center;
     text-align: justify; 
+    line-height: 1.5;
 }
 .tarjeta__precio{
     display: flex;

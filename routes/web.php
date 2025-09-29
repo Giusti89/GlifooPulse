@@ -25,7 +25,7 @@ Route::controller(RenovacionController::class)->group(function () {
 
 Route::get('./usuario/login', function () {
     return redirect('/usuario/login');
-})->name('usuariologin');
+})->name('login');
 
 
 Route::get('/renovacion', RenovacionForm::class)->name('renovacion.form');

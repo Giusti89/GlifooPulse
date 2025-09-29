@@ -139,17 +139,17 @@ class ContenidoResource extends Resource
                     })
                     ->schema([
                         Hidden::make('latitude')
-                            ->default(-17.7833)
+                            ->default(-16.5)
                             ->reactive(),
 
                         Hidden::make('longitude')
-                            ->default(-63.1821)
+                            ->default(-68.15)
                             ->reactive(),
 
                         Map::make('location')
                             ->label('Ubicación')
                             ->columnSpanFull()
-                            ->defaultLocation(latitude: -17.7833, longitude: -63.1821)
+                            ->defaultLocation(latitude: -16.5, longitude: -68.15)
                             ->draggable(true)
                             ->clickable(true)
                             ->zoom(15)
@@ -162,8 +162,8 @@ class ContenidoResource extends Resource
                             })
                             ->afterStateHydrated(function (Set $set, $state, $record): void {
                                 $set('location', [
-                                    'lat' => $record->latitude ?? -17.7833,
-                                    'lng' => $record->longitude ?? -63.1821
+                                    'lat' => $record->latitude ?? -16.489689,
+                                    'lng' => $record->longitude ??  -68.119293
                                 ]);
                             })
                     ])

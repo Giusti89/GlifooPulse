@@ -31,7 +31,7 @@
                 <a class="link-item" href="{{ route('inicio') }}">Glifoo Pulse</a>
                 <a class="link-item" href="{{ route('socios') }}">Clientes</a>
                 <a class="link-item" href="{{ route('planes') }}">Servicios</a>
-                <a class="link-item" href="{{ route('usuariologin') }}">Login</a>
+                <a class="link-item" href="{{ route('login') }}">Login</a>
 
 
             </div>

@@ -6,9 +6,8 @@
                     <div class="tarjeta__header">
                         <h2 class="tarjeta__titulo">{{ $item->nombre }}</h2>
                     </div>
-
                     <div class="tarjeta__body">
-                        <p class="tarjeta__descripcion">{{ $item->descripcion }}</p>
+                        <p class="tarjeta__descripcion">{!! str($item->descripcion)->sanitizeHtml() !!}</p>
                     </div>
                     <div class="tarjeta__precio">
                         <p class="tarjeta__descripcion">{{ $item->precio }} Bs. </p>

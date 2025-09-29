@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contenido;
 use App\Models\Landing;
+use App\Models\Seo;
 use App\Models\Social;
 use App\Models\Spot;
 use App\Models\Visit;
@@ -27,11 +28,14 @@ class PublicidadController extends Controller
             $titulo = $publicidad->titulo;
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
             $marca = optional($tipopublicidad)->nombre;
-            
+
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
             $plantilla = Str::slug($tipopublicidad->nombre ?? 'default');
             $vista = "plantillas.$grupo.$plantilla";
 
+            if ($grupo === "catalogo") {
+                $catalogos = Seo::where('spot_id', $publicidad->id)->first();
+            }
 
             if (!View::exists($vista)) {
 
@@ -42,7 +46,12 @@ class PublicidadController extends Controller
                 return redirect()->route('inicio')->with('msj', 'pagvencida');
             }
             if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
-                return view($vista, compact('titulo', 'contenido', 'redes'));
+
+                if ($grupo === "catalogo") {
+                    return view($vista, compact('titulo', 'catalogos'));
+                } else {
+                    return view($vista, compact('titulo', 'contenido', 'redes'));
+                }
             } else {
 
                 return redirect()->route('inicio')->with('msj', 'pagvencida');

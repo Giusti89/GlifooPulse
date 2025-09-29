@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\RichEditor;
 
 class PaqueteResource extends Resource
 {
@@ -48,9 +49,6 @@ class PaqueteResource extends Resource
                             ->relationship('tipoproducto', 'nombre')
                             ->required()
                             ->reactive(),
-
-                        Forms\Components\Textarea::make('descripcion')
-                            ->required(),
 
                         Forms\Components\TextInput::make('precio')
                             ->required()
@@ -94,8 +92,7 @@ class PaqueteResource extends Resource
                                 'medio' => 'Medio',
                                 'completo' => 'Completo',
                             ])
-                            ->default('ninguna')
-                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+                            ->default('ninguna'),
 
 
                         Forms\Components\FileUpload::make('image_url')
@@ -108,6 +105,14 @@ class PaqueteResource extends Resource
                             ->label('Estado Activo')
                             ->hiddenOn(['create'])
                             ->default(false),
+                    ]),
+
+                Section::make('Descripción del paquete')
+                    ->columns(1)
+                    ->schema([
+
+                        RichEditor::make('descripcion')
+                            ->required(),
                     ]),
 
             ]);
@@ -155,9 +160,6 @@ class PaqueteResource extends Resource
                     ->label('nivel de seo')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
-
-
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()

@@ -29,7 +29,11 @@ class Spot extends Model
     {
         return $this->hasMany(Contenido::class, 'spot_id', 'id');
     }
-    
+
+    public function seo()
+    {
+        return $this->hasOne(Seo::class);
+    }
     public function socials()
     {
         return $this->hasMany(Social::class, 'spot_id', 'id');
@@ -38,9 +42,9 @@ class Spot extends Model
     public function visits()
     {
         return $this->hasMany(Visit::class, 'spot_id', 'id');
-    }    
+    }
     // MÉTODOS
-     public function incrementarVisita()
+    public function incrementarVisita()
     {
         $this->increment('contador');
         $this->save();

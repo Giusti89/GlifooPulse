@@ -16,6 +16,11 @@
                 </div>
 
                 <div class="landing-preview-card">
+                    <p class="landing-preview-label">Descripción:</p>
+                    <p>{{ $landing['descripcion'] }}</p>
+                </div>
+
+                <div class="landing-preview-card">
                     <p class="landing-preview-label">Tipo:</p>
                     <p class="landing-preview-premium">{{ $landing['pago'] ? 'Premium' : 'Gratuita' }}</p>
                 </div>
