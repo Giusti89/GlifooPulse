@@ -1,9 +1,4 @@
-<x-layouts.plantilla 
-    :titulo="$titulo" 
-    :descripcion="$contenido->descripcion_seo ?? null" 
-    :keywords="$contenido->keywords_seo ?? null" 
-    :imagenOg="'/storage/' . $contenido->banner_url" 
-    :backgroud="$contenido->background" 
+<x-layouts.plantilla :titulo="$titulo" :descripcion="$contenido->descripcion_seo ?? null" :keywords="$contenido->keywords_seo ?? null" :imagenOg="'/storage/' . $contenido->banner_url" :backgroud="$contenido->background"
     :icono="'/storage/' . $contenido->logo_url">
 
     <link rel="stylesheet" href="{{ asset('./estilo/ventana.css') }}">
@@ -25,13 +20,18 @@
         </div>
 
         <!-- Redes sociales -->
-        @if($redes->isNotEmpty())
+        @php
+            $redesSociales = $redes->where('tipoRed.nombre', 'Red Social');
+            $otrasRedes = $redes->where('tipoRed.nombre', 'Otra Red');
+        @endphp
+
+        @if ($redesSociales->isNotEmpty())
             <div class="glass-card redes">
-                <h3>Conecta con nosotros</h3>
+                <h3>Redes Sociales</h3>
                 <div class="social-icons">
-                    @foreach ($redes as $item)
+                    @foreach ($redesSociales as $item)
                         @php $encryptedId = Crypt::encrypt($item->id); @endphp
-                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank">
+                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener">
                             <img src="{{ asset('/storage/' . $item->image_url) }}" alt="{{ $item->nombre }}">
                         </a>
                     @endforeach
@@ -39,16 +39,31 @@
             </div>
         @endif
 
+        <!-- Otros Enlaces -->
+        @if ($otrasRedes->isNotEmpty())
+            <div class="glass-card otros-enlaces">
+                <h3>Otros Enlaces</h3>
+                <div class="otro">
+                    @foreach ($otrasRedes as $item)
+                        @php
+                            $encryptedId = Crypt::encrypt($item->id);
+                            $colorTexto = $contenido->ctexto ?? '#000';
+                        @endphp
+                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank" rel="noopener"
+                            class="otrared"
+                            style="background-image: url('/storage/{{ $item->image_url }}'); color: {{ $colorTexto }}">
+                            <p><b>{{ $item->nombre }}</b></p>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <!-- Mapa -->
         <div class="glass-card mapa">
             <h4>Dirección</h4>
-            <iframe 
-                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed" 
-                width="100%" 
-                height="250" 
-                style="border:0;" 
-                allowfullscreen 
-                loading="lazy">
+            <iframe
+                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                width="100%" height="250" style="border:0;" allowfullscreen loading="lazy">
             </iframe>
             <p>{{ $contenido->pie }}</p>
         </div>

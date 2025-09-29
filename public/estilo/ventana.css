@@ -8,7 +8,8 @@
 
 .banner-fondo img {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
     object-fit: cover;
@@ -23,7 +24,7 @@
     max-width: 800px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     color: white;
     text-align: center;
 }
@@ -36,8 +37,9 @@
     border: 5px solid white;
     overflow: hidden;
     background: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+
 .logo-perfil img {
     width: 100%;
     height: 100%;
@@ -59,15 +61,49 @@
     flex-wrap: wrap;
     gap: 1rem;
 }
+
 .social-icons img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     transition: transform 0.3s ease;
 }
+
 .social-icons img:hover {
     transform: scale(1.1);
 }
+
+.otro {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.otrared {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 280px;
+    min-height: 60px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.otrared:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .titulo {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     margin: 1rem 0;
@@ -106,6 +142,9 @@
     .descrip {
         font-size: 1rem;
     }
+     .otrared {
+        width: 95%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -124,5 +163,9 @@
     .social-icons img {
         width: 40px;
         height: 40px;
+    }
+    .otrared {
+        font-size: 0.9rem;
+        padding: 0.6rem;
     }
 }
