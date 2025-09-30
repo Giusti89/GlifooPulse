@@ -131,14 +131,14 @@
 
 /* Cards secundarias con superposición escalonada  */
 .glass-card.redes {
-    top: -40px;
+    top: 40px;
     margin-bottom: -40px;
     z-index: 15;
     animation-delay: 0.2s;
 }
 
 .glass-card.otros-enlaces {
-    top: -20px;
+    top: 60px;
     margin-bottom: -20px;
     z-index: 10;
     animation-delay: 0.4s;
@@ -319,17 +319,17 @@
     }
 
     .glass-card.redes {
-        top: -30px;
+        top:20px;
         margin-bottom: -30px;
     }
 
     .glass-card.otros-enlaces {
-        top: -10px;
+        top: 35px;
         margin-bottom: -15px;
     }
 
     .glass-card.mapa {
-        top: -15px;
+        top: 40px;
         margin-bottom: 0;
     }
 
