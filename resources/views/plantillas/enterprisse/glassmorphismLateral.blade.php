@@ -28,7 +28,7 @@
 
         @if ($redesSociales->isNotEmpty())
             <div class="glass-card redes">
-                <h3 style="color:{{ $contenido->ctexto }}">Redes Sociales</h3>
+                <h3 style="color:{{ $contenido->ctexto }}">Redes Sociales.</h3>
                 <div class="social-icons">
                     @foreach ($redesSociales as $item)
                         @php $encryptedId = Crypt::encrypt($item->id); @endphp
