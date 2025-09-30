@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 
 class PublicidadController extends Controller
 {
-   public function show($slug)
+    public function show($slug)
     {
         try {
             // 🔹 Obtenemos la publicidad principal
@@ -81,7 +81,9 @@ class PublicidadController extends Controller
             // 🔹 Validamos si la publicidad está activa
             if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
                 if ($grupo === "catalogo") {
-                     $publicidad->incrementarVisita();
+                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                        $publicidad->incrementarVisita();
+                    }
                     return view($vista, compact(
                         'titulo',
                         'catalogos',
@@ -93,7 +95,9 @@ class PublicidadController extends Controller
                         'locale'
                     ));
                 } else {
-                     $publicidad->incrementarVisita();
+                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                        $publicidad->incrementarVisita();
+                    }
                     return view($vista, compact(
                         'titulo',
                         'contenido',
