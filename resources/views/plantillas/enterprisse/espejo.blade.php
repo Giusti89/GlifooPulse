@@ -62,7 +62,7 @@
 
         <!-- Mapa -->
         <div class="glass-card mapa">
-            <h4>Dirección</h4>
+            <h4 style="color:{{ $contenido->ctexto }}">Dirección</h4>
             <iframe
                 src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
                 width="100%" height="250" style="border:0;" allowfullscreen loading="lazy">
