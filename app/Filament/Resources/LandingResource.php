@@ -37,7 +37,7 @@ class LandingResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('nombrecomercial')
-                    ->label('Nombre Comercial')
+                    ->label('Nombre comercial')
                     ->required(),
 
                 Forms\Components\TextInput::make('precio')

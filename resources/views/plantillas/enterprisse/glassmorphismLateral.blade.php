@@ -16,7 +16,7 @@
             <div class="logo-perfil">
                 <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="Logo de perfil">
             </div>
-            <h1 class="titulo" style="color:{{ $contenido->ctexto }}">{{ $titulo }}</h1>
+            <h1 class="titulo" style="color:{{ $contenido->ctexto }}">{{ $titulo}}</h1>
             <p class="descrip" style="color:{{ $contenido->ctexto }}">{{ $contenido->texto }}</p>
         </div>
 

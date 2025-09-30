@@ -47,16 +47,6 @@
     background: linear-gradient(transparent, rgba(0,0,0,0.5));
     pointer-events: none;
 }
-
-/* ELIMINAR el pseudo-elemento que creaba espacio */
-/* .catalogo-contenedor::before {
-    content: '';
-    display: block;
-    height: 100px;
-    width: 100%;
-} */
-
-/* Sistema de cards corregido */
 .glass-card {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(20px);
