@@ -1,13 +1,14 @@
 <x-layouts.plantilla :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
     :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
 
-    <link rel="stylesheet" href="{{ asset('./estilo/ventana.css') }}">
+    <link rel="stylesheet" href="{{ asset('./estilo/lateral.css') }}">
 
     <div class="catalogo-contenedor">
 
-        <!-- Banner de fondo -->
+        <!-- Banner tipo cabecera -->
         <div class="banner-fondo">
             <img src="{{ asset('/storage/' . $contenido->banner_url) }}" alt="Banner de portada">
+            <div class="banner-overlay"></div>
         </div>
 
         <!-- Contenido central con glass -->
@@ -58,6 +59,7 @@
                 </div>
             </div>
         @endif
+
         <!-- Mapa -->
         <div class="glass-card mapa">
             <h4>Dirección</h4>

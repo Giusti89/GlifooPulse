@@ -26,12 +26,12 @@ class Checkfecha
     {
         $user = Auth::user();
 
-        if (!$user->suscripcion) {
-
+        if (!$user || !$user->suscripcion) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return Redirect::route('inicio')->with('msj', 'sinsuscripcion');
+
+            return Redirect::route('inicio');
         }
 
         $fechaActual = Carbon::now();

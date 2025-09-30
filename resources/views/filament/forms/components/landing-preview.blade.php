@@ -12,7 +12,7 @@
             <div class="landing-preview-grid">
                 <div class="landing-preview-card">
                     <p class="landing-preview-label">Nombre:</p>
-                    <p>{{ $landing['nombre'] }}</p>
+                    <p>{{ $landing['nombrecomercial'] }}</p>
                 </div>
 
                 <div class="landing-preview-card">

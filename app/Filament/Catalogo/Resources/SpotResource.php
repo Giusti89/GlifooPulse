@@ -122,16 +122,17 @@ class SpotResource extends Resource
                             Textarea::make('seo_descripcion')
                                 ->label('Descripción SEO')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('medio', 'completo'))
-                                
+
                                 ->maxLength(160),
 
                             TextInput::make('seo_keyword')
                                 ->label('Palabras clave')
-                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel( 'completo'))
-                                
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
+
                                 ->helperText('Separadas por coma'),
                         ])
                 ])
+                    ->columnSpan('full'),
             ]);
     }
 

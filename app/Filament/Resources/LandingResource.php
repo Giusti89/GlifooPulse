@@ -36,6 +36,10 @@ class LandingResource extends Resource
                 Forms\Components\Textarea::make('descripcion')
                     ->required(),
 
+                Forms\Components\TextInput::make('nombrecomercial')
+                    ->label('Nombre Comercial')
+                    ->required(),
+
                 Forms\Components\TextInput::make('precio')
                     ->required()
                     ->numeric()
@@ -46,6 +50,11 @@ class LandingResource extends Resource
                     ->relationship('paquete', 'nombre')
                     ->required()
                     ->live(),
+
+                Forms\Components\TextInput::make('grupo')
+                    ->required()
+                    ->maxLength(255)
+                    ->helperText('Nombre de la carpeta en que se almacenara la plantilla'),
 
                 Forms\Components\FileUpload::make('preview_url')
                     ->label('Muestra visual')
@@ -59,11 +68,6 @@ class LandingResource extends Resource
                     ->helperText(function ($state) {
                         return $state ? 'Subido: ' . Carbon::now()->format('d/m/Y H:i') : 'Suba su archivo aquí';
                     }),
-
-                Forms\Components\TextInput::make('grupo')
-                    ->required()
-                    ->maxLength(255)
-                    ->helperText('Nombre de la carpeta en que se almacenara la plantilla'),
 
                 Forms\Components\Toggle::make('pago')
                     ->label('Es de pago?')
@@ -101,9 +105,7 @@ class LandingResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 

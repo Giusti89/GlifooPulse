@@ -20,6 +20,7 @@ class Landing extends Model
         'precio',
         'paquete_id',
         'grupo',
+        'nombrecomercial',
     ];
 
     protected static function boot()

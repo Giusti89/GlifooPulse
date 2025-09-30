@@ -1,7 +1,7 @@
 @props([
     'titulo' => 'Mi Web',
-    'descripcion' => 'Escribe aquí una descripción atractiva (150-160 caracteres) con palabras clave importantes.',
-    'keywords' => 'palabra clave 1, palabra clave 2, palabra clave 3, tu marca',
+   'descripcion' => 'Glifoo es una agencia de publicidad digital que ofrece servicios de marketing digital, diseño web, redes sociales, publicidad en Google y Facebook, entre otros.',
+    'keywords' => 'Glifoo, agencia de publicidad digital, marketing digital, diseño web, redes sociales, publicidad en Google, publicidad en Facebook',
     'icono' => null,
     'backgroud' => 'white',
     'styles' => '', 
