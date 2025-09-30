@@ -81,12 +81,12 @@ class SpotResource extends Resource
 
                                     $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
                                         ->where('landing_user_compras.user_id', $user->id)
-                                        ->select('landings.id', 'landings.nombrecomercial')
+                                        ->select('landings.id', 'landings.nombre')
                                         ->get();
 
                                     $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
 
-                                    return $landings->pluck('nombrecomercial', 'id');
+                                    return $landings->pluck('nombre', 'id');
                                 })
                                 ->searchable()
                                 ->reactive()
