@@ -22,8 +22,9 @@
     height: 400px;
     overflow: hidden;
     border-radius: 0 0 30px 30px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    margin: 0; /* Asegurar que no tenga márgenes */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    margin: 0;
+    /* Asegurar que no tenga márgenes */
 }
 
 .banner-fondo img {
@@ -31,7 +32,8 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.8s ease;
-    display: block; /* Eliminar espacio inferior de imagen */
+    display: block;
+    /* Eliminar espacio inferior de imagen */
 }
 
 .banner-fondo:hover img {
@@ -44,9 +46,10 @@
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.5));
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
     pointer-events: none;
 }
+
 .glass-card {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(20px);
@@ -55,7 +58,7 @@
     padding: 2rem;
     width: 85%;
     max-width: 800px;
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.5),
         inset 1px 1px 0 rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -69,7 +72,8 @@
 
 /* Card central - Ajustar superposición */
 .glass-card.central {
-    top: -100px; /* Más superposición */
+    top: -100px;
+    /* Más superposición */
     margin-bottom: -80px;
     z-index: 20;
     animation-delay: 0s;
@@ -77,14 +81,15 @@
 
 /* Logo perfil */
 .logo-perfil {
-    margin: -100px auto 25px; /* Ajustar al nuevo top */
+    margin: -100px auto 25px;
+    /* Ajustar al nuevo top */
     width: 140px;
     height: 140px;
     border-radius: 50%;
     border: 4px solid rgba(255, 255, 255, 0.8);
     overflow: hidden;
     background: rgba(255, 255, 255, 0.2);
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.4),
         0 0 0 8px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -96,7 +101,7 @@
 .logo-perfil:hover {
     transform: scale(1.05);
     border-color: rgba(255, 255, 255, 1);
-    box-shadow: 
+    box-shadow:
         0 12px 40px rgba(0, 0, 0, 0.5),
         0 0 0 8px rgba(255, 255, 255, 0.2);
 }
@@ -150,7 +155,7 @@
 .glass-card:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.2);
-    box-shadow: 
+    box-shadow:
         0 16px 40px rgba(0, 0, 0, 0.4),
         inset 1px 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -270,6 +275,7 @@
         opacity: 0;
         transform: translateY(40px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -278,108 +284,136 @@
 
 /* Responsive corregido */
 @media (max-width: 768px) {
-    
+
+    .banner-fondo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.8s ease;
+        display: block;
+    }
+
     .catalogo-contenedor {
         padding: 0 0.5rem 1.5rem;
     }
-    
-   .banner-fondo {
-        height: 350px; /* Más alto para no cortar */
-        border-radius: 0 0 20px 20px;
+
+    .banner-fondo {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        margin: 0;
     }
-    
-    .glass-card.central {
-        top: -40px; /* Menor superposición para que no tape banner */
-        margin-bottom: -20px;
+
+    .glass-card {
+        width: 95%;
+        padding: 1.5rem;
+        border-radius: 20px;
     }
-    
-    .logo-perfil {
-        margin: -60px auto 20px; /* Ajustar para que no tape banner */
-        width: 120px;
-        height: 120px;
-    }
-    
+
     .glass-card.central {
         top: -60px;
         margin-bottom: -60px;
     }
-    
+
     .glass-card.redes {
         top: -30px;
         margin-bottom: -30px;
     }
-    
+
     .glass-card.otros-enlaces {
         top: -10px;
         margin-bottom: -15px;
     }
-    
+
     .glass-card.mapa {
         top: -15px;
         margin-bottom: 0;
     }
-    
+
+    .logo-perfil {
+        width: 120px;
+        height: 120px;
+        margin: -80px auto 20px;
+    }
+
     .titulo {
         font-size: 1.6rem;
     }
-    
+
     .descrip {
         font-size: 1.1rem;
     }
-    
+
     .social-icons img {
         width: 60px;
         height: 60px;
     }
-    
+
     .otrared {
         padding: 1rem 1.2rem;
     }
 }
 
 @media (max-width: 480px) {
+    .banner-fondo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.8s ease;
+        display: block;
+    }
+
     .banner-fondo {
-        height: 280px; /* Reducir un poco pero mantener visible */
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        margin: 0;
     }
-    
-    .glass-card.central {
-        top: -30px;
-        margin-bottom: -10px;
-    }
-    
-    .logo-perfil {
-        margin: -50px auto 15px;
-        width: 100px;
-        height: 100px;
-        border-width: 3px;
-    }
-    
+
     .glass-card {
         padding: 1.2rem;
         border-radius: 18px;
-    } 
-    
+    }
+
+    .glass-card.central {
+        top: -60px;
+        margin-bottom: -40px;
+    }
+
+    .logo-perfil {
+        width: 100px;
+        height: 100px;
+        margin: -60px auto 15px;
+        border-width: 3px;
+    }
+
     .titulo {
         font-size: 1.4rem;
     }
-    
+
     .descrip {
         font-size: 1rem;
     }
-    
+
     .social-icons {
         gap: 0.8rem;
     }
-    
+
     .social-icons img {
         width: 50px;
         height: 50px;
     }
-    
+
     .otrared {
         padding: 0.8rem 1rem;
     }
-    
+
     .otrared p {
         font-size: 1rem;
     }
