@@ -77,4 +77,24 @@
         });
     </script>
 @endif
+
+@if (session('msj') == 'noexiste')
+    <script>
+        Swal.fire({
+            title: "La pagina no existe",
+            text: "Acceso no permitido.",
+            icon: "warning"
+        });
+    </script>
+@endif
+@if (session('msj') == 'noactivo')
+    <script>
+        Swal.fire({
+            title: "La pagina no esta activa",
+            text: "Acceso no permitido.",
+            icon: "warning"
+        });
+    </script>
+@endif
+
 <!-- mensajes de confirmacion -->

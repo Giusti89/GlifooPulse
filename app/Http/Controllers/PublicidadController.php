@@ -75,7 +75,7 @@ class PublicidadController extends Controller
                 if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
                     $publicidad->incrementarVisita();
                 }
-                return redirect()->route('inicio')->with('msj', 'pagvencida');
+                return redirect()->route('inicio')->with('msj', 'noexiste');
             }
 
             // 🔹 Validamos si la publicidad está activa
@@ -106,7 +106,7 @@ class PublicidadController extends Controller
                     ));
                 }
             } else {
-                return redirect()->route('inicio')->with('msj', 'pagvencida');
+                return redirect()->route('inicio')->with('msj', 'noactivo');
             }
         } catch (\Exception $e) {
             Log::error("Error en PublicidadController@show: " . $e->getMessage());
