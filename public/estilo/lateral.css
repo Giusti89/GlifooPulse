@@ -278,19 +278,25 @@
 
 /* Responsive corregido */
 @media (max-width: 768px) {
+    
     .catalogo-contenedor {
         padding: 0 0.5rem 1.5rem;
     }
     
-    .banner-fondo {
-        height: 300px; /* Mantener proporción */
+   .banner-fondo {
+        height: 350px; /* Más alto para no cortar */
         border-radius: 0 0 20px 20px;
     }
     
-    .glass-card {
-        width: 95%;
-        padding: 1.5rem;
-        border-radius: 20px;
+    .glass-card.central {
+        top: -40px; /* Menor superposición para que no tape banner */
+        margin-bottom: -20px;
+    }
+    
+    .logo-perfil {
+        margin: -60px auto 20px; /* Ajustar para que no tape banner */
+        width: 120px;
+        height: 120px;
     }
     
     .glass-card.central {
@@ -313,12 +319,6 @@
         margin-bottom: 0;
     }
     
-    .logo-perfil {
-        width: 120px;
-        height: 120px;
-        margin: -80px auto 20px;
-    }
-    
     .titulo {
         font-size: 1.6rem;
     }
@@ -339,25 +339,25 @@
 
 @media (max-width: 480px) {
     .banner-fondo {
-        height: 250px; /* Mantener proporción */
+        height: 280px; /* Reducir un poco pero mantener visible */
+    }
+    
+    .glass-card.central {
+        top: -30px;
+        margin-bottom: -10px;
+    }
+    
+    .logo-perfil {
+        margin: -50px auto 15px;
+        width: 100px;
+        height: 100px;
+        border-width: 3px;
     }
     
     .glass-card {
         padding: 1.2rem;
         border-radius: 18px;
-    }
-    
-    .glass-card.central {
-        top: -60px;
-        margin-bottom: -40px;
-    }
-    
-    .logo-perfil {
-        width: 100px;
-        height: 100px;
-        margin: -60px auto 15px;
-        border-width: 3px;
-    }
+    } 
     
     .titulo {
         font-size: 1.4rem;
