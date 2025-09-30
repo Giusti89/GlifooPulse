@@ -39,7 +39,7 @@ class SpotResource extends Resource
     protected static ?int $navigationSort = 1;
 
 
-    public static function getEloquentQuery(): Builder
+     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', auth()->id()))
@@ -50,68 +50,95 @@ class SpotResource extends Resource
     {
         return $form
             ->schema([
+                Wizard::make([                    
+                    Step::make('Datos generales')
+                        ->schema([
+                            Forms\Components\TextInput::make('titulo')
+                                ->label('Nombre de Empresa')
+                                ->required()
+                                ->maxLength(255),
 
-                Section::make('Publicidad')
-                    ->columns(2)
-                    ->schema([
-                        Forms\Components\TextInput::make('titulo')
-                            ->label('Nombre de Empresa')
-                            ->required()
-                            ->maxLength(255),
+                            Forms\Components\TextInput::make('slug')
+                                ->label('Nombre Link')
+                                ->prefix('https://glifoo.org/')
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                ->maxLength(255),
 
-                        Forms\Components\TextInput::make('slug')
-                            ->label('Nombre Link')
-                            ->prefix('https://glifoo.org/')
-                            ->required()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                            ->maxLength(255),
+                            Forms\Components\Select::make('tipolanding')
+                                ->label('Plantilla (Landing) disponible')
+                                ->options(function () {
+                                    $user = Auth::user();
 
-                        Forms\Components\Select::make('tipolanding')
-                            ->label('Plantilla (Landing) disponible')
-                            ->options(function () {
-                                $user = Auth::user();
+                                    if (!$user || !$user->suscripcion || !$user->suscripcion->paquete) {
+                                        return [];
+                                    }
 
-                                if (!$user || !$user->suscripcion || !$user->suscripcion->paquete) {
-                                    return [];
-                                }
+                                    $landingsGratis = $user->suscripcion->paquete->landings()
+                                        ->where('pago', false)
+                                        ->get();
 
-                                $landingsGratis = $user->suscripcion->paquete->landings()
-                                    ->where('pago', false)
-                                    ->get();
+                                    $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
+                                        ->where('landing_user_compras.user_id', $user->id)
+                                        ->select('landings.id', 'landings.nombrecomercial')
+                                        ->get();
 
-                                $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
-                                    ->where('landing_user_compras.user_id', $user->id)
-                                    ->select('landings.id', 'landings.nombrecomercial')
-                                    ->get();
+                                    $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
 
-                                $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
+                                    return $landings->pluck('nombrecomercial', 'id');
+                                })
+                                ->searchable()
+                                ->reactive()
+                                ->live()
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    $landing = \App\Models\Landing::find($state);
 
-                                return $landings->pluck('nombrecomercial', 'id');
-                            })
-                            ->searchable()
-                            ->reactive()
-                            ->live()
-                            ->afterStateUpdated(function ($state, callable $set) {
-                                $landing = \App\Models\Landing::find($state);
+                                    if ($landing) {
+                                        $landing->preview_url = Storage::url($landing->preview_url);
+                                        $set('landing_preview', $landing->toArray());
+                                    }
+                                }),
 
-                                if ($landing) {
-                                    $landing->preview_url = Storage::url($landing->preview_url);
-                                    $set('landing_preview', $landing->toArray());
-                                }
-                            }),
+                            Forms\Components\Hidden::make('landing_preview')
+                                ->dehydrated(false),
 
-                        Forms\Components\Hidden::make('landing_preview')
-                            ->dehydrated(false),
+                            ViewField::make('landing_preview')
+                                ->label('Vista previa de plantilla')
+                                ->view('filament.forms.components.landing-preview')
+                                ->dehydrated(false)
+                                ->columnSpan('full'),
+                        ]),
 
-                        ViewField::make('landing_preview')
-                            ->label('Vista previa de plantilla')
-                            ->view('filament.forms.components.landing-preview')
-                            ->dehydrated(false)
-                            ->columnSpan('full'),
-                    ]),
+                    Step::make('SEO')
+                        ->schema([
+                            TextInput::make('seo_title')
+                                ->label('Título SEO')
+                                ->maxLength(60)
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico')),
+
+                            Textarea::make('descripcion')
+                                ->label('Descripcion larga')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico'))
+                                ->maxLength(500),
+
+                            Textarea::make('seo_descripcion')
+                                ->label('Descripción SEO')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('medio', 'completo'))
+
+                                ->maxLength(160),
+
+                            TextInput::make('seo_keyword')
+                                ->label('Palabras clave')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
+                                ->helperText('Separadas por coma'),
+                        ])
+                ])
+                 ->columnSpan('full'),
             ]);
+            
     }
+
     public static function table(Table $table): Table
     {
         return $table
