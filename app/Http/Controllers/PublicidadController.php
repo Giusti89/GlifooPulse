@@ -17,10 +17,11 @@ use Illuminate\Support\Str;
 
 class PublicidadController extends Controller
 {
-    public function show($slug)
+   public function show($slug)
     {
         try {
-            $publicidad = Spot::where('slug', $slug)->first();
+            // 🔹 Obtenemos la publicidad principal
+            $publicidad = Spot::where('slug', $slug)->firstOrFail();
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
@@ -29,30 +30,83 @@ class PublicidadController extends Controller
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
             $marca = optional($tipopublicidad)->nombre;
 
+            // 🔹 Grupo y plantilla (para cargar la vista correcta)
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
             $plantilla = Str::slug($tipopublicidad->nombre ?? 'default');
             $vista = "plantillas.$grupo.$plantilla";
 
+            // 🔹 SEO dinámico
             $catalogos = Seo::where('spot_id', $publicidad->id)->first();
 
-            if (!View::exists($vista)) {
+            // Nivel de SEO según el paquete
+            $seoNivel = optional($publicidad->suscripcion->paquete)->tipo_estadisticas ?? 'basico';
 
+            // Valores base (SEO básico)
+            $tituloSEO = $catalogos->seo_title ?? $publicidad->titulo;
+            $descripcionSEO = $catalogos->seo_descripcion ?? $contenido->descripcion ?? '';
+            $keywordsSEO = $catalogos->seo_keyword ?? '';
+            $robots = 'index, follow';
+            $imagenOg = null;
+            $locale = 'es_ES';
+
+            // 🔹 Ajustes según nivel SEO
+            if ($seoNivel === 'basico') {
+                // Solo título y descripción básica
+                $tituloSEO = Str::limit($tituloSEO, 60, '');
+                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+            }
+
+            if ($seoNivel === 'medio') {
+                $tituloSEO = Str::limit($tituloSEO, 60, '');
+                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+                $robots = $catalogos->seo_robots ?? 'index, follow';
+            }
+
+            if ($seoNivel === 'avanzada') {
+                $tituloSEO = Str::limit($tituloSEO, 60, '');
+                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+                $robots = $catalogos->seo_robots ?? 'index, follow';
+                $imagenOg = '/storage/' . ($contenido->banner_url ?? '');
+                $locale = $catalogos->seo_locale ?? 'es_ES';
+            }
+
+            // 🔹 Verificamos si existe la vista
+            if (!View::exists($vista)) {
                 if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
                     $publicidad->incrementarVisita();
                 }
-
-                return redirect()->route('inicio')->with('msj', 'pagvencida');
+                return redirect()->route('inicio')->with('msj', 'noexiste');
             }
-            if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
 
+            // 🔹 Validamos si la publicidad está activa
+            if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
                 if ($grupo === "catalogo") {
-                    return view($vista, compact('titulo', 'catalogos'));
+                    return view($vista, compact(
+                        'titulo',
+                        'catalogos',
+                        'tituloSEO',
+                        'descripcionSEO',
+                        'keywordsSEO',
+                        'robots',
+                        'imagenOg',
+                        'locale'
+                    ));
                 } else {
-                    return view($vista, compact('titulo', 'contenido', 'redes', 'catalogos'));
+                    return view($vista, compact(
+                        'titulo',
+                        'contenido',
+                        'redes',
+                        'catalogos',
+                        'tituloSEO',
+                        'descripcionSEO',
+                        'keywordsSEO',
+                        'robots',
+                        'imagenOg',
+                        'locale'
+                    ));
                 }
             } else {
-
-                return redirect()->route('inicio')->with('msj', 'pagvencida');
+                return redirect()->route('inicio')->with('msj', 'noactivo');
             }
         } catch (\Exception $e) {
             Log::error("Error en PublicidadController@show: " . $e->getMessage());
