@@ -81,6 +81,7 @@ class PublicidadController extends Controller
             // 🔹 Validamos si la publicidad está activa
             if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
                 if ($grupo === "catalogo") {
+                     $publicidad->incrementarVisita();
                     return view($vista, compact(
                         'titulo',
                         'catalogos',
@@ -92,6 +93,7 @@ class PublicidadController extends Controller
                         'locale'
                     ));
                 } else {
+                     $publicidad->incrementarVisita();
                     return view($vista, compact(
                         'titulo',
                         'contenido',
