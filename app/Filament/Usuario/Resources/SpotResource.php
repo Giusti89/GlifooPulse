@@ -39,7 +39,7 @@ class SpotResource extends Resource
     protected static ?int $navigationSort = 1;
 
 
-     public static function getEloquentQuery(): Builder
+    public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->whereHas('suscripcion', fn($q) => $q->where('user_id', auth()->id()))
@@ -48,9 +48,11 @@ class SpotResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+        $isFree = $user?->suscripcion?->paquete?->precio == 0;
         return $form
             ->schema([
-                Wizard::make([                    
+                Wizard::make(array_filter([
                     Step::make('Datos generales')
                         ->schema([
                             Forms\Components\TextInput::make('titulo')
@@ -86,7 +88,9 @@ class SpotResource extends Resource
 
                                     $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
 
-                                    return $landings->pluck('nombre', 'id');
+                                    return $landings->mapWithKeys(fn($landing) => [
+                                        $landing->id => $landing->nombrecomercial ?? $landing->nombre ?? 'Sin nombre',
+                                    ]);
                                 })
                                 ->searchable()
                                 ->reactive()
@@ -110,7 +114,7 @@ class SpotResource extends Resource
                                 ->columnSpan('full'),
                         ]),
 
-                    Step::make('SEO')
+                    !$isFree ? Step::make('SEO')
                         ->schema([
                             TextInput::make('seo_title')
                                 ->label('Título SEO')
@@ -133,10 +137,10 @@ class SpotResource extends Resource
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
                                 ->helperText('Separadas por coma'),
                         ])
-                ])
-                 ->columnSpan('full'),
+                        : null,
+                ]))
+                    ->columnSpan('full'),
             ]);
-            
     }
 
     public static function table(Table $table): Table
