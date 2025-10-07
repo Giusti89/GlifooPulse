@@ -184,7 +184,7 @@ class Register extends BaseRegister
 
 
         // 4. Crear el spot asociado
-        $tipoLanding = Landing::findOrFail($data['paquete_id']);
+       $tipoLanding = Landing::where('paquete_id', $data['paquete_id'])->firstOrFail();
 
         $spot = Spot::create([
             'suscripcion_id' => $suscripcion->id,

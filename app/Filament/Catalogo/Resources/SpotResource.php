@@ -31,9 +31,9 @@ class SpotResource extends Resource
     protected static ?string $model = Spot::class;
 
     protected static ?string $navigationIcon = 'heroicon-m-wrench';
-    protected static ?string $navigationLabel = 'Configuracion Inicial';
+    protected static ?string $navigationLabel = 'Datos iniciales';
     protected static ?string $pluralModelLabel = 'Configuracion Inicial';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
+    protected static ?string $navigationGroup = 'Configuracion Inicial';
 
     protected static ?int $navigationSort = 1;
 
@@ -45,18 +45,22 @@ class SpotResource extends Resource
     }
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+        $isFree = $user?->suscripcion?->paquete?->precio == 0;
         return $form
             ->schema([
-                Wizard::make([
+                Wizard::make(array_filter([
                     Step::make('Datos generales')
                         ->schema([
                             Forms\Components\TextInput::make('titulo')
                                 ->label('Nombre de Empresa')
+                                ->unique(ignoreRecord: true)
                                 ->required()
                                 ->maxLength(255),
 
                             Forms\Components\TextInput::make('slug')
                                 ->label('Nombre Link')
+                                ->unique(ignoreRecord: true)
                                 ->prefix('https://glifoo.org/')
                                 ->required()
                                 ->live(onBlur: true)
@@ -83,7 +87,9 @@ class SpotResource extends Resource
 
                                     $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
 
-                                    return $landings->pluck('nombre', 'id');
+                                    return $landings->mapWithKeys(fn($landing) => [
+                                        $landing->id => $landing->nombrecomercial ?? $landing->nombre ?? 'Sin nombre',
+                                    ]);
                                 })
                                 ->searchable()
                                 ->reactive()
@@ -107,7 +113,7 @@ class SpotResource extends Resource
                                 ->columnSpan('full'),
                         ]),
 
-                    Step::make('SEO')
+                    !$isFree ? Step::make('SEO')
                         ->schema([
                             TextInput::make('seo_title')
                                 ->label('Título SEO')
@@ -128,13 +134,14 @@ class SpotResource extends Resource
                             TextInput::make('seo_keyword')
                                 ->label('Palabras clave')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
-
                                 ->helperText('Separadas por coma'),
                         ])
-                ])
+                        : null,
+                ]))
                     ->columnSpan('full'),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
