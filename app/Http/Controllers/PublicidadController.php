@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Contenido;
 use App\Models\Landing;
 use App\Models\Seo;
@@ -49,6 +50,14 @@ class PublicidadController extends Controller
             $imagenOg = null;
             $locale = 'es_ES';
 
+
+            if ($grupo === 'catalogo') {
+                // Cargar categorías → productos → imágenes
+                $categoriapro = Categoria::with('productos.imagenes')
+                    ->where('spot_id', $publicidad->id)
+                    ->get();
+            }
+
             // 🔹 Ajustes según nivel SEO
             if ($seoNivel === 'basico') {
                 // Solo título y descripción básica
@@ -72,9 +81,7 @@ class PublicidadController extends Controller
 
             // 🔹 Verificamos si existe la vista
             if (!View::exists($vista)) {
-                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                    $publicidad->incrementarVisita();
-                }
+
                 return redirect()->route('inicio')->with('msj', 'noexiste');
             }
 
@@ -87,9 +94,12 @@ class PublicidadController extends Controller
                     return view($vista, compact(
                         'titulo',
                         'catalogos',
+                        'contenido',
+                        'categoriapro',   // colección de Categoria
                         'tituloSEO',
                         'descripcionSEO',
                         'keywordsSEO',
+                        'redes',
                         'robots',
                         'imagenOg',
                         'locale'
@@ -115,8 +125,9 @@ class PublicidadController extends Controller
                 return redirect()->route('inicio')->with('msj', 'noactivo');
             }
         } catch (\Exception $e) {
-            Log::error("Error en PublicidadController@show: " . $e->getMessage());
-            return redirect()->route('inicio')->with('msj', 'pagvencida');
+            if (app()->environment('local')) {
+                return redirect()->route('inicio')->with('msj', 'pagvencida');
+            }
         }
     }
 

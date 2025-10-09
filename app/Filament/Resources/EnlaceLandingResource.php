@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -48,14 +49,15 @@ class EnlaceLandingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('landing.paquete.nombre')
-                    ->label('Landing')
+                    ->label('Paquete nombre')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('landing.nombre')
                     ->label('Landing')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('enlace.nombre')
                     ->label('Botón')
@@ -63,14 +65,26 @@ class EnlaceLandingResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('paquete_id')
+                    ->label('Paquete')
+                    ->relationship('landing.paquete', 'nombre'),
+
+                // Filtra por landing
+                SelectFilter::make('landing_id')
+                    ->label('Landing')
+                    ->relationship('landing', 'nombre'),
+
+                // Filtra por enlace/botón
+                SelectFilter::make('enlace_id')
+                    ->label('Botón')
+                    ->relationship('enlace', 'nombre'),
             ])
+            ->persistFiltersInSession()
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 

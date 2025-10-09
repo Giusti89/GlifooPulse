@@ -25,6 +25,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\ColorPicker;
 
 class SpotResource extends Resource
 {
@@ -137,6 +138,49 @@ class SpotResource extends Resource
                                 ->helperText('Separadas por coma'),
                         ])
                         : null,
+                    Step::make('Logotipo de empresa')
+                        ->schema([
+                            Forms\Components\FileUpload::make('logo_url')
+                                ->label('Logotipo de empresa')
+                                ->image()
+                                ->imageEditor()
+                                ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
+
+                            Forms\Components\FileUpload::make('banner_url')
+                                ->label('Banner principal')
+                                ->image()
+                                ->imageEditor()
+                                ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
+
+
+                            ColorPicker::make('background')
+                                ->label('Color primario ')
+                                ->helperText('Se admiten valores hexadecimales')
+                                ->default('#ffffff')
+                                ->rgb(),
+
+                            ColorPicker::make('ctexto')
+                                ->label('Color del los textos')
+                                ->default('#ffffff')
+                                ->helperText('Se admiten valores hexadecimales')
+                                ->rgb(),
+
+                            ColorPicker::make('colsecond')
+                                ->label('Color secundario')
+                                ->default('#ffffff')
+                                ->helperText('Se admiten valores hexadecimales')
+                                ->rgb(),
+
+                            TextInput::make('phone')
+                                ->label(__('Numero de contacto para los articulos'))
+                                ->tel()
+                                ->maxLength(12)
+                                ->minLength(8)
+                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
+                                ->helperText('ejemplo: +591111111')
+                                ->required(),
+                        ])
+
                 ]))
                     ->columnSpan('full'),
             ]);

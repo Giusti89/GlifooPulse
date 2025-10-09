@@ -34,7 +34,8 @@ class Producto extends Model
     // Un producto puede tener varias imágenes
     public function imagenes()
     {
-        return $this->hasMany(ImagenProducto::class);
+        return $this->hasMany(ImagenProducto::class)
+            ->orderBy('orden');
     }
 
     /*
@@ -55,9 +56,9 @@ class Producto extends Model
 
             while (
                 Producto::where('slug', $producto->slug)
-                        ->where('categoria_id', $producto->categoria_id)
-                        ->where('id', '!=', $producto->id ?? 0)
-                        ->exists()
+                ->where('categoria_id', $producto->categoria_id)
+                ->where('id', '!=', $producto->id ?? 0)
+                ->exists()
             ) {
                 $producto->slug = $originalSlug . '-' . $counter++;
             }

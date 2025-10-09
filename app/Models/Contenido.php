@@ -22,8 +22,10 @@ class Contenido extends Model
         'latitude',
         'longitude',
         'ctexto',
+        'colsecond',
+        'phone',
     ];
-    
+
     public function spot()
     {
         return $this->belongsTo(Spot::class, 'spot_id', 'id');
@@ -33,18 +35,26 @@ class Contenido extends Model
     {
         parent::boot();
 
-        static::updating(function ($ticket) {
-
-            if ($ticket->isDirty('banner_url') && $ticket->isDirty('logo_url')) {
-                Storage::disk('public')->delete('/' . $ticket->getOriginal('banner_url'));
-                Storage::disk('public')->delete('/' . $ticket->getOriginal('logo_url'));
+        // Antes de actualizar: borra sólo el archivo del campo que cambió
+        static::updating(function ($model) {
+            // Lista de columnas a controlar
+            foreach (['banner_url', 'logo_url'] as $attribute) {
+                if ($model->isDirty($attribute)) {
+                    $original = $model->getOriginal($attribute);
+                    if ($original && Storage::disk('public')->exists($original)) {
+                        Storage::disk('public')->delete($original);
+                    }
+                }
             }
         });
 
-        static::deleting(function ($ticket) {
-            if ($ticket->isDirty('banner_url') && $ticket->isDirty('logo_url')) {
-                Storage::disk('public')->delete($ticket->banner_url);
-                Storage::disk('public')->delete($ticket->logo_url);
+        // Al borrar el registro: elimina ambos ficheros (si existen)
+        static::deleting(function ($model) {
+            foreach (['banner_url', 'logo_url'] as $attribute) {
+                $path = $model->{$attribute};
+                if ($path && Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
             }
         });
     }

@@ -20,11 +20,20 @@ class ImagenProducto extends Model
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class);
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
 
-    protected static function booted()
+    protected static function boot()
     {
+        parent::boot();
+
+        static::updating(function ($ticket) {
+
+            if ($ticket->isDirty('url')) {
+                Storage::disk('public')->delete('/' . $ticket->getOriginal('url'));
+            }
+        });
+
         static::deleting(function ($imagen) {
             if ($imagen->url && Storage::disk('public')->exists($imagen->url)) {
                 Storage::disk('public')->delete($imagen->url);

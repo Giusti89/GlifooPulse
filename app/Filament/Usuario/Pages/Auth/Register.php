@@ -135,7 +135,9 @@ class Register extends BaseRegister
         return TextInput::make('phone')
             ->label(__('Celular'))
             ->tel()
-            ->maxLength(12)
+            ->minLength(8) 
+            ->maxLength(15)
+            ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
             ->required()
             ->autofocus();
     }
@@ -184,7 +186,7 @@ class Register extends BaseRegister
 
 
         // 4. Crear el spot asociado
-       $tipoLanding = Landing::where('paquete_id', $data['paquete_id'])->firstOrFail();
+        $tipoLanding = Landing::where('paquete_id', $data['paquete_id'])->firstOrFail();
 
         $spot = Spot::create([
             'suscripcion_id' => $suscripcion->id,

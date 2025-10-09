@@ -58,11 +58,12 @@ class ImagenProductosResource extends Resource
                 Forms\Components\FileUpload::make('url')
                     ->label('Imagen')
                     ->image()
-                    ->directory(fn ($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
+                    ->directory(fn($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
                     ->required()
                     ->maxSize(2048) // 2MB
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 2MB.'),
+                    ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 2MB.')
+                    ->imageEditor(),
 
                 Forms\Components\TextInput::make('orden')
                     ->label('Orden')
@@ -108,7 +109,7 @@ class ImagenProductosResource extends Resource
             ->persistFiltersInSession()
 
             ->actions([
-                 ActionGroup::make([
+                ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->color('primary'),
                     Tables\Actions\DeleteAction::make(),

@@ -1,25 +1,124 @@
 @php
-   
-    $tituloSEO = $catalogos->seo_title ?? $catalogos->titulo ?? 'Catálogo de Productos';
-    $descripcionSEO = $catalogos->seo_descripcion ?? $catalogos->descripcion ?? 'Descubre nuestro catálogo exclusivo de productos';
-    $keywordsSEO = $catalogos->seo_keyword ?? 'productos, catalogo, tienda online, ' . ($catalogos->titulo ?? '');
-    
-    
-    $tituloSEO = Str::limit($tituloSEO, 60, '');
-    $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+
+    $bgColor = $contenido->background ?? '#ffffff';
+    $textColor = $contenido->ctexto ?? '#333333';
+    $colsec = $contenido->colsecond ?? '#333333';
+    $whatsNumber = Str::of($contenido->phone ?? '')
+        ->replaceMatches('/\D+/', '')
+        ->__toString();
 @endphp
 
-<x-layouts.plantillacatalogo 
-    :titulo="$tituloSEO"
-    :descripcion="$descripcionSEO" 
-    :keywords="$keywordsSEO"
-    :backgroud="$catalogos->background ?? 'white'"
-    :icono="$catalogos->logo ? '/storage/' . $catalogos->logo : null">
-     
-   
-    <div class="catalogo-content">
-        <h1>{{ $catalogos->titulo ?? 'Mi Catálogo' }}</h1>
-      
-    </div>
+<x-layouts.plantillacatalogo :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
+    :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
+    <style>
+        :root {
+            --brand-background: {{ $bgColor }};
+            --brand-text: {{ $textColor }};
+            --brand-secondary: {{ $colsec }};
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('estilo/catalogob.css') }}">
 
+    <div class="catalogo-content">
+        <!-- Barra de redes sociales sticky -->
+        @if ($redes->count() > 0)
+            <div class="redes-sociales-sticky">
+                <div class="redes-sociales-container">
+                    @foreach ($redes as $red)
+                        <a href="{{ $red->url }}" class="red-social-link" target="_blank">
+                            @if ($red->image_url)
+                                <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
+                                    class="red-social-icon">
+                            @else
+                                <span class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <div class="banner">
+            <img src="{{ asset('/storage/' . $contenido->banner_url) }}" alt="Banner de portada" class="img-banner">
+            <div class="logo-perfil">
+                <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="Logo de perfil">
+            </div>
+
+        </div>
+        <h1 class="catalogo-titulo">{{ $catalogos->seo_title ?? 'Mi Catálogo' }}</h1>
+
+        @if ($categoriapro->count() > 0)
+            <!-- Navegación por categorías -->
+            <div class="categorias-navegacion">
+                @foreach ($categoriapro as $categoria)
+                    <a href="{{ url()->current() }}#{{ $categoria->slug }}" class="categoria-link">
+                        {{ $categoria->nombre }}
+                    </a>
+                @endforeach
+            </div>
+
+            <!-- Lista de categorías con productos -->
+            @foreach ($categoriapro as $categoria)
+                <section id="{{ $categoria->slug }}" class="categoria-productos">
+                    <h2 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h2>
+
+                    @if ($categoria->productos->isNotEmpty())
+                        <div class="productos-grid">
+                            @foreach ($categoria->productos as $producto)
+                                @php
+                                    $imagen = $producto->imagenes->first();
+                                    $src = $imagen ? Storage::url($imagen->url) : asset('img/placeholder-producto.jpg');
+                                @endphp
+
+                                <div class="producto-card">
+                                    <div class="producto-imagen">
+                                        <img src="{{ $src }}" alt="{{ $producto->nombre }}"
+                                            class="img-producto" loading="lazy">
+                                    </div>
+
+                                    <div class="producto-info">
+                                        <h3 class="producto-nombre">{{ $producto->nombre }}</h3>
+
+                                        @if ($producto->descripcion)
+                                            <p class="producto-descripcion">
+                                                {{ $producto->descripcion }}
+                                            </p>
+                                        @endif
+
+                                        @if ($producto->precio)
+                                            <p class="producto-precio">
+                                                Bs. {{ number_format($producto->precio, 2) }}
+                                            </p>
+                                        @endif
+
+                                        @if (!is_null($producto->stock))
+                                            <p class="producto-stock">
+                                                {{ $producto->stock > 0 ? 'En stock' : 'Agotado' }}
+                                            </p>
+                                        @endif
+
+                                        {{-- Botón de WhatsApp --}}
+                                        @if ($whatsNumber)
+                                            <a href="https://wa.me/{{ $whatsNumber }}?text={{ urlencode('Hola, me interesa el producto ' . $producto->nombre) }}"
+                                                class="producto-whatsapp" target="_blank" rel="noopener">
+                                                <!-- SVG icono WhatsApp -->
+                                                Contactar por WhatsApp
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="sin-productos">No hay productos en esta categoría</p>
+                    @endif
+                </section>
+            @endforeach
+        @else
+            <div class="sin-categorias">
+                <p>No hay categorías disponibles en este momento.</p>
+            </div>
+        @endif
+    </div>
+    <script src="{{ asset('./dinamico/catalogo.js') }}"></script>
 </x-layouts.plantillacatalogo>

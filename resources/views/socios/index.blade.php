@@ -20,10 +20,5 @@
                 @endif
             @endforeach
         </div>
-
     </div>
-
-
-
-
 </x-layouts.principal>

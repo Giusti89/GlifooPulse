@@ -27,7 +27,7 @@ class Spot extends Model
 
     public function contenido()
     {
-        return $this->hasMany(Contenido::class, 'spot_id', 'id');
+        return $this->hasOne(Contenido::class, 'spot_id', 'id');
     }
 
     public function seo()
