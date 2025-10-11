@@ -57,6 +57,7 @@ class SpotResource extends Resource
                                 ->label('Nombre de Empresa')
                                 ->unique(ignoreRecord: true)
                                 ->required()
+                                ->helperText('Nombre de tu empresa o emprendimiento')
                                 ->maxLength(255),
 
                             Forms\Components\TextInput::make('slug')
@@ -66,10 +67,12 @@ class SpotResource extends Resource
                                 ->required()
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                ->helperText('esta sera la dirección web con la que te encontrarán')
                                 ->maxLength(255),
 
                             Forms\Components\Select::make('tipolanding')
-                                ->label('Plantilla (Landing) disponible')
+                                ->label('Vista de tu catalogo')
+                                ->helperText('Vista que tendra tu catalogo (algunas plantillas son de pago)')
                                 ->options(function () {
                                     $user = Auth::user();
 
@@ -118,16 +121,19 @@ class SpotResource extends Resource
                         ->schema([
                             TextInput::make('seo_title')
                                 ->label('Título SEO')
+                                ->helperText('Este será el título que aparece en Google. Sé breve (máx. 60 caracteres) y usa palabras clave importantes.')
                                 ->maxLength(60)
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico')),
 
                             Textarea::make('descripcion')
                                 ->label('Descripcion larga')
+                                ->helperText('Describe tu producto o servicio de forma detallada. Esta descripción se mostrará dentro de tu catálogo o página principal.')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico'))
                                 ->maxLength(500),
 
                             Textarea::make('seo_descripcion')
                                 ->label('Descripción SEO')
+                                ->helperText('Texto que aparece debajo del título en los resultados de búsqueda (máx. 160 caracteres). Resume claramente de qué trata la página.')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('medio', 'completo'))
 
                                 ->maxLength(160),
@@ -135,49 +141,50 @@ class SpotResource extends Resource
                             TextInput::make('seo_keyword')
                                 ->label('Palabras clave')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
-                                ->helperText('Separadas por coma'),
+                                ->helperText('Palabras separadas por coma (ej: muebles, decoración, diseño). Ayudan a mejorar el posicionamiento en buscadores.'),
                         ])
                         : null,
                     Step::make('Logotipo de empresa')
                         ->schema([
                             Forms\Components\FileUpload::make('logo_url')
-                                ->label('Logotipo de empresa')
+                                ->label('Logotipo de la empresa')
                                 ->image()
                                 ->imageEditor()
+                                ->helperText('Sube el logo de tu empresa o emprendimiento. Este aparecerá en la parte superior de tu catálogo y ayudará a tus clientes a reconocer tu marca.')
                                 ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
 
                             Forms\Components\FileUpload::make('banner_url')
                                 ->label('Banner principal')
                                 ->image()
                                 ->imageEditor()
+                                ->helperText('Sube una imagen destacada o banner que represente a tu empresa. Es lo primero que verán los visitantes en tu catálogo.')
                                 ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
 
-
                             ColorPicker::make('background')
-                                ->label('Color primario ')
-                                ->helperText('Se admiten valores hexadecimales')
+                                ->label('Color primario')
                                 ->default('#ffffff')
-                                ->rgb(),
-
-                            ColorPicker::make('ctexto')
-                                ->label('Color del los textos')
-                                ->default('#ffffff')
-                                ->helperText('Se admiten valores hexadecimales')
+                                ->helperText('Elige el color principal del catálogo (fondo o encabezados). Puedes usar el selector o escribir un valor HEX, por ejemplo: #ff6600.')
                                 ->rgb(),
 
                             ColorPicker::make('colsecond')
                                 ->label('Color secundario')
                                 ->default('#ffffff')
-                                ->helperText('Se admiten valores hexadecimales')
+                                ->helperText('Color complementario al principal, ideal para botones o detalles visuales.')
+                                ->rgb(),
+
+                            ColorPicker::make('ctexto')
+                                ->label('Color del texto')
+                                ->default('#ffffff')
+                                ->helperText('Color que se usará para los textos. Asegúrate de que contraste bien con el fondo.')
                                 ->rgb(),
 
                             TextInput::make('phone')
-                                ->label(__('Numero de contacto para los articulos'))
+                                ->label('Número de contacto para los artículos')
                                 ->tel()
                                 ->maxLength(12)
                                 ->minLength(8)
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
-                                ->helperText('ejemplo: +591111111')
+                                ->helperText('Número visible en tu catálogo para que los clientes te contacten.')
                                 ->required(),
                         ])
 

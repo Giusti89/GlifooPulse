@@ -24,8 +24,10 @@ class SocialsResource extends Resource
     protected static ?string $model = Social::class;
     protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Configuracion Enlaces Sociales';
+    protected static ?string $navigationGroup = 'Redes Sociales';
+    
+
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
 
 
     protected static ?int $navigationSort = 5;
@@ -46,15 +48,6 @@ class SocialsResource extends Resource
                 Section::make('Social')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Select::make('spot_id')
-                            ->label('Seleccione Proyecto')
-                            ->options(
-                                \App\Models\Spot::whereHas('suscripcion', function ($query) {
-                                    $query->where('user_id', Auth::id());
-                                })->pluck('titulo', 'id')
-                            )
-                            ->required(),
-
                         Forms\Components\TextInput::make('url')
                             ->label(' Enlace red social')
                             ->required()

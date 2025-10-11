@@ -21,9 +21,9 @@ class ImagenProductosResource extends Resource
     protected static ?string $model = ImagenProducto::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-camera';
-    protected static ?string $navigationLabel = 'Imagenes';
+    protected static ?string $navigationLabel = 'Imagenes de productos';
+    protected static ?string $navigationGroup = 'Configuracion Catalogo';
     protected static ?string $pluralModelLabel = 'Galeria de imagenes';
-    protected static ?string $navigationGroup = 'Galeria de imagenes';
 
     protected static ?int $navigationSort = 4;
 
@@ -111,9 +111,15 @@ class ImagenProductosResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('producto')
-                    ->relationship('producto', 'nombre')
-                    ->label('Filtrar por Producto'),
+                Tables\Filters\SelectFilter::make('producto_id')
+                    ->label('Filtrar por Producto')
+                    ->relationship('producto', 'nombre', modifyQueryUsing: function ($query) {
+                        $userId = auth()->id();
+
+                        $query->whereHas('categoria.spot.suscripcion', function ($q) use ($userId) {
+                            $q->where('user_id', $userId);
+                        });
+                    }),
             ])
             ->persistFiltersInSession()
 

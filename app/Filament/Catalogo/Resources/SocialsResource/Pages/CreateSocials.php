@@ -18,6 +18,35 @@ class CreateSocials extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $user = Auth::user();
+
+        // 2) Encontrar la suscripción activa
+        $suscripcion = $user->getSuscripcionActiva();
+        if (! $suscripcion) {
+            Notification::make()
+                ->title('No tienes suscripción activa')
+                ->danger()
+                ->send();
+            $this->halt(); // detiene el guardado
+        }
+
+        $spot = Spot::where('suscripcion_id', $suscripcion->id)->first();
+        if (! $spot) {
+            Notification::make()
+                ->title('No se encontró proyecto asociado')
+                ->danger()
+                ->send();
+            $this->halt();
+        }
+
+      
+        $data['spot_id'] = $spot->id;
+
+        return $data;
+    }
+
     protected function beforeCreate(): void
     {
         $user = Auth::user();
