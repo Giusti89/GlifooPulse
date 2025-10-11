@@ -247,11 +247,32 @@
  }
 
  .producto-card {
-     background: white;
+     background: var(--brand-secondary);
      border-radius: 12px;
      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
      overflow: hidden;
      transition: transform 0.3s ease, box-shadow 0.3s ease;
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+ }
+
+
+ .producto-imagen {
+     width: 100%;
+     height: 300px;
+     /* Aún más grande */
+     overflow: hidden;
+     background: #f8f9fa;
+     position: relative;
+ }
+
+ .img-producto {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+     transition: all 0.4s ease;
  }
 
  .producto-card:hover {
@@ -259,26 +280,56 @@
      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
  }
 
- .producto-imagen {
-     width: 100%;
-     height: 220px;
-     overflow: hidden;
-     background: #f8f9fa;
- }
-
- .img-producto {
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
-     transition: transform 0.3s ease;
- }
-
  .producto-card:hover .img-producto {
-     transform: scale(1.05);
+     transform: scale(1.15);
+ }
+
+ .producto-imagen::after {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: rgba(0, 0, 0, 0.7);
+     opacity: 0;
+     transition: opacity 0.3s ease;
+     pointer-events: none;
+ }
+
+ .producto-card:hover .producto-imagen::after {
+     opacity: 1;
+ }
+
+ /* Texto "Ver imagen completa" que aparece al hover */
+ .producto-imagen::before {
+     content: 'Ver imagen completa';
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     color: white;
+     font-size: 0.9rem;
+     font-weight: 500;
+     opacity: 0;
+     transition: opacity 0.3s ease;
+     z-index: 2;
+     pointer-events: none;
+     text-align: center;
+     padding: 8px 16px;
+     border: 1px solid white;
+     border-radius: 20px;
+ }
+
+ .producto-card:hover .producto-imagen::before {
+     opacity: 1;
  }
 
  .producto-info {
-     padding: 20px;
+     padding: 15px;
+     flex-grow: 1;
+     display: flex;
+     flex-direction: column;
  }
 
  .producto-nombre {
@@ -290,10 +341,17 @@
  }
 
  .producto-descripcion {
-     color:black;
-     font-size: 0.85rem;
+     color: black;
+     font-size: 0.8rem;
+     /* Un poco más pequeño */
      line-height: 1.4;
-     margin-bottom: 12px;
+     margin-bottom: 10px;
+     flex-grow: 1;
+     /* Limitar a 3 líneas con puntos suspensivos */
+     display: -webkit-box;
+     -webkit-line-clamp: 3;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
  }
 
  .producto-precio {
@@ -314,7 +372,7 @@
      display: inline-flex;
      align-items: center;
      gap: 0.5rem;
-     background-color:  var(--brand-secondary);
+     background-color: green;
      color: #fff;
      padding: 0.4rem 0.8rem;
      border-radius: 4px;
@@ -370,6 +428,63 @@
      text-decoration: none;
  }
 
+ /* Estilos del modal */
+ .modal {
+     display: none;
+     position: fixed;
+     z-index: 1000;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.9);
+     animation: fadeIn 0.3s;
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+     }
+
+     to {
+         opacity: 1;
+     }
+ }
+
+ .modal-contenido {
+     margin: auto;
+     display: block;
+     max-width: 90%;
+     max-height: 80%;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     object-fit: contain;
+ }
+
+ .cerrar-modal {
+     position: absolute;
+     top: 20px;
+     right: 35px;
+     color: white;
+     font-size: 40px;
+     font-weight: bold;
+     cursor: pointer;
+     z-index: 1001;
+ }
+
+ .modal-titulo {
+     position: absolute;
+     bottom: 20px;
+     left: 0;
+     width: 100%;
+     text-align: center;
+     color: white;
+     font-size: 1.2rem;
+     padding: 10px;
+ }
+
  /* Responsive */
 
  @media (min-width: 1024px) {
@@ -411,7 +526,7 @@
          right: 0;
          transform: none;
          padding: 10px;
-         
+
      }
 
      .redes-sociales-container {

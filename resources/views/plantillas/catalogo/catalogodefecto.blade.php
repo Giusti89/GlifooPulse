@@ -71,7 +71,8 @@
                                 @endphp
 
                                 <div class="producto-card">
-                                    <div class="producto-imagen">
+                                    <div class="producto-imagen"
+                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')">
                                         <img src="{{ $src }}" alt="{{ $producto->nombre }}"
                                             class="img-producto" loading="lazy">
                                     </div>
@@ -108,6 +109,11 @@
                                     </div>
                                 </div>
                             @endforeach
+                            <div id="modalImagen" class="modal">
+                                <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+                                <img class="modal-contenido" id="imagenModal">
+                                <div id="tituloModal" class="modal-titulo"></div>
+                            </div>
                         </div>
                     @else
                         <p class="sin-productos">No hay productos en esta categoría</p>

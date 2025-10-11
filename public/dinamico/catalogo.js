@@ -49,3 +49,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+function abrirModal(src, titulo) {
+  const modal = document.getElementById('modalImagen');
+  const imagenModal = document.getElementById('imagenModal');
+  const tituloModal = document.getElementById('tituloModal');
+
+  imagenModal.src = src;
+  tituloModal.textContent = titulo;
+  modal.style.display = 'block';
+
+  // Cerrar modal con ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      cerrarModal();
+    }
+  });
+}
+
+function cerrarModal() {
+  const modal = document.getElementById('modalImagen');
+  modal.style.display = 'none';
+}
+
+// Cerrar modal al hacer click fuera de la imagen
+document.getElementById('modalImagen').addEventListener('click', function (e) {
+  if (e.target === this) {
+    cerrarModal();
+  }
+});
