@@ -1,52 +1,343 @@
-.cuerpo {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 95%;
-    flex: 1;
+:root {
+    --primary-color: #fcd031;
+    --secondary-color: #ffffff;
+    --accent-color: #e74c3c;
+    --bg-dark: #32353d;
+    --bg-card: #3a3e47;
+    --text-dark: #333333;
+    --text-light: #ffffff;
+    --text-muted: #b0b3b8;
+    --card-radius: 1rem;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.25);
+    --shadow-dark: rgba(0, 0, 0, 0.4);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.titulo {
-    display: flex;
-    justify-content: center;
-    color: #fcd031;
-    margin: 15px;
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.botones {
-    display: flex;
-    width: 80%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 15px;
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
 }
 
-.boton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 15px;
+/* Contenedor general */
+.socios-container {
+    padding: 3rem 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.tarjeta {
-     display: flex;
-    justify-content: center;
-    align-items: center;   
-    width: 270px;
-    height: 125px;
-    margin: 10px;
-    
-    border-radius: 10px; 
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.subtitulo {
-    justify-self: center;
-    font-size: 1.6rem;
-    width: 270px;
-    color: #fcd031;
+/* Encabezado */
+.socios-header {
     text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.socios-titulo {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.socios-titulo::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    opacity: 0.7;
+}
+
+.socios-subtitulo {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid responsive */
+.socios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* Tarjeta de socio */
+.socios-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.card-bg {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--card-radius);
+    height: 280px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px var(--shadow-dark);
+    transition: var(--transition);
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Efecto de brillo en hover */
+.card-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(252, 208, 49, 0.2),
+            transparent);
+    transition: left 0.7s ease;
+    z-index: 2;
+}
+
+/* Capa semitransparente + blur */
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(50, 53, 61, 0.3) 30%,
+            rgba(50, 53, 61, 0.9) 100%);
+    transition: var(--transition);
+    z-index: 1;
+}
+
+/* Contenido (texto) */
+.card-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 1.5rem;
+    z-index: 3;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: var(--transition);
+}
+
+.card-badge {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Placeholder para logos faltantes */
+.card-bg:not([style*="background-image"])::after {
+    content: "Logo";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    font-weight: 600;
+    z-index: 0;
+}
+
+/* Hover effects */
+.socios-card:hover {
+    transform: translateY(-8px);
+}
+
+.socios-card:hover .card-bg {
+    box-shadow: 0 15px 30px var(--shadow-dark);
+    border-color: rgba(252, 208, 49, 0.3);
+}
+
+.socios-card:hover .card-bg::before {
+    left: 100%;
+}
+
+.socios-card:hover .card-overlay {
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(50, 53, 61, 0.2) 30%,
+            rgba(50, 53, 61, 0.95) 100%);
+}
+
+.socios-card:hover .card-content h3 {
+    transform: translateY(-5px);
+    color: var(--primary-color);
+}
+
+/* Filtros (opcional) */
+.socios-filtros {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.filtro-btn {
+    padding: 0.7rem 1.5rem;
+    background: var(--bg-card);
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filtro-btn:hover,
+.filtro-btn.active {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(252, 208, 49, 0.3);
+}
+
+/* Contador de socios */
+.socios-contador {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border-radius: var(--card-radius);
+    box-shadow: 0 4px 12px var(--shadow-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contador-numero {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.contador-texto {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Adaptación móvil */
+@media (max-width: 768px) {
+    .socios-container {
+        padding: 2rem 1rem;
+    }
+
+    .socios-titulo {
+        font-size: 2.2rem;
+    }
+
+    .socios-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .card-bg {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .socios-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .socios-titulo {
+        font-size: 1.8rem;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .card-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .socios-filtros {
+        gap: 0.5rem;
+    }
+
+    .filtro-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animación de entrada para las tarjetas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.socios-card {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.socios-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.socios-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.socios-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.socios-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.socios-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.socios-card:nth-child(6) {
+    animation-delay: 0.6s;
 }

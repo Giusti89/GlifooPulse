@@ -1,24 +1,32 @@
-<x-layouts.principal titulo="Nuestros-Socios">
-    <link rel="stylesheet" href="{{ asset('./estilo/socios.css') }}">
+<x-layouts.principal titulo="Nuestros Socios">
+    <link rel="stylesheet" href="{{ asset('estilo/socios.css') }}">
 
-    <div class="cuerpo">
-        <div class="titulo">
-            <h1>Nuestros Socios Pulse</h1>
+    <div class="socios-container">
+        <div class="socios-header">
+            <h1 class="socios-titulo">Nuestros Socios Pulse</h1>
+            <p class="socios-subtitulo">Descubre las empresas innovadoras que forman parte de nuestra comunidad</p>
         </div>
-        <div class="botones">
+        
+        <div class="socios-grid">
             @foreach ($results as $item)
-                @if ($item->estado == true)
-                    <div class="boton">
-                        <a href="{{ route('publicidad', $item->spot_slug) }}">
-                            <div class="tarjeta" style="background-image: url(/storage/{{ $item->logo_url }})">
+                @if ($item->estado)
+                    <a href="{{ route('publicidad', $item->spot_slug) }}" class="socios-card">
+                        <div class="card-bg" style="background-image: url('{{ Storage::url($item->logo_url) }}')">
+                            <div class="card-overlay"></div>
+                            <div class="card-content">
+                                <h3>{{ $item->titulo }}</h3>
+                                <span class="card-badge">Socio Pulse</span>
                             </div>
-                            <div class="subtitulo">
-                                {{ $item->titulo }}
-                            </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 @endif
             @endforeach
+        </div>
+
+        <!-- Contador de socios -->
+        <div class="socios-contador">
+            <p>Total de socios activos: <span
+                    class="contador-numero">{{ $results->where('estado', true)->count() }}</span></p>
         </div>
     </div>
 </x-layouts.principal>
