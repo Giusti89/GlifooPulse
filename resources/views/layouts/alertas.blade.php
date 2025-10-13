@@ -106,5 +106,4 @@
         });
     </script>
 @endif
-limitealcanzado
 <!-- mensajes de confirmacion -->
