@@ -1,46 +1,367 @@
-.principal{
-    display: flex;
-    flex-wrap: wrap;
-    width: 80%;
-    justify-content: center;
-    padding: 15px;
+:root {
+    --primary-color: #fcd031;
+    --secondary-color: #ffffff;
+    --bg-dark: #32353d;
+    --bg-card: #2a2d34;
+    --accent-color: #ff6b35;
+    --text-light: #ffffff;
+    --text-muted: #8a8d93;
+    --text-dark: #32353d;
+    --border-radius: 0.75rem;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.tarjeta{
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #32353d 0%, #2a2d34 100%);
+    color: var(--text-light);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+}
+
+.principal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.5rem;
+    width: 80vw;
+    margin: 20px auto;
+}
+
+/* Tarjeta Moderna - Estilo Glassmorphism */
+.tarjeta {
+    background: rgba(58, 62, 71, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
     display: flex;
-    color: aliceblue;
-    padding: 15px;
     flex-direction: column;
-    width: 300px;
-    height: 400px;
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
-    
-    background-size: 100% 100%;
 }
-.tarjeta__header{
-    height: 30%;
-    color:#fcd031 ;
+
+.tarjeta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #ff6b35);
+    z-index: 2;
 }
-.tarjeta__body{
-    display: flex;
-    flex-direction: column;
-    height: 60%;
-    justify-content: center;
-    align-items: center;
-    text-align: justify; 
-    line-height: 1.5;
+
+.tarjeta:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(252, 208, 49, 0.3);
 }
-.tarjeta__precio{
-    display: flex;
-    font-size: 2rem;
-    justify-content: center;
-    align-items: center;
-    color:#fcd031;
+
+/* Imagen con efecto zoom */
+.tarjeta[style*="background-image"] {
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
-.tarjeta__footer{
-    height: 30%;    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.tarjeta[style*="background-image"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(50, 53, 61, 0.9) 0%, rgba(50, 53, 61, 0.7) 100%);
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.tarjeta:hover[style*="background-image"]::after {
+    background: linear-gradient(135deg, rgba(50, 53, 61, 0.8) 0%, rgba(50, 53, 61, 0.5) 100%);
+}
+
+/* Header con estilo minimalista */
+.tarjeta__header {
+    position: relative;
+    z-index: 3;
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+}
+
+.tarjeta__titulo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.tarjeta__titulo::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+/* Body con estilo limpio */
+.tarjeta__body {
+    padding: 1.5rem 2rem;
+    flex-grow: 1;
+    position: relative;
+    z-index: 3;
+}
+
+.tarjeta__descripcion {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* Precio con diseño destacado */
+.tarjeta__precio {
+    padding: 1.5rem 2rem;
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    background: rgba(252, 208, 49, 0.1);
+    margin: 0 2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(252, 208, 49, 0.2);
+}
+
+.tarjeta__precio .tarjeta__descripcion {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta__precio .tarjeta__descripcion::before {
+    content: 'Bs. ';
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+/* Footer con botón moderno */
+.tarjeta__footer {
+    padding: 2rem;
+    position: relative;
+    z-index: 3;
+}
+
+/* Botón con efecto neón */
+.btn-registro {
+    display: inline-block;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #e6b800 100%);
+    color: var(--text-dark);
+    text-decoration: none;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(252, 208, 49, 0.4);
+}
+
+.btn-registro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-registro:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(252, 208, 49, 0.6);
+}
+
+.btn-registro:hover::before {
+    left: 100%;
+}
+
+/* Etiqueta de estado */
+.tarjeta__etiqueta {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--primary-color);
+    color: var(--text-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Efectos de partículas al hover */
+.tarjeta__particulas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tarjeta:hover .tarjeta__particulas {
+    opacity: 1;
+}
+
+.particula {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: float 3s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100px) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* Animación de entrada tipo "card flip" */
+@keyframes cardAppear {
+    0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(-90deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0deg);
+    }
+}
+
+.tarjeta {
+    animation: cardAppear 0.8s ease forwards;
+    opacity: 0;
+    transform-origin: center top;
+}
+
+.tarjeta:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.tarjeta:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.tarjeta:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.tarjeta:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .principal {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .tarjeta__titulo {
+        font-size: 1.4rem;
+    }
+
+    .tarjeta__precio .tarjeta__descripcion {
+        font-size: 2rem;
+    }
+
+    .tarjeta__header,
+    .tarjeta__body,
+    .tarjeta__precio,
+    .tarjeta__footer {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .principal {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+
+    body {
+        padding: 1rem 0.5rem;
+    }
+
+    .tarjeta {
+        margin: 0 auto;
+        max-width: 350px;
+    }
+}
+
+/* Efecto de brillo sutil */
+.tarjeta__brillo {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(252, 208, 49, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tarjeta:hover .tarjeta__brillo {
+    opacity: 1;
 }

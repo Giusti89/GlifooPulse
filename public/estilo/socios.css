@@ -31,7 +31,7 @@ body {
 /* Contenedor general */
 .socios-container {
     padding: 3rem 1.5rem;
-    max-width: 1400px;
+    width: 80vw;
     margin: 0 auto;
 }
 
