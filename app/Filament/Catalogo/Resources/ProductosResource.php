@@ -4,6 +4,7 @@ namespace App\Filament\Catalogo\Resources;
 
 use App\Filament\Catalogo\Resources\ProductosResource\Pages;
 use App\Filament\Catalogo\Resources\ProductosResource\RelationManagers;
+use App\Models\Categoria;
 use App\Models\Producto;
 use App\Models\Productos;
 use Filament\Forms;
@@ -44,7 +45,7 @@ class ProductosResource extends Resource
             ->schema([
                 Forms\Components\Select::make('categoria_id')
                     ->label('Seleccione la categoría')
-                    ->options(fn() => \App\Models\Categoria::getCachedForSpot())
+                    ->options(fn() => Categoria::getCachedForSpot())
                     ->searchable()
                     ->required()
                     ->default(function () {
@@ -100,6 +101,11 @@ class ProductosResource extends Resource
                     ->searchable()
                     ->label('Nombre Producto'),
 
+                tables\Columns\TextColumn::make('orden')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Orden del   Producto'),
+
                 tables\Columns\TextColumn::make('descripcion')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Descripcion Producto'),
@@ -143,6 +149,14 @@ class ProductosResource extends Resource
                     Tables\Actions\EditAction::make()
                         ->color('primary'),
                     Tables\Actions\DeleteAction::make(),
+
+                    Tables\Actions\Action::make('crearimagen')
+                        ->label('Crear Imagen')
+                        ->icon('heroicon-m-plus-circle')
+                        ->color('success')
+                        ->url(fn(Producto $record): string => ImagenProductosResource::getUrl('create', [
+                            'producto_id' => $record->id
+                        ])),
                 ])
             ])
             ->bulkActions([

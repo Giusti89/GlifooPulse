@@ -47,8 +47,7 @@ class CatalogoPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Catalogo/Widgets'), for: 'App\\Filament\\Catalogo\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+               
             ])
             ->middleware([
                 EncryptCookies::class,

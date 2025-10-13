@@ -97,4 +97,14 @@
     </script>
 @endif
 
+@if (session('msj') == 'limitealcanzado')
+    <script>
+        Swal.fire({
+            title: "limite de solicitudes alcanzado",
+            text: "Acceso no permitido.",
+            icon: "warning"
+        });
+    </script>
+@endif
+limitealcanzado
 <!-- mensajes de confirmacion -->

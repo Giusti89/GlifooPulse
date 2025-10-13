@@ -78,3 +78,26 @@ document.getElementById('modalImagen').addEventListener('click', function (e) {
     cerrarModal();
   }
 });
+
+function abrirConsulta(imagenSrc, nombreProducto, productoId) {
+  document.getElementById('modalProductoNombre').innerText = nombreProducto;
+  document.getElementById('modalProductoImagen').src = imagenSrc;
+  document.getElementById('productoId').value = productoId;
+
+  const form = document.getElementById('consultaForm');
+  form.action = `/consulta/${productoId}`;
+
+  document.getElementById('consultaModal').style.display = 'flex';
+}
+
+function cerrarConsulta() {
+  document.getElementById('consultaModal').style.display = 'none';
+}
+
+// Cerrar modal al hacer clic fuera del contenido
+window.onclick = function (event) {
+  const modal = document.getElementById('consultaModal');
+  if (event.target === modal) {
+    cerrarModal();
+  }
+}

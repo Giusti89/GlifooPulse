@@ -32,7 +32,7 @@
 </head>
 
 <body style="background-color: {{ $backgroud ?? 'white' }}">
-
+    @include('layouts.alertas')
     <main class="main-content">
         {{ $slot }}
     </main>

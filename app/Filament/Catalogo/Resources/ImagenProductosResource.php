@@ -6,6 +6,7 @@ use App\Filament\Catalogo\Resources\ImagenProductosResource\Pages;
 use App\Filament\Catalogo\Resources\ImagenProductosResource\RelationManagers;
 use App\Models\ImagenProducto;
 use App\Models\ImagenProductos;
+use App\Models\Producto;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -52,6 +53,7 @@ class ImagenProductosResource extends Resource
                             });
                         }
                     )
+                    ->default(request()->get('producto_id')) // ← aquí se inyecta el valor desde la URL
                     ->required(),
 
 
@@ -101,6 +103,7 @@ class ImagenProductosResource extends Resource
 
                 Tables\Columns\TextColumn::make('orden')
                     ->label('Orden')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->alignCenter(),
 
@@ -113,13 +116,15 @@ class ImagenProductosResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('producto_id')
                     ->label('Filtrar por Producto')
-                    ->relationship('producto', 'nombre', modifyQueryUsing: function ($query) {
+                    ->options(function () {
                         $userId = auth()->id();
 
-                        $query->whereHas('categoria.spot.suscripcion', function ($q) use ($userId) {
+                        return Producto::whereHas('categoria.spot.suscripcion', function ($q) use ($userId) {
                             $q->where('user_id', $userId);
-                        });
-                    }),
+                        })
+                            ->pluck('nombre', 'id');
+                    })
+                    ->placeholder('Selecciona un producto'),
             ])
             ->persistFiltersInSession()
 

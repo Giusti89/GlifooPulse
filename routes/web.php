@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\PublicidadController;
@@ -57,6 +58,9 @@ Route::get('/usuario/register/{paquete?}', function ($paquete = null) {
     return redirect()->route('filament.usuario.auth.register', ['paquete' => $paquete]);
 })->name('registro');
 
+Route::post('/consulta/{producto}', [ConsultaController::class, 'store'])
+    ->name('consulta.store')
+    ->middleware(['web', 'throttle:consulta']);
 
 Route::middleware('auth')->group(function () {
     Route::get('./admin', function () {
