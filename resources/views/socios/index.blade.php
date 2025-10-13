@@ -9,7 +9,7 @@
         
         <div class="socios-grid">
             @foreach ($results as $item)
-                @if ($item->estado)
+                @if ($item->estado==true)
                     <a href="{{ route('publicidad', $item->spot_slug) }}" class="socios-card">
                         <div class="card-bg" style="background-image: url('{{ Storage::url($item->logo_url) }}')">
                             <div class="card-overlay"></div>
