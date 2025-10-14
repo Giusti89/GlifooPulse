@@ -81,33 +81,40 @@
                 @if ($paquete->nombre === 'Glifoo Enterprise')
                     <div class="plan-card popular">
                         <div class="cuerpoplan">
-                            <h2>{{ $paquete->nombre }}</h2>
-                            <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+                            <div class="cabplan">
+                                <h2>{{ $paquete->nombre }}</h2>
+                                <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+                                @php
+                                    $encryptedId = Crypt::encrypt($paquete->id);
+                                @endphp
+                                <x-layouts.btnenviodat class="modificar" rutaEnvio="registro"
+                                    dato="{{ $encryptedId }}" nombre="REGISTRATE">
+                                </x-layouts.btnenviodat>
+                            </div>
+
                             <ul>
                                 <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
                             </ul>
-                            @php
-                                $encryptedId = Crypt::encrypt($paquete->id);
-                            @endphp
-                            <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}"
-                                nombre="REGISTRATE">
-                            </x-layouts.btnenviodat>
+
                         </div>
                     </div>
                 @else
                     <div class="plan-card">
                         <div class="cuerpoplan">
-                            <h2>{{ $paquete->nombre }}</h2>
-                            <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+                            <div class="cabplan">
+                                <h2>{{ $paquete->nombre }}</h2>
+                                <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+                                @php
+                                    $encryptedId = Crypt::encrypt($paquete->id);
+                                @endphp
+                                <x-layouts.btnenviodat class="modificar" rutaEnvio="registro"
+                                    dato="{{ $encryptedId }}" nombre="REGISTRATE">
+                                </x-layouts.btnenviodat>
+                            </div>
                             <ul>
                                 <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
                             </ul>
-                            @php
-                                $encryptedId = Crypt::encrypt($paquete->id);
-                            @endphp
-                            <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}"
-                                nombre="REGISTRATE">
-                            </x-layouts.btnenviodat>
+
                         </div>
                     </div>
                 @endif

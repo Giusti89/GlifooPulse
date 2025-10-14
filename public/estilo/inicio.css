@@ -217,6 +217,14 @@
   text-align: center;
 }
 
+.cabplan{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+  margin-bottom: 15px; 
+  justify-content: space-between;
+}
 .pricing h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
@@ -229,6 +237,7 @@
   grid-auto-rows: 1fr;
   gap: var(--gap);
   margin-bottom: 2rem;
+  background-color:aqua ;
 }
 
 .plan-card {
@@ -294,8 +303,7 @@
 .cuerpoplan {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  height: auto;
 }
 
 /* Espacio publicitario */
