@@ -61,10 +61,10 @@
         <div class="logos-grid">
             @forelse($clientesActivos as $spot)
                 <div class="logo-item">
-                    <a href="{{ route('publicidad', $spot->slug)}}" target="blank">
+                    <a href="{{ route('publicidad', $spot->slug) }}" target="blank">
                         <img src="{{ Storage::url($spot->contenido->logo_url) }}" alt="{{ $spot->titulo }}">
                     </a>
-                    <h2>{{$spot->titulo}}<h2>
+                    <h2>{{ $spot->titulo }}<h2>
                 </div>
             @empty
                 <p>No hay clientes aún. ¡Tu logo aquí!</p>
@@ -81,8 +81,8 @@
                 @if ($paquete->nombre === 'Glifoo Enterprise')
                     <div class="plan-card popular">
                         <div class="cuerpoplan">
-                            <h3>{{ $paquete->nombre }}</h3>
-                            <p data-period="/mes">Bs. {{ $paquete->precio }}</p>
+                            <h2>{{ $paquete->nombre }}</h2>
+                            <h3>Bs. {{ $paquete->precio }} / Mes</h3>
                             <ul>
                                 <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
                             </ul>
@@ -97,8 +97,8 @@
                 @else
                     <div class="plan-card">
                         <div class="cuerpoplan">
-                            <h3>{{ $paquete->nombre }}</h3>
-                            <p data-period="/mes">Bs. {{ $paquete->precio }}</p>
+                            <h2>{{ $paquete->nombre }}</h2>
+                            <h3>Bs. {{ $paquete->precio }} / Mes</h3>
                             <ul>
                                 <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
                             </ul>
