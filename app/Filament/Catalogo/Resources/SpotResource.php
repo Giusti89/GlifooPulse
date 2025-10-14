@@ -26,6 +26,7 @@ use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\ColorPicker;
+use Illuminate\Validation\Rule;
 
 class SpotResource extends Resource
 {
@@ -185,9 +186,16 @@ class SpotResource extends Resource
                                 ->minLength(8)
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                 ->helperText('Número visible en tu catálogo para que los clientes te contacten.')
+                                ->rules([
+                                    'required',
+                                    'string',
+                                    'min:8',
+                                    'max:12',
+                                    'regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/',  // Tu regex actual
+                                    'unique:contenidos,phone',  // Nueva regla para unicidad
+                                ])
                                 ->required(),
                         ])
-
                 ]))
                     ->columnSpan('full'),
             ]);
