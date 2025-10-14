@@ -1,4 +1,4 @@
-<x-layouts.principal titulo="Planes" url="{{ asset('./estilo/producto.css') }}">
+<x-layouts.principal titulo="Planes" url="{{ asset('./estilo/producto.css') }}?v={{ filemtime(public_path('./estilo/producto.css')) }}">
     <div class="principal">
         @foreach ($productos as $item)
             @if ($item->estado == true)
