@@ -237,7 +237,6 @@
   grid-auto-rows: 1fr;
   gap: var(--gap);
   margin-bottom: 2rem;
-  background-color:aqua ;
 }
 
 .plan-card {
