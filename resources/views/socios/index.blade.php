@@ -6,10 +6,10 @@
             <h1 class="socios-titulo">Nuestros Socios Pulse</h1>
             <p class="socios-subtitulo">Descubre las empresas innovadoras que forman parte de nuestra comunidad</p>
         </div>
-        
+
         <div class="socios-grid">
             @foreach ($results as $item)
-                @if ($item->estado==true)
+                @if ($item->estado == true)
                     <a href="{{ route('publicidad', $item->spot_slug) }}" class="socios-card">
                         <div class="card-bg" style="background-image: url('{{ Storage::url($item->logo_url) }}')">
                             <div class="card-overlay"></div>
@@ -25,8 +25,9 @@
 
         <!-- Contador de socios -->
         <div class="socios-contador">
-            <p>Total de socios activos: <span
-                    class="contador-numero">{{ $results->where('estado', true)->count() }}</span></p>
+            <p>Total de socios activos:
+                <span class="contador-numero">{{ $results->where('estado', true)->count() }}</span>
+            </p>
         </div>
     </div>
 </x-layouts.principal>

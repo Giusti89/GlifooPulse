@@ -110,6 +110,7 @@
     flex-grow: 1;
     position: relative;
     z-index: 3;
+    color: white;
 }
 
 .tarjeta__descripcion {
@@ -143,21 +144,23 @@
     content: 'Bs. ';
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: white;
     opacity: 0.8;
 }
 
 /* Footer con botón moderno */
 .tarjeta__footer {
+    display: flex;
     padding: 2rem;
-    position: relative;
+    flex-direction: column;
     z-index: 3;
+    align-items: center;
 }
 
 /* Botón con efecto neón */
 .btn-registro {
     display: inline-block;
-    width: 100%;
+    width: 90%;
     padding: 1.2rem 2rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, #e6b800 100%);
     color: var(--text-dark);
@@ -301,6 +304,10 @@
         gap: 2rem;
     }
 
+    .btn-registro {
+        width: 60%;
+    }
+
     .tarjeta__titulo {
         font-size: 1.4rem;
     }
@@ -321,10 +328,6 @@
     .principal {
         grid-template-columns: 1fr;
         max-width: 400px;
-    }
-
-    body {
-        padding: 1rem 0.5rem;
     }
 
     .tarjeta {

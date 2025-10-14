@@ -17,7 +17,7 @@
             --brand-secondary: {{ $colsec }};
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('estilo/catalogob.css') }}">
+    <link rel="stylesheet" href="{{ asset('estilo/catalogob.css') }}?v={{ filemtime(public_path('estilo/catalogob.css')) }}">
 
     <div class="catalogo-content">
         <!-- Barra de redes sociales sticky -->

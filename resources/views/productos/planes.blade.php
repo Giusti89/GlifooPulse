@@ -1,4 +1,5 @@
-<x-layouts.principal titulo="Planes" url="{{ asset('./estilo/producto.css') }}?v={{ filemtime(public_path('./estilo/producto.css')) }}">
+<x-layouts.principal titulo="Planes"
+    url="{{ asset('./estilo/producto.css') }}?v={{ filemtime(public_path('./estilo/producto.css')) }}">
     <div class="principal">
         @foreach ($productos as $item)
             @if ($item->estado == true)
@@ -29,13 +30,13 @@
                             $encryptedId = Crypt::encrypt($item->id);
                         @endphp
 
-                        <a href="{{ route('registro', ['dato' => $encryptedId]) }}" class="btn-registro">
-                            REGISTRATE AHORA
-                        </a>
+                        <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}"
+                            nombre="REGISTRATE">
+                        </x-layouts.btnenviodat>
                     </div>
                 </div>
             @endif
         @endforeach
     </div>
-    <script src="{{ asset('./dinamico/paquetes.js') }}"></script>    
+    <script src="{{ asset('./dinamico/paquetes.js') }}"></script>
 </x-layouts.principal>

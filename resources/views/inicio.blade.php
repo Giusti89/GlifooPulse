@@ -1,18 +1,17 @@
-<x-layouts.principal 
-    titulo="Pulse" 
+<x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
     <section class="hero">
         <div class="hero-content">
-            <h1>Glifoo Pulse: tus landing pages y catálogos digitales en minutos</h1>
+            <h1>Glifoo Pulse: tu pagina de enlaces y catálogos digitales en minutos</h1>
             <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
                 Administrativo.</p>
             <div class="hero-buttons">
-                <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>                
+                <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
             </div>
         </div>
         <div class="hero-image">
-            <img src="{{ asset('./img/logos/Boton.webp') }}" alt="Vista de Glifoo Pulse">          
+            <img src="{{ asset('./img/logos/Boton.webp') }}" alt="Vista de Glifoo Pulse">
         </div>
     </section>
 
@@ -62,54 +61,68 @@
         <div class="logos-grid">
             @forelse($clientesActivos as $spot)
                 <div class="logo-item">
-                    <img src="{{ Storage::url($spot->contenido->logo_url) }}" alt="{{ $spot->titulo }}">
+                    <a href="{{ route('publicidad', $spot->slug)}}" target="blank">
+                        <img src="{{ Storage::url($spot->contenido->logo_url) }}" alt="{{ $spot->titulo }}">
+                    </a>
+                    <h2>{{$spot->titulo}}<h2>
                 </div>
             @empty
                 <p>No hay clientes aún. ¡Tu logo aquí!</p>
             @endforelse
         </div>
-    </section>   
+    </section>
 
     {{-- 6. Planes y precios + publicidad --}}
+
     <section class="pricing">
         <h2>Planes y Precios</h2>
-        <div class="plans-grid">
-            <div class="plan-card">
-                <h3>Gratis</h3>
-                <p>$0 / mes</p>
-                <ul>
-                    <li>1 landing</li>
-                    <li>Sin anuncios</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-outline">Comenzar</a> --}}
-            </div>
-            <div class="plan-card popular">
-                <h3>Básico</h3>
-                <p>$9.99 / mes</p>
-                <ul>
-                    <li>10 landings</li>
-                    <li>Catálogos ilimitados</li>
-                    <li>Soporte por email</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-primary">Contratar</a> --}}
-            </div>
-            <div class="plan-card">
-                <h3>Pro</h3>
-                <p>$19.99 / mes</p>
-                <ul>
-                    <li>Landings & catálogos ilimitados</li>
-                    <li>Integraciones avanzadas</li>
-                    <li>Soporte prioritario</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-outline">Contratar</a> --}}
-            </div>
+        <div class="plans-container">
+            @forelse($paquetes as $paquete)
+                @if ($paquete->nombre === 'Glifoo Enterprise')
+                    <div class="plan-card popular">
+                        <div class="cuerpoplan">
+                            <h3>{{ $paquete->nombre }}</h3>
+                            <p data-period="/mes">Bs. {{ $paquete->precio }}</p>
+                            <ul>
+                                <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
+                            </ul>
+                            @php
+                                $encryptedId = Crypt::encrypt($paquete->id);
+                            @endphp
+                            <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}"
+                                nombre="REGISTRATE">
+                            </x-layouts.btnenviodat>
+                        </div>
+                    </div>
+                @else
+                    <div class="plan-card">
+                        <div class="cuerpoplan">
+                            <h3>{{ $paquete->nombre }}</h3>
+                            <p data-period="/mes">Bs. {{ $paquete->precio }}</p>
+                            <ul>
+                                <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
+                            </ul>
+                            @php
+                                $encryptedId = Crypt::encrypt($paquete->id);
+                            @endphp
+                            <x-layouts.btnenviodat class="modificar" rutaEnvio="registro" dato="{{ $encryptedId }}"
+                                nombre="REGISTRATE">
+                            </x-layouts.btnenviodat>
+                        </div>
+                    </div>
+                @endif
+            @empty
+                <div class="no-packages">
+                    <p>No hay Servicios disponibles. ¡Tu logo aquí!</p>
+                </div>
+            @endforelse
         </div>
-
-        {{-- <div class="publicidad">
+    </section>
+    {{-- <div class="publicidad">
             <!-- Banner 300x250 -->
             <p>Espacio publicitario 300×250</p>
         </div> --}}
-    </section>
+
 
     {{-- 7. Blog / noticias --}}
     {{-- <section class="blog-posts">
