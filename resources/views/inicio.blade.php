@@ -71,45 +71,7 @@
     </section>   
 
     {{-- 6. Planes y precios + publicidad --}}
-    <section class="pricing">
-        <h2>Planes y Precios</h2>
-        <div class="plans-grid">
-            <div class="plan-card">
-                <h3>Gratis</h3>
-                <p>$0 / mes</p>
-                <ul>
-                    <li>1 landing</li>
-                    <li>Sin anuncios</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-outline">Comenzar</a> --}}
-            </div>
-            <div class="plan-card popular">
-                <h3>Básico</h3>
-                <p>$9.99 / mes</p>
-                <ul>
-                    <li>10 landings</li>
-                    <li>Catálogos ilimitados</li>
-                    <li>Soporte por email</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-primary">Contratar</a> --}}
-            </div>
-            <div class="plan-card">
-                <h3>Pro</h3>
-                <p>$19.99 / mes</p>
-                <ul>
-                    <li>Landings & catálogos ilimitados</li>
-                    <li>Integraciones avanzadas</li>
-                    <li>Soporte prioritario</li>
-                </ul>
-                {{-- <a href="{{ route('register') }}" class="btn btn-outline">Contratar</a> --}}
-            </div>
-        </div>
-
-        {{-- <div class="publicidad">
-            <!-- Banner 300x250 -->
-            <p>Espacio publicitario 300×250</p>
-        </div> --}}
-    </section>
+   
 
     {{-- 7. Blog / noticias --}}
     {{-- <section class="blog-posts">
