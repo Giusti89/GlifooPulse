@@ -92,6 +92,12 @@ function abrirConsulta(imagenSrc, nombreProducto, productoId) {
 
 function cerrarConsulta() {
   document.getElementById('consultaModal').style.display = 'none';
+  document.getElementById('consultaForm').reset();
+  
+  document.getElementById('productoId').value = '';
+  document.getElementById('nombre').value = '';
+  document.getElementById('telefono').value = '';
+  document.getElementById('mensaje').value = '';
 }
 
 // Cerrar modal al hacer clic fuera del contenido
