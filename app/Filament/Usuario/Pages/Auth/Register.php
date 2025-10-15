@@ -139,7 +139,11 @@ class Register extends BaseRegister
             ->maxLength(15)
             ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
             ->required()
-            ->unique()
+            ->unique(
+                table: User::class,
+                column: 'phone',
+                ignoreRecord: true
+            )
             ->autofocus();
     }
 
