@@ -186,15 +186,12 @@ class SpotResource extends Resource
                                 ->minLength(8)
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                                 ->helperText('Número visible en tu catálogo para que los clientes te contacten.')
-                                ->rules([
-                                    'required',
-                                    'string',
-                                    'min:8',
-                                    'max:12',
-                                    'regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/',  // Tu regex actual
-                                    'unique:contenidos,phone',  // Nueva regla para unicidad
-                                ])
-                                ->required(),
+                                ->required()
+                                ->unique(
+                                    table: 'contenidos', // Especificar tabla explícita
+                                    column: 'phone',
+                                    ignorable: fn($record) => $record?->contenido // Usar el contenido relacionado
+                                ),
                         ])
                 ]))
                     ->columnSpan('full'),
