@@ -49,7 +49,7 @@
             </div>
 
         </div>
-        <h1 class="catalogo-titulo">{{ $catalogos->seo_title ?? 'Mi Catálogo' }}</h1>
+        <h1 class="catalogo-titulo">{{ $titulo?? 'Mi Catálogo' }}</h1>
 
         @if ($categoriapro->count() > 0)
             <!-- Navegación por categorías -->
