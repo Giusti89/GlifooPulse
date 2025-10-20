@@ -17,7 +17,8 @@
             --brand-secondary: {{ $colsec }};
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('estilo/catalogob.css') }}?v={{ filemtime(public_path('estilo/catalogob.css')) }}">
+    <link rel="stylesheet"
+        href="{{ asset('estilo/catalogob.css') }}?v={{ filemtime(public_path('estilo/catalogob.css')) }}">
 
     <div class="catalogo-content">
         <!-- Barra de redes sociales sticky -->
@@ -49,7 +50,7 @@
             </div>
 
         </div>
-        <h1 class="catalogo-titulo">{{ $titulo?? 'Mi Catálogo' }}</h1>
+        <h1 class="catalogo-titulo">{{ $titulo ?? 'Mi Catálogo' }}</h1>
 
         @if ($categoriapro->count() > 0)
             <!-- Navegación por categorías -->
@@ -76,9 +77,14 @@
 
                                 <div class="producto-card">
                                     <div class="producto-imagen"
-                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')">
-                                        <img src="{{ $src }}" alt="{{ $producto->nombre }}"
-                                            class="img-producto" loading="lazy">
+                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"
+                                        role="button" tabindex="0"
+                                        aria-label="Ver imagen completa de {{ $producto->nombre }}">
+
+                                        <img src="{{ $src }}" data-src="{{ $src }}"
+                                            alt="{{ $producto->nombre }}" class="img-producto" loading="lazy"
+                                            width="400" height="400"
+                                            onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
                                     </div>
 
                                     <div class="producto-info">
@@ -160,5 +166,5 @@
             </div>
         @endif
     </div>
-    <script src="{{ asset('./dinamico/catalogo.js') }}"></script>
+    <script src="{{ asset('./dinamico/catalogo.js') }}?v={{ filemtime(public_path('./dinamico/catalogo.js')) }}"></script>
 </x-layouts.plantillacatalogo>

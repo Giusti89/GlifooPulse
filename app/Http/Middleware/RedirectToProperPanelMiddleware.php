@@ -19,7 +19,7 @@ class RedirectToProperPanelMiddleware
         if (auth()->check()) {
             $user = auth()->user();
             $currentPanel = filament()->getCurrentPanel()?->getId();
-           
+
             // 1. Administrador → debe estar en panel admin
             if ($user->nombreRol() === "Administrador General" && $currentPanel !== 'admin') {
                 return redirect()->to(Dashboard::getUrl(panel: 'admin'));
@@ -27,7 +27,7 @@ class RedirectToProperPanelMiddleware
 
             // 2. Usuario con Catálogos → debe estar en panel catalogos
             if ($user->tieneTipoproducto('Catalogo') && $currentPanel !== 'catalogo') {
-                return redirect()->to(Dashboard::getUrl(panel: 'catalogos'));
+                return redirect()->to(Dashboard::getUrl(panel: 'catalogo'));
             }
 
             // 3. Usuario con Biolink → debe estar en panel usuario
