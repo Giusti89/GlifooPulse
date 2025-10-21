@@ -1,0 +1,29 @@
+.politica {
+    display: flex;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.politica h3 {
+    color: #FCD031;
+    text-align: left;
+    width: 70vw;
+    font-family: 'Segoe';
+    font-size: 3vh;
+}
+
+.politica p {
+    color: white;
+    width: 70vw;
+    text-align: justify;
+    word-break: break-word;
+    line-break: normal;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    font-family: 'Segoe';
+    font-size: 2vh;
+}

@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
-
-
+use Illuminate\Support\HtmlString;
 
 class Register extends BaseRegister
 {
@@ -66,6 +66,7 @@ class Register extends BaseRegister
                         $this->getPasswordFormComponent(),
                         $this->getPasswordConfirmationFormComponent(),
                         $this->getLastMesesSuscripcion(),
+                        $this->getTermsCheckboxComponent(),
                     ])
 
                     ->statePath('data'),
@@ -145,6 +146,15 @@ class Register extends BaseRegister
                 ignoreRecord: true
             )
             ->autofocus();
+    }
+
+    protected function getTermsCheckboxComponent(): Component
+    {
+        return Checkbox::make('accepted_terms')
+            ->label(function () {
+                return new HtmlString('Acepto los <a href="' . route('terminos') . '" target="_blank" class="underline">Términos - Condiciones</a> y la <a href="' . route('privacidad') . '" target="_blank" class="underline">Política de Privacidad</a>.');
+            })
+            ->required();
     }
 
     protected function handleRegistration(array $data): User

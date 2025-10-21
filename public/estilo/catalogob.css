@@ -390,10 +390,10 @@
      display: inline-flex;
      align-items: center;
      gap: 0.5rem;
-     background-color: green;
+     background-color: #25D366;
      color: #fff;
      padding: 0.4rem 0.8rem;
-     border-radius: 4px;
+     border-radius: 30px;
      font-weight: 600;
      text-decoration: none;
      margin-top: 0.75rem;
