@@ -21,12 +21,7 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    line-height: 1.6;
-}
+
 
 /* Contenedor general */
 .socios-container {

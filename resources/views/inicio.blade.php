@@ -1,7 +1,7 @@
 <x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
-    <section class="hero">
+    <section class="hero" style="background-image: url('./img/logos/bannerglifoo.jpg')">
         <div class="hero-content">
             <h1>Glifoo Pulse: tu pagina de enlaces y catálogos digitales en minutos</h1>
             <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
@@ -37,23 +37,7 @@
             <h3>Integraciones y Analíticas</h3>
             <p>Conecta con Google Analytics, WhatsApp y redes sociales.</p>
         </div>
-    </section>
-
-    {{-- 3. Estadísticas dinámicas --}}
-    <section class="stats">
-        <div class="stat-card">
-            <h3>{{ number_format($totalLanding) }}</h3>
-            <p>Landing pages creadas</p>
-        </div>
-        <div class="stat-card">
-            <h3>{{ number_format($totalCatalogos) }}</h3>
-            <p>Productos en catálogos</p>
-        </div>
-        <div class="stat-card">
-            <h3>{{ number_format($totalClientes) }}</h3>
-            <p>Clientes activos</p>
-        </div>
-    </section>
+    </section>    
 
     {{-- 4. Clientes destacados --}}
     <section class="clientes-logos">

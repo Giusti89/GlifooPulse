@@ -36,7 +36,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--bg-dark);
   color: var(--text-light);
   padding: 2rem;
   border-radius: var(--card-radius);
@@ -139,33 +138,6 @@
   font-size: 2rem;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
-}
-
-/* 3. Estadísticas dinámicas */
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  width: 80%;
-  justify-content: center;
-  margin-bottom: 20px;
-  color: white;
-}
-
-.stat-card {
-  flex: 1 1 200px;
-  background: var(--bg-light);
-  backdrop-filter: blur(6px);
-  padding: 1rem;
-  border-radius: var(--card-radius);
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.stat-card h3 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: white;
 }
 
 /* 4. Clientes destacados */
