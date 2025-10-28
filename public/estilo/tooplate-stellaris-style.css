@@ -46,6 +46,97 @@ body {
     height: 100%;
     z-index: -1;
 }
+/*---------------- Barra de redes sociales sticky---------------------- */
+ .redes-sociales-sticky {
+     position: fixed;
+     left: 0;
+     top: 50%;
+     transform: translateY(-50%);
+     z-index: 1000;
+     padding: 0 10px;
+ }
+
+ .redes-sociales-container {
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+     backdrop-filter: blur(10px);
+     border-radius: 0 25px 25px 0;
+     padding: 20px 8px;
+ }
+
+ .red-social-link {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 60px;
+     height: 60px;
+     border-radius: 50%;
+     background: var(--brand-secondary);
+     color: white;
+     text-decoration: none;
+     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+     position: relative;
+     overflow: hidden;
+ }
+
+ .red-social-link::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: -100%;
+     width: 100%;
+     height: 100%;
+     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+     transition: left 0.5s;
+ }
+
+ .red-social-link:hover::before {
+     left: 100%;
+ }
+
+ .red-social-link:hover {
+     transform: translateX(5px) scale(1.1);
+     box-shadow: 0 6px 20px rgba(234, 102, 102, 0.4);
+ }
+
+ .red-social-icon {
+     width: 40px;
+     height: 40px;
+
+ }
+
+ .red-social-text {
+     font-size: 12px;
+     font-weight: 600;
+     color: white;
+ }
+
+ /* Tooltip para redes sociales */
+ .red-social-link::after {
+     content: attr(title);
+     position: absolute;
+     left: 100%;
+     top: 50%;
+     transform: translateY(-50%) translateX(10px);
+     background: #333;
+     color: white;
+     padding: 6px 12px;
+     border-radius: 6px;
+     font-size: 12px;
+     white-space: nowrap;
+     opacity: 0;
+     visibility: hidden;
+     transition: all 0.3s ease;
+     pointer-events: none;
+     z-index: 1001;
+ }
+
+ .red-social-link:hover::after {
+     opacity: 1;
+     visibility: visible;
+     transform: translateY(-50%) translateX(15px);
+ }
 
 /* Navigation Menu */
 .nav-menu ul {
