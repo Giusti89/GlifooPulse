@@ -39,7 +39,13 @@ class EditSpot extends EditRecord
             $data['colsecond']  = $contenido->colsecond;
             $data['phone']  = $contenido->phone;
             $data['banner_url']      = $contenido->banner_url;
+            $data['latitude']     = $contenido->latitude;
+            $data['longitude']    = $contenido->longitude;
 
+            $data['location'] = [
+                'lat' => $contenido->latitude ?? -16.489689,
+                'lng' => $contenido->longitude ?? -68.119293,
+            ];
         }
 
         return $data;
@@ -86,7 +92,9 @@ class EditSpot extends EditRecord
                 'ctexto' => $state['ctexto'] ?? null,
                 'colsecond' => $state['colsecond'] ?? null,
                 'phone' => $state['phone'] ?? null,
-                'banner_url'     => $state['banner_url']     ?? null,             
+                'banner_url'     => $state['banner_url']     ?? null,
+                'latitude'  => $state['latitude']  ?? null,
+                'longitude'  => $state['longitude']  ?? null,
             ]
         );
     }

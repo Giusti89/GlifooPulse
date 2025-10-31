@@ -27,6 +27,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\ColorPicker;
 use Illuminate\Validation\Rule;
+use Dotswan\MapPicker\Fields\Map;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+
 
 class SpotResource extends Resource
 {
@@ -192,7 +196,52 @@ class SpotResource extends Resource
                                     column: 'phone',
                                     ignorable: fn($record) => $record?->contenido // Usar el contenido relacionado
                                 ),
+                        ]),
+                    Step::make('Ubicación en el mapa')
+                        ->schema([
+                            Section::make('Mapa')
+                                ->columns(1)
+                                ->schema([
+                                    Hidden::make('latitude')
+                                        ->default(-16.5)
+                                        ->reactive(),
+
+                                    Hidden::make('longitude')
+                                        ->default(-68.15)
+                                        ->reactive(),
+
+                                    Map::make('location')
+                                        ->label('Ubicación')
+                                        ->columnSpanFull()
+                                        ->defaultLocation(latitude: -16.5, longitude: -68.15)
+                                        ->draggable(true)
+                                        ->clickable(true)
+                                        ->zoom(15)
+                                        ->tilesUrl("https://tile.openstreetmap.de/{z}/{x}/{y}.png")
+                                        ->afterStateUpdated(function (Set $set, ?array $state): void {
+                                            if ($state) {
+                                                $set('latitude', $state['lat']);
+                                                $set('longitude', $state['lng']);
+                                            }
+                                        }),
+                                ]),
                         ])
+                    // ->visible(function ($get, $record) {
+                    //     // Obtener el usuario actual
+                    //     $user = auth()->user();
+
+                    //     // Verificar si tiene suscripción activa al plan Medium
+                    //     $tienePlanMedium = Suscripcion::where('user_id', $user->id)
+                    //         ->where('estado', 1)
+                    //         ->whereHas('paquete', function ($query) {
+                    //             $query->where('nombre', 'like', '%Glifoo Enterprise%');
+                    //         })
+                    //         ->where('fecha_fin', '>=', now())
+                    //         ->exists();
+
+                    //     return $tienePlanMedium;
+                    // }),
+
                 ]))
                     ->columnSpan('full'),
             ]);

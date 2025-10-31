@@ -26,7 +26,7 @@
 
     <div class="catalogo-content">
         <canvas id="starfield"></canvas>
-         @if ($redes->count() > 0)
+        @if ($redes->count() > 0)
             <div class="redes-sociales-sticky">
                 <div class="redes-sociales-container">
                     @foreach ($redes as $red)
@@ -63,6 +63,8 @@
                     <ul>
                         <li><a href="#home">HOME</a></li>
                         <li><a href="#catalogo">CATALOGO</a></li>
+                        <li><a href="#mapa">MAPA</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -115,7 +117,6 @@
         </div>
         <!-- Modal  -->
 
-
         <section id="catalogo" class="missions-section fade-in">
             <div class="missions-container">
                 <h2 class="section-title">CATALOGO DE PRODUCTOS</h2>
@@ -148,18 +149,22 @@
                                             : asset('img/placeholder-producto.jpg');
                                     @endphp
                                     <div class="mission-card product-card">
-                                        <div class="product-image">
-                                            <img src="{{ $src }}" alt="{{ $producto->nombre }}"
-                                                onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')">
-                                            <div class="producto-overlay">
-                                                <span class="ver-imagen-text">Ver imagen completa</span>
-                                            </div>
+                                        <div class="producto-imagen"
+                                            onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"
+                                            role="button" tabindex="0"
+                                            aria-label="Ver imagen completa de {{ $producto->nombre }}">
+
+                                            <img src="{{ $src }}" data-src="{{ $src }}"
+                                                alt="{{ $producto->nombre }}" class="img-producto" loading="lazy"
+                                                width="400" height="400"
+                                                onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
                                         </div>
                                         <h4>{{ $producto->nombre }}</h4>
                                         <p>{{ Str::limit($producto->descripcion, 120) }}</p>
 
                                         @if ($producto->precio)
-                                            <div class="product-price">${{ number_format($producto->precio, 2) }}</div>
+                                            <div class="product-price">${{ number_format($producto->precio, 2) }}
+                                            </div>
                                         @endif
 
                                         <button type="button" class="producto-whatsapp"
@@ -176,6 +181,19 @@
                         </div>
                     @endforeach
                 </div>
+        </section>
+        <section id="mapa" class="mapa">
+             <h2 class="section-title">MAPA</h2>
+            <div class="mapframe">
+                <iframe
+                    src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
+                </iframe>
+                <div class="direc" style="color:{{ $contenido->ctexto }}">
+                    {{ $contenido->pie }}
+                </div>
+            </div>
         </section>
     </div>
     <script

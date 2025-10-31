@@ -39,7 +39,9 @@ class CreateSpot extends CreateRecord
           'ctexto'    => $state['ctexto']    ?? '#ffffff',
           'colsecond'    => $state['colsecond']    ?? '#ffffff',
           'phone'  => $state['phone']  ?? null,
-          'banner_url'  => $state['banner_url']  ?? null,          
+          'banner_url'  => $state['banner_url']  ?? null,
+          'latitude'  => $state['latitude']  ?? null,
+          'longitude'  => $state['longitude']  ?? null,        
         ]
       );
     }

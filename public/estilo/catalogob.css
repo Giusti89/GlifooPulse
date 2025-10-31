@@ -257,11 +257,9 @@
      height: 100%;
  }
 
-
  .producto-imagen {
      width: 100%;
      aspect-ratio: 1 / 1;
-     /* Fuerza relación cuadrada */
      overflow: hidden;
      background: #f8f9fa;
      position: relative;
@@ -312,7 +310,7 @@
      background: rgba(0, 0, 0, 0.7);
      opacity: 0;
      transition: opacity 0.3s ease;
-     pointer-events: none;
+     cursor: pointer;
  }
 
  .producto-card:hover .producto-imagen::after {
@@ -586,6 +584,14 @@
      }
  }
 
+ /* ---------MAPA---------- */
+ .mapa {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+ }
+
  /* Responsive */
 
  @media (min-width: 1024px) {
@@ -688,6 +694,10 @@
          font-size: 0.9rem;
      }
 
+     .mapframe iframe {
+         height: 450px;
+         width: auto;
+     }
  }
 
  @media (max-width: 480px) {
