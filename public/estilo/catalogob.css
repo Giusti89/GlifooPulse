@@ -357,13 +357,11 @@
  }
 
  .producto-descripcion {
-     color: black;
+     color: var(--brand-text);
      font-size: 0.8rem;
-     /* Un poco más pequeño */
      line-height: 1.4;
      margin-bottom: 10px;
      flex-grow: 1;
-     /* Limitar a 3 líneas con puntos suspensivos */
      display: -webkit-box;
      -webkit-line-clamp: 3;
      -webkit-box-orient: vertical;
