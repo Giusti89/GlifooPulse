@@ -600,6 +600,7 @@ section {
     text-decoration: none;
     margin-top: 0.75rem;
     transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 
 .producto-whatsapp:hover {
@@ -752,8 +753,8 @@ section {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(139, 92, 246, 0.9);
-    color: white;
+    background: var(--brand-secondary);
+    color:var(--brand-text);
     border: none;
     width: 35px;
     height: 35px;
@@ -824,16 +825,12 @@ section {
 
 .mission-tab:hover,
 .mission-tab.active {
-    background: linear-gradient(135deg, var(--solar-gold), var(--galaxy-violet));
-    color: white;
+    background: var(--brand-secondary);
+    color: var(--brand-text);
     border-color: transparent;
-    box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
     transform: translateY(-2px);
 }
 
-.mission-tab.active {
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
-}
 
 /* Mission Content */
 .mission-content {
@@ -865,40 +862,20 @@ section {
     gap: 30px;
 }
 
-/* Product Card */
+/* ---------------------Product Card------------------- */
 .mission-card.product-card {
     background: var(--brand-secondary);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 25px;
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
-.mission-card.product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    transition: left 0.5s ease;
-}
-
-.mission-card.product-card:hover::before {
-    left: 100%;
-}
-
-.mission-card.product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(139, 92, 246, 0.3);
-    border-color: var(--solar-gold);
-    background: var(--cosmic-white);
-}
-
-/* Product Image */
-.product-image {
+/* Contenedor de la imagen con overlay */
+.producto-imagen {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
@@ -908,40 +885,128 @@ section {
     position: relative;
 }
 
-.product-image img {
+.img-producto {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: all 0.4s ease;
+    filter: brightness(0.9); /* Imagen un poco oscura por defecto */
 }
 
-.mission-card.product-card:hover .product-image img {
-    transform: scale(1.1);
+/* Overlay que se muestra al hacer hover */
+.producto-imagen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 15px;
+    pointer-events: none;
 }
 
-/* Product Info */
+/* Texto "Ver imagen completa" */
+.producto-imagen::before {
+    content: '🔍 Ver imagen completa';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 2;
+    pointer-events: none;
+    background: rgba(139, 92, 246, 0.8);
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 2px solid rgba(245, 158, 11, 0.5);
+    backdrop-filter: blur(10px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
+/* Efectos al hacer hover en la imagen */
+.producto-imagen:hover::after {
+    opacity: 1;
+}
+
+.producto-imagen:hover::before {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.producto-imagen:hover .img-producto {
+    transform: scale(1.05);
+    filter: brightness(0.7); /* Imagen más oscura al hacer hover */
+}
+
+/* Efecto de brillo interior en la tarjeta */
+.mission-card.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.1) 0%,
+        rgba(245, 158, 11, 0.05) 50%,
+        rgba(236, 72, 153, 0.05) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.mission-card.product-card:hover::before {
+    opacity: 1;
+}
+
+/* Efecto de borde neon en toda la tarjeta */
+.mission-card.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 10px 30px rgba(139, 92, 246, 0.3),
+        0 0 0 1px rgba(245, 158, 11, 0.2),
+        inset 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Mejor contraste para el texto */
 .mission-card.product-card h4 {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 15px;
-    color: var(--solar-gold);
+    color: var(--brand-background);
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .mission-card.product-card p {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--star-silver);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 15px;
-    color: var(--brand-text);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .product-price {
     font-size: 1.4rem;
     font-weight: bold;
-    color: var(--solar-gold);
+    color: var(--brand-background);
     margin: 10px 0;
     font-family: 'Orbitron', sans-serif;
 }
@@ -959,15 +1024,13 @@ section {
 }
 
 /* Disponible */
-.estado-disponible,
 .estado-disponible {
-    background: rgba(34, 197, 94, 0.2);
-    color: #22c55e;
+    background: var(--brand-background);
+    color: var(--brand-text);
     border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 /* Agotado */
-.estado-agotado,
 .estado-agotado {
     background: rgba(239, 68, 68, 0.2);
     color: #ef4444;
@@ -975,7 +1038,6 @@ section {
 }
 
 /* No disponible */
-.estado-no-disponible,
 .estado-no-disponible {
     background: rgba(156, 163, 175, 0.2);
     color: #9ca3af;
@@ -983,11 +1045,32 @@ section {
 }
 
 /* Próximamente */
-.estado-proximamente,
 .estado-proximamente {
     background: rgba(245, 158, 11, 0.2);
     color: #f59e0b;
     border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Botón de WhatsApp */
+.producto-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 0;
+    width: 50%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.producto-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
 }
 
 /* Mission Content */
@@ -1005,12 +1088,12 @@ section {
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+/* ---------------------Product Card----------------------------------- */
 
 /* Footer */
 
@@ -1186,10 +1269,11 @@ footer {
     .mission-grid {
         display: flex;
         flex-direction: column;
-        justify-content: center;  
+        justify-content: center;
         gap: 20px;
         width: 100%;
     }
+
     .missions-container {
         width: 95%;
         max-width: 100%;

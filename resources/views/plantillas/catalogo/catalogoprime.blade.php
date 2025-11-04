@@ -160,7 +160,7 @@
                                                 onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
                                         </div>
                                         <h4>{{ $producto->nombre }}</h4>
-                                        <p>{{ Str::limit($producto->descripcion, 120) }}</p>
+                                        <p>{{ Str::limit($producto->descripcion, 250) }}</p>
 
                                         @if ($producto->precio)
                                             <div class="product-price">${{ number_format($producto->precio, 2) }}
