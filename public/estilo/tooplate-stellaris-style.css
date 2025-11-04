@@ -1401,4 +1401,38 @@ footer {
         height: 450px;
         width: auto;
     }
+      .redes-sociales-sticky {
+         position: fixed;
+         bottom: 0;
+         top: auto;
+         left: 0;
+         right: 0;
+         transform: none;
+         padding: 10px;
+
+     }
+
+     .redes-sociales-container {
+         flex-direction: row;
+         justify-content: center;
+         border-radius: 25px;
+         padding: 12px 20px;
+         margin: 0 auto;
+         max-width: 400px;
+     }
+
+     .red-social-link {
+         width: 40px;
+         height: 40px;
+     }
+
+     .red-social-link:hover {
+         transform: translateY(-5px) scale(1.1);
+     }
+
+     /* Ocultar tooltip en móvil */
+     .red-social-link::after {
+         display: none;
+     }
+
 }
