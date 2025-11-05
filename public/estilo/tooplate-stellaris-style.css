@@ -927,7 +927,7 @@ section {
     transition: all 0.4s ease;
     z-index: 2;
     pointer-events: none;
-    background: rgba(139, 92, 246, 0.8);
+    background: var(--brand-background);
     padding: 12px 20px;
     border-radius: 25px;
     border: 2px solid rgba(245, 158, 11, 0.5);
@@ -998,7 +998,7 @@ section {
 .mission-card.product-card p {
     font-size: 1rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--brand-text);
     margin-bottom: 15px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
