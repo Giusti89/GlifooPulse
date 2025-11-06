@@ -140,6 +140,7 @@
                     @foreach ($categoriapro as $categoria)
                         <div class="mission-content {{ $loop->first ? 'active' : '' }}"
                             id="categoria-{{ $categoria->id }}">
+                            <h2 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h2>
                             <div class="mission-grid">
                                 @foreach ($categoria->productos as $producto)
                                     @php
@@ -148,6 +149,7 @@
                                             ? Storage::url($imagen->url)
                                             : asset('img/placeholder-producto.jpg');
                                     @endphp
+                                    
                                     <div class="mission-card product-card">
                                         <div class="producto-imagen"
                                             onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"

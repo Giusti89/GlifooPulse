@@ -754,7 +754,7 @@ section {
     top: 50%;
     transform: translateY(-50%);
     background: var(--brand-secondary);
-    color:var(--brand-text);
+    color: var(--brand-text);
     border: none;
     width: 35px;
     height: 35px;
@@ -863,6 +863,15 @@ section {
 }
 
 /* ---------------------Product Card------------------- */
+.categoria-titulo {
+    color: var(--brand-text);
+    border-bottom: 2px solid var(--brand-secondary);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    margin-top: 15px;
+}
+
 .mission-card.product-card {
     background: var(--brand-secondary);
     backdrop-filter: blur(20px);
@@ -890,7 +899,8 @@ section {
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    filter: brightness(0.9); /* Imagen un poco oscura por defecto */
+    filter: brightness(0.9);
+    /* Imagen un poco oscura por defecto */
 }
 
 /* Overlay que se muestra al hacer hover */
@@ -901,11 +911,9 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.6) 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.6) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 15px;
@@ -948,7 +956,8 @@ section {
 
 .producto-imagen:hover .img-producto {
     transform: scale(1.05);
-    filter: brightness(0.7); /* Imagen más oscura al hacer hover */
+    filter: brightness(0.7);
+    /* Imagen más oscura al hacer hover */
 }
 
 /* Efecto de brillo interior en la tarjeta */
@@ -959,12 +968,10 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgba(139, 92, 246, 0.1) 0%,
-        rgba(245, 158, 11, 0.05) 50%,
-        rgba(236, 72, 153, 0.05) 100%
-    );
+    background: linear-gradient(135deg,
+            rgba(139, 92, 246, 0.1) 0%,
+            rgba(245, 158, 11, 0.05) 50%,
+            rgba(236, 72, 153, 0.05) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -977,7 +984,7 @@ section {
 /* Efecto de borde neon en toda la tarjeta */
 .mission-card.product-card:hover {
     transform: translateY(-8px);
-    box-shadow: 
+    box-shadow:
         0 10px 30px rgba(139, 92, 246, 0.3),
         0 0 0 1px rgba(245, 158, 11, 0.2),
         inset 0 0 20px rgba(139, 92, 246, 0.1);
@@ -1088,11 +1095,13 @@ section {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 /* ---------------------Product Card----------------------------------- */
 
 /* Footer */
@@ -1401,38 +1410,39 @@ footer {
         height: 450px;
         width: auto;
     }
-      .redes-sociales-sticky {
-         position: fixed;
-         bottom: 0;
-         top: auto;
-         left: 0;
-         right: 0;
-         transform: none;
-         padding: 10px;
 
-     }
+    .redes-sociales-sticky {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
+        transform: none;
+        padding: 10px;
 
-     .redes-sociales-container {
-         flex-direction: row;
-         justify-content: center;
-         border-radius: 25px;
-         padding: 12px 20px;
-         margin: 0 auto;
-         max-width: 400px;
-     }
+    }
 
-     .red-social-link {
-         width: 40px;
-         height: 40px;
-     }
+    .redes-sociales-container {
+        flex-direction: row;
+        justify-content: center;
+        border-radius: 25px;
+        padding: 12px 20px;
+        margin: 0 auto;
+        max-width: 400px;
+    }
 
-     .red-social-link:hover {
-         transform: translateY(-5px) scale(1.1);
-     }
+    .red-social-link {
+        width: 40px;
+        height: 40px;
+    }
 
-     /* Ocultar tooltip en móvil */
-     .red-social-link::after {
-         display: none;
-     }
+    .red-social-link:hover {
+        transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Ocultar tooltip en móvil */
+    .red-social-link::after {
+        display: none;
+    }
 
 }
