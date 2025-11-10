@@ -18,7 +18,9 @@
                     </div>
 
                     <div class="tarjeta__body">
-                        <p class="tarjeta__descripcion">{!! str($item->descripcion)->sanitizeHtml() !!}</p>
+                        <div class="tarjeta__descripcion">
+                            {!! str($item->descripcion)->sanitizeHtml() !!}
+                        </div>
                     </div>
 
                     <div class="tarjeta__precio">

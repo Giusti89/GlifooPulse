@@ -252,24 +252,6 @@
   color: var(--primary-color);
 }
 
-.plan-card p {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.plan-card ul {
-  list-style: none;
-  margin-bottom: 1rem;
-  text-align: left;
-  padding-left: 1rem;
-  color: white;
-}
-
-.plan-card ul li {
-  margin-bottom: 0.5rem;
-}
-
 .plan-card .modificar {
   margin-top: auto;
 }
@@ -278,6 +260,25 @@
   display: flex;
   flex-direction: column;
   height: auto;
+}
+
+.tarjeta__descripcion {
+  color: #fcfcfc;
+  line-height: 1.6;
+  font-size: 1rem;
+  word-wrap: break-word;
+  hyphens: auto;
+  margin: 0;
+}
+
+.tarjeta__descripcion ul,
+.tarjeta__descripcion ol {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+  color: #e6b800;
+  text-align: left;
+  font-size: 1.5rem;
+  list-style-type: circle;
 }
 
 /* Espacio publicitario */

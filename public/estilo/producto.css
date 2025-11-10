@@ -142,11 +142,186 @@
 
 .tarjeta__precio .tarjeta__descripcion::before {
     content: 'Bs. ';
-    font-size: 1rem;
+    font-size: 1.7rem;
     font-weight: 600;
     color: white;
     opacity: 0.8;
 }
+
+/* ----------------------------------------tarjeta estilos -------------------------------------------------------------------------- */
+.tarjeta__descripcion {
+    color: #f8fafc;
+    line-height: 1.6;
+    font-size: 1rem;
+    word-wrap: break-word;
+    hyphens: auto;
+    margin: 0;
+}
+
+/* Encabezados */
+.tarjeta__descripcion h1,
+.tarjeta__descripcion h2,
+.tarjeta__descripcion h3,
+.tarjeta__descripcion h4,
+.tarjeta__descripcion h5,
+.tarjeta__descripcion h6 {
+    color: #ffffff;
+    margin: 1.1em 0 0.4em;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.tarjeta__descripcion h1 {
+    font-size: 1.6rem;
+}
+
+.tarjeta__descripcion h2 {
+    font-size: 1.35rem;
+}
+
+.tarjeta__descripcion h3 {
+    font-size: 1.15rem;
+}
+
+/* Párrafos */
+.tarjeta__descripcion p {
+    margin: 0 0 1rem;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.98rem;
+}
+
+/* Listas */
+.tarjeta__descripcion ul,
+.tarjeta__descripcion ol {
+    margin: 0 0 1rem 1.25rem;
+    padding: 0;
+    color: #e6b800;
+    text-align: left;
+    font-size: 1.5rem;
+    list-style-type: circle;
+}
+
+.tarjeta__descripcion li {
+    margin: 0.45rem 0;
+}
+
+/* Enlaces */
+.tarjeta__descripcion a {
+    color: #60a5fa;
+    /* link azul suave */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.tarjeta__descripcion a:hover,
+.tarjeta__descripcion a:focus {
+    color: #93c5fd;
+    outline: none;
+}
+
+/* Imágenes: responsivas y con placeholder visual */
+.tarjeta__descripcion img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.8rem auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.45);
+    object-fit: cover;
+}
+
+/* Asegurar que iframes o contenido embebido sean responsivos */
+.tarjeta__descripcion .embed-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    margin: 0.8rem 0;
+}
+
+.tarjeta__descripcion .embed-wrap iframe,
+.tarjeta__descripcion .embed-wrap video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Tablas: scroll horizontal en móvil y estilo limpio */
+.tarjeta__descripcion .table-wrap {
+    width: 100%;
+    overflow: auto;
+    margin: 1rem 0;
+    border-radius: 8px;
+}
+
+.tarjeta__descripcion table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tarjeta__descripcion th,
+.tarjeta__descripcion td {
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    text-align: left;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.tarjeta__descripcion thead th {
+    background: rgba(255, 255, 255, 0.02);
+    font-weight: 700;
+}
+
+/* Código preformateado y bloques de código */
+.tarjeta__descripcion pre,
+.tarjeta__descripcion code {
+    background: rgba(15, 23, 42, 0.6);
+    color: #e6eef8;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Citas */
+.tarjeta__descripcion blockquote {
+    border-left: 4px solid rgba(99, 102, 241, 0.7);
+    margin: 0.6rem 0;
+    padding: 0.6rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(99, 102, 241, 0.04);
+    border-radius: 6px;
+}
+
+/* Iconografía o listas enriquecidas (si el editor lo genera) */
+.tarjeta__descripcion .media {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+}
+
+/* Accesibilidad y foco para elementos interactivos dentro del contenido */
+.tarjeta__descripcion a:focus,
+.tarjeta__descripcion button:focus,
+.tarjeta__descripcion input:focus,
+.tarjeta__descripcion textarea:focus {
+    outline: 3px solid rgba(99, 102, 241, 0.18);
+    outline-offset: 3px;
+}
+
+/* Small helpers */
+.tarjeta__descripcion .muted {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
 
 /* Footer con botón moderno */
 .tarjeta__footer {
@@ -321,6 +496,15 @@
     .tarjeta__precio,
     .tarjeta__footer {
         padding: 1.5rem;
+    }
+
+    .tarjeta__descripcion ul,
+    .tarjeta__descripcion ol {
+        margin: 0 0 1rem 1.25rem;
+        padding: 0;
+        color: #e6b800;
+        text-align: left;
+        font-size: 1.0rem;
     }
 }
 

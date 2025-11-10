@@ -37,7 +37,7 @@
             <h3>Integraciones y Analíticas</h3>
             <p>Conecta con Google Analytics, WhatsApp y redes sociales.</p>
         </div>
-    </section>    
+    </section>
 
     {{-- 4. Clientes destacados --}}
     <section class="clientes-logos">
@@ -76,9 +76,11 @@
                                 </x-layouts.btnenviodat>
                             </div>
 
-                            <ul>
-                                <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
-                            </ul>
+                            <div class="tarjeta__body">
+                                <div class="tarjeta__descripcion">
+                                    {!! str($paquete->descripcion)->sanitizeHtml() !!}
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -95,9 +97,12 @@
                                     dato="{{ $encryptedId }}" nombre="REGISTRATE">
                                 </x-layouts.btnenviodat>
                             </div>
-                            <ul>
-                                <li>{!! str($paquete->descripcion)->sanitizeHtml() !!}</li>
-                            </ul>
+                            
+                            <div class="tarjeta__body">
+                                <div class="tarjeta__descripcion">
+                                    {!! str($paquete->descripcion)->sanitizeHtml() !!}
+                                </div>
+                            </div>
 
                         </div>
                     </div>
