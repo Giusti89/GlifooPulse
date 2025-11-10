@@ -52,8 +52,18 @@
         </div>
         <h1 class="catalogo-titulo">{{ $titulo ?? 'Mi Catálogo' }}</h1>
 
+        <section id="nosotros" class="missions-section fade-in">
+            <div class="nosotros-container">
+                <h2 class="categoria-titulo">NOSOTROS</h2>
+                <p>
+                    {{ $contenido->texto }}
+                </p>
+            </div>
+        </section>
+
         @if ($categoriapro->count() > 0)
             <!-- Navegación por categorías -->
+            <h2 class="categoria-titulo">PRODUCTOS</h2>
             <div class="categorias-navegacion">
                 @foreach ($categoriapro as $categoria)
                     <a href="{{ url()->current() }}#{{ $categoria->slug }}" class="categoria-link">

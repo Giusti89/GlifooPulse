@@ -37,6 +37,8 @@ class EditSpot extends EditRecord
             $data['background']        = $contenido->background;
             $data['ctexto']  = $contenido->ctexto;
             $data['colsecond']  = $contenido->colsecond;
+            $data['texto']  = $contenido->texto;
+            $data['pie']  = $contenido->pie;
             $data['phone']  = $contenido->phone;
             $data['banner_url']      = $contenido->banner_url;
             $data['latitude']     = $contenido->latitude;
@@ -91,6 +93,8 @@ class EditSpot extends EditRecord
                 'background'       => $state['background']       ?? null,
                 'ctexto' => $state['ctexto'] ?? null,
                 'colsecond' => $state['colsecond'] ?? null,
+                'texto' => $state['texto'] ?? null,
+                'pie' => $state['pie'] ?? null,
                 'phone' => $state['phone'] ?? null,
                 'banner_url'     => $state['banner_url']     ?? null,
                 'latitude'  => $state['latitude']  ?? null,

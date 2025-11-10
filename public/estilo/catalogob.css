@@ -238,6 +238,25 @@
  }
 
  /*--------------- Navegación de categorías--------------------- */
+ /*--------------- NOSOTROS--------------------- */
+ .nosotros-container {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     gap: 20px;
+     width: 100%;
+     margin-bottom: 50px;
+ }
+
+ .nosotros-container p {
+     text-align: center;
+     color: var(--brand-text);
+     font-size: 1.2rem;
+     text-align: justify;
+ }
+
+
+ /*--------------- NOSOTROS--------------------- */
  /* Grid de productos */
  .productos-grid {
      display: grid;
@@ -369,7 +388,7 @@
  }
 
  .producto-precio {
-     color:var(--brand-background);
+     color: var(--brand-background);
      font-size: 1.2rem;
      font-weight: bold;
      margin: 8px 0;
@@ -588,6 +607,11 @@
      flex-direction: column;
      justify-content: center;
      align-items: center;
+ }
+
+ .direc {
+     text-align: center;
+     color: var(--brand-text);
  }
 
  /* Responsive */

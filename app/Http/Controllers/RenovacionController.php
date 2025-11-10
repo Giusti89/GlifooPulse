@@ -66,7 +66,7 @@ class RenovacionController extends Controller
                 'concepto' => "renovacion",
             ]);
 
-            $adminEmails = User::where('rol_id', 1)->pluck('email')->toArray();
+            $adminEmails = User::where('id', 1)->pluck('email')->toArray();
             if (!empty($adminEmails)) {
                 Mail::to($adminEmails)->send(new Renovacion(
                     $user,

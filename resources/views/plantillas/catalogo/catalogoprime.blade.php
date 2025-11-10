@@ -62,6 +62,7 @@
                 <div class="nav-menu" id="nav-menu">
                     <ul>
                         <li><a href="#home">HOME</a></li>
+                        <li><a href="#nosotros">NOSOTROS</a></li>
                         <li><a href="#catalogo">CATALOGO</a></li>
                         <li><a href="#mapa">MAPA</a></li>
 
@@ -116,6 +117,14 @@
             </div>
         </div>
         <!-- Modal  -->
+        <section id="nosotros" class="missions-section fade-in">
+            <div class="nosotros-container">
+                <h2 class="section-title">NOSOTROS</h2>
+                <p>
+                    {{ $contenido->texto }}
+                </p>
+            </div>
+        </section>
 
         <section id="catalogo" class="missions-section fade-in">
             <div class="missions-container">
@@ -149,7 +158,7 @@
                                             ? Storage::url($imagen->url)
                                             : asset('img/placeholder-producto.jpg');
                                     @endphp
-                                    
+
                                     <div class="mission-card product-card">
                                         <div class="producto-imagen"
                                             onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"
@@ -185,7 +194,7 @@
                 </div>
         </section>
         <section id="mapa" class="mapa">
-             <h2 class="section-title">MAPA</h2>
+            <h2 class="section-title">MAPA</h2>
             <div class="mapframe">
                 <iframe
                     src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"

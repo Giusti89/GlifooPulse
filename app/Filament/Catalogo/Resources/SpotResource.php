@@ -149,7 +149,7 @@ class SpotResource extends Resource
                                 ->helperText('Palabras separadas por coma (ej: muebles, decoración, diseño). Ayudan a mejorar el posicionamiento en buscadores.'),
                         ])
                         : null,
-                    Step::make('Logotipo de empresa')
+                    Step::make('Datos de la empresa')
                         ->schema([
                             Forms\Components\FileUpload::make('logo_url')
                                 ->label('Logotipo de la empresa')
@@ -182,6 +182,15 @@ class SpotResource extends Resource
                                 ->default('#ffffff')
                                 ->helperText('Color que se usará para los textos. Asegúrate de que contraste bien con el fondo.')
                                 ->rgb(),
+
+                            Forms\Components\Textarea::make('texto')
+                                ->label('Descripción')
+                                ->required()
+                                ->maxLength(500),
+
+                            Forms\Components\Textarea::make('pie')
+                                ->label('Dirección')
+                                ->maxLength(255),
 
                             TextInput::make('phone')
                                 ->label('Número de contacto para los artículos')

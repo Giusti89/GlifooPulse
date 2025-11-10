@@ -405,6 +405,24 @@ section#home.hero {
     }
 }
 
+/*--------------- NOSOTROS--------------------- */
+.nosotros-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.nosotros-container p {
+    text-align: center;
+    color:var(--brand-text);
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+/*--------------- NOSOTROS--------------------- */
+
 /* Sections */
 section {
     padding: 120px 30px;
@@ -630,6 +648,10 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.direc {
+    text-align: center;
+    color:var(--brand-text);
 }
 
 /* ---------MAPA---------- */
