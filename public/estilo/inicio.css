@@ -350,4 +350,12 @@
   .clientes-logos h2 {
     font-size: 1.1rem;
   }
+  .tarjeta__descripcion ul,
+    .tarjeta__descripcion ol {
+        margin: 0 0 1rem 1.25rem;
+        padding: 0;
+        color: #e6b800;
+        text-align: left;
+        font-size: 1.0rem;
+    }
 }
