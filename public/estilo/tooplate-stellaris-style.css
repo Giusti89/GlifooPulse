@@ -1492,9 +1492,16 @@ footer {
         font-size: 30px;
     }
 
-    .mapframe iframe {
-        height: 450px;
-        width: auto;
+    .info-overlay {
+        position: relative;
+        top: auto;
+        right: auto;
+        max-width: 100%;
+        margin-top: 15px;
+    }
+    
+    .titulo-destacado {
+        font-size: 2rem;
     }
 
     .redes-sociales-sticky {
