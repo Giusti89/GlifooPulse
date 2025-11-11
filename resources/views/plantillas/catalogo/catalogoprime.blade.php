@@ -193,28 +193,32 @@
                     @endforeach
                 </div>
         </section>
-        <section id="mapa" class="mapa-minimal">
-    <h2 class="titulo-minimal">UBICACIÓN</h2>
-    <div class="contenedor-mapa">
-        <div class="marco-mapa">
-            <iframe
-                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                width="100%"
-                height="350"
-                style="border: 1px solid #e0e0e0;"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Mapa de ubicación">
-            </iframe>
-        </div>
-        <div class="texto-direccion" style="color: {{ $contenido->ctexto }};">
-            <span>📍</span> {{ $contenido->pie }}
-        </div>
-    </div>
-</section>
 
-        <style>
-            </div><script
-                src="{{ asset('./dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('./dinamico/tooplate-stellaris-script.js')) }}">
-            </script></x-layouts.plantillacatalogo>
+        <section id="mapa" class="mapa-avanzado">
+            <div class="contenedor-principal">
+                <h2 class="titulo-destacado">ENCUÉNTRANOS</h2>
+                <div class="tarjeta-mapa">
+                    <div class="mapa-3d">
+                        <iframe
+                            src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                            width="100%" height="450" style="border: 0; border-radius: 8px;" allowfullscreen
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
+                        </iframe>
+                    </div>
+                    <div class="info-overlay" style="color: {{ $contenido->ctexto }};">
+                        <div class="icono-mapa">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                        </div>
+                        <p class="direccion-texto">{{ $contenido->pie }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script
+        src="{{ asset('./dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('./dinamico/tooplate-stellaris-script.js')) }}">
+    </script>
+</x-layouts.plantillacatalogo>

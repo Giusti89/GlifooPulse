@@ -416,7 +416,7 @@ section#home.hero {
 
 .nosotros-container p {
     text-align: center;
-    color:var(--brand-text);
+    color: var(--brand-text);
     font-size: 1.2rem;
     text-align: justify;
 }
@@ -643,39 +643,79 @@ section {
 }
 
 /* ---------MAPA---------- */
-.mapa-minimal {
-    padding: 60px 20px;
-    background: white;
+.mapa-avanzado {
+    padding: 80px 0;
 }
 
-.titulo-minimal {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 2rem;
-    color: #333;
-    letter-spacing: 2px;
-}
-
-.contenedor-mapa {
-    max-width: 800px;
+.contenedor-principal {
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
-.marco-mapa {
-    margin-bottom: 1rem;
-}
-
-.texto-direccion {
+.titulo-destacado {
     text-align: center;
-    font-size: 1.1rem;
-    padding: 15px;
-    background: var(--brand-secondary);
-    border-radius: 6px;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.texto-direccion span {
-    margin-right: 8px;
+.tarjeta-mapa {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.mapa-3d {
+    transform: perspective(1000px) rotateX(5deg);
+    transition: transform 0.5s ease;
+}
+
+.mapa-3d:hover {
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.info-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--brand-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    max-width: 250px;
+    text-align: center;
+}
+
+.icono-mapa {
+    margin-bottom: 10px;
+}
+
+.direccion-texto {
+    margin-bottom: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.boton-ruta {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: var(--brand-text);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.boton-ruta:hover {
+    transform: translateY(-2px);
+}
+.direccion-info{
+    background-color: var(--brand-secondary);
 }
 
 /* ---------MAPA---------- */
