@@ -603,15 +603,72 @@
 
  /* ---------MAPA---------- */
  .mapa {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
+     padding: 80px 0;
+     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
  }
 
- .direc {
+ .container {
+     max-width: 1200px;
+     margin: 0 auto;
+     padding: 0 20px;
+ }
+
+ .section-title {
      text-align: center;
-     color: var(--brand-text);
+     font-size: 2.5rem;
+     font-weight: 700;
+     margin-bottom: 3rem;
+     color: #2c3e50;
+     position: relative;
+ }
+
+ .section-title::after {
+     content: '';
+     position: absolute;
+     bottom: -10px;
+     left: 50%;
+     transform: translateX(-50%);
+     width: 80px;
+     height: 4px;
+     background: linear-gradient(90deg, #3498db, #2ecc71);
+     border-radius: 2px;
+ }
+
+ .mapa-contenedor {
+     position: relative;
+     max-width: 1000px;
+     margin: 0 auto;
+ }
+
+ .mapframe {
+     border-radius: 12px;
+     overflow: hidden;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .mapframe:hover {
+     transform: translateY(-5px);
+ }
+
+ .direccion-info {
+     position: absolute;
+     bottom: 20px;
+     left: 20px;
+     padding: 15px 20px;
+     border-radius: 8px;
+     backdrop-filter: blur(10px);
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+     font-weight: 500;
+     max-width: 300px;
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     background-color: var(--brand-secondary);
+ }
+
+ .direccion-info::before {
+     content: '📍';
+     font-size: 1.2em;
  }
 
  /* Responsive */
@@ -716,9 +773,25 @@
          font-size: 0.9rem;
      }
 
+     .mapa {
+         padding: 40px 0;
+     }
+
+     .section-title {
+         font-size: 2rem;
+         margin-bottom: 2rem;
+     }
+
      .mapframe iframe {
-         height: 450px;
-         width: auto;
+         height: 300px;
+     }
+
+     .direccion-info {
+         position: relative;
+         bottom: auto;
+         left: auto;
+         margin-top: 15px;
+         max-width: 100%;
      }
  }
 

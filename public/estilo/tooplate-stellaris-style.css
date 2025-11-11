@@ -643,15 +643,39 @@ section {
 }
 
 /* ---------MAPA---------- */
-.mapa {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.mapa-minimal {
+    padding: 60px 20px;
+    background: white;
 }
-.direc {
+
+.titulo-minimal {
     text-align: center;
-    color:var(--brand-text);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    color: #333;
+    letter-spacing: 2px;
+}
+
+.contenedor-mapa {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.marco-mapa {
+    margin-bottom: 1rem;
+}
+
+.texto-direccion {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 15px;
+    background: var(--brand-secondary);
+    border-radius: 6px;
+}
+
+.texto-direccion span {
+    margin-right: 8px;
 }
 
 /* ---------MAPA---------- */

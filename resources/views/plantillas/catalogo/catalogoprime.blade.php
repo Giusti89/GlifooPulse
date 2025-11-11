@@ -193,21 +193,28 @@
                     @endforeach
                 </div>
         </section>
-        <section id="mapa" class="mapa">
-            <h2 class="section-title">MAPA</h2>
-            <div class="mapframe">
-                <iframe
-                    src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
-                </iframe>
-                <div class="direc" style="color:{{ $contenido->ctexto }}">
-                    {{ $contenido->pie }}
-                </div>
-            </div>
-        </section>
+        <section id="mapa" class="mapa-minimal">
+    <h2 class="titulo-minimal">UBICACIÓN</h2>
+    <div class="contenedor-mapa">
+        <div class="marco-mapa">
+            <iframe
+                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                width="100%"
+                height="350"
+                style="border: 1px solid #e0e0e0;"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mapa de ubicación">
+            </iframe>
+        </div>
+        <div class="texto-direccion" style="color: {{ $contenido->ctexto }};">
+            <span>📍</span> {{ $contenido->pie }}
+        </div>
     </div>
-    <script
-        src="{{ asset('./dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('./dinamico/tooplate-stellaris-script.js')) }}">
-    </script>
-</x-layouts.plantillacatalogo>
+</section>
+
+        <style>
+            </div><script
+                src="{{ asset('./dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('./dinamico/tooplate-stellaris-script.js')) }}">
+            </script></x-layouts.plantillacatalogo>

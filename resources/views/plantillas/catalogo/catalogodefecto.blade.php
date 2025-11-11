@@ -176,15 +176,23 @@
             </div>
         @endif
         <section id="mapa" class="mapa">
-            <h2 class="categoria-titulo">MAPA</h2>
-            <div class="mapframe">
-                <iframe
-                    src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
-                </iframe>
-                <div class="direc" style="color:{{ $contenido->ctexto }}">
-                    {{ $contenido->pie }}
+            <div class="container">
+                <h2 class="section-title">NUESTRA UBICACIÓN</h2>
+                <div class="mapa-contenedor">
+                    <div class="mapframe">
+                        <iframe
+                            src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                            width="100%" height="400"
+                            style="border:0; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);"
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            title="Mapa de ubicación">
+                        </iframe>
+                    </div>
+                    <div class="direccion-info"
+                        style="color: {{ $contenido->ctexto }}">
+                        <i class="icono-ubicacion"></i>
+                        <p>{{ $contenido->pie }}</p>
+                    </div>
                 </div>
             </div>
         </section>
