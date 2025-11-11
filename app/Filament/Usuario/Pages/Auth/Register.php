@@ -78,11 +78,12 @@ class Register extends BaseRegister
     {
         return Select::make('paquete_id')
             ->label('Selecciona tu paquete')
-            ->options(Paquete::pluck('nombre', 'id'))
+            ->options(fn() => Paquete::where('estado', 1)->pluck('nombre', 'id'))
             ->required()
             ->default($this->paquete_id)
             ->disabled(fn() => !is_null($this->paquete_id))
             ->hidden(fn() => !is_null($this->paquete_id))
+            ->searchable()
             ->live();
     }
 
