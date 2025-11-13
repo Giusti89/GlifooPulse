@@ -174,13 +174,13 @@ class SpotResource extends Resource
                             ColorPicker::make('colsecond')
                                 ->label('Color secundario')
                                 ->default('#ffffff')
-                                ->helperText('Color complementario al principal, ideal para botones o detalles visuales.')
+                                ->helperText('Color complementario al principal, ideal para botones o detalles visuales, titulos subtitulos(de a cuerdo la plantilla).')
                                 ->rgb(),
 
                             ColorPicker::make('ctexto')
                                 ->label('Color del texto')
                                 ->default('#ffffff')
-                                ->helperText('Color que se usará para los textos. Asegúrate de que contraste bien con el fondo.')
+                                
                                 ->rgb(),
 
                             Forms\Components\Textarea::make('texto')

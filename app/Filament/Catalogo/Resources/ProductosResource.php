@@ -66,7 +66,7 @@ class ProductosResource extends Resource
                     }),
 
                 Forms\Components\TextInput::make('nombre')
-                    ->label('Nombre Producto')
+                    ->label('Nombre Producto/Servicio')
                     ->required()
                     ->maxLength(255),
 
@@ -77,6 +77,8 @@ class ProductosResource extends Resource
 
                 Forms\Components\TextInput::make('precio')
                     ->label('Precio')
+                    ->default(0)
+                    ->helperText('En caso de escoger la plantilla ejecutiva poner 0).')
                     ->numeric()
                     ->required(),
 
@@ -89,6 +91,7 @@ class ProductosResource extends Resource
                         'Proximamente' => 'Proximamente',
                     ])
                     ->default('Disponible')
+                     ->helperText('En caso de escoger la plantilla este campo no se mostrara en su web).')
                     ->required(),
             ]);
     }
