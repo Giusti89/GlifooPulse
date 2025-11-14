@@ -164,6 +164,28 @@
              </div>
          </section>
          <!------------------ Servicios-------------->
+         <!------------------Enlaces y redes sociales-------------->
+         @if ($redes->count() > 0)
+             <div class="redes-sociales-sticky">
+                 <div class="redes-sociales-container">
+                     @foreach ($redes as $red)
+                         @php
+                             $encryptedId = Crypt::encrypt($red->id);
+                         @endphp
+
+                         <a href="{{ route('redireccion', $encryptedId) }}" class="red-social-link" target="_blank">
+                             @if ($red->image_url)
+                                 <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
+                                     class="red-social-icon">
+                             @else
+                                 <span class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
+                             @endif
+                         </a>
+                     @endforeach
+                 </div>
+             </div>
+         @endif
+         <!------------------Enlaces y redes sociales-------------->
          <!-- Mapa Ejecutivo -->
          <section id="mapa" class="mapa-ejecutivo">
              <div class="container">
