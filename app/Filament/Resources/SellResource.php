@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Filters\SelectFilter;
 
 
 class SellResource extends Resource
@@ -29,6 +30,16 @@ class SellResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::whereHas(
+            'estadov',
+            fn($query) =>
+            $query->where('nombre', 'por pagar')
+        )->count();
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,10 +53,12 @@ class SellResource extends Resource
         return $table
             ->columns([
                 tables\Columns\TextColumn::make('suscripcion.user.name')
+                    ->label('Nombre')
                     ->numeric()
                     ->searchable(),
 
                 tables\Columns\TextColumn::make('suscripcion.user.lastname')
+                    ->label('Apellido')
                     ->numeric()
                     ->searchable(),
 
@@ -55,7 +68,8 @@ class SellResource extends Resource
 
                 Tables\Columns\TextColumn::make('pago')
                     ->label('Pago')
-                    ->numeric(),
+                    ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 tables\Columns\TextColumn::make('concepto')
                     ->badge()
@@ -70,7 +84,8 @@ class SellResource extends Resource
                 Tables\Columns\TextColumn::make('fecha')
                     ->label('Fecha')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('estadov.nombre')
                     ->label('estado')
@@ -83,8 +98,11 @@ class SellResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('estadov')
+                    ->label('estado')
+                    ->relationship('estadov', 'nombre'),
             ])
+            ->persistFiltersInSession()
             ->actions([
                 ActionGroup::make([
                     Action::make('realizarPago')
