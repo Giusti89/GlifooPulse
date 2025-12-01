@@ -31,8 +31,9 @@ class Estadisticas extends BaseWidget
         $descripcionTiempo = '';
 
         if ($suscripcion && $suscripcion->fecha_fin) {
-            $hoy = Carbon::now();
-            $fin = Carbon::parse($suscripcion->fecha_fin);
+            
+            $hoy = Carbon::now()->startOfDay();
+            $fin = Carbon::parse($suscripcion->fecha_fin)->startOfDay();
 
             if ($fin->isPast()) {
                 $tiempoRestante = 'Expirada';
@@ -105,7 +106,7 @@ class Estadisticas extends BaseWidget
 
             // Agregar las redes individuales más importantes (máximo 3 para no saturar)
             $topSocials = $socials->sortByDesc('clicks');
-            
+
             foreach ($topSocials as $social) {
                 $stats[] = Stat::make($social->nombre, number_format($social->clicks))
                     ->icon('heroicon-o-arrow-trending-up')

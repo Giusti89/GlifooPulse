@@ -51,7 +51,6 @@ class SuscripcionResource extends Resource
                 Forms\Components\DatePicker::make('fecha_inicio')
                     ->default(now())
                     ->required()
-                    ->readOnly()
                     ->live()
                     ->afterStateUpdated(function (Get $get, Set $set) {
                         if ($get('meses_suscripcion') && $get('fecha_inicio')) {
@@ -78,8 +77,7 @@ class SuscripcionResource extends Resource
 
                 Forms\Components\DatePicker::make('fecha_fin')
                     ->label('Fecha de finalización')
-                    ->required()
-                    ->readOnly(),
+                    ->required(),
 
                 Forms\Components\Toggle::make('estado')
                     ->label('Estado Activo')

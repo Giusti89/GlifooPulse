@@ -69,13 +69,12 @@ class Suscripcion extends Model
         if ($this->fecha_fin && $ahora->lt(Carbon::parse($this->fecha_fin))) {
             // La suscripción aún está activa → solo extiendo la fecha_fin
             $this->fecha_fin = Carbon::parse($this->fecha_fin)->addMonths($meses);
-            $this->estado=1;
-
+            $this->estado = 1;
         } else {
             // La suscripción ha vencido → reinicio desde ahora
             $this->fecha_inicio = $ahora;
             $this->fecha_fin = $ahora->copy()->addMonths($meses);
-            $this->estado=1;
+            $this->estado = 1;
         }
 
         $this->save();
@@ -117,19 +116,18 @@ class Suscripcion extends Model
 
     public function diasRestantes()
     {
-        $fechaFin = Carbon::parse($this->fecha_fin);
-        $hoy = Carbon::now();
+        $fechaFin = Carbon::parse($this->fecha_fin)->startOfDay();
+        $hoy = Carbon::now()->startOfDay();
 
-        if ($hoy->gt($fechaFin)) {
-            $diasPasados = $hoy->diffInDays($fechaFin);
+        $dias = $hoy->diffInDays($fechaFin, false); // false = diferencia negativa si ya venció
+
+        if ($dias < 0) {
             return [
-                'dias' => -$diasPasados,
-                'texto' => "Vencido hace {$diasPasados} días",
+                'dias' => $dias,
+                'texto' => "Vencido hace " . abs($dias) . " días",
                 'color' => 'danger'
             ];
         }
-
-        $dias = $hoy->diffInDays($fechaFin);
 
         $resultado = [
             'dias' => $dias,
@@ -137,10 +135,10 @@ class Suscripcion extends Model
             'color' => 'success'
         ];
 
-        if ($dias == 0) {
+        if ($dias === 0) {
             $resultado['texto'] = 'Vence hoy';
             $resultado['color'] = 'warning';
-        } elseif ($dias == 1) {
+        } elseif ($dias === 1) {
             $resultado['texto'] = 'Vence mañana';
             $resultado['color'] = 'warning';
         } elseif ($dias <= 7) {

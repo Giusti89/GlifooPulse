@@ -34,9 +34,10 @@ class Checkfecha
             return Redirect::route('inicio');
         }
 
-        $fechaActual = Carbon::now();
-        $inicio = Carbon::parse($user->suscripcion->fecha_inicio);
-        $fin = Carbon::parse($user->suscripcion->fecha_fin);
+        $fechaActual = Carbon::now()->startOfDay();
+        $inicio = Carbon::parse($user->suscripcion->fecha_inicio)->startOfDay();
+        $fin = Carbon::parse($user->suscripcion->fecha_fin)->startOfDay();
+
         $diasRestantes = $fechaActual->diffInDays($fin, false);
 
         $tieneRenovacionPendiente = Renewal::whereHas('suscripcion', function ($q) use ($user) {
@@ -45,7 +46,7 @@ class Checkfecha
             ->where('estado', 'pendiente')
             ->exists();
 
-        if ($fechaActual->between($inicio, $fin)) {
+        if ($fechaActual->betweenIncluded($inicio, $fin)) {
 
             // Mostrar la advertencia si quedan pocos días y aún no fue notificado
             if ($diasRestantes <= 5 && !$tieneRenovacionPendiente) {

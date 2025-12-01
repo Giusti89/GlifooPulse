@@ -127,8 +127,8 @@ class Estadisticas extends BaseWidget
             return ['Sin datos', 'Información no disponible', 'gray'];
         }
 
-        $hoy = Carbon::now();
-        $fin = Carbon::parse($suscripcion->fecha_fin);
+        $hoy = Carbon::now()->startOfDay();
+        $fin = Carbon::parse($suscripcion->fecha_fin)->startOfDay();
 
         if ($fin->isPast()) {
             return ['Expirada', 'La suscripción ya terminó', 'danger'];
