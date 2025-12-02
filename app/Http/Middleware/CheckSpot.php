@@ -21,11 +21,15 @@ class CheckSpot
 
         $spot = \App\Models\Spot::where('slug', $slug)->first();
 
-        if (
-            !$spot ||
-            !$spot->suscripcion ||
-            Carbon::parse($spot->suscripcion->fecha_fin)->lt(now())
-        ) {
+        if (!$spot || !$spot->suscripcion) {
+            return redirect()->route('inicio')->with('msj', 'pagvencida');
+        }
+
+        $hoy = Carbon::now()->startOfDay();
+        $fin = Carbon::parse($spot->suscripcion->fecha_fin)->startOfDay();
+
+        // Si ya pasó la fecha fin, se considera vencida
+        if ($hoy->gt($fin)) {
             return redirect()->route('inicio')->with('msj', 'pagvencida');
         }
 

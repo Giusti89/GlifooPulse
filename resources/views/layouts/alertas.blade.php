@@ -43,7 +43,7 @@
     <script>
         Swal.fire({
             title: "Restringido",
-            text: "La pagina web no esta disponible.",
+            text: "La pagina web no esta disponible o esta vencida.",
             icon: "warning"
         });
     </script>
