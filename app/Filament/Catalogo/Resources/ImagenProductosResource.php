@@ -62,7 +62,7 @@ class ImagenProductosResource extends Resource
                     ->image()
                     ->directory(fn($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
                     ->required()
-                    ->maxSize(2048)
+                    ->maxSize(5120)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 2MB. Proporción recomendada: 1:1 (cuadrada)')
                     ->rules([
