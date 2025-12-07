@@ -64,7 +64,7 @@ class ImagenProductosResource extends Resource
                     ->required()
                     ->maxSize(5120)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 2MB. Proporción recomendada: 1:1 (cuadrada)')
+                    ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 5MB. Proporción recomendada: 1:1 (cuadrada)')
                     ->rules([
                         'dimensions:min_width=400,min_height=400,max_width=2000,max_height=2000,ratio=1/1',
                     ])
