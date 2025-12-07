@@ -159,7 +159,7 @@
     gap: 0.75rem;
     padding: 0.75rem 1.5rem;
     background: var(--brand-secondary);
-    color: white;
+    color: var(--brand-background);
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -444,12 +444,12 @@
 .servicio-nombre {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--brand-text);
+    color: var(--brand-background);
     margin-bottom: 0.75rem;
 }
 
 .servicio-descripcion {
-    color: var(--brand-text);
+    color: var(--brand-background);
     line-height: 1.5;
     margin-bottom: 1rem;
     flex-grow: 1;
@@ -472,7 +472,7 @@
 
 .precio-valor {
     font-weight: 700;
-    color: var(--brand-accent);
+    color: var(--brand-background);
     font-size: 1.1rem;
 }
 
