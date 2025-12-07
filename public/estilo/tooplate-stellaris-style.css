@@ -714,7 +714,8 @@ section {
 .boton-ruta:hover {
     transform: translateY(-2px);
 }
-.direccion-info{
+
+.direccion-info {
     background-color: var(--brand-secondary);
 }
 
@@ -1299,6 +1300,11 @@ footer {
     }
 
     .hero {
+        height: 60vh;
+        background-position: top center;
+    }
+
+    .hero {
         margin-top: 70px;
     }
 
@@ -1499,7 +1505,7 @@ footer {
         max-width: 100%;
         margin-top: 15px;
     }
-    
+
     .titulo-destacado {
         font-size: 2rem;
     }
