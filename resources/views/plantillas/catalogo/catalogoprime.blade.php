@@ -205,7 +205,7 @@
                             loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
                         </iframe>
                     </div>
-                    <div class="info-overlay" style="color: {{ $contenido->ctexto }};">
+                    <div class="info-overlay" style="color: {{ $contenido->background }};">
                         <div class="icono-mapa">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path
