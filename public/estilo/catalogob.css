@@ -376,7 +376,7 @@
  }
 
  .producto-descripcion {
-     color: var(--brand-text);
+     color: var(--brand-background);
      font-size: 0.8rem;
      line-height: 1.4;
      margin-bottom: 10px;
@@ -405,8 +405,8 @@
      display: inline-flex;
      align-items: center;
      gap: 0.5rem;
-     background-color: #25D366;
-     color: #fff;
+     background-color: var(--brand-background);
+     color: var(--brand-text);
      padding: 0.4rem 0.8rem;
      border-radius: 30px;
      font-weight: 600;
