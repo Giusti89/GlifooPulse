@@ -208,7 +208,7 @@
                              <div class="info-icon">📍</div>
                              <div class="info-content">
                                  <h4>Dirección Principal</h4>
-                                 <p style="color: {{ $textColor }}">{{ $contenido->pie }}</p>
+                                 <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
                              </div>
                          </div>
 

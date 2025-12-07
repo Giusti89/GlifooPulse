@@ -662,16 +662,16 @@
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--brand-text);
+    color: var(--brand-background);
 }
 
 .info-content p {
-    color: var(--brand-text);
+    color: var(--brand-background);
     margin-bottom: 0.5rem;
 }
 
 .contact-link {
-    color: var(--brand-accent);
+    color: var(--brand-background);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
