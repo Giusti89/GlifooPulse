@@ -145,7 +145,7 @@
                                                  <button type="button" class="btn-consultor"
                                                      onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $whatsNumber }}')">
                                                      <span class="btn-icon">💬</span>
-                                                     Solicitar consultoría
+                                                     Realiza tu consulta
                                                  </button>
                                                  @if ($producto->precio > 0)
                                                      <span
