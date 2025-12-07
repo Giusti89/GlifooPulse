@@ -189,7 +189,7 @@
                         </iframe>
                     </div>
                     <div class="direccion-info"
-                        style="color: {{ $contenido->ctexto }}">
+                        style="color: {{ $contenido->background }}">
                         <i class="icono-ubicacion"></i>
                         <p>{{ $contenido->pie }}</p>
                     </div>
