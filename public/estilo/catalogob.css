@@ -404,6 +404,7 @@
  .producto-whatsapp {
      display: inline-flex;
      align-items: center;
+     justify-content: center;
      gap: 0.5rem;
      background-color: var(--brand-background);
      color: var(--brand-text);
