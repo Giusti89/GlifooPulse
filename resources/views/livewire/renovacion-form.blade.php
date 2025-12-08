@@ -8,13 +8,15 @@
             <!-- Meses de renovación -->
             <div class="form-group">
                 <label>Costo mensual</label>
-                <input type="text" value="{{ number_format($sus->paquete->precio, 2) }} Bs." readonly style="color: black">
+                <input type="text" value="{{ number_format($sus->paquete->precio, 2) }} Bs." readonly
+                    style="color: black">
 
                 <label>Meses de renovación</label>
                 <select wire:model="meses" @disabled($isSubmitting)>
                     <option value="1">1 mes - {{ number_format($sus->paquete->precio * 1, 2) }} Bs.</option>
                     <option value="3">3 meses - {{ number_format($sus->paquete->precio * 3, 2) }} Bs.</option>
                     <option value="6">6 meses - {{ number_format($sus->paquete->precio * 6, 2) }} Bs.</option>
+                    <option value="12">12 meses - {{ number_format($sus->paquete->precio * 12, 2) }} Bs.</option>
                 </select>
             </div>
 

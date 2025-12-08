@@ -45,7 +45,7 @@ class RenovacionController extends Controller
     public function store(Request $request, $renovacion)
     {
         $request->validate([
-            'meses' => 'required|in:1,3,6'
+            'meses' => 'required|in:1,3,6,12'
         ]);
 
         try {

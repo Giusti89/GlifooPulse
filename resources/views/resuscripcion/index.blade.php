@@ -16,6 +16,8 @@
                     </option>
                     <option value="6">6 meses - {{ number_format($user->suscripcion->paquete->precio * 6, 2) }} Bs.
                     </option>
+                     <option value="12">12 meses - {{ number_format($user->suscripcion->paquete->precio * 12, 2) }} Bs.
+                    </option>
                 </select>
             </div>
 
