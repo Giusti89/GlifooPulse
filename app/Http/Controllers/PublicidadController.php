@@ -8,6 +8,7 @@ use App\Models\Landing;
 use App\Models\Seo;
 use App\Models\Social;
 use App\Models\Spot;
+use App\Models\Video;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,11 @@ class PublicidadController extends Controller
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
 
+            $videos = Video::where('spot_id', $publicidad->id)
+                ->where('estado', 1)
+                ->orderBy('orden', 'asc')
+                ->get();
+                
             $titulo = $publicidad->titulo;
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
             $marca = optional($tipopublicidad)->nombre;
@@ -102,7 +108,8 @@ class PublicidadController extends Controller
                         'redes',
                         'robots',
                         'imagenOg',
-                        'locale'
+                        'locale',
+                        'videos'
                     ));
                 } else {
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {

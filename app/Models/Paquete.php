@@ -25,6 +25,7 @@ class Paquete extends Model
         'tipo_estadisticas',
         'max_imagenes_producto',
         'max_categorias',
+        'max_videos',
         'seo_level',
     ];
 

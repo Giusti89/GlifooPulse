@@ -85,6 +85,10 @@ class PaqueteResource extends Resource
                             ->label('Cantidad maxima de categorias')
                             ->visible(fn($get) => $get('tipoproducto_id') == 2),
 
+                        Forms\Components\TextInput::make('max_videos')
+                            ->label('Cantidad maxima de videos')
+                            ->visible(fn($get) => $get('tipoproducto_id') == 2),
+
                         Forms\Components\Select::make('seo_level')
                             ->label('Control de Seo')
                             ->options([
@@ -153,6 +157,11 @@ class PaqueteResource extends Resource
 
                 Tables\Columns\TextColumn::make('max_categorias')
                     ->label('limite categorias')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('max_videos')
+                    ->label('limite de videos')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 

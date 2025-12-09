@@ -43,6 +43,10 @@ class Spot extends Model
     {
         return $this->hasMany(Visit::class, 'spot_id', 'id');
     }
+    public function videos()
+    {
+        return $this->hasMany(Video::class)->orderBy('orden', 'asc');
+    }
     // MÉTODOS
     public function incrementarVisita()
     {

@@ -51,15 +51,18 @@
              <div class="container">
                  <div class="hero-content">
                      <div class="hero-text">
-                         <h2 class="hero-title">{{ $titulo ?? 'Soluciones Empresariales de Alto Nivel' }}</h2>
+                         <h2 class="hero-title">{{ $titulo }}</h2>
                          <p class="hero-description">
-                             {{ $contenido->texto ?? 'Catálogo profesional de productos y servicios diseñados para la excelencia empresarial' }}
+                             {{ $contenido->texto ?? '' }}
                          </p>
                      </div>
-                     @if ($contenido->banner_url ?? false)
+                     @if (isset($videos) && $videos->count() > 0)
                          <div class="hero-visual">
-                             <img src="/storage/{{ $contenido->banner_url }}" alt="Soluciones Ejecutivas"
-                                 class="hero-image">
+                             @include('partials.reproductor-videos', ['videos' => $videos])
+                         </div>
+                     @elseif ($contenido->banner_url ?? false)
+                         <div class="hero-visual">
+                             <img src="/storage/{{ $contenido->banner_url }}" alt="Banner" class="hero-image">
                          </div>
                      @endif
                  </div>

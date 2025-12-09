@@ -1,0 +1,21 @@
+.video-wrapper {
+    max-width: 600px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #000;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+#video-frame {
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
