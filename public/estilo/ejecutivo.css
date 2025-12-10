@@ -501,25 +501,31 @@
     gap: 1rem;
 }
 
-.btn-consultor {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--brand-background);
-    color: var(--brand-secondary);
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex-grow: 1;
-    justify-content: center;
-}
+.producto-whatsapp {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     gap: 0.5rem;
+     background-color: var(--brand-background);
+     color: var(--brand-text);
+     padding: 0.4rem 0.8rem;
+     border-radius: 30px;
+     font-weight: 600;
+     text-decoration: none;
+     margin-top: 0.75rem;
+     transition: background-color 0.2s ease;
+ }
 
-.btn-consultor:hover {
-    transform: translateY(-2px);
-}
+ .producto-whatsapp:hover {
+     background-color: #1DA851;
+ }
+
+ .producto-whatsapp svg {
+     flex-shrink: 0;
+     width: 1.2em;
+     height: 1.2em;
+ }
+
 
 .servicio-estado {
     padding: 0.25rem 0.75rem;
@@ -567,6 +573,89 @@
     overflow: hidden;
     animation: modalFadeIn 0.3s ease;
 }
+/*-------------- modal---------- */
+.modal-overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.5);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     z-index: 9999;
+ }
+
+ .modal-content {
+     background: #fff;
+     padding: 25px;
+     border-radius: 10px;
+     width: 90%;
+     max-width: 450px;
+     position: relative;
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+     animation: fadeIn 0.3s ease;
+ }
+
+ .modal-close {
+     position: absolute;
+     top: 10px;
+     right: 15px;
+     background: none;
+     border: none;
+     font-size: 22px;
+     cursor: pointer;
+     color: #333;
+ }
+
+ .modal-imagen {
+     width: 100%;
+     height: 180px;
+     object-fit: cover;
+     border-radius: 10px;
+     margin-bottom: 15px;
+ }
+
+ .form-group {
+     margin-bottom: 15px;
+ }
+
+ .form-control {
+     width: 100%;
+     padding: 10px;
+     border-radius: 6px;
+     border: 1px solid #ccc;
+ }
+
+ .btn-enviar {
+     width: 100%;
+     background: #25D366;
+     border: none;
+     color: #fff;
+     padding: 10px;
+     font-weight: bold;
+     border-radius: 6px;
+     cursor: pointer;
+     transition: background 0.3s;
+ }
+
+ .btn-enviar:hover {
+     background: #1ebc59;
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: scale(0.95);
+     }
+
+     to {
+         opacity: 1;
+         transform: scale(1);
+     }
+ }
+
 
 @keyframes modalFadeIn {
     from {

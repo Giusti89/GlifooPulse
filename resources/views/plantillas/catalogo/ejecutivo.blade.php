@@ -145,11 +145,13 @@
                                              @endif
 
                                              <div class="servicio-actions">
-                                                 <button type="button" class="btn-consultor"
-                                                     onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $whatsNumber }}')">
-                                                     <span class="btn-icon">💬</span>
-                                                     Realiza tu consulta
-                                                 </button>
+                                                 @if ($whatsNumber)
+                                                     <button type="button" class="producto-whatsapp"
+                                                         onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
+                                                         Contactar por WhatsApp
+                                                     </button>
+                                                 @endif
+
                                                  @if ($producto->precio > 0)
                                                      <span
                                                          class="servicio-estado estado-{{ Str::slug($producto->estado) }}">
@@ -166,6 +168,37 @@
                  </div>
              </div>
          </section>
+         <div id="consultaModal" class="modal-overlay" style="display: none;">
+             <div class="modal-content">
+                 <button class="modal-close" onclick="cerrarConsulta()">&times;</button>
+
+                 <h2 id="modalProductoNombre">Consultar producto</h2>
+                 <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
+
+                 <form id="consultaForm" method="POST" target="_blank" action="">
+                     @csrf
+                     <input type="hidden" id="productoId" name="producto_id">
+
+                     <div class="form-group">
+                         <label for="nombre">Nombre (opcional)</label>
+                         <input type="text" name="nombre" id="nombre" class="form-control">
+                     </div>
+
+                     <div class="form-group">
+                         <label for="telefono">Teléfono (opcional)</label>
+                         <input type="text" name="telefono" id="telefono" class="form-control">
+                     </div>
+
+                     <div class="form-group">
+                         <label for="mensaje">Mensaje</label>
+                         <textarea name="mensaje" id="mensaje" class="form-control" required
+                             placeholder="Hola, me interesa el producto..."></textarea>
+                     </div>
+
+                     <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
+                 </form>
+             </div>
+         </div>
          <!------------------ Servicios-------------->
          <!------------------Enlaces y redes sociales-------------->
          @if ($redes->count() > 0)

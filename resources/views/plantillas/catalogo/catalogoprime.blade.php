@@ -63,6 +63,9 @@
                     <ul>
                         <li><a href="#home">HOME</a></li>
                         <li><a href="#nosotros">NOSOTROS</a></li>
+                        @if (isset($videos) && $videos->count() > 0)
+                            <li><a href="#video">Video institucional</a></li>
+                        @endif
                         <li><a href="#catalogo">CATALOGO</a></li>
                         <li><a href="#mapa">MAPA</a></li>
 
@@ -125,6 +128,18 @@
                 </p>
             </div>
         </section>
+        
+        <section id="video">
+            <div class="hero-content">
+                @if (isset($videos) && $videos->count() > 0)
+                    <div class="hero-visual">
+                        @include('partials.reproductor-videos', ['videos' => $videos])
+                    </div>
+                @endif
+            </div>
+        </section>
+
+
 
         <section id="catalogo" class="missions-section fade-in">
             <div class="missions-container">

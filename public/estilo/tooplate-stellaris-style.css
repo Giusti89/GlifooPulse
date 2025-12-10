@@ -523,7 +523,43 @@ section {
 .cerrar-modal:hover {
     color: var(--solar-gold);
 }
+/* -------------video--------- */
+#video {
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+.hero-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.hero-visual {
+    width: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.hero-visual iframe,
+.hero-visual video,
+.hero-visual #player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
+/* Mantener proporción 16:9 */
+.hero-visual::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; /* 16:9 */
+}
 /* ---------modal overlay------------- */
 .modal-overlay {
     position: fixed;
@@ -1552,6 +1588,18 @@ footer {
     /* Ocultar tooltip en móvil */
     .red-social-link::after {
         display: none;
+    }
+/* ------video---- */
+     #video {
+        padding: 20px 0;
+    }
+
+    .hero-visual {
+        border-radius: 10px;
+    }
+
+    .hero-visual::before {
+        padding-top: 60%; /* un poco más cuadrado en móvil */
     }
 
 }

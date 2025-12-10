@@ -52,8 +52,31 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Función para WhatsApp (mantener tu función existente)
-window.abrirConsulta = function (imagen, nombre, whatsNumber) {
-    const mensaje = `Hola, estoy interesado en el servicio: ${nombre}`;
-    const url = `https://wa.me/${whatsNumber}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+function abrirConsulta(imagenSrc, nombreProducto, productoId) {
+  document.getElementById('modalProductoNombre').innerText = nombreProducto;
+  document.getElementById('modalProductoImagen').src = imagenSrc;
+  document.getElementById('productoId').value = productoId;
+
+  const form = document.getElementById('consultaForm');
+  form.action = `/consulta/${productoId}`;
+
+  document.getElementById('consultaModal').style.display = 'flex';
+}
+
+function cerrarConsulta() {
+  document.getElementById('consultaModal').style.display = 'none';
+  document.getElementById('consultaForm').reset();
+  
+  document.getElementById('productoId').value = '';
+  document.getElementById('nombre').value = '';
+  document.getElementById('telefono').value = '';
+  document.getElementById('mensaje').value = '';
+}
+
+// Cerrar modal al hacer clic fuera del contenido
+window.onclick = function (event) {
+  const modal = document.getElementById('consultaModal');
+  if (event.target === modal) {
+    cerrarModal();
+  }
 }

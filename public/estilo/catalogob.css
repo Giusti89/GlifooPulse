@@ -310,6 +310,44 @@
      }
  }
 
+ /* ------------video------------ */
+ #video {
+     width: 100%;
+     padding: 40px 0;
+ }
+
+ .hero-visual {
+     width: 100%;
+     max-width: 900px;
+     /* ajustable */
+     margin: 0 auto;
+     position: relative;
+     border-radius: 12px;
+     overflow: hidden;
+     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+ }
+
+ /* Mantener proporción 16:9 */
+ .hero-visual::before {
+     content: "";
+     display: block;
+     padding-top: 56.25%;
+     /* 16:9 */
+ }
+
+ .hero-visual iframe,
+ .hero-visual video,
+ .hero-visual #player {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     border: none;
+ }
+
+
+ /* ------------productos------ */
  .producto-card:hover {
      transform: translateY(-5px);
      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -519,7 +557,7 @@
      padding: 10px;
  }
 
- /* modal */
+ /*--------- modal------------ */
  .modal-overlay {
      position: fixed;
      top: 0;
@@ -794,6 +832,18 @@
          margin-top: 15px;
          max-width: 100%;
      }
+     /*---------- video---------- */
+     #video {
+        padding: 20px 0;
+    }
+
+    .hero-visual {
+        border-radius: 10px;
+    }
+
+    .hero-visual::before {
+        padding-top: 60%; /* un poco más alto en móvil */
+    }
  }
 
  @media (max-width: 480px) {

@@ -61,6 +61,17 @@
             </div>
         </section>
 
+        <section id="video" class="missions-section fade-in">
+            @if (isset($videos) && $videos->count() > 0)
+             <h2 class="categoria-titulo">VIDEO PROMOCIONAL</h2>
+                <div class="video-container">                   
+                    <div class="hero-visual">
+                        @include('partials.reproductor-videos', ['videos' => $videos])
+                    </div>
+                </div>
+            @endif
+        </section>
+
         @if ($categoriapro->count() > 0)
             <!-- Navegación por categorías -->
             <h2 class="categoria-titulo">PRODUCTOS</h2>
@@ -163,7 +174,8 @@
 
                         <div class="form-group">
                             <label for="mensaje">Mensaje</label>
-                            <textarea name="mensaje" id="mensaje" class="form-control" required placeholder="Hola, me interesa el producto..."></textarea>
+                            <textarea name="mensaje" id="mensaje" class="form-control" required
+                                placeholder="Hola, me interesa el producto..."></textarea>
                         </div>
 
                         <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
@@ -188,8 +200,7 @@
                             title="Mapa de ubicación">
                         </iframe>
                     </div>
-                    <div class="direccion-info"
-                        style="color: {{ $contenido->background }}">
+                    <div class="direccion-info" style="color: {{ $contenido->background }}">
                         <i class="icono-ubicacion"></i>
                         <p>{{ $contenido->pie }}</p>
                     </div>
