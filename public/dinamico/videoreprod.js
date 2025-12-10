@@ -1,15 +1,20 @@
 let player;
 let currentIndex = 0;
 
-function onYouTubeIframeAPIReady() {
+function initPlayer() {
     const videos = window.__TV_VIDEOS || [];
-
-    if (videos.length === 0) {
-        console.warn("No hay videos para reproducir.");
-        return;
-    }
+    if (!videos.length) return;
 
     loadVideo(currentIndex);
+}
+
+function onYouTubeIframeAPIReady() {
+    initPlayer();
+}
+
+// ✅ Si la API ya estaba cargada (refresh móvil), inicializamos manualmente
+if (window.YT && window.YT.Player) {
+    initPlayer();
 }
 
 function extractVideoId(url) {
@@ -19,30 +24,24 @@ function extractVideoId(url) {
 
 function loadVideo(index) {
     const videos = window.__TV_VIDEOS;
-
     const videoId = extractVideoId(videos[index]);
 
-    if (!videoId) {
-        console.error("No se pudo extraer el ID del video:", videos[index]);
-        return;
-    }
+    if (!videoId) return;
 
     if (!player) {
         player = new YT.Player('player', {
             videoId: videoId,
             playerVars: {
                 autoplay: 1,
-                controls: 0,
+                mute: 1,          // ✅ autoplay garantizado en móvil
+                controls: 1,
                 modestbranding: 1,
                 rel: 0,
-                showinfo: 0,
-                iv_load_policy: 3,
-                disablekb: 1,
                 playsinline: 1
             },
             events: {
-                'onReady': onVideoReady,
-                'onStateChange': onVideoStateChange
+                onReady: (e) => e.target.playVideo(),
+                onStateChange: onVideoStateChange
             }
         });
     } else {
@@ -50,26 +49,10 @@ function loadVideo(index) {
     }
 }
 
-function onVideoReady(event) {
-    event.target.playVideo();
-}
-
 function onVideoStateChange(event) {
-    const YT_ENDED = 0;
-    const YT_PLAYING = 1;
+    const ENDED = 0;
 
-    if (event.data === YT_PLAYING) {
-        const duration = player.getDuration();
-        const maxDuration = 90; // 1:30 minutos
-
-        if (duration > maxDuration) {
-            setTimeout(() => {
-                goToNextVideo();
-            }, maxDuration * 1000);
-        }
-    }
-
-    if (event.data === YT_ENDED) {
+    if (event.data === ENDED) {
         goToNextVideo();
     }
 }
