@@ -284,7 +284,7 @@
                          <img src="/storage/{{ $contenido->logo_url }}" alt="{{ $titulo }}"
                              class="footer-logo">
                          <p class="footer-descripcion">
-                             {{ $contenido->descripcion_footer ?? 'Líderes en soluciones empresariales innovadoras' }}
+                             {{ $titulo ?? 'Líderes en soluciones empresariales innovadoras' }}
                          </p>
                      </div>
 
