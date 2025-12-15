@@ -442,6 +442,30 @@
     gap: 20px;
   }
 
+  .caract-descripcion h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .btn-detalles-plan {
+    margin-top: 12px;
+  }
+
+  .planes h2,
+  .planes h3 {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  #texto-plan {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .caract-lista li {
+    font-size: 0.9rem;
+  }
+
   .planes {
     width: 100%;
     height: auto;
@@ -476,4 +500,12 @@
   #caracteristicas-box {
     border-width: 2px;
   }
+}
+#caracteristicas-box {
+  transition: border-color 0.3s ease;
+}
+
+#texto-plan,
+#lista-caracteristicas {
+  transition: opacity 0.3s ease;
 }

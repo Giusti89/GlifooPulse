@@ -40,4 +40,5 @@ document.addEventListener("DOMContentLoaded", () => {
         box.style.border = "3px solid " + item.dataset.marco;
         box.style.setProperty("--color-marco", item.dataset.marco);
     }
+    
 });
