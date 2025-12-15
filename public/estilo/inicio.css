@@ -248,6 +248,7 @@
 /* --- Descripción izquierda --- */
 .caract-descripcion h3 {
   font-size: 1.7rem;
+  color: var(--color-marco, #f2c200);
   margin-bottom: 10px;
 }
 
