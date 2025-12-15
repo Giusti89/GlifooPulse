@@ -234,7 +234,7 @@
 
 .cajacaracteristicas {
   padding: 25px;
- 
+
   border-radius: 4px;
 }
 
@@ -435,5 +435,45 @@
     color: #e6b800;
     text-align: left;
     font-size: 1.0rem;
+  }
+
+  .plans-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .planes {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .caract-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .caract-lista {
+    margin-top: 20px;
+  }
+
+  .btn-detalles-plan {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  #texto-plan {
+    overflow-wrap: break-word;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .planes {
+    padding: 15px;
+  }
+
+  #caracteristicas-box {
+    border-width: 2px;
   }
 }
