@@ -57,61 +57,36 @@
     </section>
 
     {{-- 6. Planes y precios + publicidad --}}
-
     <section class="pricing">
         <h2>Planes y Precios</h2>
-        <div class="plans-container">
-            @forelse($paquetes as $paquete)
-                @if ($paquete->nombre === 'Glifoo Enterprise')
-                    <div class="plan-card popular">
-                        <div class="cuerpoplan">
-                            <div class="cabplan">
-                                <h2>{{ $paquete->nombre }}</h2>
-                                <h3>Bs. {{ $paquete->precio }} / Mes</h3>
-                                @php
-                                    $encryptedId = Crypt::encrypt($paquete->id);
-                                @endphp
-                                <x-layouts.btnenviodat class="modificar" rutaEnvio="registro"
-                                    dato="{{ $encryptedId }}" nombre="REGISTRATE">
-                                </x-layouts.btnenviodat>
-                            </div>
-
-                            <div class="tarjeta__body">
-                                <div class="tarjeta__descripcion">
-                                    {!! str($paquete->descripcion)->sanitizeHtml() !!}
-                                </div>
-                            </div>
-
-                        </div>
+        <div class="plans-container" id="plans-container">
+            @foreach ($paquetes as $index => $paquete)
+                <div class="cajaplanes plan-item" data-id="{{ $paquete->id }}"
+                    data-id-encrypted="{{ Crypt::encrypt($paquete->id) }}"
+                    data-descripcion='@json($paquete->descripcion)' data-index="{{ $index }}"
+                    data-marco="{{ $paquete->marco }}">
+                    <div class="planes" style=" border: 3px solid {{ $paquete->marco }};">
+                        <h2>{{ $paquete->nombre }}</h2>
+                        <h3>Bs. {{ $paquete->precio }} / Mes</h3>
                     </div>
-                @else
-                    <div class="plan-card">
-                        <div class="cuerpoplan">
-                            <div class="cabplan">
-                                <h2>{{ $paquete->nombre }}</h2>
-                                <h3>Bs. {{ $paquete->precio }} / Mes</h3>
-                                @php
-                                    $encryptedId = Crypt::encrypt($paquete->id);
-                                @endphp
-                                <x-layouts.btnenviodat class="modificar" rutaEnvio="registro"
-                                    dato="{{ $encryptedId }}" nombre="REGISTRATE">
-                                </x-layouts.btnenviodat>
-                            </div>
-                            
-                            <div class="tarjeta__body">
-                                <div class="tarjeta__descripcion">
-                                    {!! str($paquete->descripcion)->sanitizeHtml() !!}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                @endif
-            @empty
-                <div class="no-packages">
-                    <p>No hay Servicios disponibles. ¡Tu logo aquí!</p>
                 </div>
-            @endforelse
+            @endforeach
+        </div>
+        <div class="caracteristicas" id="caracteristicas-box" style="--color-marco: {{ $paquete->marco }};">
+            <div class="cajacaracteristicas">
+                <div class="caract-grid">
+                    <div class="caract-descripcion">
+                        <h3 id="titulo-plan"></h3>
+                        <div id="texto-plan" class="tarjeta__descripcion"></div>
+
+                        <a id="btn-detalles" href="#" class="btn-detalles-plan">
+                            REGISTRATE
+                        </a>
+                    </div>
+                    <div class="caract-lista" id="lista-caracteristicas">
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     {{-- <div class="publicidad">
@@ -141,7 +116,7 @@
         <p>Espacio publicitario 728×90</p>
     </aside> --}}
 </x-layouts.principal>
-
+<script src="{{ asset('dinamico/planes.js') }}?v={{ filemtime(public_path('dinamico/planes.js')) }}"></script>
 @section('js')
     {{-- jQuery si lo necesitas --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

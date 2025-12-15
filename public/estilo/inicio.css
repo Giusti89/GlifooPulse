@@ -183,21 +183,13 @@
   filter: brightness(1);
 }
 
-/* 6. Planes y precios + publicidad */
+/*----------- 6. Planes y precios + publicidad -------------*/
 .pricing {
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
-}
-
-.cabplan {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 200px;
-  margin-bottom: 15px;
-  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .pricing h2 {
@@ -207,79 +199,163 @@
 }
 
 .plans-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  grid-auto-rows: 1fr;
-  gap: var(--gap);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
   margin-bottom: 2rem;
 }
 
-.plan-card {
+.planes {
+  width: 200px;
+  height: 200px;
+  background-color: var(--secondary-color);
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background: var(--bg-light);
-  backdrop-filter: blur(6px);
-  padding: 1.5rem;
-  border-radius: var(--card-radius);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  transition: transform var(--transition), box-shadow var(--transition);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s ease;
 }
 
-.plan-card.popular::before {
-  content: "Más popular";
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary-color);
-  color: var(--secondary-color);
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--card-radius);
-  font-size: 0.75rem;
+/* Plan activo */
+.planes.active {
+  background-color: #2cc2a0;
+  color: white;
+  border-color: #24a88a;
+  transform: scale(1.05);
+}
+
+/* Contenedor de descripción */
+.caracteristicas {
+  margin-top: 20px;
+}
+
+.cajacaracteristicas {
+  padding: 25px;
+ 
+  border-radius: 4px;
+}
+
+.caract-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* --- Descripción izquierda --- */
+.caract-descripcion h3 {
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+
+.btn-detalles-plan {
+  display: inline-block;
+  background: var(--color-marco, #f2c200);
+  color: #fff;
+  padding: 10px 20px;
+  margin-top: 20px;
+  text-decoration: none;
+  border-radius: 4px;
   font-weight: bold;
+  transition: 0.3s ease;
 }
 
-.plan-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+.btn-detalles-plan:hover {
+  opacity: 0.9;
 }
 
-.plan-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-  color: var(--primary-color);
+/* --- Lista de características --- */
+.caract-lista ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
-.plan-card .modificar {
-  margin-top: auto;
-}
-
-.cuerpoplan {
+.caract-lista li {
   display: flex;
-  flex-direction: column;
-  height: auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: white;
+}
+
+/* Ícono circular amarillo */
+.caract-lista li::before {
+  content: "✔";
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-marco, #f2c200);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.plan-item {
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.plan-item.active .planes {
+  background-color: #2BBBAD;
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.plan-item .planes:hover {
+  transform: translateY(-3px);
 }
 
 .tarjeta__descripcion {
-  color: #fcfcfc;
+  color: white;
   line-height: 1.6;
   font-size: 1rem;
   word-wrap: break-word;
   hyphens: auto;
   margin: 0;
+  text-align: left;
+  padding: 1rem 1.5rem;
 }
+
 
 .tarjeta__descripcion ul,
 .tarjeta__descripcion ol {
   margin: 0 0 1rem 1.25rem;
   padding: 0;
-  color: #e6b800;
-  text-align: left;
-  font-size: 1.5rem;
-  list-style-type: circle;
+  color: #038d78;
+  font-size: 1.1rem;
+  list-style-type: disc;
 }
+
+
+.tarjeta__descripcion li {
+  margin-bottom: 0.5rem;
+}
+
+.tarjeta__descripcion h1,
+.tarjeta__descripcion h2,
+.tarjeta__descripcion h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.7rem;
+}
+
+.tarjeta__descripcion p {
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.tarjeta__descripcion strong {
+  font-weight: 600;
+}
+
+/* ----------fin de planes----------------- */
 
 /* Espacio publicitario */
 .publicidad {

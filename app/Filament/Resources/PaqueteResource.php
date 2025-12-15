@@ -16,6 +16,7 @@ use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\ColorPicker;
 
 class PaqueteResource extends Resource
 {
@@ -58,6 +59,12 @@ class PaqueteResource extends Resource
                         Forms\Components\TextInput::make('enlace')
                             ->prefix('https://wa.me/')
                             ->maxLength(255),
+                            
+                        ColorPicker::make('marco')
+                            ->label('Color del marco')
+                            ->default('#ffffff')
+
+                            ->rgb(),
 
                         Forms\Components\Select::make('tipo_estadisticas')
                             ->label('Tipo de estadísticas')

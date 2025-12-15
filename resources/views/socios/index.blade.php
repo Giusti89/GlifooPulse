@@ -22,12 +22,6 @@
                 @endif
             @endforeach
         </div>
-
         <!-- Contador de socios -->
-        <div class="socios-contador">
-            <p>Total de socios activos:
-                <span class="contador-numero">{{ $results->where('estado', true)->count() }}</span>
-            </p>
-        </div>
     </div>
 </x-layouts.principal>
