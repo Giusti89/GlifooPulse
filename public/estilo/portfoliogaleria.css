@@ -455,8 +455,8 @@
 /* Responsive */
 @media (max-width: 1024px) {
     .portfolio-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        display: flex;
+        flex-direction: column;
     }
 
     .portfolio-details-section {
