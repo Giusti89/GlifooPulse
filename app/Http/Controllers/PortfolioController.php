@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contenido;
 use App\Models\Portfolio;
-use App\Models\portfoliodatos;
-use App\Models\portfolioitem;
+use App\Models\Portfoliodatos;
+use App\Models\Portfolioitem;
 use App\Models\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
