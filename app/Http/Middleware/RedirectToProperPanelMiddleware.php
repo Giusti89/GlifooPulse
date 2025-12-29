@@ -34,6 +34,10 @@ class RedirectToProperPanelMiddleware
             if ($user->tieneTipoproducto('Landing page') && $currentPanel !== 'usuario') {
                 return redirect()->to(Dashboard::getUrl(panel: 'usuario'));
             }
+
+             if ($user->tieneTipoproducto('Portfolio') && $currentPanel !== 'portfolio') {
+                return redirect()->to(Dashboard::getUrl(panel: 'portfolio'));
+            }
         }
 
         // Si ya está en el panel correcto, simplemente continúa

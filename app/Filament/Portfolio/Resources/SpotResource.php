@@ -1,0 +1,286 @@
+<?php
+
+namespace App\Filament\Portfolio\Resources;
+
+use App\Filament\Portfolio\Resources\SpotResource\Pages;
+use App\Filament\Portfolio\Resources\SpotResource\RelationManagers;
+use App\Models\Landing;
+use App\Models\Spot;
+use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Set;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\ViewField;
+use Filament\Forms\Components\Textarea;
+use App\Filament\Helpers\SeoVisibilityHelper;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\ColorPicker;
+use Dotswan\MapPicker\Fields\Map;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+
+class SpotResource extends Resource
+{
+    protected static ?string $model = Spot::class;
+
+    protected static ?string $navigationIcon = 'heroicon-m-wrench';
+    protected static ?string $navigationLabel = 'Datos iniciales';
+    protected static ?string $pluralModelLabel = 'Configuracion Inicial';
+    protected static ?string $navigationGroup = 'Configuracion Inicial';
+
+    protected static ?int $navigationSort = 1;
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereHas('suscripcion', fn($q) => $q->where('user_id', auth()->id()))
+            ->with('seo');
+    }
+
+    public static function form(Form $form): Form
+    {
+        $user = Auth::user();
+        $isFree = $user?->suscripcion?->paquete?->precio == 0;
+        return $form
+            ->schema([
+                Wizard::make(array_filter([
+                    Step::make('Datos generales')
+                        ->schema([
+                            Forms\Components\TextInput::make('titulo')
+                                ->label('Nombre de Empresa')
+                                ->unique(ignoreRecord: true)
+                                ->required()
+                                ->helperText('Nombre de tu empresa o emprendimiento')
+                                ->maxLength(255),
+
+                            Forms\Components\TextInput::make('slug')
+                                ->label('Nombre Link')
+                                ->unique(ignoreRecord: true)
+                                ->prefix('https://glifoo.org/')
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                ->helperText('esta sera la dirección web con la que te encontrarán')
+                                ->maxLength(255),
+
+                            Forms\Components\Select::make('tipolanding')
+                                ->label('Vista de tu catalogo')
+                                ->helperText('Vista que tendra tu catalogo (algunas plantillas son de pago)')
+                                ->options(function () {
+                                    $user = Auth::user();
+
+                                    if (!$user || !$user->suscripcion || !$user->suscripcion->paquete) {
+                                        return [];
+                                    }
+
+                                    $landingsGratis = $user->suscripcion->paquete->landings()
+                                        ->where('pago', false)
+                                        ->get();
+
+                                    $landingsCompradas = Landing::join('landing_user_compras', 'landings.id', '=', 'landing_user_compras.landing_id')
+                                        ->where('landing_user_compras.user_id', $user->id)
+                                        ->select('landings.id', 'landings.nombre')
+                                        ->get();
+
+                                    $landings = $landingsGratis->concat($landingsCompradas)->unique('id');
+
+                                    return $landings->mapWithKeys(fn($landing) => [
+                                        $landing->id => $landing->nombrecomercial ?? $landing->nombre ?? 'Sin nombre',
+                                    ]);
+                                })
+                                ->searchable()
+                                ->reactive()
+                                ->live()
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    $landing = \App\Models\Landing::find($state);
+
+                                    if ($landing) {
+                                        $landing->preview_url = Storage::url($landing->preview_url);
+                                        $set('landing_preview', $landing->toArray());
+                                    }
+                                }),
+
+                            Forms\Components\Hidden::make('landing_preview')
+                                ->dehydrated(false),
+
+                            ViewField::make('landing_preview')
+                                ->label('Vista previa de plantilla')
+                                ->view('filament.forms.components.landing-preview')
+                                ->dehydrated(false)
+                                ->columnSpan('full'),
+                        ]),
+
+                    !$isFree ? Step::make('SEO')
+                        ->schema([
+                            TextInput::make('seo_title')
+                                ->label('Título SEO')
+                                ->helperText('Este será el título que aparece en Google. Sé breve (máx. 60 caracteres) y usa palabras clave importantes.')
+                                ->maxLength(60)
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico')),
+
+                            Textarea::make('descripcion')
+                                ->label('Descripcion larga')
+                                ->helperText('Describe tu producto o servicio de forma detallada. Esta descripción se mostrará dentro de tu catálogo o página principal.')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico'))
+                                ->maxLength(500),
+
+                            Textarea::make('seo_descripcion')
+                                ->label('Descripción SEO')
+                                ->helperText('Texto que aparece debajo del título en los resultados de búsqueda (máx. 160 caracteres). Resume claramente de qué trata la página.')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('medio', 'completo'))
+
+                                ->maxLength(160),
+
+                            TextInput::make('seo_keyword')
+                                ->label('Palabras clave')
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('completo'))
+                                ->helperText('Palabras separadas por coma (ej: muebles, decoración, diseño). Ayudan a mejorar el posicionamiento en buscadores.'),
+                        ])
+                        : null,
+                    Step::make('Datos Iniciales')
+                        ->schema([
+                            Forms\Components\FileUpload::make('logo_url')
+                                ->label('Foto de perfil')
+                                ->image()
+                                ->imageEditor()
+                                ->helperText('Sube el logo de tu empresa o foto de perfil. Este aparecerá en la parte superior de tu catálogo y ayudará a tus clientes a reconocer tu marca.')
+                                ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
+
+                            Forms\Components\FileUpload::make('banner_url')
+                                ->label('Banner principal')
+                                ->image()
+                                ->imageEditor()
+                                ->helperText('Sube una imagen destacada o banner que represente a tu empresa. Es lo primero que verán los visitantes en tu catálogo.')
+                                ->directory(fn() => 'paquetes/' . Str::slug(auth()->user()->name)),
+
+                            ColorPicker::make('background')
+                                ->label('Color primario')
+                                ->default('#ffffff')
+                                ->helperText('Elige el color principal del catálogo (fondo o encabezados). Puedes usar el selector o escribir un valor HEX, por ejemplo: #ff6600.')
+                                ->rgb(),
+
+                            ColorPicker::make('colsecond')
+                                ->label('Color secundario')
+                                ->default('#ffffff')
+                                ->helperText('Color complementario al principal, ideal para botones o detalles visuales, titulos subtitulos(de a cuerdo la plantilla).')
+                                ->rgb(),
+
+                            ColorPicker::make('ctexto')
+                                ->label('Color del texto')
+                                ->default('#ffffff')
+
+                                ->rgb(),
+
+                            Forms\Components\Textarea::make('texto')
+                                ->label('Sobre ti')
+                                ->required()
+                                ->helperText('Describe sobre ti y tus habilidades')
+                                ->maxLength(1200),
+
+                            Forms\Components\Textarea::make('pie')
+                                ->label('Dirección')
+                                ->maxLength(255),
+
+                            TextInput::make('phone')
+                                ->label('Número de contacto para los artículos')
+                                ->tel()
+                                ->maxLength(12)
+                                ->minLength(8)
+                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
+                                ->helperText('Número visible en tu catálogo para que los clientes te contacten.')
+                                ->required()
+                                ->unique(
+                                    table: 'contenidos', // Especificar tabla explícita
+                                    column: 'phone',
+                                    ignorable: fn($record) => $record?->contenido // Usar el contenido relacionado
+                                ),
+                        ]),
+                    Step::make('Ubicación en el mapa')
+                        ->schema([
+                            Section::make('Mapa')
+                                ->columns(1)
+                                ->schema([
+                                    Hidden::make('latitude')
+                                        ->default(-16.5)
+                                        ->reactive(),
+
+                                    Hidden::make('longitude')
+                                        ->default(-68.15)
+                                        ->reactive(),
+
+                                    Map::make('location')
+                                        ->label('Ubicación')
+                                        ->columnSpanFull()
+                                        ->defaultLocation(latitude: -16.5, longitude: -68.15)
+                                        ->draggable(true)
+                                        ->clickable(true)
+                                        ->zoom(15)
+                                        ->tilesUrl("https://tile.openstreetmap.de/{z}/{x}/{y}.png")
+                                        ->afterStateUpdated(function (Set $set, ?array $state): void {
+                                            if ($state) {
+                                                $set('latitude', $state['lat']);
+                                                $set('longitude', $state['lng']);
+                                            }
+                                        }),
+                                ]),
+                        ])
+                ]))
+                    ->columnSpan('full'),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                tables\Columns\TextColumn::make('titulo')
+                    ->label('Nombre de Empresa'),
+
+                tables\Columns\TextColumn::make('slug')
+                    ->label('Url'),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->label('Configuración'),
+                Action::make('vista_preliminar')
+                    ->label('Vista preliminar')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn($record) => $record->slug ? route('publicidad', ['slug' => $record->slug]) : null)
+                    ->openUrlInNewTab()
+                    ->visible(fn($record) => filled($record->slug)),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListSpots::route('/'),
+            'edit' => Pages\EditSpot::route('/{record}/edit'),
+        ];
+    }
+}

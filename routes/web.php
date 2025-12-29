@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\PlanesController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PublicidadController;
 use App\Http\Controllers\RenovacionController;
 use App\Http\Controllers\SocioController;
@@ -53,6 +54,11 @@ Route::controller(PublicidadController::class)->group(function () {
 
     Route::get('/enlace/{id}', 'redirecion')
         ->name('redireccion');
+});
+
+Route::controller(PortfolioController::class)->group(function () {
+    Route::get('/portfolio/vista/{id}', 'show')
+        ->name('verportfolio');
 });
 
 Route::get('/usuario/register/{paquete?}', function ($paquete = null) {

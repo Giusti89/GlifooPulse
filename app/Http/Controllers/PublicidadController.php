@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\Contenido;
 use App\Models\Landing;
+use App\Models\Portfolio;
 use App\Models\Seo;
 use App\Models\Social;
 use App\Models\Spot;
@@ -28,11 +29,19 @@ class PublicidadController extends Controller
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
 
+            $portfolios = Portfolio::where('spot_id', $publicidad->id)
+                ->where('estado', 1)
+                ->orderBy('orden', 'asc')
+                ->get();
+
+            $videoportfolio = $portfolios->pluck('url_embed')->filter();
+
+
             $videos = Video::where('spot_id', $publicidad->id)
                 ->where('estado', 1)
                 ->orderBy('orden', 'asc')
                 ->get();
-                
+
             $titulo = $publicidad->titulo;
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
             $marca = optional($tipopublicidad)->nombre;
@@ -55,7 +64,6 @@ class PublicidadController extends Controller
             $robots = 'index, follow';
             $imagenOg = null;
             $locale = 'es_ES';
-
 
             if ($grupo === 'catalogo') {
                 // Cargar categorías → productos → imágenes
@@ -110,6 +118,24 @@ class PublicidadController extends Controller
                         'imagenOg',
                         'locale',
                         'videos'
+                    ));
+                } elseif ($grupo === "portfolio") { // Agregado caso portfolio
+                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                        $publicidad->incrementarVisita();
+                    }
+                    return view($vista, compact(
+                        'titulo',
+                        'contenido',
+                        'redes',
+                        'catalogos',
+                        'tituloSEO',
+                        'descripcionSEO',
+                        'keywordsSEO',
+                        'robots',
+                        'imagenOg',
+                        'locale',
+                        'portfolios',
+                        'videoportfolio',
                     ));
                 } else {
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {

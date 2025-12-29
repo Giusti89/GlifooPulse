@@ -51,7 +51,7 @@ class VideosResource extends Resource
                         Forms\Components\TextInput::make('url')
                             ->label('url del video')
                             ->required()
-                            ->helperText('Ingrese titulo del video')
+                            ->helperText('Ingrese url del video')
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('orden')
