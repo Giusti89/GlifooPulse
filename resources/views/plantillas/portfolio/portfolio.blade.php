@@ -133,7 +133,7 @@
                                         $encryptedId = Crypt::encrypt($portfolio->id);
                                     @endphp
                                     <x-layouts.btnenviodat class="modificar" rutaEnvio="verportfolio"
-                                        dato="{{ $encryptedId }}" nombre="Ver Porfolio" color="{{ $bgColor }}"
+                                        dato="{{ $encryptedId }}" nombre="Ver Portfolio" color="{{ $bgColor }}"
                                         colort="{{ $textColor }}">
                                     </x-layouts.btnenviodat>
                                     @if ($portfolio->created_at)
