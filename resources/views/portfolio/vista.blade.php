@@ -122,7 +122,7 @@
                             <!-- Enlace al proyecto -->
                             @if ($datosTecnicos->tieneEnlace())
                                 <div class="detail-group">
-                                    <h3 class="detail-label" style="color:{{ $bgColor }}">
+                                    <h3 class="detail-label" style="color:{{ $colsec }}">
                                         <i class="fas fa-external-link-alt"></i> Ver Proyecto
                                     </h3>
                                     <a href="{{ $datosTecnicos->enlace_proyecto }}" target="_blank"
