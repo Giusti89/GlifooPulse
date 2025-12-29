@@ -21,7 +21,7 @@ use Filament\Tables\Filters\SelectFilter;
 
 class PortfolioitemsResource extends Resource
 {
-    protected static ?string $model = portfolioitem::class;
+    protected static ?string $model = Portfolioitem::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-camera';
     protected static ?string $navigationLabel = 'Fotos portfolio';
