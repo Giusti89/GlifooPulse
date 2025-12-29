@@ -57,7 +57,7 @@ class Portfolio extends Model
          * Crear automáticamente PortfolioDato al crear un Portfolio
          */
         static::created(function ($portfolio) {
-            portfoliodatos::create([
+            Portfoliodatos::create([
                 'portfolio_id' => $portfolio->id,
                 'implicacion' => null,
                 'tecnologias' => json_encode([]),

@@ -5,7 +5,7 @@ namespace App\Filament\Portfolio\Resources;
 use App\Filament\Portfolio\Resources\PortfolioResource\Pages;
 use App\Filament\Portfolio\Resources\PortfolioResource\RelationManagers;
 use App\Models\Portfolio;
-use App\Models\portfolioitem;
+use App\Models\Portfolioitem;
 use Illuminate\Support\Str;
 use Filament\Forms;
 use Filament\Forms\Form;
