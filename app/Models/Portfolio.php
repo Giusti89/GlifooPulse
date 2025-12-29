@@ -25,12 +25,12 @@ class Portfolio extends Model
     //relaciones
     public function galeria()
     {
-        return $this->hasMany(portfolioitem::class)->orderBy('orden');
+        return $this->hasMany(Portfolioitem::class)->orderBy('orden');
     }
 
     public function dato()
     {
-        return $this->hasOne(portfoliodatos::class);
+        return $this->hasOne(Portfoliodatos::class);
     }
 
     //metodos
