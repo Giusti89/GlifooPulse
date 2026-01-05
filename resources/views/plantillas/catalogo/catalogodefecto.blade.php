@@ -63,8 +63,8 @@
 
         <section id="video" class="missions-section fade-in">
             @if (isset($videos) && $videos->count() > 0)
-             <h2 class="categoria-titulo">VIDEO PROMOCIONAL</h2>
-                <div class="video-container">                   
+                <h2 class="categoria-titulo">VIDEO PROMOCIONAL</h2>
+                <div class="video-container">
                     <div class="hero-visual">
                         @include('partials.reproductor-videos', ['videos' => $videos])
                     </div>
@@ -167,9 +167,11 @@
                             <input type="text" name="nombre" id="nombre" class="form-control">
                         </div>
 
-                        <div class="form-group">
-                            <label for="telefono">Teléfono (opcional)</label>
-                            <input type="text" name="telefono" id="telefono" class="form-control">
+                        <div class="form-group"> <label for="telefono">Teléfono (opcional)</label>
+                            <input type="tel" name="telefono" id="telefono" class="form-control"
+                                pattern="^\+?[0-9]{7,15}$" maxlength="15" placeholder="Ej: +59112345678">
+                            <small class="form-text text-muted">
+                                Ingrese un número válido (7–15 dígitos, opcionalmente con +). </small>
                         </div>
 
                         <div class="form-group">

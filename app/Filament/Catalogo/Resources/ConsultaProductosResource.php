@@ -80,6 +80,8 @@ class ConsultaProductosResource extends Resource
                     })
                     ->placeholder('Selecciona un producto'),
             ])
+            ->persistFiltersInSession()
+
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
