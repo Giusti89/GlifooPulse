@@ -588,7 +588,8 @@
  }
 
  .modal-content {
-     background: #fff;
+     background: var(--brand-secondary);
+     color:var(--brand-background);
      padding: 25px;
      border-radius: 10px;
      width: 90%;

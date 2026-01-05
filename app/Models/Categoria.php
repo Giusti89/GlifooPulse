@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Swindon\FilamentHashids\Traits\HasHashid;
 
 class Categoria extends Model
 {
     use HasFactory;
+    use HasHashid;
 
     protected $fillable = [
         'spot_id',

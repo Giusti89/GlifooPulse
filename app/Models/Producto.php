@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Swindon\FilamentHashids\Traits\HasHashid;
 
 class Producto extends Model
 {
     use HasFactory;
+    use HasHashid;
+
     protected $fillable = [
         'categoria_id',
         'nombre',
