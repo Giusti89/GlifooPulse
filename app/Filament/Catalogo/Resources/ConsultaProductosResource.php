@@ -50,22 +50,17 @@ class ConsultaProductosResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('producto.nombre')
-                    ->label('Producto')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
-                    ->label('Nombre Cliente')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Nombre Solicitante')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('telefono')
-                    ->label('Telefono')
-                    ->searchable()
-                    ->sortable(),
-
+                    ->label('Teléfono')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('mensaje')
-                    ->label('Mensaje')
-                    ->sortable(),
+                    ->label('Descripción')
+                    ->limit(50)
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('producto_id')

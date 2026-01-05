@@ -175,7 +175,7 @@
                  <h2 id="modalProductoNombre">Consultar producto</h2>
                  <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
 
-                 <form id="consultaForm" method="POST" target="_blank" action="">
+                 <form id="consultaForm" method="POST" target="_blank" action="" onsubmit="setTimeout(() => cerrarConsulta(), 100)">
                      @csrf
                      <input type="hidden" id="productoId" name="producto_id">
 
