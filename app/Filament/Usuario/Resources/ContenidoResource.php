@@ -130,7 +130,7 @@ class ContenidoResource extends Resource
                         $tienePlanMedium = Suscripcion::where('user_id', $user->id)
                             ->where('estado', 1) // Asumiendo que 1 es activo
                             ->whereHas('paquete', function ($query) {
-                                $query->where('nombre', 'like', '%Glifoo Enterprise%');
+                                $query->where('nombre', 'like', '%Glifoo Enterprisse%');
                             })
                             ->where('fecha_fin', '>=', now())
                             ->exists();
@@ -204,9 +204,7 @@ class ContenidoResource extends Resource
                     ->label('Llenar datos'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 
