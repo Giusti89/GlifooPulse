@@ -52,6 +52,12 @@ class UserResource extends Resource
                     ->required()
                     ->live(),
 
+                Forms\Components\Select::make('estado_id')
+                    ->label('Estado')
+                    ->relationship('estado', 'nombre')
+                    ->required()
+                    ->live(),
+
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->hiddenOn(['edit'])
@@ -87,6 +93,7 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('estado.nombre')
+                    ->label("Mostrar cliente")
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'draft' => 'gray',

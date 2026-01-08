@@ -3,7 +3,7 @@
     {{-- 1. Hero --}}
     <section class="hero" style="background-image: url('./img/logos/bannerglifoo.jpg')">
         <div class="hero-content">
-            <h1>Glifoo Pulse: tu pagina de enlaces y catálogos digitales en minutos</h1>
+            <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
             <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
                 Administrativo.</p>
             <div class="hero-buttons">
@@ -19,7 +19,7 @@
     <section class="features">
         <div class="feature-card">
             <i class="icon-landing"></i>
-            <h3>Landing pages</h3>
+            <h3>Glifoo link tree</h3>
             <p>Diseña páginas de aterrizaje responsive, con formularios y seguimiento.</p>
         </div>
         <div class="feature-card">
@@ -34,8 +34,8 @@
         </div>
         <div class="feature-card">
             <i class="icon-analytics"></i>
-            <h3>Integraciones y Analíticas</h3>
-            <p>Conecta con Google Analytics, WhatsApp y redes sociales.</p>
+            <h3>Portfolio</h3>
+            <p>Muestra al mundo tu experiencia y habilidades con fotos y videos</p>
         </div>
     </section>
 
