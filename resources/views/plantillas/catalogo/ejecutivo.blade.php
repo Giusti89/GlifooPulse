@@ -7,7 +7,7 @@
          ->replaceMatches('/\D+/', '')
          ->__toString();
  @endphp
- <x-layouts.plantillacatalogo :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
+ <x-layouts.plantillacatalogo ::titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
      :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
      <style>
          :root {
