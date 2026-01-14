@@ -317,7 +317,7 @@
                 </div>
             @endif
 
-            <h3 style="margin-bottom: 1rem;">{{ $titulo }}</h3>
+            <h3 style="margin-bottom: 1rem; color:var(--brand-background)">{{ $titulo }}</h3>
 
             @if ($contenido->pie)
                 <p style="margin-bottom: 1.5rem; opacity: 0.9;">
