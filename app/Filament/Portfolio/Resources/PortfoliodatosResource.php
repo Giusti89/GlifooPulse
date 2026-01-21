@@ -4,6 +4,7 @@ namespace App\Filament\Portfolio\Resources;
 
 use App\Filament\Portfolio\Resources\PortfoliodatosResource\Pages;
 use App\Filament\Portfolio\Resources\PortfoliodatosResource\RelationManagers;
+use App\Models\Portfolio;
 use App\Models\Portfoliodatos;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class PortfoliodatosResource extends Resource
 {
@@ -31,7 +34,7 @@ class PortfoliodatosResource extends Resource
                 $query->where('user_id', auth()->id());
             });
     }
-    
+
     public static function form(Form $form): Form
     {
         return $form
@@ -118,11 +121,16 @@ class PortfoliodatosResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('portfolio')
-                    ->relationship('portfolio', 'titulo')
+                SelectFilter::make('portfolio_id')
+                    ->label('Filtrar por portfolio')
+                    ->options(fn() => Portfolio::whereHas('spot.suscripcion', function ($query) {
+                        $query->where('user_id', auth()->id());
+                    })
+                        ->pluck('titulo', 'id')
+                        ->toArray())
                     ->searchable()
                     ->preload()
-                    ->label('Filtrar por Portfolio'),
+                    ->placeholder('Todos los portfolios'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

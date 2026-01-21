@@ -32,9 +32,9 @@ class PortfolioitemsResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-        ->whereHas('portfolio.spot.suscripcion', function ($query) {
-            $query->where('user_id', auth()->id());
-        });
+            ->whereHas('portfolio.spot.suscripcion', function ($query) {
+                $query->where('user_id', auth()->id());
+            });
     }
 
     public static function form(Form $form): Form
@@ -104,7 +104,11 @@ class PortfolioitemsResource extends Resource
             ->filters([
                 SelectFilter::make('portfolio_id')
                     ->label('Filtrar por portfolio')
-                    ->options(fn() => Portfolio::getCachedForSpot())
+                    ->options(fn() => Portfolio::whereHas('spot.suscripcion', function ($query) {
+                        $query->where('user_id', auth()->id());
+                    })
+                        ->pluck('titulo', 'id')
+                        ->toArray())
                     ->searchable()
                     ->preload()
                     ->placeholder('Todos los portfolios'),
