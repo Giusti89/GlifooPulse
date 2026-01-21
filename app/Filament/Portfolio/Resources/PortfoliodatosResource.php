@@ -24,6 +24,14 @@ class PortfoliodatosResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereHas('portfolio.spot.suscripcion', function ($query) {
+                $query->where('user_id', auth()->id());
+            });
+    }
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -114,7 +122,7 @@ class PortfoliodatosResource extends Resource
                     ->relationship('portfolio', 'titulo')
                     ->searchable()
                     ->preload()
-                    ->label('Filtrar por Portfolio'),               
+                    ->label('Filtrar por Portfolio'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
