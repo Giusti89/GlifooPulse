@@ -29,6 +29,14 @@ class PortfolioitemsResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+        ->whereHas('portfolio.spot.suscripcion', function ($query) {
+            $query->where('user_id', auth()->id());
+        });
+    }
+
     public static function form(Form $form): Form
     {
         return $form
