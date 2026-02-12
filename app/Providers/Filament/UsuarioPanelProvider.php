@@ -34,6 +34,7 @@ class UsuarioPanelProvider extends PanelProvider
             ->login()
             ->default()
             ->passwordReset()
+            ->topNavigation()
             ->profile()
             ->registration(Register::class)
             ->middleware([

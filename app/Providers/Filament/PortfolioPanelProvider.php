@@ -32,6 +32,7 @@ class PortfolioPanelProvider extends PanelProvider
             ->path('portfolio')
             ->passwordReset()
             ->profile()
+            ->topNavigation()
             ->passwordReset()
             ->middleware([
                 FilamentHashidsMiddleware::class,

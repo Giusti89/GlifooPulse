@@ -34,6 +34,7 @@ class CatalogoPanelProvider extends PanelProvider
             ->path('catalogo')
             ->profile()
             ->passwordReset()
+            ->topNavigation()
             ->middleware([
                 FilamentHashidsMiddleware::class,
             ])
