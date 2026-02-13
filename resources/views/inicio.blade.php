@@ -1,7 +1,7 @@
 <x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
-    <section class="hero" style="background-image: url('./img/logos/bannerglifoo.jpg')">
+    <section class="hero" style="background-image: url('./img/logos/pbanner.png')">
         <div class="hero-content">
             <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
             <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
