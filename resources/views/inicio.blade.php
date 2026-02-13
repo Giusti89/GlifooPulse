@@ -3,12 +3,12 @@
     {{-- 1. Hero --}}
     <section class="hero" style="background-image: url('./img/logos/pbanner.png')">
         <div class="hero-content">
-            <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
+            {{-- <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
             <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
-                Administrativo.</p>
-            <div class="hero-buttons">
+                Administrativo.</p> --}}
+            {{-- <div class="hero-buttons">
                 <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
-            </div>
+            </div> --}}
         </div>
         <div class="hero-image">
             <img src="{{ asset('./img/logos/Boton.webp') }}" alt="Vista de Glifoo Pulse">
