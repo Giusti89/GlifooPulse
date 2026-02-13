@@ -1,27 +1,19 @@
 <x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
-   <section class="hero relative overflow-hidden">
-    {{-- Video Background --}}
-    <video class="absolute top-0 left-0 w-full h-full object-cover z-0" 
-           autoplay 
-           loop 
-           muted 
-           playsinline>
-        <source src="{{ asset('./img/logos/Baner.mp4') }}" type="video/mp4">
-        {{-- Fallback en caso de que el video no cargue --}}
-        <img src="{{ asset('./img/logos/Baner.mp4') }}" alt="Background" class="w-full h-full object-cover">
-    </video>
-    
-    {{-- Overlay para mejorar legibilidad del contenido --}}
-    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10"></div>
-    
-    {{-- Contenido --}}
-    <div class="hero-content relative z-20">
-        {{-- Tu contenido aquí --}}
-    </div>
-    
-</section>
+    <section class="hero" style="background-image: url('./img/logos/bannerglifoo.jpg')">
+        <div class="hero-content">
+            <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
+            <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
+                Administrativo.</p>
+            <div class="hero-buttons">
+                <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{{ asset('./img/logos/Boton.webp') }}" alt="Vista de Glifoo Pulse">
+        </div>
+    </section>
 
     {{-- 2. Características --}}
     <section class="features">
