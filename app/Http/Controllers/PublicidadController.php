@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use App\Services\SocialClickService;
 
 class PublicidadController extends Controller
 {
@@ -164,12 +165,14 @@ class PublicidadController extends Controller
         }
     }
 
-    public function redirecion(string $encryptedId)
+    public function redirecion(string $encryptedId, SocialClickService $clickService)
     {
         try {
             $id = Crypt::decrypt($encryptedId);
             $social = Social::findOrFail($id);
-            $social->increment('clicks');
+
+            $clickService->registerClick($social);
+
             return redirect()->away($social->url);
         } catch (\Throwable $th) {
             return response()->view('errors.500', [], 500);

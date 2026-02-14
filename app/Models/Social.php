@@ -36,6 +36,11 @@ class Social extends Model
             Storage::disk('public')->delete($ticket->image_url);
         });
     }
+
+    public function clicks()
+    {
+        return $this->hasMany(SocialClicks::class);
+    }
     public function spot()
     {
         return $this->belongsTo(Spot::class, 'spot_id', 'id');
