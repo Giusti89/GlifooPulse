@@ -34,10 +34,10 @@
                      @if ($whatsNumber)
                          <div class="contact-section">
                              <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
-                                 <span class="contact-icon">📱</span>
+                                
                                  <span class="contact-text">
-                                     <strong>Contacto Ejecutivo</strong>
-                                     <small>{{ $contenido->phone ?? '' }}</small>
+                                     <strong>Número de contacto</strong>
+                                     
                                  </span>
                              </a>
                          </div>
@@ -228,7 +228,7 @@
          <section id="mapa" class="mapa-ejecutivo">
              <div class="container">
                  <div class="section-header">
-                     <h2 class="section-title">UBICACIÓN CORPORATIVA</h2>
+                     <h2 class="section-title">NUESTRA UBICACIÓN</h2>
                      <p class="section-subtitle">Encuentre nuestras instalaciones principales</p>
                  </div>
 
@@ -243,7 +243,7 @@
 
                      <div class="info-corporativa">
                          <div class="info-card">
-                             <div class="info-icon">📍</div>
+                            
                              <div class="info-content">
                                  <h4>Dirección Principal</h4>
                                  <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
@@ -262,7 +262,7 @@
 
                          @if ($whatsNumber)
                              <div class="info-card">
-                                 <div class="info-icon">📞</div>
+                                 
                                  <div class="info-content">
                                      <h4>Contacto Directo</h4>
                                      <p>{{ $contenido->phone ?? '' }}</p>

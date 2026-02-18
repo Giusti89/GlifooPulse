@@ -203,11 +203,10 @@
                     <div class="location-card" style="max-width: 600px; margin: 0 auto 3rem;">
                         <div
                             style="display: flex; align-items: center; gap: 1rem; background: var(--brand-secondary); color: var(--brand-background); padding: 1.5rem; border-radius: 12px;">
-                            <div style="font-size: 2rem;">📍</div>
+
                             <div>
                                 <div style="font-weight: 600; font-size: 1.25rem;">Ubicación</div>
                                 <div style="opacity: 0.9;">{{ $contenido->pie }}</div>
-
                                 @if ($contenido->latitude && $contenido->longitude)
                                     <div style="margin-top: 1rem;">
                                         <iframe
@@ -215,14 +214,6 @@
                                             width="100%" height="200" style="border:0; border-radius: 8px;"
                                             allowfullscreen>
                                         </iframe>
-                                    </div>
-                                @elseif($contenido->show_map)
-                                    <div style="margin-top: 1rem;">
-                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($contenido->pie) }}"
-                                            target="_blank"
-                                            style="display: inline-block; background: var(--brand-background); color: var(--brand-secondary); padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; text-decoration: none;">
-                                            Ver en Google Maps
-                                        </a>
                                     </div>
                                 @endif
                             </div>
@@ -234,7 +225,7 @@
                     <div class="contact-info">
                         @if ($contenido->phone)
                             <div class="contact-item">
-                                <div class="contact-icon">📱</div>
+
                                 <div>
                                     <div style="font-weight: 600; color: var(--brand-secondary);">
                                         {{ $contenido->phone }}
@@ -251,7 +242,7 @@
 
                         @if ($contenido->pie)
                             <div class="contact-item">
-                                <div class="contact-icon">📍</div>
+
                                 <div>
                                     <div style="font-weight: 600; color: var(--brand-secondary);">Ubicación</div>
                                     <div style="color: var(--brand-secondary); opacity: 0.8;">{{ $contenido->pie }}
@@ -268,7 +259,7 @@
 
                         @if (isset($redes) && $redes->count() > 0)
                             <div class="contact-item">
-                                <div class="contact-icon">🔗</div>
+
                                 <div>
                                     <div style="font-weight: 600; color: var(--brand-secondary);">Redes Sociales</div>
                                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
@@ -321,13 +312,13 @@
 
             @if ($contenido->pie)
                 <p style="margin-bottom: 1.5rem; opacity: 0.9;">
-                    <span>📍</span> {{ $contenido->pie }}
+                    {{ $contenido->pie }}
                 </p>
             @endif
 
             @if ($contenido->phone)
                 <p style="margin-bottom: 1.5rem; opacity: 0.9;">
-                    <span>📱</span> {{ $contenido->phone }}
+                    {{ $contenido->phone }}
                 </p>
             @endif
 
