@@ -210,9 +210,11 @@ class Register extends BaseRegister
             'estado' => 0,
         ]);
         // 5. Crear contenido por defecto si es un paquete tipo landing page
-        if ($paquete->tipoproducto->nombre === "Landing page") {
+        if ($paquete->tipoproducto->nombre === "Landing page"||"Catalogo"||"Portfolio") {
             Contenido::create([
                 'spot_id' => $spot->id,
+                'background'=> "#b4b6b9",
+
             ]);
         }
 
