@@ -9,59 +9,79 @@
   --transition: 0.3s ease;
 }
 
-/* Reset rápido */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* 1. Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-image: url(../img/fondos/espacio.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin-bottom: 90px;
 }
 
-/* Contenedor general */
-.principal {
+.glass-effect {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 2rem 0;
-  gap: 3rem;
-  color: var(--secondary-color);
-  font-family: Arial, sans-serif;
-}
-
-/* 1. Hero */
-.hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--text-light);
-  padding: 2rem;
-  border-radius: var(--card-radius);
-  width: 100%;
-  overflow: hidden;
-  margin-top: 2px;
-  margin-bottom: 20px;
-  background-size: 100% 100%;
-  object-fit: cover;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
+  color: white;
+  text-align: center;
 }
 
 .hero-content {
-  flex: 1 1 300px;
-  max-width: 600px;
+  max-width: 100vw;
+  height: 100vh;
 }
 
-.hero-content h1 {
-  font-size: 2.5rem;
+.contenido-inicial {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 900px;
+}
+
+.contenido-inicial h1 {
+  font-size: 4.5rem;
   margin-bottom: 1rem;
   line-height: 1.2;
-
+  font-family: prueba;
 }
 
-.hero-content p {
-  font-size: 1.125rem;
+.contenido-inicial p {
+  font-size: 2rem;
   margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #333;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .hero-buttons {
@@ -98,108 +118,142 @@
   color: var(--bg-dark);
 }
 
-.hero-image {
-  flex: 1 1 300px;
-  max-width: 500px;
-  text-align: center;
-}
-
-.hero-image img {
-  max-width: 100%;
-  border-radius: var(--card-radius);
-}
-
 /* 2. Características */
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--gap);
-  width: 90%;
-  margin-bottom: 20px;
-  color: white;
-
-}
-
-.feature-card {
-  position: relative;
-  background: var(--bg-light);
-  backdrop-filter: blur(6px);
-  padding: 1.5rem;
-  border-radius: var(--card-radius);
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-.feature-card i {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-/* 4. Clientes destacados */
-.clientes-logos {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  width: 80%;
-  height: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  width: 100%;
+  margin-bottom: 90px;
+  color: white;
+}
+
+.titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titulo h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: prueba;
   text-align: center;
 }
 
-.clientes-logos h2 {
-  font-size: 1.4rem;
-  color: var(--primary-color);
-  max-width: 23ch;
-  margin: 0 auto;
-  line-height: 1.3;
+.titulo p {
+  font-size: 1.3rem;
+
 }
 
-.logos-grid {
+.cartas {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-  margin: 50px;
-  gap: 50px;
+  width: 100%;
+  gap: 15px;
   justify-content: center;
 }
 
-.logo-item img {
-  max-width: 100%;
-  max-height: 100px;
-  object-fit: contain;
-  filter: brightness(0.8);
-  transition: filter var(--transition);
-  border-radius: 50%;
+.feature-card {
+  backdrop-filter: blur(10px);
+  width: 400px;
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 1rem;
+  color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.logo-item img:hover {
-  filter: brightness(1);
+.feature-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transition: left 0.7s ease;
+}
+
+.feature-card:hover::before {
+  left: 100%;
+}
+
+.card-icon {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.card-badge {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 1rem;
 }
 
 /*----------- 6. Planes y precios + publicidad -------------*/
 .pricing {
-  width: 80%;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.pricing h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-.pricing h3 {
+.glass-effectb {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 90px 0px 90px 0px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
   color: white;
+  text-align: center;
+  margin-bottom: 90px;
 }
+
 
 .plans-container {
   display: flex;
@@ -232,12 +286,14 @@
 
 /* Contenedor de descripción */
 .caracteristicas {
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .cajacaracteristicas {
   padding: 25px;
-
+  width: 50%;
   border-radius: 4px;
 }
 
@@ -399,20 +455,26 @@
     gap: 40px;
   }
 
-  .hero-image {
-    flex: 1 1 200px;
-    max-width: 300px;
-    text-align: center;
+  .contenido-inicial {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 300px;
   }
 
-  .hero-image img {
-    max-width: 100%;
-    border-radius: var(--card-radius);
+  .contenido-inicial h1 {
+    font-size: 2.5rem;
+  }
+
+  .contenido-inicial p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-content,
   .hero-image {
     max-width: 100%;
+    height: 100vh;
   }
 
   .plans-grid,
@@ -427,8 +489,9 @@
     height: 100px;
   }
 
-  .clientes-logos h2 {
-    font-size: 1.1rem;
+  .cajacaracteristicas {
+
+    width: 90%;
   }
 
   .tarjeta__descripcion ul,
@@ -504,6 +567,7 @@
     border-width: 2px;
   }
 }
+
 #caracteristicas-box {
   transition: border-color 0.3s ease;
 }

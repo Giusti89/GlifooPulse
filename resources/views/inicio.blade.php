@@ -1,93 +1,109 @@
 <x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
-    <section class="hero" style="background-image: url('./img/logos/bannerglifoo.jpg')">
-        <div class="hero-content">
-            <h1>Glifoo Pulse: tu link tree, catálogos y portfolios digitales en minutos</h1>
-            <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
-                Administrativo.</p>
-            <div class="hero-buttons">
-                <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
+    <section class="hero">
+        <div class="hero-content glass-effect">
+            <div class="contenido-inicial">
+                <h1>Impulsa tu negocio al siguiente nivel</h1>
+                <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
+                    Administrativo.</p>
+                <div class="hero-buttons">
+                    <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
+                </div>
             </div>
-        </div>
-        <div class="hero-image">
-            <img src="{{ asset('./img/logos/Boton.webp') }}" alt="Vista de Glifoo Pulse">
         </div>
     </section>
 
     {{-- 2. Características --}}
-    <section class="features">
-        <div class="feature-card">
-            <i class="icon-landing"></i>
-            <h3>Glifoo link tree</h3>
-            <p>Diseña páginas de aterrizaje responsive, con formularios y seguimiento.</p>
+    <section class="features" id="features">
+        <div class="titulo">
+            <h1>Todo lo que necesitas para crecer</h1>
+            <p>Herramientas poderosas diseñadas para impulsar tu productividad</p>
         </div>
-        <div class="feature-card">
-            <i class="icon-catalog"></i>
-            <h3>Catálogos digitales</h3>
-            <p>Publica tu catálogo de productos con galerías, filtros y contacto directo.</p>
+        <div class="cartas">
+            <div class="feature-card">
+                <div class="card-icon">🔗</div>
+                <h2 class="card-title">Glifoo Link Tree</h2>
+                <p class="card-description">Diseña Landing page responsive, con métricas de seguimiento.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">📚</div>
+                <h2 class="card-title">Catálogos digitales</h2>
+                <p class="card-description">Publica tu catálogo de productos con galerías, filtros y contacto directo.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">🎨</div>
+                <h2 class="card-title">Portfolio</h2>
+                <p class="card-description">Muestra al mundo tu experiencia y habilidades con fotos y videos.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">Panel administrativo</h2>
+                <p class="card-description">Controla contenidos, estadísticas y suscripciones desde un solo Dashboard.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">🔒</div>
+                <h2 class="card-title">Seguridad Total</h2>
+                <p class="card-description">Protección de datos con encriptación end to end.</p>
+                <span class="card-badge">Encriptación</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">📈</div>
+                <h2 class="card-title">Reportes avanzados</h2>
+                <p class="card-description">Visualiza el progreso con dashboard visualizando Insights en tiempo real
+                    para tomar las mejores decisiones de negocio.</p>
+            </div>
+
         </div>
-        <div class="feature-card">
-            <i class="icon-dashboard"></i>
-            <h3>Panel administrativo</h3>
-            <p>Controla contenido, estadísticas y suscripciones desde un único dashboard.</p>
-        </div>
-        <div class="feature-card">
-            <i class="icon-analytics"></i>
-            <h3>Portfolio</h3>
-            <p>Muestra al mundo tu experiencia y habilidades con fotos y videos</p>
-        </div>
+
     </section>
 
-    {{-- 4. Clientes destacados --}}
-    <section class="clientes-logos">
-        <h2>Nuestros clientes</h2>
-        <div class="logos-grid">
-            @forelse($clientesActivos as $spot)
-                <div class="logo-item">
-                    <a href="{{ route('publicidad', $spot->slug) }}" target="blank">
-                        <img src="{{ Storage::url($spot->contenido->logo_url) }}" alt="{{ $spot->titulo }}">
-                    </a>
-                    <h2>{{ $spot->titulo }}<h2>
-                </div>
-            @empty
-                <p>No hay clientes aún. ¡Tu logo aquí!</p>
-            @endforelse
-        </div>
-    </section>
 
     {{-- 6. Planes y precios + publicidad --}}
     <section class="pricing">
-        <h2>Planes y Precios</h2>
-        <div class="plans-container" id="plans-container">
-            @foreach ($paquetes as $index => $paquete)
-                <div class="cajaplanes plan-item" data-id="{{ $paquete->id }}"
-                    data-id-encrypted="{{ Crypt::encrypt($paquete->id) }}"
-                    data-descripcion='@json($paquete->descripcion)' data-index="{{ $index }}"
-                    data-marco="{{ $paquete->marco }}">
-                    <div class="planes" style=" border: 3px solid {{ $paquete->marco }};">
-                        <h2>{{ $paquete->nombre }}</h2>
-                        <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+        <div class="glass-effectb">
+            <div class="titulo">
+                <h1>Precios simples y transparentes</h1>
+                <p>Elige el plan perfecto para ti</p>
+            </div>
+            <div class="plans-container" id="plans-container">
+                @foreach ($paquetes as $index => $paquete)
+                    <div class="cajaplanes plan-item" data-id="{{ $paquete->id }}"
+                        data-id-encrypted="{{ Crypt::encrypt($paquete->id) }}"
+                        data-descripcion='@json($paquete->descripcion)' data-index="{{ $index }}"
+                        data-marco="{{ $paquete->marco }}">
+                        <div class="planes" style=" border: 3px solid {{ $paquete->marco }};">
+                            <h2>{{ $paquete->nombre }}</h2>
+                            <h3>Bs. {{ $paquete->precio }} / Mes</h3>
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-        <div class="caracteristicas" id="caracteristicas-box" style="--color-marco: {{ $paquete->marco }};">
-            <div class="cajacaracteristicas">
-                <div class="caract-grid">
-                    <div class="caract-descripcion">
-                        <h3 id="titulo-plan"></h3>
-                        <div id="texto-plan" class="tarjeta__descripcion"></div>
+                @endforeach
+            </div>
+            <div class="caracteristicas" >
+                <div class="cajacaracteristicas" id="caracteristicas-box" style="--color-marco: {{ $paquete->marco }};">
+                    <div class="caract-grid">
+                        <div class="caract-descripcion">
+                            <h3 id="titulo-plan"></h3>
+                            <div id="texto-plan" class="tarjeta__descripcion"></div>
 
-                        <a id="btn-detalles" href="#" class="btn-detalles-plan">
-                            REGISTRATE
-                        </a>
-                    </div>
-                    <div class="caract-lista" id="lista-caracteristicas">
+                            <a id="btn-detalles" href="#" class="btn-detalles-plan">
+                                REGISTRATE
+                            </a>
+                        </div>
+                        <div class="caract-lista" id="lista-caracteristicas">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
     {{-- <div class="publicidad">
             <!-- Banner 300x250 -->

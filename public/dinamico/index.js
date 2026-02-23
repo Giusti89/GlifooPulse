@@ -1,26 +1,14 @@
-//  seleccionamos los dos elementos que serán clickables
-
-const toggleButton = document.getElementById("button-menu");
-const navWrapper = document.getElementById("nav");
-
-/* 
-  cada ves que se haga click en el botón 
-  agrega y quita las clases necesarias 
-  para que el menú se muestre.
-*/
-toggleButton.addEventListener("click", () => {
-    toggleButton.classList.toggle("close");
-    navWrapper.classList.toggle("show");
+const columns = document.querySelectorAll('.footer-col');
+document.getElementById('menu-toggle').addEventListener('click', function () {
+  const menu = document.getElementById('mobile-menu'); menu.classList.toggle('show');
 });
+columns.forEach(column => {
+  column.addEventListener('mouseenter', function () {
+    this.style.transition = 'transform 0.3s ease';
+    this.style.transform = 'translateY(-5px)';
+  });
 
-/* 
-  Cuándo se haga click fuera del contenedor de enlaces 
-  el menú debe esconderse.
-*/
-
-navWrapper.addEventListener("click", e => {
-    if (e.target.id === "nav") {
-        navWrapper.classList.remove("show");
-        toggleButton.classList.remove("close");
-    }
+  column.addEventListener('mouseleave', function () {
+    this.style.transform = 'translateY(0)';
+  });
 });

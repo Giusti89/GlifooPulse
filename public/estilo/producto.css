@@ -1,397 +1,62 @@
-:root {
-    --primary-color: #fcd031;
-    --secondary-color: #ffffff;
-    --bg-dark: #32353d;
-    --bg-card: #2a2d34;
-    --accent-color: #ff6b35;
-    --text-light: #ffffff;
-    --text-muted: #8a8d93;
-    --text-dark: #32353d;
-    --border-radius: 0.75rem;
-    --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
+/* Contenedor principal */
 .principal {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 2.5rem;
-    width: 80vw;
-    margin: 20px auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 80px auto;
 }
 
-/* Tarjeta Moderna - Estilo Glassmorphism */
-.tarjeta {
-    background: rgba(58, 62, 71, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+/* Contenedor de cada tarjeta */
+.contenedor-tarjeta {
     position: relative;
+    border-radius: 24px;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 3/4; /* Proporción vertical */
+}
+
+.contenedor-tarjeta:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Tarjeta principal */
+.tarjeta {
+    position: relative;
+    width: 100%;
     height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
+/* Overlay oscuro para mejorar legibilidad */
 .tarjeta::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), #ff6b35);
-    z-index: 2;
-}
-
-.tarjeta:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(252, 208, 49, 0.3);
-}
-
-/* Imagen con efecto zoom */
-.tarjeta[style*="background-image"] {
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.tarjeta[style*="background-image"]::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(50, 53, 61, 0.9) 0%, rgba(50, 53, 61, 0.7) 100%);
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.2) 100%
+    );
     z-index: 1;
-    transition: var(--transition);
 }
 
-.tarjeta:hover[style*="background-image"]::after {
-    background: linear-gradient(135deg, rgba(50, 53, 61, 0.8) 0%, rgba(50, 53, 61, 0.5) 100%);
-}
-
-/* Header con estilo minimalista */
-.tarjeta__header {
-    position: relative;
-    z-index: 3;
-    padding: 2rem 2rem 1rem;
-    text-align: center;
-}
-
-.tarjeta__titulo {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin: 0;
-    position: relative;
-    display: inline-block;
-}
-
-.tarjeta__titulo::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: var(--primary-color);
-    border-radius: 1px;
-}
-
-/* Body con estilo limpio */
-.tarjeta__body {
-    padding: 1.5rem 2rem;
-    flex-grow: 1;
-    position: relative;
-    z-index: 3;
-    color: white;
-}
-
-.tarjeta__descripcion {
-    color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    text-align: center;
-}
-
-/* Precio con diseño destacado */
-.tarjeta__precio {
-    padding: 1.5rem 2rem;
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    background: rgba(252, 208, 49, 0.1);
-    margin: 0 2rem;
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(252, 208, 49, 0.2);
-}
-
-.tarjeta__precio .tarjeta__descripcion {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.tarjeta__precio .tarjeta__descripcion::before {
-    content: 'Bs. ';
-    font-size: 1.7rem;
-    font-weight: 600;
-    color: white;
-    opacity: 0.8;
-}
-
-/* ----------------------------------------tarjeta estilos -------------------------------------------------------------------------- */
-.tarjeta__descripcion {
-    color: #f8fafc;
-    line-height: 1.6;
-    font-size: 1rem;
-    word-wrap: break-word;
-    hyphens: auto;
-    margin: 0;
-}
-
-/* Encabezados */
-.tarjeta__descripcion h1,
-.tarjeta__descripcion h2,
-.tarjeta__descripcion h3,
-.tarjeta__descripcion h4,
-.tarjeta__descripcion h5,
-.tarjeta__descripcion h6 {
-    color: #ffffff;
-    margin: 1.1em 0 0.4em;
-    line-height: 1.15;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-}
-
-.tarjeta__descripcion h1 {
-    font-size: 1.6rem;
-}
-
-.tarjeta__descripcion h2 {
-    font-size: 1.35rem;
-}
-
-.tarjeta__descripcion h3 {
-    font-size: 1.15rem;
-}
-
-/* Párrafos */
-.tarjeta__descripcion p {
-    margin: 0 0 1rem;
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 0.98rem;
-}
-
-/* Listas */
-.tarjeta__descripcion ul,
-.tarjeta__descripcion ol {
-    margin: 0 0 1rem 1.25rem;
-    padding: 0;
-    color: #e6b800;
-    text-align: left;
-    font-size: 1.5rem;
-    list-style-type: circle;
-}
-
-.tarjeta__descripcion li {
-    margin: 0.45rem 0;
-}
-
-/* Enlaces */
-.tarjeta__descripcion a {
-    color: #60a5fa;
-    /* link azul suave */
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
-.tarjeta__descripcion a:hover,
-.tarjeta__descripcion a:focus {
-    color: #93c5fd;
-    outline: none;
-}
-
-/* Imágenes: responsivas y con placeholder visual */
-.tarjeta__descripcion img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0.8rem auto;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.45);
-    object-fit: cover;
-}
-
-/* Asegurar que iframes o contenido embebido sean responsivos */
-.tarjeta__descripcion .embed-wrap {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    /* 16:9 */
-    margin: 0.8rem 0;
-}
-
-.tarjeta__descripcion .embed-wrap iframe,
-.tarjeta__descripcion .embed-wrap video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-/* Tablas: scroll horizontal en móvil y estilo limpio */
-.tarjeta__descripcion .table-wrap {
-    width: 100%;
-    overflow: auto;
-    margin: 1rem 0;
-    border-radius: 8px;
-}
-
-.tarjeta__descripcion table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 600px;
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.tarjeta__descripcion th,
-.tarjeta__descripcion td {
-    padding: 0.65rem 0.8rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    text-align: left;
-    color: rgba(255, 255, 255, 0.92);
-}
-
-.tarjeta__descripcion thead th {
-    background: rgba(255, 255, 255, 0.02);
-    font-weight: 700;
-}
-
-/* Código preformateado y bloques de código */
-.tarjeta__descripcion pre,
-.tarjeta__descripcion code {
-    background: rgba(15, 23, 42, 0.6);
-    color: #e6eef8;
-    padding: 0.6rem 0.75rem;
-    border-radius: 8px;
-    overflow: auto;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-/* Citas */
-.tarjeta__descripcion blockquote {
-    border-left: 4px solid rgba(99, 102, 241, 0.7);
-    margin: 0.6rem 0;
-    padding: 0.6rem 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(99, 102, 241, 0.04);
-    border-radius: 6px;
-}
-
-/* Iconografía o listas enriquecidas (si el editor lo genera) */
-.tarjeta__descripcion .media {
-    display: flex;
-    gap: 0.8rem;
-    align-items: flex-start;
-}
-
-/* Accesibilidad y foco para elementos interactivos dentro del contenido */
-.tarjeta__descripcion a:focus,
-.tarjeta__descripcion button:focus,
-.tarjeta__descripcion input:focus,
-.tarjeta__descripcion textarea:focus {
-    outline: 3px solid rgba(99, 102, 241, 0.18);
-    outline-offset: 3px;
-}
-
-/* Small helpers */
-.tarjeta__descripcion .muted {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
-}
-
-
-/* Footer con botón moderno */
-.tarjeta__footer {
-    display: flex;
-    padding: 2rem;
-    flex-direction: column;
-    z-index: 3;
-    align-items: center;
-}
-
-/* Botón con efecto neón */
-.btn-registro {
-    display: inline-block;
-    width: 90%;
-    padding: 1.2rem 2rem;
-    background: linear-gradient(135deg, var(--primary-color) 0%, #e6b800 100%);
-    color: var(--text-dark);
-    text-decoration: none;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(252, 208, 49, 0.4);
-}
-
-.btn-registro::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    transition: left 0.5s ease;
-}
-
-.btn-registro:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(252, 208, 49, 0.6);
-}
-
-.btn-registro:hover::before {
-    left: 100%;
-}
-
-/* Etiqueta de estado */
-.tarjeta__etiqueta {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: var(--primary-color);
-    color: var(--text-dark);
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    z-index: 4;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Efectos de partículas al hover */
+/* Efecto de partículas */
 .tarjeta__particulas {
     position: absolute;
     top: 0;
@@ -400,140 +65,208 @@
     height: 100%;
     pointer-events: none;
     z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.tarjeta:hover .tarjeta__particulas {
-    opacity: 1;
 }
 
 .particula {
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background: var(--primary-color);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
-    animation: float 3s infinite linear;
+    pointer-events: none;
+    animation: flotar 3s ease-in-out infinite;
 }
 
-@keyframes float {
-    0% {
+@keyframes flotar {
+    0%, 100% {
         transform: translateY(0) translateX(0);
         opacity: 0;
     }
-
-    10% {
-        opacity: 1;
-    }
-
-    90% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-100px) translateX(20px);
-        opacity: 0;
+    50% {
+        opacity: 0.8;
     }
 }
 
-/* Animación de entrada tipo "card flip" */
-@keyframes cardAppear {
-    0% {
-        opacity: 0;
-        transform: perspective(1000px) rotateX(-90deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: perspective(1000px) rotateX(0deg);
-    }
+/* Efecto de brillo */
+.tarjeta__brillo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        115deg,
+        transparent,
+        rgba(255, 255, 255, 0.1) 30%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.1) 70%,
+        transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: 3;
+    pointer-events: none;
 }
 
-.tarjeta {
-    animation: cardAppear 0.8s ease forwards;
-    opacity: 0;
-    transform-origin: center top;
+.tarjeta:hover .tarjeta__brillo {
+    transform: translateX(100%);
 }
 
-.tarjeta:nth-child(1) {
-    animation-delay: 0.1s;
+/* Contenido de la tarjeta */
+.tarjeta__header,
+.tarjeta__body,
+.tarjeta__precio,
+.tarjeta__footer {
+    position: relative;
+    z-index: 4;
+    padding: 1rem 1.5rem;
 }
 
-.tarjeta:nth-child(2) {
-    animation-delay: 0.2s;
+.tarjeta__header {
+    padding-top: 2rem;
 }
 
-.tarjeta:nth-child(3) {
-    animation-delay: 0.3s;
+.tarjeta__titulo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.tarjeta:nth-child(4) {
-    animation-delay: 0.4s;
+.tarjeta__body {
+    flex: 1;
+}
+
+.tarjeta__descripcion {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.tarjeta__descripcion ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.tarjeta__descripcion li {
+    margin-bottom: 0.3rem;
+}
+
+.tarjeta__precio {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700; /* Dorado */
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.tarjeta__precio p {
+    margin: 0;
+}
+
+.tarjeta__footer {
+    padding-bottom: 2rem;
+}
+
+/* Botón personalizado */
+.modificar {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.modificar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.modificar:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.modificar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .principal {
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2rem;
-    }
-
-    .btn-registro {
-        width: 60%;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem;
+        margin-top: 20px;
     }
 
     .tarjeta__titulo {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
 
-    .tarjeta__precio .tarjeta__descripcion {
-        font-size: 2rem;
+    .tarjeta__precio {
+        font-size: 1.5rem;
     }
 
     .tarjeta__header,
     .tarjeta__body,
     .tarjeta__precio,
     .tarjeta__footer {
-        padding: 1.5rem;
-    }
-
-    .tarjeta__descripcion ul,
-    .tarjeta__descripcion ol {
-        margin: 0 0 1rem 1.25rem;
-        padding: 0;
-        color: #e6b800;
-        text-align: left;
-        font-size: 1.0rem;
+        padding: 0.8rem 1.2rem;
     }
 }
 
 @media (max-width: 480px) {
     .principal {
         grid-template-columns: 1fr;
-        max-width: 400px;
     }
 
-    .tarjeta {
-        margin: 0 auto;
-        max-width: 350px;
+    .contenedor-tarjeta {
+        aspect-ratio: 2/3;
     }
 }
 
-/* Efecto de brillo sutil */
-.tarjeta__brillo {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(252, 208, 49, 0.1) 0%, transparent 70%);
+/* Animación de entrada para las tarjetas */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contenedor-tarjeta {
+    animation: aparecer 0.6s ease forwards;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
 }
 
-.tarjeta:hover .tarjeta__brillo {
-    opacity: 1;
-}
+.contenedor-tarjeta:nth-child(1) { animation-delay: 0.1s; }
+.contenedor-tarjeta:nth-child(2) { animation-delay: 0.2s; }
+.contenedor-tarjeta:nth-child(3) { animation-delay: 0.3s; }
+.contenedor-tarjeta:nth-child(4) { animation-delay: 0.4s; }
+.contenedor-tarjeta:nth-child(5) { animation-delay: 0.5s; }
+.contenedor-tarjeta:nth-child(6) { animation-delay: 0.6s; }

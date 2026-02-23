@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         areaTexto.innerHTML = temp.innerHTML;
         areaLista.innerHTML = listaHTML;
         btnDetalles.href = "/usuario/register/" + item.dataset.idEncrypted;
-        // ✅ Color reactivo para borde, botón y lista
+       
         box.style.border = "3px solid " + item.dataset.marco;
         box.style.setProperty("--color-marco", item.dataset.marco);
     }

@@ -15,21 +15,13 @@ class InicioController extends Controller
     {
         $totalLanding    = Landing::count();
         $totalCatalogos  = Producto::count();
-        $totalClientes   = Spot::where('estado', true)->count();
-        $clientesActivos = Spot::whereHas('suscripcion.user', function ($query) {
-            $query->where('estado_id', 1)
-                ->where('rol_id', 2);
-        })
-            ->get();
-            
         $paquetes = Paquete::where('estado', true)->get();
+        
 
 
         return view('inicio', compact(
             'totalLanding',
-            'totalCatalogos',
-            'totalClientes',
-            'clientesActivos',
+            'totalCatalogos',            
             'paquetes',
         ));
     }
