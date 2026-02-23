@@ -26,6 +26,7 @@ class SocioController extends Controller
                 'contenidos.texto',
                 'contenidos.banner_url as banner',
             )
+            ->where('users.estado_id', 1)
             ->get();
         return view('socios.index', compact('results'));
     }
