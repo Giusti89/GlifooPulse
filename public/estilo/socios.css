@@ -131,15 +131,15 @@
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #d9d7ff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     transition: var(--transition);
 }
 
 .card-badge {
     display: inline-block;
-    background: var(--primary-color);
-    color: var(--bg-dark);
+    background: #8c52ff;
+    color: white;
     font-size: 0.7rem;
     font-weight: 700;
     padding: 0.3rem 0.8rem;
