@@ -28,15 +28,16 @@
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
+    font-family: Cocogoose;
 }
 
 .socios-titulo {
     font-size: 3rem;
     font-weight: 800;
-    color: var(--primary-color);
     margin-bottom: 1rem;
     position: relative;
     display: inline-block;
+    color: #d9d7ff;
 }
 
 .socios-titulo::after {
@@ -47,7 +48,7 @@
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: var(--primary-color);
+    background:  #d9d7ff;
     border-radius: 2px;
     opacity: 0.7;
 }
@@ -123,6 +124,7 @@
     width: 100%;
     padding: 1.5rem;
     z-index: 3;
+    font-family: Cocogoose;
 }
 
 .card-content h3 {
