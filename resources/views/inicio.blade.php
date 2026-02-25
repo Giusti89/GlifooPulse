@@ -93,7 +93,7 @@
                             <div id="texto-plan" class="tarjeta__descripcion"></div>
 
                             <a id="btn-detalles" href="#" class="btn-detalles-plan">
-                                REGISTRATE
+                                REGÍSTRATE
                             </a>
                         </div>
                         <div class="caract-lista" id="lista-caracteristicas">
