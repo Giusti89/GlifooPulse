@@ -99,8 +99,9 @@
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: #8c52ff;
+  color: white;
+  font-family: Cocogoose;
 }
 
 .btn-primary:hover {

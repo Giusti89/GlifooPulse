@@ -8,7 +8,7 @@
                 <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
                     Administrativo.</p>
                 <div class="hero-buttons">
-                    <a href="{{ route('planes') }}" class="btn btn-primary">Comenzar</a>
+                    <a href="{{ route('planes') }}" class="btn btn-primary">COMENZAR</a>
                 </div>
             </div>
         </div>
