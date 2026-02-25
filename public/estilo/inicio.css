@@ -161,7 +161,7 @@
   backdrop-filter: blur(10px);
   width: 400px;
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #d9d7ff;
   border-radius: 20px;
   padding: 1rem;
   color: white;
