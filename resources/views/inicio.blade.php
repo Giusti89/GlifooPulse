@@ -79,7 +79,7 @@
                         data-descripcion='@json($paquete->descripcion)' data-index="{{ $index }}"
                         data-marco="{{ $paquete->marco }}">
                         <div class="planes" style=" border: 3px solid {{ $paquete->marco }};">
-                            <h2>{{ $paquete->nombre }}</h2>
+                            <h2 style="font-family: Cocogoose;">{{ $paquete->nombre }}</h2>
                             <h3>Bs. {{ $paquete->precio }} / Mes</h3>
                         </div>
                     </div>
