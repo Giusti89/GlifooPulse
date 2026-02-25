@@ -51,7 +51,6 @@
                 <div class="card-icon">🔒</div>
                 <h2 class="card-title">Seguridad Total</h2>
                 <p class="card-description">Protección de datos con encriptación end to end.</p>
-                <span class="card-badge">Encriptación</span>
             </div>
 
             <div class="feature-card">
