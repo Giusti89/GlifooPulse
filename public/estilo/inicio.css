@@ -32,7 +32,7 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(140, 82, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -246,7 +246,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 90px 0px 90px 0px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(140, 82, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
