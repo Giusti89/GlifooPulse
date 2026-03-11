@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="tarjeta__precio">
-                        <p class="tarjeta__descripcion">{{ $item->precio }}</p>
+                        <p class="tarjeta__descripcion">{{ $item->precio }} Bs.</p>
                     </div>
 
                     <div class="tarjeta__footer">
