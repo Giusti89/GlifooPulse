@@ -4,6 +4,7 @@ namespace App\Filament\Catalogo\Resources;
 
 use App\Filament\Catalogo\Resources\VideosResource\Pages;
 use App\Filament\Catalogo\Resources\VideosResource\RelationManagers;
+use App\Models\Categoria;
 use App\Models\Video;
 use App\Models\Videos;
 use Filament\Forms;
@@ -27,6 +28,20 @@ class VideosResource extends Resource
     protected static ?string $pluralModelLabel = 'Galeria de imagenes';
     protected static ?int $navigationSort = 5;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
+    
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

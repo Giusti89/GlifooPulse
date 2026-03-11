@@ -26,6 +26,20 @@ class CategoriaResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -79,7 +93,7 @@ class CategoriaResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->color('primary'),
-                        
+
                     Tables\Actions\Action::make('crearProducto')
                         ->label('Crear Producto')
                         ->icon('heroicon-m-plus-circle')

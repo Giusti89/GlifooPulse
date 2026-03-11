@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses;
 
+use App\Services\UserRedirectService;
 use Filament\Pages\Dashboard;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Features\SupportRedirects\Redirector;
@@ -19,8 +20,8 @@ class LoginResponse extends BaseLoginResponse
         }
 
         // 2. Si tiene suscripción a Catálogos → panel catalogos
-        if ($user->tieneTipoproducto('Catalogo')) {            
-            return redirect()->to(Dashboard::getUrl(panel: 'catalogo'));
+        if ($user->tieneTipoproducto('Catalogo')) {
+            return redirect()->to(UserRedirectService::getRedirectUrl($user));
         }
 
         // 3. Si tiene suscripción a Biolink → panel usuario (actual)

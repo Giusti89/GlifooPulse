@@ -2,6 +2,7 @@
 
 namespace App\Filament\Catalogo\Widgets;
 
+use App\Models\Categoria;
 use App\Models\ConsultaProducto;
 use App\Models\Producto;
 use App\Models\Spot;
@@ -14,6 +15,20 @@ use Illuminate\Support\Facades\Auth;
 
 class Estadisticas extends BaseWidget
 {
+    public static function canView(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
+    
     protected function getStats(): array
     {
 

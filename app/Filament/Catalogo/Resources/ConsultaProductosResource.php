@@ -4,6 +4,7 @@ namespace App\Filament\Catalogo\Resources;
 
 use App\Filament\Catalogo\Resources\ConsultaProductosResource\Pages;
 use App\Filament\Catalogo\Resources\ConsultaProductosResource\RelationManagers;
+use App\Models\Categoria;
 use App\Models\ConsultaProducto;
 use App\Models\Producto;
 use Filament\Forms;
@@ -24,6 +25,20 @@ class ConsultaProductosResource extends Resource
     protected static ?string $pluralModelLabel = 'Productos consultados';
 
     protected static ?int $navigationSort = 6;
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
 
     public static function getEloquentQuery(): Builder
     {

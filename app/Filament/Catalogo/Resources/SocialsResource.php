@@ -4,6 +4,7 @@ namespace App\Filament\Catalogo\Resources;
 
 use App\Filament\Catalogo\Resources\SocialsResource\Pages;
 use App\Filament\Catalogo\Resources\SocialsResource\RelationManagers;
+use App\Models\Categoria;
 use App\Models\Social;
 use App\Models\Socials;
 use Filament\Forms;
@@ -25,12 +26,24 @@ class SocialsResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Configuracion Enlaces Sociales';
     protected static ?string $navigationGroup = 'Redes Sociales';
-    
 
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
 
-
     protected static ?int $navigationSort = 6;
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
 
     public static function getEloquentQuery(): Builder
     {

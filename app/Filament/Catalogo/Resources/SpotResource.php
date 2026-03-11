@@ -5,6 +5,7 @@ namespace App\Filament\Catalogo\Resources;
 use App\Filament\Catalogo\Resources\SpotResource\Pages;
 use App\Filament\Catalogo\Resources\SpotResource\RelationManagers;
 use App\Filament\Helpers\SeoVisibilityHelper;
+use App\Models\Categoria;
 use App\Models\Landing;
 use App\Models\Spot;
 use App\Models\Suscripcion;
@@ -42,7 +43,22 @@ class SpotResource extends Resource
     protected static ?string $navigationGroup = 'Configuracion Inicial';
 
     protected static ?int $navigationSort = 1;
+    
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
 
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
+    
+    
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -180,7 +196,7 @@ class SpotResource extends Resource
                             ColorPicker::make('ctexto')
                                 ->label('Color del texto')
                                 ->default('#ffffff')
-                                
+
                                 ->rgb(),
 
                             Forms\Components\Textarea::make('texto')

@@ -2,13 +2,28 @@
 
 namespace App\Filament\Catalogo\Widgets;
 
+use App\Models\Categoria;
 use App\Models\SocialClicks;
 use App\Models\Spot;
 use Filament\Widgets\ChartWidget;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ClicksChartC extends ChartWidget
 {
+    public static function canView(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verifica si el usuario tiene al menos una categoría a través de la relación
+        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
+    }
     protected static ?int $sort = 2;
     protected static ?string $heading = 'Evolución de clicks por red social';
 
