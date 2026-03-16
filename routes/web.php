@@ -26,7 +26,9 @@ Route::controller(RenovacionController::class)->group(function () {
 
 Route::get('./usuario/login', function () {
     return redirect('/usuario/login');
-})->name('login');
+})
+    ->middleware('throttle:5,1')
+    ->name('login');
 
 
 Route::get('/renovacion', RenovacionForm::class)->name('renovacion.form');
@@ -42,13 +44,11 @@ Route::controller(PlanesController::class)->group(function () {
 Route::controller(SocioController::class)->group(function () {
     Route::get('/socios', 'index')
         ->name('socios');
-
-    Route::get('/socios/{slug}', 'show')
-        ->name('slug');
 });
 
 Route::controller(PublicidadController::class)->group(function () {
     Route::get('/{slug}', 'show')
+        ->where('slug', '[A-Za-z0-9\-]+')
         ->middleware('check.suscripcion')
         ->name('publicidad');
 
