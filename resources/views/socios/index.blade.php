@@ -4,7 +4,7 @@
     <div class="socios-container">
         <div class="socios-header">
             <h1 class="socios-titulo">Nuestros Socios Pulse</h1>
-            <p class="socios-subtitulo">Descubre las empresas innovadoras que forman parte de nuestra comunidad</p>
+            <p class="socios-subtitulo">Descubre las empresas innovadoras que forman parte de nuestra comunidad.</p>
         </div>
 
         <div class="socios-grid">
