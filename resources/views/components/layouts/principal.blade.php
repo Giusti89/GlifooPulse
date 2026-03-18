@@ -107,10 +107,10 @@
                     <a href="https://www.facebook.com/glifoo" target="_blank" rel="noopener">
                         <img src="{{ asset('./img/logos/faceb.png') }}" alt="facebook">
                     </a>
-                    {{-- <a href="https://wa.me/+59172501311" target="_blank"
+                    <a href="https://wa.me/+59164013372" target="_blank"
                         rel="noopener">
                         <img src="{{ asset('./img/logos/wpb.png') }}" alt="whatsapp">
-                    </a> --}}
+                    </a>
                 </div>
             </div>
         </div>
