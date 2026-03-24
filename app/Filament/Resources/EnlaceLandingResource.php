@@ -22,7 +22,7 @@ class EnlaceLandingResource extends Resource
 
     protected static ?string $navigationLabel = 'Asignar redes sociales';
     protected static ?string $pluralModelLabel = 'Asignar Redes Sociales';
-    protected static ?string $navigationGroup = 'Recursos Glifoo';
+    protected static ?string $navigationGroup = 'Recursos para los clientes';
     protected static ?string $navigationIcon = 'heroicon-s-folder-arrow-down';
     protected static ?int $navigationSort = 9;
 

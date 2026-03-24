@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SuscripcionResource\Pages;
 use App\Filament\Resources\SuscripcionResource\RelationManagers;
+use App\Models\Paquete;
 use App\Models\Suscripcion;
 use Carbon\Carbon;
 use DragonCode\PrettyArray\Services\Formatters\Php;
@@ -18,6 +19,8 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Notification;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Enums\FiltersLayout;
 
 class SuscripcionResource extends Resource
 {
@@ -27,10 +30,8 @@ class SuscripcionResource extends Resource
     protected static ?string $navigationLabel = 'Suscripciones';
     protected static ?string $navigationIcon = 'heroicon-m-pencil';
     protected static ?string $navigationGroup = 'Datos de Usuarios';
-
-     
     protected static ?string $pluralModelLabel = 'Suscripciones';
-    
+
 
     protected static ?int $navigationSort = 2;
 
@@ -97,23 +98,37 @@ class SuscripcionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nombre de usuario')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.lastname')
+                    ->label('Apellido de usuario')
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('user.email')
+                    ->label('Email de usuario')
+                    ->numeric()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('paquete.nombre')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\IconColumn::make('estado')
+                    ->label('Estado suscripcion')
                     ->boolean()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_inicio')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('fecha_fin')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('dias_restantes_texto')
                     ->label('Días restantes')
                     ->color(function ($record) {
@@ -122,11 +137,18 @@ class SuscripcionResource extends Resource
 
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('paquete_id')
+                    ->label('Filtrar por paquete')
+                    ->options(Paquete::all()->pluck('nombre', 'id'))
+                    ->searchable()
+                    ->preload(),
+            ], layout: FiltersLayout::AboveContent)
+
+            ->persistFiltersInSession()
+
             ->actions([
                 // Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([]),

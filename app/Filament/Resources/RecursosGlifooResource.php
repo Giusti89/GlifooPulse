@@ -21,7 +21,7 @@ class RecursosGlifooResource extends Resource
     protected static ?string $model = Enlace::class;
     protected static ?string $navigationLabel = 'Redes Sociales';
     protected static ?string $pluralModelLabel = 'Redes Sociales';
-    protected static ?string $navigationGroup = 'Recursos Glifoo';
+    protected static ?string $navigationGroup = 'Recursos para los clientes';
     protected static ?string $navigationIcon = 'heroicon-s-chat-bubble-left-right';
     protected static ?int $navigationSort = 7;
 
