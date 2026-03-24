@@ -40,7 +40,7 @@ class SpotResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-wrench';
     protected static ?string $navigationLabel = 'Datos iniciales';
     protected static ?string $pluralModelLabel = 'Configuracion Inicial';
-    protected static ?string $navigationGroup = 'Configuracion Inicial';
+    protected static ?string $navigationGroup = 'Primeros pasos';
 
     protected static ?int $navigationSort = 1;
     

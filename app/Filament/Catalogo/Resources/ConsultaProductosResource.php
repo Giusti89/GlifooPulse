@@ -21,10 +21,10 @@ class ConsultaProductosResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-chat-bubble-left';
     protected static ?string $navigationLabel = 'Productos consultados';
-    protected static ?string $navigationGroup = 'Productos consultados';
+    protected static ?string $navigationGroup = 'Consulta de Clientes';
     protected static ?string $pluralModelLabel = 'Productos consultados';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 9;
 
     public static function shouldRegisterNavigation(): bool
     {

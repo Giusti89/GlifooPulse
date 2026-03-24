@@ -24,7 +24,7 @@ class ImagenProductosResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-camera';
     protected static ?string $navigationLabel = 'Imagenes de productos';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
+    protected static ?string $navigationGroup = 'Catalogo de productos';
     protected static ?string $pluralModelLabel = 'Galeria de imagenes';
 
     protected static ?int $navigationSort = 4;

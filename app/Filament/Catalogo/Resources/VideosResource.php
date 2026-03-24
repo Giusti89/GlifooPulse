@@ -24,7 +24,7 @@ class VideosResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-film';
     protected static ?string $navigationLabel = 'Video Publicitarios';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
+    protected static ?string $navigationGroup = 'Catalogo de productos';
     protected static ?string $pluralModelLabel = 'Galeria de imagenes';
     protected static ?int $navigationSort = 5;
 

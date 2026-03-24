@@ -28,7 +28,8 @@ class ProductosResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-c-tv';
     protected static ?string $navigationLabel = 'Productos';
     protected static ?string $pluralModelLabel = 'productos';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
+    protected static ?string $navigationGroup = 'Catalogo de productos';
+
 
     protected static ?int $navigationSort = 3;
 

@@ -24,7 +24,7 @@ class CreateVideos extends CreateRecord
     {
         $user = Auth::user();
 
-        // 2) Encontrar la suscripción activa
+
         $suscripcion = $user->getSuscripcionActiva();
         if (! $suscripcion) {
             Notification::make()
@@ -44,7 +44,7 @@ class CreateVideos extends CreateRecord
         }
 
         $data['spot_id'] = $spot->id;
-        // 4) Procesar URL del video (YouTube / Vimeo / etc.)
+
         $url = $data['url'];
 
         // --- YOUTUBE (normal) ---
@@ -70,6 +70,12 @@ class CreateVideos extends CreateRecord
             $data['url_embed'] = "https://player.vimeo.com/video/" . $videoId;
             return $data;
         }
+        // --- TIKTOK  ---
+        if ($this->isTikTokUrl($url)) {
+            $data['proveedor'] = 'tiktok';
+            $data['url_embed'] = $this->processTikTokUrl($url);
+            return $data;
+        }
 
         // --- Si no coincide con YouTube o Vimeo ---
         $data['proveedor'] = 'otro';
@@ -78,48 +84,75 @@ class CreateVideos extends CreateRecord
         return $data;
     }
 
+    protected function isTikTokUrl(string $url): bool
+    {
+        return str_contains($url, 'tiktok.com') ||
+            str_contains($url, 'vt.tiktok.com');
+    }
+
+    protected function processTikTokUrl(string $url): string
+    {
+        $cleanUrl = explode('?', $url)[0];
+
+        $patterns = [
+            '/\/video\/(\d+)/',    // https://www.tiktok.com/@user/video/123456789
+            '/\/v\/(\d+)/',       // https://www.tiktok.com/v/123456789.html  
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $cleanUrl, $matches)) {
+                $videoId = $matches[1];
+                // ✅ EMBED OFICIAL TikTok v2 (IMPORTANTE: sin /embed/)
+                return "https://www.tiktok.com/@tiktok/video/{$videoId}";
+                // O también puedes usar:
+                // return "https://www.tiktok.com/video/{$videoId}";
+            }
+        }
+
+        return $url;
+    }
+
     protected function beforeCreate(): void
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    $suscripcion = $user->getSuscripcionActiva();
+        $suscripcion = $user->getSuscripcionActiva();
 
-    
-    $videos = Video::whereHas('spot', function ($q) use ($user) {
-        $q->whereHas('suscripcion', function ($q2) use ($user) {
-            $q2->where('user_id', $user->id);
-        });
-    })
-    ->with('spot')
-    ->get();
 
-    $spots = $videos->pluck('spot')->flatten();
+        $videos = Video::whereHas('spot', function ($q) use ($user) {
+            $q->whereHas('suscripcion', function ($q2) use ($user) {
+                $q2->where('user_id', $user->id);
+            });
+        })
+            ->with('spot')
+            ->get();
 
-    if ($suscripcion?->estado == 1) {
+        $spots = $videos->pluck('spot')->flatten();
 
-        $max = $suscripcion->paquete?->max_videos;
+        if ($suscripcion?->estado == 1) {
 
-        if ($max !== null) {
-            $count = $spots->count();
+            $max = $suscripcion->paquete?->max_videos;
 
-            if ($count >= $max) {
-                Notification::make()
-                    ->title('Has alcanzado el máximo de videos permitidos en tu plan.')
-                    ->danger()
-                    ->persistent()
-                    ->actions([
-                        Action::make('renovar')
-                            ->label('Regresar')
-                            ->button()
-                            ->color('primary')
-                            ->url(route('filament.catalogo.resources.videos.index'))
-                    ])
-                    ->send();
+            if ($max !== null) {
+                $count = $spots->count();
 
-                $this->halt();
+                if ($count >= $max) {
+                    Notification::make()
+                        ->title('Has alcanzado el máximo de videos permitidos en tu plan.')
+                        ->danger()
+                        ->persistent()
+                        ->actions([
+                            Action::make('renovar')
+                                ->label('Regresar')
+                                ->button()
+                                ->color('primary')
+                                ->url(route('filament.catalogo.resources.videos.index'))
+                        ])
+                        ->send();
+
+                    $this->halt();
+                }
             }
         }
     }
-}
-
 }

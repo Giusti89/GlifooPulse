@@ -22,7 +22,7 @@ class CategoriaResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-folder-open';
     protected static ?string $navigationLabel = 'Categoria de Productos';
     protected static ?string $pluralModelLabel = 'Categoria de productos';
-    protected static ?string $navigationGroup = 'Configuracion Catalogo';
+    protected static ?string $navigationGroup = 'Catalogo de productos';
 
     protected static ?int $navigationSort = 2;
 

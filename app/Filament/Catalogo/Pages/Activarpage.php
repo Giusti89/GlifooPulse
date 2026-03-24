@@ -29,9 +29,9 @@ class Activarpage extends Page
     protected static ?string $navigationIcon = 'heroicon-s-play-circle';
 
     protected static string $view = 'filament.usuario.pages.activarpage';
-    protected static ?string $navigationGroup = 'Configuracion pagina web';
+    protected static ?string $navigationGroup = 'Configuracion final';
     protected static ?string $pluralModelLabel = 'Configuracion Enlaces';
     protected static ?string $navigationLabel = 'Configuración final';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 8;
 }
