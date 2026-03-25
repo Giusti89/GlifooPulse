@@ -11,7 +11,7 @@ use Filament\Forms\Components\DatePicker;
 class VentasPorMesChart extends ChartWidget
 {
     protected static ?string $heading = 'Ingresos mensuales';
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 4;
 
     protected function getFormSchema(): array
     {

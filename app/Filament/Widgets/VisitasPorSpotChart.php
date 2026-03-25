@@ -7,8 +7,9 @@ use Filament\Widgets\ChartWidget;
 
 class VisitasPorSpotChart extends ChartWidget
 {
+    
     protected static ?string $heading = 'Visitas por Cliente (contador)';
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 5;
 
     protected function getData(): array
     {

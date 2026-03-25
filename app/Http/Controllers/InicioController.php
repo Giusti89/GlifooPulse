@@ -13,15 +13,11 @@ class InicioController extends Controller
 {
     public function index()
     {
-        $totalLanding    = Landing::count();
         $totalCatalogos  = Producto::count();
         $paquetes = Paquete::where('estado', true)->get();
-        
-
 
         return view('inicio', compact(
-            'totalLanding',
-            'totalCatalogos',            
+            'totalCatalogos',
             'paquetes',
         ));
     }
