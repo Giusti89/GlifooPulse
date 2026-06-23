@@ -47,7 +47,7 @@ Route::controller(SocioController::class)->group(function () {
 });
 
 Route::controller(PublicidadController::class)->group(function () {
-    Route::get('/{slug}', 'show')
+    Route::get('/cliente/{slug}', 'show')
         ->where('slug', '[A-Za-z0-9\-]+')
         ->middleware('check.suscripcion')
         ->name('publicidad');

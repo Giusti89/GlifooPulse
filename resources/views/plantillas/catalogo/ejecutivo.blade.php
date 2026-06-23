@@ -1,5 +1,4 @@
  @php
-
      $bgColor = $contenido->background ?? '#ffffff';
      $textColor = $contenido->ctexto ?? '#333333';
      $colsec = $contenido->colsecond ?? '#333333';
@@ -8,7 +7,7 @@
          ->__toString();
  @endphp
  <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-     :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
+     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
      <style>
          :root {
              --brand-background: {{ $bgColor }};
@@ -30,14 +29,13 @@
                              <h1 class="company-name">{{ $titulo }}</h1>
                          </div>
                      </div>
-
                      @if ($whatsNumber)
                          <div class="contact-section">
                              <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
-                                
+
                                  <span class="contact-text">
                                      <strong>Número de contacto</strong>
-                                     
+
                                  </span>
                              </a>
                          </div>
@@ -45,7 +43,6 @@
                  </div>
              </div>
          </header>
-
          <!-- Sección Hero -->
          <section class="hero-section">
              <div class="container">
@@ -68,7 +65,6 @@
                  </div>
              </div>
          </section>
-
          <!-- Sección Catálogo/Servicios Ejecutivos -->
          <section id="catalogo" class="servicios-ejecutivos">
              <div class="container">
@@ -76,7 +72,6 @@
                      <h2 class="section-title">SERVICIOS</h2>
                      {{-- <p class="section-subtitle">Soluciones especializadas para necesidades empresariales</p> --}}
                  </div>
-
                  <!-- Navegación por categorías - Versión Ejecutiva -->
                  <div class="categorias-navegacion">
                      <div class="nav-scroll-container">
@@ -93,8 +88,6 @@
                          <div class="scroll-indicator right" id="scrollRight">›</div>
                      </div>
                  </div>
-
-
                  <div class="categorias-contenido">
                      @foreach ($categoriapro as $categoria)
                          <div class="categoria-content {{ $loop->first ? 'active' : '' }}"
@@ -105,7 +98,6 @@
                                      <p class="categoria-descripcion">{{ $categoria->descripcion }}</p>
                                  @endif
                              </div>
-
                              <div class="servicios-grid">
                                  @foreach ($categoria->productos as $producto)
                                      @php
@@ -114,12 +106,10 @@
                                              ? Storage::url($imagen->url)
                                              : asset('img/placeholder-producto.jpg');
                                      @endphp
-
                                      <div class="servicio-card">
                                          <div class="servicio-imagen-contenedor">
-                                             <img src="{{ $src }}" data-src="{{ $src }}"
-                                                 alt="{{ $producto->nombre }}" class="servicio-imagen" loading="lazy"
-                                                 width="400" height="300"
+                                             <img src="{{ $src }}" alt="{{ $producto->nombre }}"
+                                                 class="servicio-imagen" width="400" height="300"
                                                  onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
                                              @if ($producto->precio > 0)
                                                  <div class="servicio-overlay">
@@ -130,12 +120,10 @@
                                                  </div>
                                              @endif
                                          </div>
-
                                          <div class="servicio-info">
-                                             <h4 class="servicio-nombre">{{ $producto->nombre }}</h4>
+                                             <h3 class="servicio-nombre">{{ $producto->nombre }}</h3>
                                              <p class="servicio-descripcion">
                                                  {{ Str::limit($producto->descripcion, 1200) }}</p>
-
                                              @if ($producto->precio > 0)
                                                  <div class="servicio-precio">
                                                      <span class="precio-label">Costo:</span>
@@ -143,7 +131,6 @@
                                                          class="precio-valor">${{ number_format($producto->precio, 2) }}</span>
                                                  </div>
                                              @endif
-
                                              <div class="servicio-actions">
                                                  @if ($whatsNumber)
                                                      <button type="button" class="producto-whatsapp"
@@ -151,7 +138,6 @@
                                                          Contactar por WhatsApp
                                                      </button>
                                                  @endif
-
                                                  @if ($producto->precio > 0)
                                                      <span
                                                          class="servicio-estado estado-{{ Str::slug($producto->estado) }}">
@@ -171,32 +157,27 @@
          <div id="consultaModal" class="modal-overlay" style="display: none;">
              <div class="modal-content">
                  <button class="modal-close" onclick="cerrarConsulta()">&times;</button>
-
                  <h2 id="modalProductoNombre">Consultar producto</h2>
                  <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
-
-                 <form id="consultaForm" method="POST" target="_blank" action="" onsubmit="setTimeout(() => cerrarConsulta(), 100)">
+                 <form id="consultaForm" method="POST" target="_blank" action=""
+                     onsubmit="setTimeout(() => cerrarConsulta(), 100)">
                      @csrf
                      <input type="hidden" id="productoId" name="producto_id">
-
                      <div class="form-group">
                          <label for="nombre">Nombre (opcional)</label>
                          <input type="text" name="nombre" id="nombre" class="form-control">
                      </div>
-
                      <div class="form-group"> <label for="telefono">Teléfono (opcional)</label>
                          <input type="tel" name="telefono" id="telefono" class="form-control"
                              pattern="^\+?[0-9]{7,15}$" maxlength="15" placeholder="Ej: +59112345678">
                          <small class="form-text text-muted">
                              Ingrese un número válido (7–15 dígitos, opcionalmente con +). </small>
                      </div>
-
                      <div class="form-group">
                          <label for="mensaje">Mensaje</label>
                          <textarea name="mensaje" id="mensaje" class="form-control" required
                              placeholder="Hola, me interesa el producto..."></textarea>
                      </div>
-
                      <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
                  </form>
              </div>
@@ -210,7 +191,6 @@
                          @php
                              $encryptedId = Crypt::encrypt($red->id);
                          @endphp
-
                          <a href="{{ route('redireccion', $encryptedId) }}" class="red-social-link" target="_blank">
                              @if ($red->image_url)
                                  <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
@@ -231,7 +211,6 @@
                      <h2 class="section-title">NUESTRA UBICACIÓN</h2>
                      <p class="section-subtitle">Encuentre nuestras instalaciones principales</p>
                  </div>
-
                  <div class="mapa-contenedor-ejecutivo">
                      <div class="mapframe-ejecutivo">
                          <iframe
@@ -240,16 +219,14 @@
                              referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación corporativa">
                          </iframe>
                      </div>
-
                      <div class="info-corporativa">
                          <div class="info-card">
-                            
+
                              <div class="info-content">
                                  <h4>Dirección Principal</h4>
                                  <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
                              </div>
                          </div>
-
                          @if ($contenido->horario ?? false)
                              <div class="info-card">
                                  <div class="info-icon">🕒</div>
@@ -262,7 +239,7 @@
 
                          @if ($whatsNumber)
                              <div class="info-card">
-                                 
+
                                  <div class="info-content">
                                      <h4>Contacto Directo</h4>
                                      <p>{{ $contenido->phone ?? '' }}</p>
@@ -277,7 +254,6 @@
                  </div>
              </div>
          </section>
-
          <!-- Footer Ejecutivo -->
          <footer class="ejecutivo-footer">
              <div class="container">
@@ -289,7 +265,6 @@
                              {{ $titulo ?? 'Líderes en soluciones empresariales innovadoras' }}
                          </p>
                      </div>
-
                      <div class="footer-contact">
                          <h4>Contacto</h4>
                          @if ($whatsNumber)

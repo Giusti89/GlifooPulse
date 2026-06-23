@@ -75,24 +75,29 @@ class PublicidadController extends Controller
 
             // 🔹 Ajustes según nivel SEO
             if ($seoNivel === 'basico') {
-                // Solo título y descripción básica
+
                 $tituloSEO = Str::limit($tituloSEO, 60, '');
-                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+                $descripcionSEO = Str::limit($descripcionSEO, 150, '');
+                $robots = 'index, follow';
+                $imagenOg = null;
             }
 
             if ($seoNivel === 'medio') {
-                $tituloSEO = Str::limit($tituloSEO, 60, '');
+                $tituloSEO = Str::limit($tituloSEO, 65, '');
                 $descripcionSEO = Str::limit($descripcionSEO, 160, '');
                 $robots = $catalogos->seo_robots ?? 'index, follow';
+                $imagenOg = null;
             }
 
             if ($seoNivel === 'avanzada') {
-                $tituloSEO = Str::limit($tituloSEO, 60, '');
-                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+                $tituloSEO = Str::limit($tituloSEO, 65, '');
+                $descripcionSEO = Str::limit($descripcionSEO, 170, '');
                 $robots = $catalogos->seo_robots ?? 'index, follow';
                 $imagenOg = '/storage/' . ($contenido->banner_url ?? '');
                 $locale = $catalogos->seo_locale ?? 'es_ES';
             }
+            $ogUrl = request()->url();
+            $ogType = ($grupo === 'catalogo') ? 'business.business' : 'profile';
 
             // 🔹 Verificamos si existe la vista
             if (!View::exists($vista)) {
@@ -118,7 +123,9 @@ class PublicidadController extends Controller
                         'robots',
                         'imagenOg',
                         'locale',
-                        'videos'
+                        'videos',
+                        'ogUrl',  
+                        'ogType'
                     ));
                 } elseif ($grupo === "portfolio") { // Agregado caso portfolio
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
