@@ -144,6 +144,9 @@ class PublicidadController extends Controller
                         'locale',
                         'portfolios',
                         'videoportfolio',
+                        'ogUrl',  
+                        'ogType'
+
                     ));
                 } else {
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
@@ -159,7 +162,9 @@ class PublicidadController extends Controller
                         'keywordsSEO',
                         'robots',
                         'imagenOg',
-                        'locale'
+                        'locale',
+                        'ogUrl',  
+                        'ogType'
                     ));
                 }
             } else {

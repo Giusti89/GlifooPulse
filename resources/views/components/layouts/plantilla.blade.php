@@ -1,50 +1,70 @@
 @props([
     'titulo' => 'Mi Web',
-     'descripcion' => 'Glifoo es una agencia de publicidad digital que ofrece servicios de marketing digital, diseño web, redes sociales, publicidad en Google y Facebook, entre otros.',
-    'keywords' => 'Glifoo, agencia de publicidad digital, marketing digital, diseño web, redes sociales, publicidad en Google, publicidad en Facebook',
+    'descripcion' => 'Crea tu árbol de enlaces, comparte tus redes sociales y muestra tu portafolio profesional con Glifoo.',
+    'keywords' => 'portfolio, proyectos, trabajo, linktree, enlaces, redes sociales, glifoo',
     'icono' => null,
     'backgroud' => 'white',
-    'imagenOg' => null,   {{-- Enterprise --}}
-    'robots' => 'index, follow',  {{-- Medio en adelante --}}
-    'locale' => 'es_ES',  {{-- Enterprise --}}
     'styles' => '',
     'scripts' => '',
+    'navItems' => [],
+    'robots' => 'index, follow', {{-- 🟢 Propiedad añadida --}}
+    'locale' => 'es_ES',          {{-- 🟢 Propiedad añadida --}}
+    'imagenOg' => null,           {{-- 🟢 Propiedad añadida --}}
+    'ogUrl' => null,              {{-- 🟢 Propiedad añadida --}}
+    'ogType' => 'profile',        {{-- 🟢 Propiedad añadida (Default profile para linktree/portafolio) --}}
 ])
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', substr($locale, 0, 2)) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO básico -->
-    <title>{{ Str::limit($titulo, 60, '') }} | Glifoo</title>
-    <meta name="description" content="{{ Str::limit($descripcion, 160, '') }}">
+    
+    {{-- 🟢 Quitamos Str::limit para que el controlador maneje el límite según el plan --}}
+    <title>{{ $titulo }} | Glifoo</title>
+    <meta name="description" content="{{ $descripcion }}">
     <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="Glifoo">
-
-    <!-- SEO medio -->
     <meta name="robots" content="{{ $robots }}">
 
-    <!-- SEO enterprise -->
-    <meta property="og:title" content="{{ Str::limit($titulo, 60, '') }}">
-    <meta property="og:description" content="{{ Str::limit($descripcion, 160, '') }}">
-    @if($imagenOg)
-        <meta property="og:image" content="{{ asset($imagenOg) }}">
-    @endif
-    <meta property="og:type" content="website">
+    <!-- Open Graph (Metas para WhatsApp, LinkedIn y Facebook) -->
+    <meta property="og:title" content="{{ $titulo }}">
+    <meta property="og:description" content="{{ $descripcion }}">
+    <meta property="og:type" content="{{ $ogType }}">
+    <meta property="og:url" content="{{ $ogUrl ?? request()->url() }}">
     <meta property="og:locale" content="{{ $locale }}">
+    @if($imagenOg)
+        <meta property="og:image" content="{{ $imagenOg }}">
+    @endif
+
+    <!-- Twitter Cards (Vital para diseñadores y profesionales en X) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $titulo }}">
+    <meta name="twitter:description" content="{{ $descripcion }}">
+    @if($imagenOg)
+        <meta name="twitter:image" content="{{ $imagenOg }}">
+    @endif
 
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('estilo/spot.css') }}">
+    {!! $styles !!}
 </head>
-<body style="background-color:{{ $backgroud ?? 'white' }}">
+
+<body style="background-color: {{ $backgroud ?? 'white' }}">
+    @include('layouts.alertas')
+    
     <main class="main-content">
         {{ $slot }}
     </main>
-    <footer>
-        <a href="{{ route('inicio') }}">
-            <p>&copy; Glifoo 2025 - Todos los derechos reservados</p>
-        </a>
-    </footer>
+
+    <div class="piefooter">
+        <footer>
+            <a href="{{ route('inicio') }}">
+                <p>&copy; {{ date('Y') }} Glifoo - Todos los derechos reservados</p>
+            </a>
+        </footer>
+    </div>
+
+    {!! $scripts !!}
 </body>
 </html>

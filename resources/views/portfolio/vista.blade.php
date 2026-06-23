@@ -13,7 +13,7 @@
 @endphp
 
 <x-layouts.plantillacatalogo :titulo="$portfolio->titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl">
+    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType">
     <style>
         :root {
             --brand-background: {{ $bgColor }};

@@ -1,25 +1,17 @@
 @php
-    // Variables CSS dinámicas
     $bgColor = $contenido->background ?? '#ffffff';
     $textColor = $contenido->ctexto ?? '#333333';
     $colsec = $contenido->colsecond ?? '#333333';
-
-    // Formatear número de WhatsApp
     $whatsNumber = Str::of($contenido->phone ?? '')
         ->replaceMatches('/\D+/', '')
         ->__toString();
-
-    // Extraer datos del contenido
-    // Extraer datos
     $logoUrl = $contenido->logo_url ? '/storage/' . $contenido->logo_url : null;
     $bannerUrl = $contenido->banner_url ? '/storage/' . $contenido->banner_url : null;
-
-    // Estadísticas
     $totalProyectos = $portfolios->count();
     $proyectosActivos = $portfolios->where('estado', 'activo')->count();
 @endphp
 <x-layouts.plantillaportfolio :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg ?? $logoUrl"
-    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl">
+    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
