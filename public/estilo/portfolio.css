@@ -240,7 +240,7 @@ html {
 .custom-footer {
     background-color: var(--brand-secondary);
     color: var(--brand-background);
-    padding: 3rem 1rem;
+    padding: 1rem;
     text-align: center;
     margin-top: 4rem;
 }

@@ -73,7 +73,7 @@
          <section id="catalogo" class="servicios-ejecutivos">
              <div class="container">
                  <div class="section-header">
-                     <h2 class="section-title">CATALOGO DE SERVICIOS</h2>
+                     <h2 class="section-title">SERVICIOS</h2>
                      {{-- <p class="section-subtitle">Soluciones especializadas para necesidades empresariales</p> --}}
                  </div>
 

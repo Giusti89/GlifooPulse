@@ -133,7 +133,7 @@
                                         $encryptedId = Crypt::encrypt($portfolio->id);
                                     @endphp
                                     <x-layouts.btnenviodat class="modificar" rutaEnvio="verportfolio"
-                                        dato="{{ $encryptedId }}" nombre="Ver Portfolio" color="{{ $bgColor }}"
+                                        dato="{{ $encryptedId }}" nombre="Ver Proyecto" color="{{ $bgColor }}"
                                         colort="{{ $textColor }}">
                                     </x-layouts.btnenviodat>
                                     @if ($portfolio->created_at)
@@ -308,39 +308,22 @@
                 </div>
             @endif
 
-            <h3 style="margin-bottom: 1rem; color:var(--brand-background)">{{ $titulo }}</h3>
+   
+            <h3 style=" color:var(--brand-background); font-size: 1.5rem; ">{{ $titulo }}</h3>
 
             @if ($contenido->pie)
-                <p style="margin-bottom: 1.5rem; opacity: 0.9;">
+                <p style=" opacity: 0.9;font-size:1.2rem;">
                     {{ $contenido->pie }}
                 </p>
             @endif
 
             @if ($contenido->phone)
-                <p style="margin-bottom: 1.5rem; opacity: 0.9;">
+                <p style="opacity: 0.9;">
                     {{ $contenido->phone }}
                 </p>
             @endif
 
-            @if (isset($redes) && $redes->count() > 0)
-                <div class="social-links">
-                    @foreach ($redes as $red)
-                        @php
-                            $encryptedId = Crypt::encrypt($red->id);
-                        @endphp
-
-                        <a href="{{ route('redireccion', $encryptedId) }}" class="social-link" target="_blank">
-                            @if ($red->image_url)
-                                <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
-                                    class="red-social-icon">
-                            @else
-                                <span class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
-                            @endif
-                        </a>
-                    @endforeach
-
-                </div>
-            @endif
+           
 
 
         </div>

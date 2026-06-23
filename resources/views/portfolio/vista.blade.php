@@ -76,7 +76,6 @@
                         </div>
                     @endif
                 </section>
-
                 <!-- Sección derecha: Datos técnicos -->
                 <aside class="portfolio-details-section">
                     <div class="details-card" style="background:{{ $colsec }}">
@@ -135,11 +134,10 @@
                         @else
                             <div class="no-details">
                                 <i class="fas fa-info-circle"></i>
-                                <p style="color: {{$textColor}}">No hay datos técnicos disponibles</p>
+                                <p style="color: {{ $textColor }}">No hay datos técnicos disponibles</p>
                             </div>
                         @endif
 
-                        <!-- Información general del portfolio -->
                         <div class="detail-group">
                             <h3 class="detail-label" style="color:{{ $colsec }}">
                                 <i class="fas fa-calendar"></i> Información
@@ -162,16 +160,18 @@
                                 @endif
                             </div>
 
-                            <!-- 🔽 Recuadro de información de imagen activa dentro de detail-group -->
                             <div class="image-info-box" id="imageInfoBar">
                                 <div class="info-bar-content">
                                     <div class="current-image-info">
-                                        <h4 class="current-title" id="currentImageTitle" style="color:{{ $colsec }}"></h4>
-                                        <p class="current-desc" id="currentImageDesc" style="color:{{ $colsec }}"></p>
+                                        <h4 class="current-title" id="currentImageTitle"
+                                            style="color:{{ $colsec }}"></h4>
+                                        <p class="current-desc" id="currentImageDesc"
+                                            style="color:{{ $colsec }}"></p>
                                     </div>
                                     <div class="image-counter">
                                         <span id="currentImageIndex" style="color:{{ $textColor }}">1</span> /
-                                        <span id="totalImages" style="color:{{ $textColor }}">{{ $imagenes->count() }}</span>
+                                        <span id="totalImages"
+                                            style="color:{{ $textColor }}">{{ $imagenes->count() }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -200,6 +200,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
     </main>
 
 
