@@ -10,6 +10,8 @@ use App\Models\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class PortfolioController extends Controller
 {
@@ -20,13 +22,14 @@ class PortfolioController extends Controller
             $portfolio = Portfolio::where('id', $decryptedId)->firstOrFail();
             $contenido = Contenido::where('spot_id', $portfolio->spot_id)->first();
             $seo = Seo::where('spot_id', $contenido->spot_id)->first();
+            $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
 
             $imagenes = Portfolioitem::where('portfolio_id', $decryptedId)
                 ->orderBy('orden')
                 ->get();
 
             $datosTecnicos = Portfoliodatos::where('portfolio_id', $decryptedId)->first();
-            
+
             // Datos SEO
             $descripcionSEO = $seo->seo_descripcion ?? $contenido->descripcion ?? $portfolio->descripcion ?? '';
             $keywordsSEO = $seo->seo_keyword ?? '';
@@ -37,6 +40,8 @@ class PortfolioController extends Controller
 
             $titulo = $portfolio->titulo;
 
+            $ogUrl = request()->url();
+            $ogType = ($grupo === 'catalogo') ? 'business.business' : 'profile';
 
             return view('portfolio.vista', compact(
                 'portfolio',
@@ -47,7 +52,9 @@ class PortfolioController extends Controller
                 'keywordsSEO',
                 'robots',
                 'imagenOg',
-                'locale'
+                'locale',
+                'ogUrl',
+                'ogType'
             ));
         } catch (\Throwable $th) {
             abort(404);

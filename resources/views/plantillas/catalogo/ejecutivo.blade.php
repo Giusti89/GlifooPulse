@@ -281,7 +281,7 @@
              </div>
          </footer>
      </div>
-     <script src="{{ asset('./dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('./dinamico/ejecutivo.js')) }}">
+     <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}">
      </script>
  </x-layouts.plantillacatalogo>
  <div id="imagenModal" class="modal-ejecutivo">

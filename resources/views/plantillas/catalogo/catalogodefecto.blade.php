@@ -210,5 +210,5 @@
             </div>
         </section>
     </div>
-    <script src="{{ asset('./dinamico/catalogo.js') }}?v={{ filemtime(public_path('./dinamico/catalogo.js')) }}"></script>
+    <script src="{{ asset('dinamico/catalogo.js') }}?v={{ filemtime(public_path('dinamico/catalogo.js')) }}"></script>
 </x-layouts.plantillacatalogo>
