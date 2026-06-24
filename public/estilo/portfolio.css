@@ -414,6 +414,7 @@ a:hover {
 }
 
 .project-content {
+    background: var(--brand-secondary, #f9f9f9);
     padding: 1.5rem;
 }
 
