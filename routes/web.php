@@ -6,6 +6,7 @@ use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PublicidadController;
 use App\Http\Controllers\RenovacionController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SocioController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\RenovacionForm;
@@ -14,6 +15,14 @@ use App\Livewire\RenovacionForm;
 Route::controller(InicioController::class)->group(function () {
     Route::get('/', 'index')
         ->name('inicio');
+});
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+
+Route::get('/robots.txt', function () {
+    return response()
+        ->view('seo.robots')
+        ->header('Content-Type', 'text/plain');
 });
 
 Route::controller(RenovacionController::class)->group(function () {

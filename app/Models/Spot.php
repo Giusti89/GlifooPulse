@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Swindon\FilamentHashids\Traits\HasHashid;
-
+use Illuminate\Database\Eloquent\Builder;
 
 class Spot extends Model
 {
@@ -74,11 +74,21 @@ class Spot extends Model
                 }
 
                 $spot->slug = $slug;
-                
+
                 if (empty($spot->titulo)) {
                     $spot->titulo = $slug;
                 }
             }
         });
+    }
+    
+
+    public function scopePublicos(Builder $query): Builder
+    {
+        return $query
+            ->where('estado', 1)
+            ->whereHas('suscripcion', function ($q) {
+                $q->whereDate('fecha_fin', '>=', now());
+            });
     }
 }
