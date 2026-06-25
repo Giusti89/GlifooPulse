@@ -96,7 +96,7 @@ class PublicidadController extends Controller
                 $descripcionSEO = Str::limit($descripcionSEO, 170, '');
                 $robots = $catalogos->seo_robots ?? 'index, follow';
                 $imagenOg = $contenido->banner_url
-                    ? asset('storage/' . $contenido->banner_url)
+                    ? asset('storage/' . $contenido->logo_url)
                     : null;
                 $locale = $catalogos->seo_locale ?? 'es_ES';
             }
