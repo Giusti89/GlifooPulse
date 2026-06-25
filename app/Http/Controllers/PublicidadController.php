@@ -56,14 +56,16 @@ class PublicidadController extends Controller
             $catalogos = Seo::where('spot_id', $publicidad->id)->first();
 
             // Nivel de SEO según el paquete
-            $seoNivel = optional($publicidad->suscripcion->paquete)->tipo_estadisticas ?? 'basico';
+            $seoNivel = optional($publicidad->suscripcion->paquete)->seo_level ?? 'basico';            
 
             // Valores base (SEO básico)
             $tituloSEO = $catalogos->seo_title ?? $publicidad->titulo;
             $descripcionSEO = $catalogos->seo_descripcion ?? $contenido->descripcion ?? '';
             $keywordsSEO = $catalogos->seo_keyword ?? '';
             $robots = 'index, follow';
-            $imagenOg = null;
+            $imagenOg = $contenido->banner_url
+                ? asset('storage/' . $contenido->banner_url)
+                : null;
             $locale = 'es_ES';
 
             if ($grupo === 'catalogo') {
@@ -89,11 +91,13 @@ class PublicidadController extends Controller
                 $imagenOg = null;
             }
 
-            if ($seoNivel === 'avanzada') {
+            if ($seoNivel === 'completo') {
                 $tituloSEO = Str::limit($tituloSEO, 65, '');
                 $descripcionSEO = Str::limit($descripcionSEO, 170, '');
                 $robots = $catalogos->seo_robots ?? 'index, follow';
-                $imagenOg = '/storage/' . ($contenido->banner_url ?? '');
+                $imagenOg = $contenido->banner_url
+                    ? asset('storage/' . $contenido->banner_url)
+                    : null;
                 $locale = $catalogos->seo_locale ?? 'es_ES';
             }
             $ogUrl = request()->url();
@@ -124,7 +128,7 @@ class PublicidadController extends Controller
                         'imagenOg',
                         'locale',
                         'videos',
-                        'ogUrl',  
+                        'ogUrl',
                         'ogType'
                     ));
                 } elseif ($grupo === "portfolio") { // Agregado caso portfolio
@@ -144,7 +148,7 @@ class PublicidadController extends Controller
                         'locale',
                         'portfolios',
                         'videoportfolio',
-                        'ogUrl',  
+                        'ogUrl',
                         'ogType'
 
                     ));
@@ -163,7 +167,7 @@ class PublicidadController extends Controller
                         'robots',
                         'imagenOg',
                         'locale',
-                        'ogUrl',  
+                        'ogUrl',
                         'ogType'
                     ));
                 }
