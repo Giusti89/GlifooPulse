@@ -64,7 +64,7 @@ class PublicidadController extends Controller
             $keywordsSEO = $catalogos->seo_keyword ?? '';
             $robots = 'index, follow';
             $imagenOg = $contenido->banner_url
-                ? asset('storage/' . $contenido->banner_url)
+                ? asset('storage/' . $contenido->logo_url)
                 : null;
             $locale = 'es_ES';
 
