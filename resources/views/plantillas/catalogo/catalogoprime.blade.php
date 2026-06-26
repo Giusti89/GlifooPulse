@@ -191,7 +191,7 @@
                                         <p>{{ Str::limit($producto->descripcion, 250) }}</p>
 
                                         @if ($producto->precio)
-                                            <div class="product-price">${{ number_format($producto->precio, 2) }}
+                                            <div class="product-price">Bs.{{ number_format($producto->precio, 2) }}
                                             </div>
                                         @endif
 

@@ -128,7 +128,7 @@
                                                  <div class="servicio-precio">
                                                      <span class="precio-label">Costo:</span>
                                                      <span
-                                                         class="precio-valor">${{ number_format($producto->precio, 2) }}</span>
+                                                         class="precio-valor">Bs.{{ number_format($producto->precio, 2) }}</span>
                                                  </div>
                                              @endif
                                              <div class="servicio-actions">
