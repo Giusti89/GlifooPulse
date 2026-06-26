@@ -16,36 +16,35 @@ class Configuracionfinal extends Component
     public function mount()
     {
         $this->usuario = Auth::user();
-       
+
         $this->spot = Spot::with('suscripcion')
             ->whereHas('suscripcion', function ($q) {
                 $q->where('user_id', $this->usuario->id);
             })
             ->firstOrFail();
-        
     }
     public function toggleEstado()
     {
         $this->spot->estado = ! $this->spot->estado;
         $this->spot->save();
 
-        if ( $this->spot->estado) {
+        if ($this->spot->estado) {
             Notification::make()
-            ->title("¡Su web esta activa!")
-            ->icon('heroicon-o-user')
-            ->iconColor('success')
-            ->send();
-        }else{
-             Notification::make()
-            ->title("¡Su web esta inactiva!")
-            ->icon('heroicon-o-user')
-            ->iconColor('danger')
-            ->send();
+                ->title("¡Su web esta activa!")
+                ->icon('heroicon-o-user')
+                ->iconColor('success')
+                ->send();
+        } else {
+            Notification::make()
+                ->title("¡Su web esta inactiva!")
+                ->icon('heroicon-o-user')
+                ->iconColor('danger')
+                ->send();
         }
     }
     public function copiarEnlace()
     {
-        $this->dispatch('copiar-enlace', enlace: url($this->spot->slug));
+        $url = url('/pulse/' . $this->spot->slug);
 
         Notification::make()
 

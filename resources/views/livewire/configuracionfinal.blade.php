@@ -62,7 +62,7 @@
                         <div class="flex-1">
                             @if ($spot->slug)
                                 <input type="text" id="enlace-landing-{{ $spot->id }}"
-                                    value="{{ url($spot->slug) }}" readonly
+                                    value="{{ url('/pulse/' . $spot->slug) }}" readonly
                                     class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm" />
                                 <button wire:click="copiarEnlace" wire:loading.attr="disabled"
                                     class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2">
@@ -104,20 +104,23 @@
 </div>
 <script>
     document.addEventListener('livewire:initialized', () => {
+        // Escuchar el evento enviado desde el backend
         Livewire.on('copiar-enlace', (event) => {
-            // Crear un elemento temporal para copiar
-            const tempInput = document.createElement('input');
-            tempInput.value = event.enlace;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
+            // En Livewire v3 los parámetros llegan dentro de un objeto de evento
+            const urlParaCopiar = event.enlace;
 
-            // Notificación
-            Livewire.dispatch('notify', {
-                type: 'success',
-                message: 'Enlace copiado al portapapeles!'
-            });
+            // API moderna para copiar al portapapeles
+            navigator.clipboard.writeText(urlParaCopiar)
+                .then(() => {
+                    // Despachar la notificación de éxito
+                    Livewire.dispatch('notify', {
+                        type: 'success',
+                        message: 'Enlace copiado al portapapeles!'
+                    });
+                })
+                .catch(err => {
+                    console.error('Error al copiar el enlace: ', err);
+                });
         });
     });
 </script>
