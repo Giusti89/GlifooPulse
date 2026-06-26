@@ -59,21 +59,34 @@
                 <div>
                     <h3 class="font-medium text-gray-900 dark:text-white mb-3">Compartir tu web</h3>
                     <div class="flex items-center space-x-3">
-                        <div class="flex-1">
+                        <div class="flex-1 flex space-x-3"> <!-- Añadido flex al contenedor interno -->
                             @if ($spot->slug)
                                 <input type="text" id="enlace-landing-{{ $spot->id }}"
                                     value="{{ url('/pulse/' . $spot->slug) }}" readonly
                                     class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm" />
-                                <button wire:click="copiarEnlace" wire:loading.attr="disabled"
-                                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2">
-                                    <span wire:loading.remove>📋</span>
-                                    <span wire:loading>⏳</span>
+
+                                <!-- Copiado directo del cliente sin delays del servidor -->
+                                <button type="button"
+                                    @click="
+                                        navigator.clipboard.writeText(document.getElementById('enlace-landing-{{ $spot->id }}').value)
+                                            .then(() => {
+                                                new FilamentNotification()
+                                                    .title('¡Enlace copiado!')
+                                                    .body('El enlace se ha guardado en el portapapeles.')
+                                                    .success()
+                                                    .icon('heroicon-o-document-duplicate')
+                                                    .iconColor('success')
+                                                    .send();
+                                            })
+                                            .catch(err => {
+                                                console.error('Error al copiar: ', err);
+                                            }); "
+                                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2 shrink-0">
+                                    <span>📋</span>
                                     <span>Copiar</span>
                                 </button>
                             @endif
-
                         </div>
-
                     </div>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
                         Comparte este enlace con tus clientes o en tus redes sociales
@@ -102,25 +115,3 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('livewire:initialized', () => {
-        // Escuchar el evento enviado desde el backend
-        Livewire.on('copiar-enlace', (event) => {
-            // En Livewire v3 los parámetros llegan dentro de un objeto de evento
-            const urlParaCopiar = event.enlace;
-
-            // API moderna para copiar al portapapeles
-            navigator.clipboard.writeText(urlParaCopiar)
-                .then(() => {
-                    // Despachar la notificación de éxito
-                    Livewire.dispatch('notify', {
-                        type: 'success',
-                        message: 'Enlace copiado al portapapeles!'
-                    });
-                })
-                .catch(err => {
-                    console.error('Error al copiar el enlace: ', err);
-                });
-        });
-    });
-</script>
