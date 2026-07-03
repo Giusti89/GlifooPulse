@@ -23,7 +23,7 @@
         <div class="cartas">
             <div class="feature-card">
                 <div class="card-icon">🔗</div>
-                <h2 class="card-title">Glifoo Link Tree</h2>
+                <h2 class="card-title">Glifoo Bio link</h2>
                 <p class="card-description">Diseña Landing page responsive, con métricas de seguimiento.</p>
             </div>
 
