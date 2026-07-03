@@ -55,6 +55,9 @@ Route::controller(SocioController::class)->group(function () {
         ->name('socios');
 });
 
+Route::redirect('/{slug}', '/pulse/{slug}', 301)
+    ->where('slug', '[A-Za-z0-9\-]+');
+    
 Route::controller(PublicidadController::class)->group(function () {
     Route::get('/pulse/{slug}', 'show')
         ->where('slug', '[A-Za-z0-9\-]+')
