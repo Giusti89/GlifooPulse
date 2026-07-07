@@ -56,7 +56,7 @@ class PublicidadController extends Controller
             $catalogos = Seo::where('spot_id', $publicidad->id)->first();
 
             // Nivel de SEO según el paquete
-            $seoNivel = optional($publicidad->suscripcion->paquete)->seo_level ?? 'basico';            
+            $seoNivel = optional($publicidad->suscripcion->paquete)->seo_level ?? 'basico';
 
             // Valores base (SEO básico)
             $tituloSEO = $catalogos->seo_title ?? $publicidad->titulo;
@@ -67,11 +67,13 @@ class PublicidadController extends Controller
                 ? asset('storage/' . $contenido->logo_url)
                 : null;
             $locale = 'es_ES';
+            $categoriapro = collect();
 
             if ($grupo === 'catalogo') {
                 // Cargar categorías → productos → imágenes
-                $categoriapro = Categoria::with('productos.imagenes')
+                $categoriapro = Categoria::with(['productos.imagenes'])
                     ->where('spot_id', $publicidad->id)
+                    ->orderBy('orden', 'asc') 
                     ->get();
             }
 

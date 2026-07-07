@@ -101,16 +101,21 @@
                              <div class="servicios-grid">
                                  @foreach ($categoria->productos as $producto)
                                      @php
-                                         $imagen = $producto->imagenes->first();
-                                         $src = $imagen
-                                             ? Storage::url($imagen->url)
-                                             : asset('img/placeholder-producto.jpg');
+                                         $tieneImagenes =
+                                             isset($producto->imagenes) && $producto->imagenes->isNotEmpty();
+                                         $imagenRelacion = $tieneImagenes ? $producto->imagenes->first() : null;
+                                         $src =
+                                             $imagenRelacion && !empty($imagenRelacion->url)
+                                                 ? Storage::url($imagenRelacion->url)
+                                                 : asset('placeholder.jpg');
                                      @endphp
                                      <div class="servicio-card">
                                          <div class="servicio-imagen-contenedor">
+                                             <!-- 4. CRÍTICO: 'this.onerror=null' destruye el bucle infinito en el navegador de inmediato -->
                                              <img src="{{ $src }}" alt="{{ $producto->nombre }}"
                                                  class="servicio-imagen" width="400" height="300"
-                                                 onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
+                                                 onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}'; this.alt='Imagen no disponible'">
+
                                              @if ($producto->precio > 0)
                                                  <div class="servicio-overlay">
                                                      <button class="btn-ver-detalles"
@@ -281,8 +286,7 @@
              </div>
          </footer>
      </div>
-     <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}">
-     </script>
+     <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}"></script>
  </x-layouts.plantillacatalogo>
  <div id="imagenModal" class="modal-ejecutivo">
      <div class="modal-contenido">
