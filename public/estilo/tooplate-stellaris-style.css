@@ -523,6 +523,7 @@ section {
 .cerrar-modal:hover {
     color: var(--solar-gold);
 }
+
 /* -------------video--------- */
 #video {
     width: 100%;
@@ -530,19 +531,22 @@ section {
     display: flex;
     justify-content: center;
 }
+
 .hero-content {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
+
 .hero-visual {
     width: 100%;
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
+
 .hero-visual iframe,
 .hero-visual video,
 .hero-visual #player {
@@ -558,8 +562,10 @@ section {
 .hero-visual::before {
     content: "";
     display: block;
-    padding-top: 56.25%; /* 16:9 */
+    padding-top: 56.25%;
+    /* 16:9 */
 }
+
 /* ---------modal overlay------------- */
 .modal-overlay {
     position: fixed;
@@ -757,6 +763,104 @@ section {
 .direccion-info {
     background-color: var(--brand-secondary);
 }
+
+.tarjeta-mapa-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1.2fr;
+    /* El mapa toma más protagonismo */
+    gap: 2.5rem;
+    align-items: stretch;
+}
+
+/* Panel Estilizado de los Horarios */
+.panel-horarios-avanzado {
+    background: var(--brand-secondary);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.horarios-avanzado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+}
+
+.horarios-avanzado-header h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Insignias Premium */
+.insignia-dinamica {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.insignia-abierto {
+    background-color: #10b981;
+    color: white;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.insignia-cerrado {
+    background-color: #ef4444;
+    color: white;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Listado de días */
+.lista-avanzada-dias {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-dia-avanzado {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.item-dia-avanzado:last-child {
+    border-bottom: none;
+}
+
+/* Resaltado para el día actual */
+.dia-resaltado-avanzado {
+    font-weight: bold;
+    opacity: 1;
+    color: #667eea;
+    /* Color de acento a juego con el botón ruta */
+    border-left: 3px solid #667eea;
+    padding-left: 10px;
+}
+
+.cerrado-avanzado {
+    color: #f87171;
+    font-style: italic;
+}
+
+.divisor-turnos {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 4px;
+}
+
 
 /* ---------MAPA---------- */
 .producto-imagen {
@@ -1026,10 +1130,9 @@ section {
     object-fit: cover;
     transition: all 0.4s ease;
     filter: brightness(0.9);
-    /* Imagen un poco oscura por defecto */
+
 }
 
-/* Overlay que se muestra al hacer hover */
 .producto-imagen::after {
     content: '';
     position: absolute;
@@ -1046,7 +1149,6 @@ section {
     pointer-events: none;
 }
 
-/* Texto "Ver imagen completa" */
 .producto-imagen::before {
     content: '🔍 Ver imagen completa';
     position: absolute;
@@ -1070,7 +1172,6 @@ section {
     white-space: nowrap;
 }
 
-/* Efectos al hacer hover en la imagen */
 .producto-imagen:hover::after {
     opacity: 1;
 }
@@ -1083,10 +1184,9 @@ section {
 .producto-imagen:hover .img-producto {
     transform: scale(1.05);
     filter: brightness(0.7);
-    /* Imagen más oscura al hacer hover */
+
 }
 
-/* Efecto de brillo interior en la tarjeta */
 .mission-card.product-card::before {
     content: '';
     position: absolute;
@@ -1156,28 +1256,24 @@ section {
     margin-top: 10px;
 }
 
-/* Disponible */
 .estado-disponible {
     background: var(--brand-background);
     color: var(--brand-text);
     border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
-/* Agotado */
 .estado-agotado {
     background: rgba(239, 68, 68, 0.2);
     color: #ef4444;
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* No disponible */
 .estado-no-disponible {
     background: rgba(156, 163, 175, 0.2);
     color: #9ca3af;
     border: 1px solid rgba(156, 163, 175, 0.3);
 }
 
-/* Próximamente */
 .estado-proximamente {
     background: rgba(245, 158, 11, 0.2);
     color: #f59e0b;
@@ -1227,7 +1323,6 @@ section {
         transform: translateY(0);
     }
 }
-
 /* ---------------------Product Card----------------------------------- */
 
 /* Footer */
@@ -1258,9 +1353,6 @@ footer {
     gap: 40px;
     margin-bottom: 40px;
 }
-
-
-
 /* Responsive */
 @media (max-width: 1200px) {
     .catalogo-grid {
@@ -1585,12 +1677,12 @@ footer {
         transform: translateY(-5px) scale(1.1);
     }
 
-    /* Ocultar tooltip en móvil */
     .red-social-link::after {
         display: none;
     }
-/* ------video---- */
-     #video {
+
+    /* ------video---- */
+    #video {
         padding: 20px 0;
     }
 
@@ -1599,7 +1691,21 @@ footer {
     }
 
     .hero-visual::before {
-        padding-top: 60%; /* un poco más cuadrado en móvil */
+        padding-top: 60%;
+    }
+
+    .tarjeta-mapa-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .info-overlay {
+        position: relative;
+        top: auto;
+        right: auto;
+        max-width: 100%;
+        margin-top: 15px;
+        border-radius: 8px;
     }
 
 }

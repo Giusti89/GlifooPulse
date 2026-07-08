@@ -158,7 +158,8 @@
                     <h2 id="modalProductoNombre">Consultar producto</h2>
                     <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
 
-                    <form id="consultaForm" method="POST" target="_blank" action="" onsubmit="setTimeout(() => cerrarConsulta(), 100)">
+                    <form id="consultaForm" method="POST" target="_blank" action=""
+                        onsubmit="setTimeout(() => cerrarConsulta(), 100)">
                         @csrf
                         <input type="hidden" id="productoId" name="producto_id">
 
@@ -192,23 +193,69 @@
         <section id="mapa" class="mapa">
             <div class="container">
                 <h2 class="section-title">NUESTRA UBICACIÓN</h2>
-                <div class="mapa-contenedor">
-                    <div class="mapframe">
-                        <iframe
-                            src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                            width="100%" height="400"
-                            style="border:0; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);"
-                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                            title="Mapa de ubicación">
-                        </iframe>
+
+                <div class="mapa-layout-grid">
+                    <!-- Columna Izquierda: Mapa con su barra de dirección flotante -->
+                    <div class="mapa-contenedor">
+                        <div class="mapframe">
+                            <iframe
+                                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                                width="100%" height="450"
+                                style="border:0; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);"
+                                allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                title="Mapa de ubicación">
+                            </iframe>
+                        </div>
+                        <div class="direccion-info" style="color: {{ $contenido->background }}">
+                            <i class="icono-ubicacion"></i>
+                            <p>{{ $contenido->pie }}</p>
+                        </div>
                     </div>
-                    <div class="direccion-info" style="color: {{ $contenido->background }}">
-                        <i class="icono-ubicacion"></i>
-                        <p>{{ $contenido->pie }}</p>
-                    </div>
+
+                    <!-- Columna Derecha: Bloque de Horarios Minimalista -->
+                    @if (isset($horarios) && $horarios->isNotEmpty())
+                        <div class="horarios-contenedor-clean">
+                            <div class="horarios-clean-header">
+                                <h3>Horas de Operación</h3>
+
+                                @if (isset($estadoTienda) && $estadoTienda['texto'])
+                                    <span
+                                        class="tag-estado {{ $estadoTienda['abierto'] ? 'tag-abierto' : 'tag-cerrado' }}">
+                                        {{ $estadoTienda['texto'] }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <ul class="lista-dias-clean">
+                                @foreach ($horarios as $horario)
+                                    @php
+                                        $esHoy = \Carbon\Carbon::now('America/La_Paz')->isoweekday() == $horario->dia;
+                                    @endphp
+                                    <li class="fila-dia-clean {{ $esHoy ? 'hoy-resaltado-clean' : '' }}">
+                                        <span class="dia-nombre-clean">{{ $horario->nombre_dia }}</span>
+                                        <span class="dia-horas-clean">
+                                            @if ($horario->esta_cerrado || !$horario->apertura)
+                                                <span class="cerrado-clean">Cerrado</span>
+                                            @else
+                                                <!-- Bloque Turno 1 -->
+                                                {{ \Carbon\Carbon::parse($horario->apertura)->format('H:i') }} -
+                                                {{ \Carbon\Carbon::parse($horario->cierre)->format('H:i') }}
+
+                                                <!-- Bloque Turno 2 (Si existe) -->
+                                                @if ($horario->apertura_2 && $horario->cierre_2)
+                                                    <span class="separador-clean">/</span>
+                                                    {{ \Carbon\Carbon::parse($horario->apertura_2)->format('H:i') }} -
+                                                    {{ \Carbon\Carbon::parse($horario->cierre_2)->format('H:i') }}
+                                                @endif
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
-        </section>
     </div>
     <script src="{{ asset('dinamico/catalogo.js') }}?v={{ filemtime(public_path('dinamico/catalogo.js')) }}"></script>
 </x-layouts.plantillacatalogo>

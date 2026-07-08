@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Swindon\FilamentHashids\Traits\HasHashid;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Spot extends Model
 {
@@ -53,6 +55,10 @@ class Spot extends Model
     {
         return $this->hasMany(Portfolio::class, 'spot_id', 'id');
     }
+    public function horarios(): HasMany
+    {
+        return $this->hasMany(HorarioAtencion::class, 'spot_id')->orderBy('dia', 'asc');
+    }
     // MÉTODOS
     public function incrementarVisita()
     {
@@ -81,7 +87,7 @@ class Spot extends Model
             }
         });
     }
-    
+
 
     public function scopePublicos(Builder $query): Builder
     {
@@ -90,5 +96,30 @@ class Spot extends Model
             ->whereHas('suscripcion', function ($q) {
                 $q->whereDate('fecha_fin', '>=', now());
             });
+    }
+    public function obtenerEstadoActual(): array
+    {
+        $ahora = Carbon::now('America/La_Paz');
+        $diaActual = $ahora->isoweekday();
+        $horaActual = $ahora->format('H:i:s');
+        $horarioHoy = $this->horarios->where('dia', $diaActual)->first();
+
+        if (!$horarioHoy || $horarioHoy->esta_cerrado) {
+            return ['abierto' => false, 'texto' => 'Cerrado hoy'];
+        }
+
+        if ($horarioHoy->apertura && $horarioHoy->cierre) {
+            if ($horaActual >= $horarioHoy->apertura && $horaActual <= $horarioHoy->cierre) {
+                return ['abierto' => true, 'texto' => 'Abierto ahora'];
+            }
+        }
+
+        if ($horarioHoy->apertura_2 && $horarioHoy->cierre_2) {
+            if ($horaActual >= $horarioHoy->apertura_2 && $horaActual <= $horarioHoy->cierre_2) {
+                return ['abierto' => true, 'texto' => 'Abierto ahora'];
+            }
+        }
+
+        return ['abierto' => false, 'texto' => 'Cerrado ahora'];
     }
 }

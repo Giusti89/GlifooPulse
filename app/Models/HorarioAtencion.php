@@ -12,23 +12,25 @@ class HorarioAtencion extends Model
 {
     use HasFactory;
 
-     protected $fillable = [
+    protected $fillable = [
         'spot_id',
         'dia',
         'apertura',
         'cierre',
+        'apertura_2',
+        'cierre_2',
         'esta_cerrado',
     ];
 
-     //relaciones
+    //relaciones
 
-     public function spot(): BelongsTo
+    public function spot(): BelongsTo
     {
         return $this->belongsTo(Spot::class);
     }
 
     //METODOS
-     protected function nombreDia(): Attribute
+    protected function nombreDia(): Attribute
     {
         return Attribute::make(
             get: function () {

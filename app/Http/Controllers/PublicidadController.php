@@ -68,13 +68,18 @@ class PublicidadController extends Controller
                 : null;
             $locale = 'es_ES';
             $categoriapro = collect();
+            $horarios = collect();
+            $estadoTienda = ['abierto' => false, 'texto' => ''];
 
             if ($grupo === 'catalogo') {
                 // Cargar categorías → productos → imágenes
                 $categoriapro = Categoria::with(['productos.imagenes'])
                     ->where('spot_id', $publicidad->id)
-                    ->orderBy('orden', 'asc') 
+                    ->orderBy('orden', 'asc')
                     ->get();
+                $horarios = $publicidad->horarios()->orderBy('dia', 'asc')->get();
+
+                $estadoTienda = $publicidad->obtenerEstadoActual();
             }
 
             // 🔹 Ajustes según nivel SEO
@@ -123,6 +128,8 @@ class PublicidadController extends Controller
                         'contenido',
                         'categoriapro',   // colección de Categoria
                         'tituloSEO',
+                        'horarios',     
+                        'estadoTienda',
                         'descripcionSEO',
                         'keywordsSEO',
                         'redes',

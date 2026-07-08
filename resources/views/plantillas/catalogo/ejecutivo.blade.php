@@ -226,25 +226,71 @@
                      </div>
                      <div class="info-corporativa">
                          <div class="info-card">
-
                              <div class="info-content">
                                  <h4>Dirección Principal</h4>
                                  <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
                              </div>
                          </div>
-                         @if ($contenido->horario ?? false)
-                             <div class="info-card">
-                                 <div class="info-icon">🕒</div>
-                                 <div class="info-content">
-                                     <h4>Horario Corporativo</h4>
-                                     <p>{{ $contenido->horario }}</p>
+
+                         <!-- 🌟 NUEVA SECCIÓN DE HORARIOS INTELIGENTES -->
+                         @if (isset($horarios) && $horarios->isNotEmpty())
+                             <div class="info-card horarios-corporativos">
+                                 <div class="info-content" style="width: 100%;">
+                                     <div class="horarios-header-inline"
+                                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                         <h4 style="margin: 0;">Horario de Atención</h4>
+
+                                         <!-- Insignia dinámica de Abierto/Cerrado -->
+                                         @if (isset($estadoTienda) && $estadoTienda['texto'])
+                                             <span
+                                                 class="badge-estado {{ $estadoTienda['abierto'] ? 'badge-abierto' : 'badge-cerrado' }}"
+                                                 style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                                                 {{ $estadoTienda['texto'] }}
+                                             </span>
+                                         @endif
+                                     </div>
+
+                                     <!-- Listado de los 7 días de la semana -->
+                                     <ul class="lista-horarios-web"
+                                         style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem;">
+                                         @foreach ($horarios as $horario)
+                                             @php
+                                                 // Detectamos si el día de la fila corresponde al día de hoy en Bolivia
+                                                 $esHoy =
+                                                     \Carbon\Carbon::now('America/La_Paz')->isoweekday() ==
+                                                     $horario->dia;
+                                             @endphp
+                                             <li class="fila-horario"
+                                                 style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; {{ $esHoy ? 'font-weight: bold; background-color: rgba(0,0,0,0.02); border-left: 3px solid #4a5568; padding-left: 6px;' : '' }}">
+                                                 <span class="dia-texto">{{ $horario->nombre_dia }}</span>
+                                                 <span class="horas-texto">
+                                                     @if ($horario->esta_cerrado || !$horario->apertura)
+                                                         <span
+                                                             style="color: #e53e3e; font-style: italic;">Cerrado</span>
+                                                     @else
+                                                         <!-- Turno 1 -->
+                                                         {{ \Carbon\Carbon::parse($horario->apertura)->format('H:i') }}
+                                                         -
+                                                         {{ \Carbon\Carbon::parse($horario->cierre)->format('H:i') }}
+
+                                                         <!-- Turno 2 (Si el cliente lo configuró) -->
+                                                         @if ($horario->apertura_2 && $horario->cierre_2)
+                                                             <span style="color: #a0aec0; margin: 0 4px;">/</span>
+                                                             {{ \Carbon\Carbon::parse($horario->apertura_2)->format('H:i') }}
+                                                             -
+                                                             {{ \Carbon\Carbon::parse($horario->cierre_2)->format('H:i') }}
+                                                         @endif
+                                                     @endif
+                                                 </span>
+                                             </li>
+                                         @endforeach
+                                     </ul>
                                  </div>
                              </div>
                          @endif
 
                          @if ($whatsNumber)
                              <div class="info-card">
-
                                  <div class="info-content">
                                      <h4>Contacto Directo</h4>
                                      <p>{{ $contenido->phone ?? '' }}</p>

@@ -43,7 +43,7 @@ class SpotResource extends Resource
     protected static ?string $navigationGroup = 'Primeros pasos';
 
     protected static ?int $navigationSort = 1;
-    
+
     public static function shouldRegisterNavigation(): bool
     {
         $user = auth()->user();
@@ -57,8 +57,8 @@ class SpotResource extends Resource
             $query->where('user_id', $user->id);
         })->exists();
     }
-    
-    
+
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -250,6 +250,83 @@ class SpotResource extends Resource
                                             }
                                         }),
                                 ]),
+                        ]),
+                    Step::make('Horarios de atención')
+                        ->description('Configura las horas de apertura de tu negocio para la semana')
+                        ->schema([
+                            Forms\Components\Repeater::make('horarios')
+                                ->relationship('horarios')
+                                ->label('Días de la semana')
+                                ->schema([
+                                    // Usamos un componente de Sección interno por cada día para agruparlo elegantemente
+                                    Forms\Components\Section::make()
+                                        ->compact() // 🌟 Hace que los márgenes internos sean más pequeños
+                                        ->schema([
+                                            Forms\Components\Grid::make([
+                                                'default' => 1,
+                                                'sm' => 2,
+                                                'md' => 4, // 🌟 4 Columnas en pantallas de escritorio
+                                            ])
+                                                ->schema([
+                                                    // Columna 1: Información del día y el switch de cerrado
+                                                    Forms\Components\Group::make([
+                                                        Forms\Components\Hidden::make('dia'),
+                                                        Forms\Components\Placeholder::make('nombre_dia')
+                                                            ->label('Día')
+                                                            ->content(fn($record) => match ($record?->dia) {
+                                                                1 => 'Lunes',
+                                                                2 => 'Martes',
+                                                                3 => 'Miércoles',
+                                                                4 => 'Jueves',
+                                                                5 => 'Viernes',
+                                                                6 => 'Sábado',
+                                                                7 => 'Domingo',
+                                                                default => 'Día',
+                                                            })
+                                                            ->extraAttributes(['class' => 'font-bold text-lg text-primary-500']),
+
+                                                        Forms\Components\Toggle::make('esta_cerrado')
+                                                            ->label('Cerrado todo el día')
+                                                            ->reactive()
+                                                            ->default(false),
+                                                    ]),
+
+                                                    // Columna 2: Selector del Primer Turno
+                                                    Forms\Components\Group::make([
+                                                        Forms\Components\TimePicker::make('apertura')
+                                                            ->label('Apertura 1')
+                                                            ->seconds(false)
+                                                            ->format('H:i:s') // Asegura compatibilidad con DB
+                                                            ->required(fn(Forms\Get $get) => !$get('esta_cerrado')),
+                                                        Forms\Components\TimePicker::make('cierre')
+                                                            ->label('Cierre 1')
+                                                            ->seconds(false)
+                                                            ->format('H:i:s')
+                                                            ->required(fn(Forms\Get $get) => !$get('esta_cerrado'))
+                                                            ->after('apertura'),
+                                                    ])->hidden(fn(Forms\Get $get) => $get('esta_cerrado')),
+
+                                                    // Columna 3 y 4: Ocupadas por el Segundo Turno (Opcional)
+                                                    Forms\Components\Group::make([
+                                                        Forms\Components\TimePicker::make('apertura_2')
+                                                            ->label('Apertura 2 (Opcional)')
+                                                            ->format('H:i:s')
+                                                            ->seconds(false),
+                                                        Forms\Components\TimePicker::make('cierre_2')
+                                                            ->label('Cierre 2 (Opcional)')
+                                                            ->format('H:i:s')
+                                                            ->seconds(false)
+                                                            ->after('apertura_2'),
+                                                    ])
+                                                        ->columnSpan(2) // Toma el espacio restante horizontal
+                                                        ->hidden(fn(Forms\Get $get) => $get('esta_cerrado')),
+                                                ]),
+                                        ]),
+                                ])
+                                ->addable(false)
+                                ->deletable(false)
+                                ->reorderable(false)
+                                ->collapsible()  
                         ])
                     // ->visible(function ($get, $record) {
                     //     // Obtener el usuario actual

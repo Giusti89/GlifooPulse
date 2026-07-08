@@ -14,9 +14,16 @@ return new class extends Migration
         Schema::create('horario_atencions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('spot_id')->constrained('spots')->onDelete('cascade');
+            // 1 = Lunes, 7 = Domingo
             $table->unsignedTinyInteger('dia');
+            // 🔹 Primer Turno (Mañana)
             $table->time('apertura')->nullable();
             $table->time('cierre')->nullable();
+
+            // 🔹 Segundo Turno (Tarde / Noche)
+            $table->time('apertura_2')->nullable();
+            $table->time('cierre_2')->nullable();
+
             $table->boolean('esta_cerrado')->default(false);
             $table->timestamps();
         });

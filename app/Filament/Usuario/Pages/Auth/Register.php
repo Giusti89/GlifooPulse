@@ -23,6 +23,8 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
+
 
 class Register extends BaseRegister
 {
@@ -204,16 +206,35 @@ class Register extends BaseRegister
         // 4. Crear el spot asociado
         $tipoLanding = Landing::where('paquete_id', $data['paquete_id'])->firstOrFail();
 
+        $baseSlug = Str::slug($data['name'] . '-' . $data['lastname']);
+        $slug = $baseSlug;
+        $counter = 1;
+        while (Spot::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
         $spot = Spot::create([
             'suscripcion_id' => $suscripcion->id,
             'tipolanding' => $tipoLanding->id,
+            'slug' => $slug,
+            'titulo' => $slug, // Título inicial igual al slug
             'estado' => 0,
         ]);
+
+        // 🔹 4.5 Inicializar los 7 Horarios Fijos para este nuevo usuario
+        foreach (range(1, 7) as $diaNumero) {
+            $spot->horarios()->create([
+                'dia' => $diaNumero,
+                'apertura' => '08:00:00',
+                'cierre' => '18:00:00',
+                'esta_cerrado' => false,
+            ]);
+        }
         // 5. Crear contenido por defecto si es un paquete tipo landing page
-        if ($paquete->tipoproducto->nombre === "Landing page"||"Catalogo"||"Portfolio") {
+        if ($paquete->tipoproducto->nombre === "Landing page" || "Catalogo" || "Portfolio") {
             Contenido::create([
                 'spot_id' => $spot->id,
-                'background'=> "#b4b6b9",
+                'background' => "#b4b6b9",
 
             ]);
         }

@@ -96,7 +96,8 @@
                 <h2 id="modalProductoNombre">Consultar producto</h2>
                 <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
 
-                <form id="consultaForm" method="POST" target="_blank" action="" onsubmit="setTimeout(() => cerrarConsulta(), 100)">
+                <form id="consultaForm" method="POST" target="_blank" action=""
+                    onsubmit="setTimeout(() => cerrarConsulta(), 100)">
                     @csrf
                     <input type="hidden" id="productoId" name="producto_id">
 
@@ -214,23 +215,70 @@
         <section id="mapa" class="mapa-avanzado">
             <div class="contenedor-principal">
                 <h2 class="titulo-destacado">ENCUÉNTRANOS</h2>
-                <div class="tarjeta-mapa">
-                    <div class="mapa-3d">
-                        <iframe
-                            src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                            width="100%" height="450" style="border: 0; border-radius: 8px;" allowfullscreen
-                            loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
-                        </iframe>
-                    </div>
-                    <div class="info-overlay" style="color: {{ $contenido->background }};">
-                        <div class="icono-mapa">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                            </svg>
+
+                <div class="tarjeta-mapa-grid">
+                    <!-- Columna del Mapa 3D -->
+                    <div class="tarjeta-mapa">
+                        <div class="mapa-3d">
+                            <iframe
+                                src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                                width="100%" height="450" style="border: 0; border-radius: 16px;" allowfullscreen
+                                loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación">
+                            </iframe>
                         </div>
-                        <p class="direccion-texto">{{ $contenido->pie }}</p>
+
+                        <!-- Mantener la dirección flotante sobre el mapa de manera elegante -->
+                        <div class="info-overlay" style="color: {{ $contenido->background }};">
+                            <div class="icono-mapa">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                </svg>
+                            </div>
+                            <p class="direccion-texto">{{ $contenido->pie }}</p>
+                        </div>
                     </div>
+
+                    <!-- Columna Nueva: Panel Avanzado de Horarios -->
+                    @if (isset($horarios) && $horarios->isNotEmpty())
+                        <div class="panel-horarios-avanzado">
+                            <div class="horarios-avanzado-header">
+                                <h4>Horario de Atención</h4>
+
+                                @if (isset($estadoTienda) && $estadoTienda['texto'])
+                                    <span
+                                        class="insignia-dinamica {{ $estadoTienda['abierto'] ? 'insignia-abierto' : 'insignia-cerrado' }}">
+                                        {{ $estadoTienda['texto'] }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <ul class="lista-avanzada-dias">
+                                @foreach ($horarios as $horario)
+                                    @php
+                                        $esHoy = \Carbon\Carbon::now('America/La_Paz')->isoweekday() == $horario->dia;
+                                    @endphp
+                                    <li class="item-dia-avanzado {{ $esHoy ? 'dia-resaltado-avanzado' : '' }}">
+                                        <span class="dia-label">{{ $horario->nombre_dia }}</span>
+                                        <span class="horas-label">
+                                            @if ($horario->esta_cerrado || !$horario->apertura)
+                                                <span class="cerrado-avanzado">Cerrado</span>
+                                            @else
+                                                {{ \Carbon\Carbon::parse($horario->apertura)->format('H:i') }} -
+                                                {{ \Carbon\Carbon::parse($horario->cierre)->format('H:i') }}
+
+                                                @if ($horario->apertura_2 && $horario->cierre_2)
+                                                    <span class="divisor-turnos"> / </span>
+                                                    {{ \Carbon\Carbon::parse($horario->apertura_2)->format('H:i') }} -
+                                                    {{ \Carbon\Carbon::parse($horario->cierre_2)->format('H:i') }}
+                                                @endif
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>
