@@ -244,7 +244,7 @@
                                          @if (isset($estadoTienda) && $estadoTienda['texto'])
                                              <span
                                                  class="badge-estado {{ $estadoTienda['abierto'] ? 'badge-abierto' : 'badge-cerrado' }}"
-                                                 style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                                                 style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: {{ $bgColor }}">
                                                  {{ $estadoTienda['texto'] }}
                                              </span>
                                          @endif
@@ -261,7 +261,7 @@
                                                      $horario->dia;
                                              @endphp
                                              <li class="fila-horario"
-                                                 style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; {{ $esHoy ? 'font-weight: bold; background-color: rgba(0,0,0,0.02); border-left: 3px solid #4a5568; padding-left: 6px;' : '' }}">
+                                                 style="display: flex;color: {{ $bgColor }}; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; {{ $esHoy ? 'font-weight: bold; background-color: rgba(0,0,0,0.02); border-left: 3px solid #4a5568; padding-left: 6px;' : '' }}">
                                                  <span class="dia-texto">{{ $horario->nombre_dia }}</span>
                                                  <span class="horas-texto">
                                                      @if ($horario->esta_cerrado || !$horario->apertura)
