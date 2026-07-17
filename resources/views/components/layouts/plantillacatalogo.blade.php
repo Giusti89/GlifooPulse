@@ -23,7 +23,6 @@
 
 <head>
     @if ($contenido)
-        <!-- 1. MARCADO DE NEGOCIO LOCAL -->
         <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -45,11 +44,8 @@
       }
     }
     </script>
-
-        <!-- 2. MARCADO DE PRODUCTOS INDEPENDIENTES (Para limpiar las alertas de Google) -->
         @if ($categoriapro && $categoriapro->count() > 0)
             @php
-                // Agrupamos todos los productos de todas las categorías en una sola colección plana
                 $todosLosProductos = collect();
                 foreach ($categoriapro as $cat) {
                     if (isset($cat->productos) && $cat->productos->count() > 0) {
@@ -106,14 +102,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {{-- 🟢 Quitamos el Str::limit de aquí; los límites ya los maneja tu controlador según el plan --}}
     <title>{{ $titulo }}</title>
     <meta name="description" content="{{ $descripcion }}">
     <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="Glifoo">
     <meta name="robots" content="{{ $robots }}">
 
-    <!-- Open Graph (Metas para Redes Sociales y WhatsApp) -->
     <meta property="og:title" content="{{ $titulo }}">
     <meta property="og:description" content="{{ $descripcion }}">
     <meta property="og:type" content="{{ $ogType }}">
@@ -123,7 +117,6 @@
         <meta property="og:image" content="{{ $imagenOg }}">
     @endif
 
-    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $titulo }}">
     <meta name="twitter:description" content="{{ $descripcion }}">
