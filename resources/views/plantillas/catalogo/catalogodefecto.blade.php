@@ -51,6 +51,8 @@
 
         </div>
         <h1 class="catalogo-titulo">{{ $titulo ?? 'Mi Catálogo' }}</h1>
+        <h2 class="catalogo-subtitulo">{{ $contenido->subtitulo_hero ?? '' }}</h2>
+
 
         <section id="nosotros" class="missions-section fade-in">
             <div class="nosotros-container">
@@ -86,7 +88,7 @@
             <!-- Lista de categorías con productos -->
             @foreach ($categoriapro as $categoria)
                 <section id="{{ $categoria->slug }}" class="categoria-productos">
-                    <h2 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h2>
+                    <h3 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h3>
 
                     @if ($categoria->productos->isNotEmpty())
                         <div class="productos-grid">
@@ -109,7 +111,7 @@
                                     </div>
 
                                     <div class="producto-info">
-                                        <h3 class="producto-nombre">{{ $producto->nombre }}</h3>
+                                        <h4 class="producto-nombre">{{ $producto->nombre }}</h4>
 
                                         @if ($producto->descripcion)
                                             <p class="producto-descripcion">

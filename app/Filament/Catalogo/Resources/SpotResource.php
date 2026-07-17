@@ -204,9 +204,11 @@ class SpotResource extends Resource
                                 ->required()
                                 ->maxLength(500),
 
-                            Forms\Components\Textarea::make('pie')
-                                ->label('Dirección')
-                                ->maxLength(255),
+                            Forms\Components\Textarea::make('subtitulo_hero')
+                                ->label('Subtítulo o Slogan de Presentación')
+                                ->helperText('¡Clave para Google! Escribe una frase corta que describa tu actividad principal, propósito o sector. Ejemplo comercial: "Cowork y estudio audiovisual en Calacoto". Ejemplo educativo: "Carreras a nivel Técnico Superior en El Alto". Evita repetir el nombre del negocio.')
+                                ->maxLength(255)
+                                ->rows(2),
 
                             TextInput::make('phone')
                                 ->label('Número de contacto para los artículos')
@@ -326,7 +328,7 @@ class SpotResource extends Resource
                                 ->addable(false)
                                 ->deletable(false)
                                 ->reorderable(false)
-                                ->collapsible()  
+                                ->collapsible()
                         ])
                     // ->visible(function ($get, $record) {
                     //     // Obtener el usuario actual

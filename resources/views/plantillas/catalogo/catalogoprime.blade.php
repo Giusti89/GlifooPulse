@@ -77,6 +77,7 @@
         <section id="home" class="hero" style="background-image: url('/storage/{{ $contenido->banner_url }}')">
             <div class="hero-content">
                 <h1 class="cosmic-title">{{ $titulo }}</h1>
+                <h2 class="cosmic-subtitle">{{ $contenido->subtitulo_hero ?? '' }}</h2>
             </div>
             <div class="logo-perfil">
                 <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="Logo de perfil">
@@ -167,7 +168,7 @@
                     @foreach ($categoriapro as $categoria)
                         <div class="mission-content {{ $loop->first ? 'active' : '' }}"
                             id="categoria-{{ $categoria->id }}">
-                            <h2 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h2>
+                            <h3 class="categoria-titulo">{{ strtoupper($categoria->nombre) }}</h3>
                             <div class="mission-grid">
                                 @foreach ($categoria->productos as $producto)
                                     @php
@@ -243,7 +244,7 @@
                     @if (isset($horarios) && $horarios->isNotEmpty())
                         <div class="panel-horarios-avanzado">
                             <div class="horarios-avanzado-header">
-                                <h4>Horario de Atención</h4>
+                                <h3>Horario de Atención</h3>
 
                                 @if (isset($estadoTienda) && $estadoTienda['texto'])
                                     <span

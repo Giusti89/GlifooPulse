@@ -48,7 +48,7 @@
              <div class="container">
                  <div class="hero-content">
                      <div class="hero-text">
-                         <h2 class="hero-title">{{ $titulo }}</h2>
+                         <h2 class="hero-title">{{ $contenido->subtitulo_hero ?? 'Bienvenidos a nuestro espacio' }}</h2>
                          <p class="hero-description">
                              {{ $contenido->texto ?? '' }}
                          </p>
@@ -93,7 +93,7 @@
                          <div class="categoria-content {{ $loop->first ? 'active' : '' }}"
                              id="categoria-{{ $categoria->id }}">
                              <div class="categoria-header">
-                                 <h3 class="categoria-titulo">{{ $categoria->nombre }}</h3>
+                                 <h2 class="categoria-titulo">{{ $categoria->nombre }}</h2>
                                  @if ($categoria->descripcion)
                                      <p class="categoria-descripcion">{{ $categoria->descripcion }}</p>
                                  @endif
@@ -126,7 +126,7 @@
                                              @endif
                                          </div>
                                          <div class="servicio-info">
-                                             <h3 class="servicio-nombre">{{ $producto->nombre }}</h3>
+                                             <h4 class="servicio-nombre">{{ $producto->nombre }}</h4>
                                              <p class="servicio-descripcion">
                                                  {{ Str::limit($producto->descripcion, 1200) }}</p>
                                              @if ($producto->precio > 0)
@@ -227,7 +227,7 @@
                      <div class="info-corporativa">
                          <div class="info-card">
                              <div class="info-content">
-                                 <h4>Dirección Principal</h4>
+                                 <h3>Dirección Principal</h3>
                                  <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
                              </div>
                          </div>
@@ -238,7 +238,7 @@
                                  <div class="info-content" style="width: 100%;">
                                      <div class="horarios-header-inline"
                                          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                         <h4 style="margin: 0;">Horario de Atención</h4>
+                                         <h3 style="margin: 0;">Horario de Atención</h3>
 
                                          <!-- Insignia dinámica de Abierto/Cerrado -->
                                          @if (isset($estadoTienda) && $estadoTienda['texto'])
@@ -292,7 +292,7 @@
                          @if ($whatsNumber)
                              <div class="info-card">
                                  <div class="info-content">
-                                     <h4>Contacto Directo</h4>
+                                     <h3>Contacto Directo</h3>
                                      <p>{{ $contenido->phone ?? '' }}</p>
                                      <a href="https://wa.me/{{ $whatsNumber }}" class="contact-link"
                                          target="_blank">
@@ -317,7 +317,7 @@
                          </p>
                      </div>
                      <div class="footer-contact">
-                         <h4>Contacto</h4>
+                         <h3>Contacto</h3>
                          @if ($whatsNumber)
                              <p><strong>Teléfono:</strong> {{ $contenido->phone ?? '' }}</p>
                          @endif
@@ -337,7 +337,7 @@
  <div id="imagenModal" class="modal-ejecutivo">
      <div class="modal-contenido">
          <span class="modal-cerrar">&times;</span>
-         <img id="modalImagen" src="" alt="">
+         <img id="modallmagen" src="" alt="Vista ampliada del producto">
          <div id="modalTitulo" class="modal-titulo"></div>
      </div>
  </div>

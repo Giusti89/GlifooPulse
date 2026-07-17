@@ -24,6 +24,7 @@ class Contenido extends Model
         'ctexto',
         'colsecond',
         'phone',
+        'subtitulo_hero',
     ];
 
     public function spot()
