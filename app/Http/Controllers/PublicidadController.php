@@ -126,7 +126,7 @@ class PublicidadController extends Controller
                         'titulo',
                         'catalogos',
                         'contenido',
-                        'categoriapro',   // colección de Categoria
+                        'categoriapro',   
                         'tituloSEO',
                         'horarios',     
                         'estadoTienda',

@@ -7,7 +7,7 @@
          ->__toString();
  @endphp
  <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url">
+     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url"  :contenido="$contenido"  :categoriapro="$categoriapro">
      <style>
          :root {
              --brand-background: {{ $bgColor }};

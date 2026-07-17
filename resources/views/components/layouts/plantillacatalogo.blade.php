@@ -13,12 +13,96 @@
     'imagenOg' => null,
     'ogUrl' => null,
     'ogType' => 'website',
+    'descripcionSEO' => '',
+    'contenido' => null,
+    'categoriapro' => null,
 ])
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', substr($locale, 0, 2)) }}">
 
 <head>
+    @if ($contenido)
+        <!-- 1. MARCADO DE NEGOCIO LOCAL -->
+        <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "{{ addslashes($titulo) }}",
+      "description": "{{ addslashes($descripcionSEO ?? $descripcion) }}",
+      "url": "{{ request()->url() }}",
+      @if($imagenOg)
+      "image": "{{ $imagenOg }}",
+      @endif
+      @if($contenido->phone)
+      "telephone": "{{ $contenido->phone }}",
+      @endif
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ addslashes($contenido->pie ?? 'Dirección disponible en el sitio web') }}",
+        "addressLocality": "La Paz",
+        "addressCountry": "BO"
+      }
+    }
+    </script>
+
+        <!-- 2. MARCADO DE PRODUCTOS INDEPENDIENTES (Para limpiar las alertas de Google) -->
+        @if ($categoriapro && $categoriapro->count() > 0)
+            @php
+                // Agrupamos todos los productos de todas las categorías en una sola colección plana
+                $todosLosProductos = collect();
+                foreach ($categoriapro as $cat) {
+                    if (isset($cat->productos) && $cat->productos->count() > 0) {
+                        foreach ($cat->productos as $prod) {
+                            $todosLosProductos->push($prod);
+                        }
+                    }
+                }
+            @endphp
+
+            @if ($todosLosProductos->count() > 0)
+                <script type="application/ld+json">
+        [
+          @foreach($todosLosProductos as $producto)
+            @php
+                // 1. Buscamos si el producto tiene al menos una imagen en su tabla relacional
+                // Usamos 'first()' para jalar la primera foto de la colección
+                $primeraImagen = $producto->imagenes->first(); 
+
+                if ($primeraImagen && !empty($primeraImagen->url)) {
+                    $urlImagenProducto = asset('storage/' . $primeraImagen->url);
+                } elseif (!empty($imagenOg)) {
+                    // 2. Si no tiene fotos, usamos la portada general del negocio
+                    $urlImagenProducto = $imagenOg;
+                } else {
+                    // 3. Fallback final por seguridad
+                    $urlImagenProducto = asset('img/default-product.jpg');
+                }
+            @endphp
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "{{ addslashes($producto->nombre) }}",
+              "description": "{{ addslashes($producto->descripcion ?? 'Producto disponible en el catálogo de ' . $titulo) }}",
+              "image": "{{ $urlImagenProducto }}",
+              "sku": "GLI-{{ $producto->id ?? $loop->index }}",
+              "brand": {
+                "@type": "Brand",
+                "name": "{{ addslashes($titulo) }}"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "{{ $producto->precio ?? '0' }}",
+                "priceCurrency": "BOB",
+                "availability": "https://schema.org"
+              }
+            }{{ !$loop->last ? ',' : '' }}
+          @endforeach
+        ]
+        </script>
+            @endif
+        @endif
+    @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -49,6 +133,7 @@
 
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
     <link rel="canonical" href="{{ request()->url() }}">
+
     {!! $styles !!}
 </head>
 
