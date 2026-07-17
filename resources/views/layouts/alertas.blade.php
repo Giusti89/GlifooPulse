@@ -1,4 +1,4 @@
-<!-- mensajes de confirmacion -->
+
 @if (session('msj') == 'susterminada')
     <script>
         Swal.fire({
@@ -106,4 +106,4 @@
         });
     </script>
 @endif
-<!-- mensajes de confirmacion -->
+
