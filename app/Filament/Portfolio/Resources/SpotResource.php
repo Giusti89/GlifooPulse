@@ -187,6 +187,12 @@ class SpotResource extends Resource
                                 ->helperText('Describe sobre ti y tus habilidades')
                                 ->maxLength(1200),
 
+                            Forms\Components\Textarea::make('subtitulo_hero')
+                                ->label('Subtítulo o Slogan de Presentación')
+                                ->helperText('¡Clave para Google! Escribe una frase corta que describa tu actividad principal, propósito o sector. Ejemplo comercial: "Cowork y estudio audiovisual en (locación)". Ejemplo educativo: "Carreras a nivel Técnico Superior en (locación)". Evita repetir el nombre del negocio.')
+                                ->maxLength(255)
+                                ->rows(2),
+
                             Forms\Components\Textarea::make('pie')
                                 ->label('Dirección')
                                 ->maxLength(255),

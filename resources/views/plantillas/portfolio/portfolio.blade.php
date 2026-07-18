@@ -11,7 +11,7 @@
     $proyectosActivos = $portfolios->where('estado', 'activo')->count();
 @endphp
 <x-layouts.plantillaportfolio :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg ?? $logoUrl"
-    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType">
+    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido" :portfolios="$portfolios">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
@@ -51,7 +51,6 @@
             </nav>
         </div>
     </header>
-
     <!-- Contenido principal -->
     <main class="main-content">
         <section id="inicio" class="hero-with-logo">
@@ -66,6 +65,10 @@
                 @endif
 
                 <h1 class="hero-title">{{ $titulo }}</h1>
+                <h2 class="hero-subtitle"
+                    style="text-align: center; color: var(--brand-text); opacity: 0.9; font-size: 1.5rem; margin-top: 0.5rem;">
+                    {{ $contenido->subtitulo_hero ?? '' }}
+                </h2>
 
                 <div style="margin-top: 2rem;">
 
@@ -102,7 +105,6 @@
         <section id="proyectos" class="projects-section">
             <div class="container">
                 <h2 class="text-center mb-4">Mis Proyectos</h2>
-
                 @if ($portfolios->count() > 0)
                     <div class="projects-grid">
                         @foreach ($portfolios as $portfolio)
@@ -113,8 +115,9 @@
                                 @else
                                     <div
                                         style="height: 250px; background: var(--brand-secondary); display: flex; align-items: center; justify-content: center;">
-                                        <span
-                                            style="color: var(--brand-background); font-weight: 600;">{{ $portfolio->titulo }}</span>
+                                        <span style="color: var(--brand-background); font-weight: 600; opacity: 0.7;">
+                                            <i class="fas fa-folder-open"></i> Ver Detalles
+                                        </span>
                                     </div>
                                 @endif
                                 <div class="project-content">
@@ -147,7 +150,6 @@
                 @endif
             </div>
         </section>
-
         <!-- Sobre mí -->
         <section id="sobre-mi" class="about-section">
             <div class="container">
@@ -159,7 +161,6 @@
                             <p>{{ $contenido->texto }}</p>
                         </div>
                     @endif
-
                     <!-- Redes sociales -->
                     @if (isset($redes) && $redes->count() > 0)
                         <div class="text-center">
@@ -186,7 +187,6 @@
                 </div>
             </div>
         </section>
-
         <!-- Contacto -->
         <section id="contacto" class="contact-section">
             <div class="container">
@@ -212,7 +212,6 @@
                         </div>
                     </div>
                 @endif
-
                 <div style="max-width: 800px; margin: 0 auto;">
                     <div class="contact-info">
                         @if ($contenido->phone)
@@ -231,7 +230,6 @@
                                 </div>
                             </div>
                         @endif
-
                         @if ($contenido->pie)
                             <div class="contact-item">
 
@@ -248,7 +246,6 @@
                                 </div>
                             </div>
                         @endif
-
                         @if (isset($redes) && $redes->count() > 0)
                             <div class="contact-item">
 
@@ -277,7 +274,6 @@
                             </div>
                         @endif
                     </div>
-
                     <div class="text-center" style="margin-top: 3rem;">
                         @if ($whatsNumber)
                             <a href="https://wa.me/{{ $whatsNumber }}" target="_blank" class="whatsapp-button">
@@ -289,7 +285,6 @@
             </div>
         </section>
     </main>
-
     <!-- Footer personalizado -->
     <footer class="custom-footer">
         <div class="container">
@@ -299,29 +294,22 @@
                         style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--brand-background);">
                 </div>
             @endif
-
-   
-            <h3 style=" color:var(--brand-background); font-size: 1.5rem; ">{{ $titulo }}</h3>
-
+            <p class="footer-brand-title"
+                style="color: var(--brand-background); font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">
+                {{ $titulo }}
+            </p>
             @if ($contenido->pie)
                 <p style=" opacity: 0.9;font-size:1.2rem;">
                     {{ $contenido->pie }}
                 </p>
             @endif
-
             @if ($contenido->phone)
                 <p style="opacity: 0.9;">
                     {{ $contenido->phone }}
                 </p>
             @endif
-
-           
-
-
         </div>
     </footer>
-
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </x-layouts.plantillaportfolio>

@@ -31,6 +31,7 @@ class PublicidadController extends Controller
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
 
             $portfolios = Portfolio::where('spot_id', $publicidad->id)
+                ->with(['galeria', 'dato'])
                 ->where('estado', 1)
                 ->orderBy('orden', 'asc')
                 ->get();
@@ -88,14 +89,14 @@ class PublicidadController extends Controller
                 $tituloSEO = Str::limit($tituloSEO, 60, '');
                 $descripcionSEO = Str::limit($descripcionSEO, 150, '');
                 $robots = 'index, follow';
-                $imagenOg = null;
+                $imagenOg = asset('img/logos/Boton.ico');
             }
 
             if ($seoNivel === 'medio') {
                 $tituloSEO = Str::limit($tituloSEO, 65, '');
                 $descripcionSEO = Str::limit($descripcionSEO, 160, '');
                 $robots = $catalogos->seo_robots ?? 'index, follow';
-                $imagenOg = null;
+                $imagenOg = asset('img/logos/Boton.ico');
             }
 
             if ($seoNivel === 'completo') {
@@ -126,9 +127,9 @@ class PublicidadController extends Controller
                         'titulo',
                         'catalogos',
                         'contenido',
-                        'categoriapro',   
+                        'categoriapro',
                         'tituloSEO',
-                        'horarios',     
+                        'horarios',
                         'estadoTienda',
                         'descripcionSEO',
                         'keywordsSEO',
