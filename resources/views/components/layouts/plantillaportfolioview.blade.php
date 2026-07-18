@@ -19,37 +19,6 @@
 <html lang="{{ str_replace('_', '-', substr($locale, 0, 2)) }}">
 
 <head>
-    @if ($portfolio)
-        @php
-            $dataSchema = [
-                '@context' => 'https://schema.org',
-                '@type' => 'CreativeWork',
-                'name' => $portfolio->titulo,
-                'description' => $portfolio->descripcion ?? $descripcion,
-                'url' => request()->url(),
-            ];
-            if ($portfolio->portada) {
-                $dataSchema['image'] = asset('storage/' . $portfolio->portada);
-            } elseif ($imagenOg) {
-                $dataSchema['image'] = $imagenOg;
-            }
-            if ($datosTecnicos && !empty($datosTecnicos->cliente)) {
-                $dataSchema['provider'] = [
-                    '@type' => 'Organization',
-                    'name' => $datosTecnicos->cliente,
-                ];
-            }
-            if ($portfolio->created_at) {
-                $dataSchema['dateCreated'] = $portfolio->created_at->toIso8601String();
-            } else {
-                $dataSchema['dateCreated'] = date('c');
-            }
-        @endphp
-        <script type="application/ld+json">
-        {!! json_encode($dataSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
-        </script>
-    @endif
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
