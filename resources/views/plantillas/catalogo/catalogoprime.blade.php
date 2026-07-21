@@ -179,7 +179,7 @@
                                             : asset('img/placeholder-producto.jpg');
                                     @endphp
 
-                                    <div class="mission-card product-card">
+                                    <div class="mission-card product-card" id="prod-{{ $producto->slug }}">
                                         <div class="producto-imagen"
                                             onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"
                                             role="button" tabindex="0"

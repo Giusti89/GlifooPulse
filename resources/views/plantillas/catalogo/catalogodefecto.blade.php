@@ -99,7 +99,7 @@
                                     $src = $imagen ? Storage::url($imagen->url) : asset('img/placeholder-producto.jpg');
                                 @endphp
 
-                                <div class="producto-card">
+                                <div class="producto-card" id="prod-{{ $producto->slug }}">
                                     <div class="producto-imagen"
                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')"
                                         role="button" tabindex="0"
