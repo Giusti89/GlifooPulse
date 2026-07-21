@@ -7,7 +7,8 @@
          ->__toString();
  @endphp
  <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url"  :contenido="$contenido"  :categoriapro="$categoriapro">
+     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :contenido="$contenido"
+     :categoriapro="$categoriapro">
      <style>
          :root {
              --brand-background: {{ $bgColor }};
@@ -109,7 +110,7 @@
                                                  ? Storage::url($imagenRelacion->url)
                                                  : asset('placeholder.jpg');
                                      @endphp
-                                     <div class="servicio-card">
+                                     <div class="servicio-card" id="prod-{{ $producto->slug }}">
                                          <div class="servicio-imagen-contenedor">
                                              <!-- 4. CRÍTICO: 'this.onerror=null' destruye el bucle infinito en el navegador de inmediato -->
                                              <img src="{{ $src }}" alt="{{ $producto->nombre }}"
@@ -141,6 +142,14 @@
                                                      <button type="button" class="producto-whatsapp"
                                                          onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
                                                          Contactar por WhatsApp
+                                                     </button>
+                                                     <button type="button" class="producto-compartir"
+                                                         data-url="{{ request()->url() }}#prod-{{ $producto->slug }}"
+                                                         data-titulo="{{ $producto->nombre }}"
+                                                         data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
+                                                         data-imagen="{{ $src }}"
+                                                         onclick="compartirProducto(this)">
+                                                         Compartir Producto
                                                      </button>
                                                  @endif
                                                  @if ($producto->precio > 0)
@@ -333,6 +342,7 @@
          </footer>
      </div>
      <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}"></script>
+     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
  </x-layouts.plantillacatalogo>
  <div id="imagenModal" class="modal-ejecutivo">
      <div class="modal-contenido">
