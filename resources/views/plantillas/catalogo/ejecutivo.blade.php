@@ -149,7 +149,7 @@
                                                      data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
                                                      data-imagen="{{ $src }}"
                                                      onclick="compartirProducto(this)">
-                                                     Compartir Producto
+                                                     Compartir
                                                  </button>
                                                  @if ($producto->precio > 0)
                                                      <span

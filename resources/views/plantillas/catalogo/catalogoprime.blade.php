@@ -207,7 +207,7 @@
                                             data-titulo="{{ $producto->nombre }}"
                                             data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
                                             data-imagen="{{ $src }}" onclick="compartirProducto(this)">
-                                            Compartir Producto
+                                            Compartir
                                         </button>
 
                                         <span class="mission-status estado-{{ Str::slug($producto->estado) }}">
