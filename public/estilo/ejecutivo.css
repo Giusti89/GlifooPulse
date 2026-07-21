@@ -740,7 +740,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--brand-text);
-    background: white;
+    background: var(--brand-background);
 }
 
 /* Mapa Ejecutivo */

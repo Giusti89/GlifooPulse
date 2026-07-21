@@ -112,7 +112,6 @@
                                      @endphp
                                      <div class="servicio-card" id="prod-{{ $producto->slug }}">
                                          <div class="servicio-imagen-contenedor">
-                                             <!-- 4. CRÍTICO: 'this.onerror=null' destruye el bucle infinito en el navegador de inmediato -->
                                              <img src="{{ $src }}" alt="{{ $producto->nombre }}"
                                                  class="servicio-imagen" width="400" height="300"
                                                  onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}'; this.alt='Imagen no disponible'">
