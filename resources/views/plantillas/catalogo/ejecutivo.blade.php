@@ -347,7 +347,7 @@
  <div id="imagenModal" class="modal-ejecutivo">
      <div class="modal-contenido">
          <span class="modal-cerrar">&times;</span>
-         <img id="modallmagen" src="" alt="Vista ampliada del producto">
+         <img id="modalImagen" src="" alt="Vista ampliada del producto"> <!-- REPARADO AQUÍ -->
          <div id="modalTitulo" class="modal-titulo"></div>
      </div>
  </div>
