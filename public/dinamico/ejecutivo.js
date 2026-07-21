@@ -80,3 +80,50 @@ window.onclick = function (event) {
     cerrarModal();
   }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Verificar si la URL trae un ancla de producto válida
+    if (window.location.hash && window.location.hash.startsWith('#prod-')) {
+        const targetId = window.location.hash;
+        
+        // Esperamos 250ms a que el DOM y el CSS se asienten perfectamente
+        setTimeout(() => {
+            const elementoProducto = document.querySelector(targetId);
+            
+            if (elementoProducto) {
+                // 2. DETECTAR Y ACTIVAR LA CATEGORÍA PADRE OOCULTA
+                // Buscamos el contenedor '.categoria-content' más cercano hacia arriba
+                const contenedorCategoria = elementoProducto.closest('.categoria-content');
+                
+                if (contenedorCategoria && !contenedorCategoria.classList.contains('active')) {
+                    // Desactivamos la categoría activa actual y activamos la correcta
+                    document.querySelectorAll('.categoria-content').forEach(c => c.classList.remove('active'));
+                    contenedorCategoria.classList.add('active');
+                    
+                    // Sincronizamos los botones de las pestañas (Tabs de navegación)
+                    const categoriaId = contenedorCategoria.getAttribute('id');
+                    document.querySelectorAll('.categoria-tab').forEach(t => {
+                        t.classList.remove('active');
+                        if (t.getAttribute('data-tab') === categoriaId) {
+                            t.classList.add('active');
+                        }
+                    });
+                }
+
+                // 3. DESPLAZAMIENTO FLUIDO AL PRODUCTO
+                elementoProducto.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+
+                // 4. EXTRAER DATOS Y ABRIR TU MODAL NATIVO
+                // Obtenemos la imagen y el título directamente de los elementos de la tarjeta
+                const imgElement = elementoProducto.querySelector('.servicio-imagen');
+                const titleElement = elementoProducto.querySelector('.servicio-nombre');
+                
+                if (imgElement && titleElement && typeof window.abrirModal === 'function') {
+                    window.abrirModal(imgElement.src, titleElement.textContent.trim());
+                }
+            }
+        }, 250);
+    }
+});

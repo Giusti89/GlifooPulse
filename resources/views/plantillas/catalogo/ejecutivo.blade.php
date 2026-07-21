@@ -143,15 +143,15 @@
                                                          onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
                                                          Contactar por WhatsApp
                                                      </button>
-                                                     <button type="button" class="producto-compartir"
-                                                         data-url="{{ request()->url() }}#prod-{{ $producto->slug }}"
-                                                         data-titulo="{{ $producto->nombre }}"
-                                                         data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
-                                                         data-imagen="{{ $src }}"
-                                                         onclick="compartirProducto(this)">
-                                                         Compartir Producto
-                                                     </button>
                                                  @endif
+                                                 <button type="button" class="producto-compartir"
+                                                     data-url="{{ request()->url() }}#prod-{{ $producto->slug }}"
+                                                     data-titulo="{{ $producto->nombre }}"
+                                                     data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
+                                                     data-imagen="{{ $src }}"
+                                                     onclick="compartirProducto(this)">
+                                                     Compartir Producto
+                                                 </button>
                                                  @if ($producto->precio > 0)
                                                      <span
                                                          class="servicio-estado estado-{{ Str::slug($producto->estado) }}">
