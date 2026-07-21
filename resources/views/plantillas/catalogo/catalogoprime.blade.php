@@ -9,7 +9,8 @@
 @endphp
 
 <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-    :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"  :categoriapro="$categoriapro">
+    :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
+    :categoriapro="$categoriapro">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
@@ -201,6 +202,13 @@
                                             onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
                                             Contactar por WhatsApp
                                         </button>
+                                        <button type="button" class="producto-compartir"
+                                            data-url="{{ request()->url() }}#prod-{{ $producto->slug }}"
+                                            data-titulo="{{ $producto->nombre }}"
+                                            data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
+                                            data-imagen="{{ $src }}" onclick="compartirProducto(this)">
+                                            Compartir Producto
+                                        </button>
 
                                         <span class="mission-status estado-{{ Str::slug($producto->estado) }}">
                                             {{ $producto->estado }}
@@ -285,6 +293,9 @@
         </section>
     </div>
     <script
-        src="{{ asset('./dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('./dinamico/tooplate-stellaris-script.js')) }}">
+        src="{{ asset('dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('dinamico/tooplate-stellaris-script.js')) }}">
+        < script src = "{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}" >
+    </script>
+
     </script>
 </x-layouts.plantillacatalogo>

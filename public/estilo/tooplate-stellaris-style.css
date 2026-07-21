@@ -651,6 +651,42 @@ section {
 }
 
 /* -----------------boton contacto---------------- */
+.producto-compartir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: var(--brand-background);
+    border: 2px solid var(--brand-background);
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.producto-compartir:hover {
+    background-color: var(--brand-background);
+    color: var(--brand-text);
+}
+
+.producto-compartir svg {
+    flex-shrink: 0;
+    width: 1.1em;
+    height: 1.1em;
+    fill: currentColor;
+}
+
+/* Ajuste de estructura para agrupar los botones de acción */
+.servicio-action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
 .producto-whatsapp {
     display: inline-flex;
     align-items: center;

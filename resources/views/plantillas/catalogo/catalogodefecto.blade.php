@@ -9,7 +9,8 @@
 @endphp
 
 <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-    :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"  :categoriapro="$categoriapro">
+    :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
+    :categoriapro="$categoriapro">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
@@ -138,6 +139,13 @@
                                                 Contactar por WhatsApp
                                             </button>
                                         @endif
+                                        <button type="button" class="producto-compartir"
+                                            data-url="{{ request()->url() }}#prod-{{ $producto->slug }}"
+                                            data-titulo="{{ $producto->nombre }}"
+                                            data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
+                                            data-imagen="{{ $src }}" onclick="compartirProducto(this)">
+                                            Compartir Producto
+                                        </button>
                                     </div>
                                 </div>
                             @endforeach
@@ -260,4 +268,5 @@
             </div>
     </div>
     <script src="{{ asset('dinamico/catalogo.js') }}?v={{ filemtime(public_path('dinamico/catalogo.js')) }}"></script>
+     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
 </x-layouts.plantillacatalogo>
