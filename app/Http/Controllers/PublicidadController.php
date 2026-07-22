@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Services\SocialClickService;
+use Illuminate\Support\Facades\Storage;
 
 class PublicidadController extends Controller
 {
@@ -107,6 +108,24 @@ class PublicidadController extends Controller
                     ? asset('storage/' . $contenido->logo_url)
                     : null;
                 $locale = $catalogos->seo_locale ?? 'es_ES';
+            }
+            if (request()->has('prod')) {
+                $productSlug = request()->query('prod');
+
+                // Buscamos el producto solicitado dentro de las categorías ya cargadas para no hacer queries extras
+                $productoSEO = $categoriapro->flatMap->productos->firstWhere('slug', $productSlug);
+
+                if ($productoSEO) {
+                    // Reemplazamos los Meta Tags generales por los del producto exacto
+                    $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
+                    $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
+
+                    // Extraemos su imagen asociada para inyectarla en el og:image
+                    $imagenRelacionSEO = $productoSEO->imagenes->first();
+                    if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
+                        $imagenOg = Storage::url($imagenRelacionSEO->url);
+                    }
+                }
             }
             $ogUrl = request()->url();
             $ogType = ($grupo === 'catalogo') ? 'business.business' : 'profile';
