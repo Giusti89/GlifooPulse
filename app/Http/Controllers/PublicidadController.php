@@ -111,19 +111,17 @@ class PublicidadController extends Controller
             }
             if (request()->has('prod')) {
                 $productSlug = request()->query('prod');
-
-                // Buscamos el producto solicitado dentro de las categorías ya cargadas para no hacer queries extras
                 $productoSEO = $categoriapro->flatMap->productos->firstWhere('slug', $productSlug);
-
                 if ($productoSEO) {
-                    // Reemplazamos los Meta Tags generales por los del producto exacto
                     $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
                     $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
-
-                    // Extraemos su imagen asociada para inyectarla en el og:image
+                    // Obtener la imagen del producto
                     $imagenRelacionSEO = $productoSEO->imagenes->first();
                     if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
                         $imagenOg = Storage::url($imagenRelacionSEO->url);
+                    } else {
+                        // Fallback a la imagen del spot
+                        $imagenOg = $contenido->banner_url ? Storage::url($contenido->banner_url) : asset('img/logos/Boton.ico');
                     }
                 }
             }
