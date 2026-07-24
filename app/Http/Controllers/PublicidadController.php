@@ -67,7 +67,7 @@ class PublicidadController extends Controller
             $robots = 'index, follow';
             $imagenOg = $contenido->banner_url
                 ? asset('storage/' . $contenido->logo_url)
-                : null;
+                : asset('img/logos/Boton.ico');
             $locale = 'es_ES';
             $categoriapro = collect();
             $horarios = collect();
