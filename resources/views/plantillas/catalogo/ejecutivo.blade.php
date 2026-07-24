@@ -144,7 +144,7 @@
                                                      </button>
                                                  @endif
                                                  <button type="button" class="producto-compartir"
-                                                     data-url="{{ url()->current() }}?prod={{ $producto->slug }}#prod-{{ $producto->slug }}"
+                                                     data-url="{{ url()->current() }}?prod={{ $producto->slug }}"
                                                      data-titulo="{{ $producto->nombre }}"
                                                      data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
                                                      data-imagen="{{ $src }}"
