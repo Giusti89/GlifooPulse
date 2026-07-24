@@ -116,7 +116,7 @@
     @if ($imagenOg)
         <meta property="og:image" content="{{ $imagenOg }}">
         <meta property="og:image:secure_url" content="{{ $imagenOg }}">
-        <meta property="og:image:type" content="image/jpeg">
+        
     @endif
 
     <meta name="twitter:card" content="summary_large_image">
