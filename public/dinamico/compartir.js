@@ -1,41 +1,59 @@
-function compartirProducto(elemento) {
-    const url = elemento.dataset.url;
-    const titulo = elemento.dataset.titulo;
-    const descripcion = elemento.dataset.descripcion;
-    const imagen = elemento.dataset.imagen;
+function compartirProducto(boton) {
+    // Obtener datos del botón (compatible con getAttribute)
+    const url = boton.getAttribute('data-url') || boton.dataset.url;
+    const titulo = boton.getAttribute('data-titulo') || boton.dataset.titulo;
+    const descripcion = boton.getAttribute('data-descripcion') || boton.dataset.descripcion;
+    const imagen = boton.getAttribute('data-imagen') || boton.dataset.imagen;
 
-    // 1. Verificar si el navegador soporta Web Share API (móviles)
+    // Texto formateado de manera atractiva para redes sociales
+    const textoCompartir = `⭐ *${titulo}*\n${descripcion}`;
+    // 1. Intentar compartir con la API Nativa (Móviles / Tabletas)
     if (navigator.share) {
         navigator.share({
             title: titulo,
-            text: descripcion,
+            text: `${titulo} - ${descripcion}`,
             url: url
         })
-        .then(() => console.log('Compartido exitosamente'))
+        .then(() => console.log('✅ Compartido exitosamente'))
         .catch((error) => {
-            console.log('Error al compartir:', error);
-            // Si falla, caer en el método tradicional
-            copiarAlPortapapeles(url, titulo);
+            console.log('❌ Error al compartir:', error);
+            // Si el usuario cancela, no hacer nada
+            if (error.name !== 'AbortError') {
+                copiarAlPortapapeles(textoCompartir, url);
+            }
         });
     } else {
-        // 2. Fallback para PC: copiar al portapapeles
-        copiarAlPortapapeles(url, titulo);
+        // 2. Comportamiento en Escritorio: Copiar al portapapeles
+        copiarAlPortapapeles(textoCompartir, url);
     }
 }
 
-function copiarAlPortapapeles(url, titulo) {
-    const mensaje = `Mira este producto: ${titulo}\n${url}`;
-
+function copiarAlPortapapeles(texto, url) {
+    const textoCompleto = `${texto}\n\nVer más detalles aquí: ${url}`;
+    
     if (navigator.clipboard) {
-        navigator.clipboard.writeText(mensaje)
+        navigator.clipboard.writeText(textoCompleto)
             .then(() => {
-                alert('¡Enlace copiado al portapapeles! Compártelo donde quieras.');
+                // Usa SweetAlert o un toast si tienes, si no usa alert
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Copiado!',
+                        text: 'El enlace y detalles del producto se copiaron al portapapeles.',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    alert('¡Enlace y detalles del producto copiados al portapapeles!');
+                }
             })
             .catch(() => {
-                fallbackCopiar(mensaje);
+                // Fallback: abrir WhatsApp Web
+                abrirWhatsAppWeb(textoCompleto);
             });
     } else {
-        fallbackCopiar(mensaje);
+        // Fallback para navegadores antiguos
+        fallbackCopiar(textoCompleto);
     }
 }
 
@@ -46,5 +64,10 @@ function fallbackCopiar(texto) {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    alert('¡Enlace copiado al portapapeles! Compártelo donde quieras.');
+    alert('¡Enlace y detalles del producto copiados al portapapeles!');
+}
+
+function abrirWhatsAppWeb(texto) {
+    const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
+    window.open(whatsappUrl, '_blank');
 }
