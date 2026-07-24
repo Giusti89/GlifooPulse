@@ -1,12 +1,11 @@
 function compartirProducto(boton) {
-    // Obtener datos del botón (compatible con getAttribute)
-    const url = boton.getAttribute('data-url') || boton.dataset.url;
-    const titulo = boton.getAttribute('data-titulo') || boton.dataset.titulo;
-    const descripcion = boton.getAttribute('data-descripcion') || boton.dataset.descripcion;
-    const imagen = boton.getAttribute('data-imagen') || boton.dataset.imagen;
-
+    const url = boton.getAttribute('data-url');
+    const titulo = boton.getAttribute('data-titulo');
+    const descripcion = boton.getAttribute('data-descripcion');
+    
     // Texto formateado de manera atractiva para redes sociales
-    const textoCompartir = `⭐ *${titulo}*\n${descripcion}`;
+    const textoCompartir = `⭐ *${titulo}*\n${descripcion}\n\nVer más detalles aquí:`;
+
     // 1. Intentar compartir con la API Nativa (Móviles / Tabletas)
     if (navigator.share) {
         navigator.share({
@@ -14,60 +13,18 @@ function compartirProducto(boton) {
             text: `${titulo} - ${descripcion}`,
             url: url
         })
-        .then(() => console.log('✅ Compartido exitosamente'))
-        .catch((error) => {
-            console.log('❌ Error al compartir:', error);
-            // Si el usuario cancela, no hacer nada
-            if (error.name !== 'AbortError') {
-                copiarAlPortapapeles(textoCompartir, url);
-            }
+        .catch((error) => console.log('Interrupción al compartir', error));
+    } else {
+        // 2. Comportamiento en Escritorio: Copiar al portapapeles y avisar al usuario
+        const textoCompleto = `${textoCompartir} ${url}`;
+        
+        navigator.clipboard.writeText(textoCompleto).then(() => {
+            // Reemplaza esto con un Toast de SweetAlert o tu sistema de alertas
+            alert('¡Enlace y detalles del producto copiados al portapapeles!');
+        }).catch(err => {
+            // Alternativa extrema si falla el portapapeles (Abrir WhatsApp Web directamente)
+            const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompleto)}`;
+            window.open(whatsappUrl, '_blank');
         });
-    } else {
-        // 2. Comportamiento en Escritorio: Copiar al portapapeles
-        copiarAlPortapapeles(textoCompartir, url);
     }
-}
-
-function copiarAlPortapapeles(texto, url) {
-    const textoCompleto = `${texto}\n\nVer más detalles aquí: ${url}`;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(textoCompleto)
-            .then(() => {
-                // Usa SweetAlert o un toast si tienes, si no usa alert
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Copiado!',
-                        text: 'El enlace y detalles del producto se copiaron al portapapeles.',
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
-                } else {
-                    alert('¡Enlace y detalles del producto copiados al portapapeles!');
-                }
-            })
-            .catch(() => {
-                // Fallback: abrir WhatsApp Web
-                abrirWhatsAppWeb(textoCompleto);
-            });
-    } else {
-        // Fallback para navegadores antiguos
-        fallbackCopiar(textoCompleto);
-    }
-}
-
-function fallbackCopiar(texto) {
-    const textarea = document.createElement('textarea');
-    textarea.value = texto;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    alert('¡Enlace y detalles del producto copiados al portapapeles!');
-}
-
-function abrirWhatsAppWeb(texto) {
-    const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
-    window.open(whatsappUrl, '_blank');
 }
