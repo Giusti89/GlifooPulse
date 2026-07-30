@@ -1,37 +1,51 @@
-function compartirProducto(boton) {
-    const url = boton.getAttribute('data-url');
-    const titulo = boton.getAttribute('data-titulo');
-    const descripcion = boton.getAttribute('data-descripcion');
+async function compartirProducto(elemento) {
+    const url = elemento.getAttribute('data-url') || elemento.dataset.url;
+    const titulo = elemento.getAttribute('data-titulo') || elemento.dataset.titulo;
+    const descripcion = elemento.getAttribute('data-descripcion') || elemento.dataset.descripcion;
+    const imagen = elemento.dataset.imagen;
 
-    // Detectar si es un dispositivo móvil (iOS / Android)
+    console.log('🔍 Datos capturados para compartir:', { url, titulo, descripcion });
+
+    if (!url) {
+        console.error('❌ Error: No se proporcionó una URL para compartir.');
+        return;
+    }
+
+    // 1. Armamos el texto estético tal como lo tenías originalmente
+    const textoMensaje = `⭐ *${titulo}*\n${descripcion || ''}`;
+    
+    // 2. Unimos todo: El texto va primero y la URL limpia SIEMPRE al final para activar el scraper
+    const textoCompletoParaWhatsApp = `${textoMensaje}\n\n${url}`;
+
+    // Detectar si el usuario está en un dispositivo móvil
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     if (esMovil) {
-        // SOLUCIÓN MÓVIL: Enviamos ÚNICAMENTE la URL limpia.
-        // Al ir sola, la aplicación nativa de WhatsApp forzará la creación de la hermosa tarjeta con foto.
-        const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(url)}`;
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: titulo,
+                    text: textoMensaje, // La API nativa separa el texto de la URL en la hoja de compartir
+                    url: url 
+                });
+                console.log('✅ Compartido de forma nativa exitosamente');
+                return;
+            } catch (error) {
+                if (error.name === 'AbortError' || error.name === 'NotAllowedError') {
+                    console.log('ℹ️ El usuario canceló la acción.');
+                    return;
+                }
+                console.warn('⚠️ Falló Web Share API, usando enlace directo:', error);
+            }
+        }
+        
+        // Fallback en móvil si falla navigator.share: Envía el texto con la URL al final
+        const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
         window.open(whatsappUrl, '_blank');
     } else {
-        // EN COMPUTADORAS (Escritorio)
-        if (navigator.share) {
-            // Si el navegador de PC soporta la API nativa, compartimos solo la URL
-            navigator.share({ url: url })
-                .catch((error) => console.log('Interrupción', error));
-        } else {
-            // COMPORTAMIENTO DESDE PC HACIENDO CLIC A WHATSAPP:
-            // Copiamos la URL al portapapeles y abrimos WhatsApp Web pasándole SOLO la URL limpia.
-            navigator.clipboard.writeText(url).then(() => {
-                const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
-                window.open(whatsappWebUrl, '_blank');
-
-                // Un pequeño retraso para que el usuario no se distraiga con el alert antes de que abra la pestaña
-                setTimeout(() => {
-                    alert('¡Enlace del producto copiado! Puedes pegarlo en tu chat si la tarjeta no carga automáticamente.');
-                }, 1000);
-            }).catch(err => {
-                const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
-                window.open(whatsappWebUrl, '_blank');
-            });
-        }
+        // En Escritorio / PC: WhatsApp Web procesa perfectamente el texto combinado
+        console.log('💻 Dispositivo de escritorio detectado - Abriendo WhatsApp Web');
+        const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
+        window.open(whatsappWebUrl, '_blank');
     }
 }
