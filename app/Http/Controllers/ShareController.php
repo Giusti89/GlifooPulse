@@ -27,7 +27,6 @@ class ShareController extends Controller
             'imagen' => $imagenOg,
             'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
         ];
-
         // 5. Retornamos una vista intermedia ultra-ligera diseñada EXCLUSIVAMENTE para los bots
         return view('share.producto', compact('meta'));
     }
