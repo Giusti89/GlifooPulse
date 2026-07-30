@@ -10,42 +10,26 @@ use Illuminate\Support\Str;
 
 class ShareController extends Controller
 {
-    public function shareProduct(Request $request, $slug)
+    public function shareProducto($spotSlug, $productSlug)
     {
-        $spot = Spot::where('slug', $slug)->firstOrFail();
-        
-        // Obtener el producto por slug
-        $productSlug = $request->query('prod');
-        if (!$productSlug) {
-            return redirect()->route('spot.show', $slug);
-        }
+        $spot = Spot::where('slug', $spotSlug)->firstOrFail();
 
-        $producto = Producto::whereHas('categoria', function($query) use ($spot) {
-            $query->where('spot_id', $spot->id);
-        })->where('slug', $productSlug)->firstOrFail();
+        $producto = Producto::where('slug', $productSlug)->firstOrFail();
 
-        $contenido = Contenido::where('spot_id', $spot->id)->first();
+        $imagenRelacion = $producto->imagenes->first();
+        $imagenOg = $imagenRelacion && !empty($imagenRelacion->url)
+            ? asset('storage/' . $imagenRelacion->url)
+            : asset('img/default-product.jpg');
 
-        // Preparar metadatos optimizados para compartir
-        $titulo = $producto->nombre . ' | ' . $spot->titulo;
-        $descripcion = Str::limit($producto->descripcion ?? 'Descubre este producto en ' . $spot->titulo, 160);
-    
-        $imagen = $this->getProductImage($producto, $contenido);
-    
-        $url = route('spot.show', ['slug' => $slug]) . '?prod=' . $productSlug;
+        $meta = [
+            'titulo' => $producto->nombre . " | " . $spot->titulo,
+            'descripcion' => Str::limit($producto->descripcion, 150, '...'),
+            'imagen' => $imagenOg,
+            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
+        ];
 
-        // 🔥 Registrar que se compartió (opcional)
-        // $this->registerShare($producto, $spot);
-        dd($imagen);
-        return view('layouts.share', compact(
-            'spot',
-            'producto',
-            'contenido',
-            'titulo',
-            'descripcion',
-            'imagen',
-            'url'
-        ));
+        // 5. Retornamos una vista intermedia ultra-ligera diseñada EXCLUSIVAMENTE para los bots
+        return view('share.producto', compact('meta'));
     }
 
     private function getProductImage($producto, $contenido)
@@ -54,11 +38,12 @@ class ShareController extends Controller
         if ($imagenProducto && !empty($imagenProducto->url)) {
             return asset('storage/' . $imagenProducto->url);
         }
-        
+
         if ($contenido && !empty($contenido->banner_url)) {
             return asset('storage/' . $contenido->banner_url);
         }
 
+        // 3. Fallback final: logo por defecto
         return asset('img/logos/Boton.ico');
     }
 

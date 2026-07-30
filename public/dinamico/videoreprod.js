@@ -37,7 +37,9 @@ function loadVideo(index) {
                 controls: 1,
                 modestbranding: 1,
                 rel: 0,
-                playsinline: 1
+                playsinline: 1,
+                enablejsapi: 1,                   
+                origin: window.location.origin
             },
             events: {
                 onReady: (e) => e.target.playVideo(),

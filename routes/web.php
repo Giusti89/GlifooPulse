@@ -56,11 +56,9 @@ Route::controller(SocioController::class)->group(function () {
         ->name('socios');
 });
 
-Route::controller(ShareController::class)->group(function () {
-    Route::get('/compartir/{slug}', 'shareProduct')
-        ->name('share.product');
-});
-    
+Route::get('/compartir/{spot_slug}/{product_slug}', [ShareController::class, 'shareProducto'])
+    ->name('producto.compartir.enlace');
+
 Route::redirect('/{slug}', '/pulse/{slug}', 301)
     ->where('slug', '[A-Za-z0-9\-]+');
 
