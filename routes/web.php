@@ -6,6 +6,7 @@ use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PublicidadController;
 use App\Http\Controllers\RenovacionController;
+use App\Http\Controllers\ShareController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SocioController;
 use Illuminate\Support\Facades\Route;
@@ -55,9 +56,14 @@ Route::controller(SocioController::class)->group(function () {
         ->name('socios');
 });
 
+Route::controller(ShareController::class)->group(function () {
+    Route::get('/compartir/{slug}', 'shareProduct')
+        ->name('share.product');
+});
+    
 Route::redirect('/{slug}', '/pulse/{slug}', 301)
     ->where('slug', '[A-Za-z0-9\-]+');
-    
+
 Route::controller(PublicidadController::class)->group(function () {
     Route::get('/pulse/{slug}', 'show')
         ->where('slug', '[A-Za-z0-9\-]+')
@@ -67,6 +73,8 @@ Route::controller(PublicidadController::class)->group(function () {
     Route::get('/enlace/{id}', 'redirecion')
         ->name('redireccion');
 });
+
+
 
 Route::controller(PortfolioController::class)->group(function () {
     Route::get('/portfolio/vista/{id}', 'show')

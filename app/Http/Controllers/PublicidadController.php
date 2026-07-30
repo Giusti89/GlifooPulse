@@ -30,6 +30,7 @@ class PublicidadController extends Controller
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
+            $spot = Spot::where('slug', $slug)->first();
 
             $portfolios = Portfolio::where('spot_id', $publicidad->id)
                 ->with(['galeria', 'dato'])
@@ -156,7 +157,8 @@ class PublicidadController extends Controller
                         'locale',
                         'videos',
                         'ogUrl',
-                        'ogType'
+                        'ogType',
+                        'spot'
                     ));
                 } elseif ($grupo === "portfolio") { // Agregado caso portfolio
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
