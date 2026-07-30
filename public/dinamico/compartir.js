@@ -34,12 +34,12 @@ async function compartirProducto(elemento) {
         }
         
         // Fallback en móviles si falla el Web Share nativo: Abrir la App de WhatsApp directamente
-        const whatsappAppUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
+        const whatsappAppUrl = "https://whatsapp.com" + encodeURIComponent(url);
         window.open(whatsappAppUrl, '_blank');
     } else {
-        // En Computadoras de escritorio (PC/Mac): Forzar redirección directa a WhatsApp Web
+        // CORRECCIÓN AQUÍ: Estructura limpia usando concatenación tradicional para evitar errores de sintaxis
         console.log('💻 Entorno de escritorio - Abriendo WhatsApp Web');
-        const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
+        const whatsappWebUrl = "https://whatsapp.com" + encodeURIComponent(url);
         window.open(whatsappWebUrl, '_blank');
     }
 }
