@@ -12,48 +12,38 @@ class ShareController extends Controller
 {
     public function shareProducto($spotSlug, $productSlug)
     {
-        // 1. Validar existencia del negocio y producto de forma segura
+        // 1. Buscamos el negocio (Spot) de forma rápida
         $spot = Spot::where('slug', $spotSlug)->firstOrFail();
+
+        // 2. Buscamos el producto específico por su slug
         $producto = Producto::where('slug', $productSlug)->firstOrFail();
 
-        // 2. Resolver la URL absoluta de la imagen del producto
+        // 3. Obtenemos la primera imagen en formato absoluto para los bots
         $imagenRelacion = $producto->imagenes->first();
         $imagenOg = $imagenRelacion && !empty($imagenRelacion->url)
             ? asset('storage/' . $imagenRelacion->url)
             : asset('img/default-product.jpg');
 
-        // 3. Armar la URL de destino final para cuando un humano abra el enlace
-        try {
-            $urlDestino = route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug;
-        } catch (\Exception $e) {
-            // Respaldo si la ruta con nombre 'publicidad' no está registrada exactamente así
-            $urlDestino = url('/' . $spot->slug . "?prod=" . $producto->slug . "#prod-" . $producto->slug);
-        }
-
-        // 4. Preparar la data estética para los Bots de Meta/WhatsApp
+        // 4. Preparamos la data estructurada de los Meta Tags
         $meta = [
-            'titulo' => "⭐ " . mb_strtoupper($producto->nombre), // Inyectamos la estrella directamente al título
-            'descripcion' => Str::limit($producto->descripcion, 140, '...'),
+            'titulo' => $producto->nombre . " | " . $spot->titulo,
+            'descripcion' => Str::limit($producto->descripcion, 150, '...'),
             'imagen' => $imagenOg,
-            'url_destino' => $urlDestino
+            // Esta es la URL final a donde irá el usuario (con el hash para hacer scroll automático)
+            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
         ];
 
-        // 5. Retornar la vista intermedia
+        // 5. Retornamos una vista intermedia ultra-ligera diseñada EXCLUSIVAMENTE para los bots
         return view('share.producto', compact('meta'));
     }
 
-    /**
-     * Obtener imagen del producto (fallbacks)
-     */
     private function getProductImage($producto, $contenido)
     {
-        // 1. Intentar obtener imagen del producto
         $imagenProducto = $producto->imagenes()->first();
         if ($imagenProducto && !empty($imagenProducto->url)) {
             return asset('storage/' . $imagenProducto->url);
         }
-
-        // 2. Fallback: imagen del spot
+        
         if ($contenido && !empty($contenido->banner_url)) {
             return asset('storage/' . $contenido->banner_url);
         }

@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Open Graph básicos obligatorios para Meta y WhatsApp -->
-    <meta property="og:title" content="{{ $meta['titulo'] }}" />
-    <meta property="og:description" content="{{ $meta['descripcion'] }}" />
-    <meta property="og:image" content="{{ $meta['imagen'] }}" />
-    <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
-    
+    <title>{{ $meta['titulo'] }}</title>
+    <meta name="description" content="{{ $meta['descripcion'] }}">
+
+    <!-- Metatags Open Graph (Vitales para WhatsApp, Móviles y Redes Sociales) -->
+    <meta property="og:title" content="{{ $meta['titulo'] }}">
+    <meta property="og:description" content="{{ $meta['descripcion'] }}">
+    <meta property="og:image" content="{{ $meta['imagen'] }}">
+    <meta property="og:image:secure_url" content="{{ $meta['imagen'] }}">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:type" content="product">
+
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $meta['titulo'] }}">
     <meta name="twitter:description" content="{{ $meta['descripcion'] }}">
     <meta name="twitter:image" content="{{ $meta['imagen'] }}">
 
-    <title>{{ $meta['titulo'] }}</title>
-
-    <!-- Redirección inmediata para usuarios humanos -->
+    <!-- Redirección instantánea si es un usuario real -->
     <script>
         window.location.href = "{{ $meta['url_destino'] }}";
     </script>
 </head>
 <body>
-    <p>Redirigiendo al producto... Si experimentas demoras, <a href="{{ $meta['url_destino'] }}">haz clic aquí</a>.</p>
+    <p>Redirigiéndote al producto, por favor espera...</p>
 </body>
 </html>

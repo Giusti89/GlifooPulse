@@ -1,54 +1,30 @@
-/**
- * Procesa la acción de compartir un producto de forma nativa o vía Web/App
- */
-async function compartirProducto(elemento) {
-    // 1. Capturar los datos del elemento HTML de forma segura
-    const url = elemento.getAttribute('data-url') || elemento.dataset.url;
-    const titulo = elemento.getAttribute('data-titulo') || elemento.dataset.titulo;
-    const descripcion = elemento.getAttribute('data-descripcion') || elemento.dataset.descripcion || '';
-
-    if (!url) {
-        console.error('Error: No se proporcionó una URL para compartir.');
-        return;
-    }
-
-    // 2. Dar formato estético al mensaje (Negritas para el título)
-    const textoMensaje = `*${titulo}*\n${descripcion}`;
+function compartirProducto(boton) {
+    const url = boton.getAttribute('data-url');
+    const titulo = boton.getAttribute('data-titulo');
+    const descripcion = boton.getAttribute('data-descripcion');
     
-    // 3. Unir todo dejando la URL siempre al final para activar el scraper de previsualización
-    const textoCompletoParaWhatsApp = `${textoMensaje}\n\n${url}`;
+    // Texto formateado de manera atractiva para redes sociales
+    const textoCompartir = `⭐ *${titulo}*\n${descripcion}\n\nVer más detalles aquí:`;
 
-    // 4. Detectar si el usuario está navegando desde un dispositivo móvil
-    const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    // 5. Intentar compartir usando la API nativa del celular (Hoja de compartir nativa)
-    if (esMovil && navigator.share) {
-        try {
-            await navigator.share({
-                title: titulo,
-                text: textoMensaje, 
-                url: url 
-            });
-            console.log('Compartido de forma nativa exitosamente');
-            return; 
-        } catch (error) {
-            // Si el usuario cancela la acción deliberadamente, salimos sin error
-            if (error.name === 'AbortError' || error.name === 'NotAllowedError') {
-                console.log('El usuario canceló la acción.');
-                return;
-            }
-            console.warn('Falló Web Share API, recurriendo a enlace directo:', error);
-        }
-    }
-
-    // 6. FALLBACKS: Si falla la API nativa o si están en computadora de escritorio
-    if (esMovil) {
-        // Enlace optimizado para abrir la aplicación nativa de WhatsApp en celulares
-        const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
-        window.open(whatsappUrl, '_blank');
+    // 1. Intentar compartir con la API Nativa (Móviles / Tabletas)
+    if (navigator.share) {
+        navigator.share({
+            title: titulo,
+            text: `${titulo} - ${descripcion}`,
+            url: url
+        })
+        .catch((error) => console.log('Interrupción al compartir', error));
     } else {
-        // Enlace optimizado para computadoras de escritorio (WhatsApp Web)
-        const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
-        window.open(whatsappWebUrl, '_blank');
+        // 2. Comportamiento en Escritorio: Copiar al portapapeles y avisar al usuario
+        const textoCompleto = `${textoCompartir} ${url}`;
+        
+        navigator.clipboard.writeText(textoCompleto).then(() => {
+            // Reemplaza esto con un Toast de SweetAlert o tu sistema de alertas
+            alert('¡Enlace y detalles del producto copiados al portapapeles!');
+        }).catch(err => {
+            // Alternativa extrema si falla el portapapeles (Abrir WhatsApp Web directamente)
+            const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompleto)}`;
+            window.open(whatsappUrl, '_blank');
+        });
     }
 }
