@@ -19,25 +19,34 @@ class ShareController extends Controller
         $imagenRelacion = $producto->imagenes->first();
         $imagenOg = $imagenRelacion && !empty($imagenRelacion->url)
             ? asset('storage/' . $imagenRelacion->url)
-            : asset('img/default-product.jpg');
-
+            : $this->getProductImage($producto, null);
         $meta = [
             'titulo' => $producto->nombre . " | " . $spot->titulo,
             'descripcion' => Str::limit($producto->descripcion, 150, '...'),
             'imagen' => $imagenOg,
-            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
+
+            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug,
+
+            'url_compartir' => route('producto.compartir.enlace', [
+                'spot_slug' => $spot->slug,
+                'product_slug' => $producto->slug
+            ])
         ];
-        // 5. Retornamos una vista intermedia ultra-ligera diseñada EXCLUSIVAMENTE para los bots
-        return view('share.producto', compact('meta'));
+        return view('share.producto', compact('meta', 'spot', 'producto'));
     }
 
+    /**
+     * Obtener imagen del producto (fallbacks)
+     */
     private function getProductImage($producto, $contenido)
     {
+        // 1. Intentar obtener imagen del producto
         $imagenProducto = $producto->imagenes()->first();
         if ($imagenProducto && !empty($imagenProducto->url)) {
             return asset('storage/' . $imagenProducto->url);
         }
 
+        // 2. Fallback: imagen del spot
         if ($contenido && !empty($contenido->banner_url)) {
             return asset('storage/' . $contenido->banner_url);
         }
