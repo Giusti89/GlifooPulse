@@ -147,7 +147,6 @@
                                                      data-url="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
                                                      data-titulo="{{ $producto->nombre }}"
                                                      data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
-                                                     data-imagen="{{ $src }}"
                                                      onclick="compartirProducto(this)">
                                                      Compartir
                                                  </button>
