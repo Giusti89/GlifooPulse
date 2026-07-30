@@ -10,28 +10,35 @@ use Illuminate\Support\Str;
 
 class ShareController extends Controller
 {
-    public function shareProducto($spotSlug, $productSlug)
+     public function shareProducto($spotSlug, $productSlug)
     {
+        // 1. Buscar el spot
         $spot = Spot::where('slug', $spotSlug)->firstOrFail();
-
+        
+        // 2. Buscar el producto por su slug
         $producto = Producto::where('slug', $productSlug)->firstOrFail();
 
+        // 3. Obtener la imagen del producto
         $imagenRelacion = $producto->imagenes->first();
         $imagenOg = $imagenRelacion && !empty($imagenRelacion->url)
             ? asset('storage/' . $imagenRelacion->url)
             : $this->getProductImage($producto, null);
+
+        // 4. Preparar los metadatos para compartir
         $meta = [
             'titulo' => $producto->nombre . " | " . $spot->titulo,
             'descripcion' => Str::limit($producto->descripcion, 150, '...'),
             'imagen' => $imagenOg,
-
+            // ✅ URL de destino: el producto real en tu web
             'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug,
-
+            // ✅ URL de compartir: la URL que se comparte en redes
             'url_compartir' => route('producto.compartir.enlace', [
                 'spot_slug' => $spot->slug,
                 'product_slug' => $producto->slug
             ])
         ];
+
+        // 5. Retornar vista intermedia para bots
         return view('share.producto', compact('meta', 'spot', 'producto'));
     }
 
