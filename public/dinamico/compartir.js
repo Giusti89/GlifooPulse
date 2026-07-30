@@ -3,8 +3,9 @@ async function compartirProducto(elemento) {
     const url = elemento.getAttribute('data-url') || elemento.dataset.url;
     const titulo = elemento.getAttribute('data-titulo') || elemento.dataset.titulo;
     const descripcion = elemento.getAttribute('data-descripcion') || elemento.dataset.descripcion;
+     const imagen = elemento.dataset.imagen; 
 
-    console.log('🔍 Datos capturados:', { url, titulo, descripcion });
+    console.log('🔍 Datos capturados:', { url, titulo, descripcion, imagen });
 
     if (!url) {
         console.error('❌ Error: No se proporcionó una URL para compartir.');
@@ -21,6 +22,7 @@ async function compartirProducto(elemento) {
             await navigator.share({
                 title: titulo,
                 text: textoCompartir,
+                image: imagen, 
                 url: url
             });
             console.log('✅ Compartido de forma nativa exitosamente');
