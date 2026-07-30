@@ -10,36 +10,36 @@ use Illuminate\Support\Str;
 
 class ShareController extends Controller
 {
-     public function shareProducto($spotSlug, $productSlug)
+    public function shareProducto($spotSlug, $productSlug)
     {
-        // 1. Buscar el spot
+        // 1. Validar existencia del negocio y producto de forma segura
         $spot = Spot::where('slug', $spotSlug)->firstOrFail();
-        
-        // 2. Buscar el producto por su slug
         $producto = Producto::where('slug', $productSlug)->firstOrFail();
 
-        // 3. Obtener la imagen del producto
+        // 2. Resolver la URL absoluta de la imagen del producto
         $imagenRelacion = $producto->imagenes->first();
         $imagenOg = $imagenRelacion && !empty($imagenRelacion->url)
             ? asset('storage/' . $imagenRelacion->url)
-            : $this->getProductImage($producto, null);
+            : asset('img/default-product.jpg');
 
-        // 4. Preparar los metadatos para compartir
+        // 3. Armar la URL de destino final para cuando un humano abra el enlace
+        try {
+            $urlDestino = route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug;
+        } catch (\Exception $e) {
+            // Respaldo si la ruta con nombre 'publicidad' no está registrada exactamente así
+            $urlDestino = url('/' . $spot->slug . "?prod=" . $producto->slug . "#prod-" . $producto->slug);
+        }
+
+        // 4. Preparar la data estética para los Bots de Meta/WhatsApp
         $meta = [
-            'titulo' => $producto->nombre . " | " . $spot->titulo,
-            'descripcion' => Str::limit($producto->descripcion, 150, '...'),
+            'titulo' => "⭐ " . mb_strtoupper($producto->nombre), // Inyectamos la estrella directamente al título
+            'descripcion' => Str::limit($producto->descripcion, 140, '...'),
             'imagen' => $imagenOg,
-            // ✅ URL de destino: el producto real en tu web
-            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug,
-            // ✅ URL de compartir: la URL que se comparte en redes
-            'url_compartir' => route('producto.compartir.enlace', [
-                'spot_slug' => $spot->slug,
-                'product_slug' => $producto->slug
-            ])
+            'url_destino' => $urlDestino
         ];
 
-        // 5. Retornar vista intermedia para bots
-        return view('share.producto', compact('meta', 'spot', 'producto'));
+        // 5. Retornar la vista intermedia
+        return view('share.producto', compact('meta'));
     }
 
     /**

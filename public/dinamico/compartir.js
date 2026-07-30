@@ -1,50 +1,45 @@
 async function compartirProducto(elemento) {
+    // 1. Capturar la URL generada por Laravel
     const url = elemento.getAttribute('data-url') || elemento.dataset.url;
     const titulo = elemento.getAttribute('data-titulo') || elemento.dataset.titulo;
-    const descripcion = elemento.getAttribute('data-descripcion') || elemento.dataset.descripcion;
-
-    console.log('🔍 Datos capturados para compartir:', { url, titulo, descripcion });
 
     if (!url) {
-        console.error('❌ Error: No se proporcionó una URL para compartir.');
+        console.error('❌ Error: No se proporcionó una URL válida para compartir.');
         return;
     }
 
-    // 1. Armamos el texto estético tal como lo tenías originalmente
-    const textoMensaje = `⭐ *${titulo}*\n${descripcion || ''}`;
-    
-    // 2. Unimos todo: El texto va primero y la URL limpia SIEMPRE al final para activar el scraper
-    const textoCompletoParaWhatsApp = `${textoMensaje}\n\n${url}`;
+    console.log('🚀 Procesando compartido para:', { url, titulo });
 
-    // Detectar si el usuario está en un dispositivo móvil
+    // 2. Detectar si el usuario navega desde un dispositivo móvil
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     if (esMovil) {
+        // En móviles intentamos usar primero la API nativa del sistema operativo
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: titulo,
-                    text: textoMensaje, // La API nativa separa el texto de la URL en la hoja de compartir
-                    url: url 
+                    url: url // Enviamos solo la URL para maximizar la compatibilidad de la tarjeta
                 });
-                console.log('✅ Compartido de forma nativa exitosamente');
+                console.log('✅ Compartido nativo móvil completado con éxito');
                 return;
             } catch (error) {
+                // Evitamos alertas si el usuario simplemente cerró la ventana de compartir
                 if (error.name === 'AbortError' || error.name === 'NotAllowedError') {
                     console.log('ℹ️ El usuario canceló la acción.');
                     return;
                 }
-                console.warn('⚠️ Falló Web Share API, usando enlace directo:', error);
+                console.warn('⚠️ La API Nativa falló o fue bloqueada, usando fallback directo:', error);
             }
         }
         
-        // Fallback en móvil si falla navigator.share: Envía el texto con la URL al final
-        const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
-        window.open(whatsappUrl, '_blank');
+        // Fallback en móviles si falla el Web Share nativo: Abrir la App de WhatsApp directamente
+        const whatsappAppUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
+        window.open(whatsappAppUrl, '_blank');
     } else {
-        // En Escritorio / PC: WhatsApp Web procesa perfectamente el texto combinado
-        console.log('💻 Dispositivo de escritorio detectado - Abriendo WhatsApp Web');
-        const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
+        // En Computadoras de escritorio (PC/Mac): Forzar redirección directa a WhatsApp Web
+        console.log('💻 Entorno de escritorio - Abriendo WhatsApp Web');
+        const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(url)}`;
         window.open(whatsappWebUrl, '_blank');
     }
 }
