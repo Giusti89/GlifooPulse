@@ -12,7 +12,7 @@ async function compartirProducto(elemento) {
 
     // 1. Armamos el texto estético tal como lo tenías originalmente
     const textoMensaje = `⭐ *${titulo}*\n${descripcion || ''}`;
-    
+
     // 2. Unimos todo: El texto va primero y la URL limpia SIEMPRE al final para activar el scraper
     const textoCompletoParaWhatsApp = `${textoMensaje}\n\n${url}`;
 
@@ -25,7 +25,7 @@ async function compartirProducto(elemento) {
                 await navigator.share({
                     title: titulo,
                     text: textoMensaje, // La API nativa separa el texto de la URL en la hoja de compartir
-                    url: url 
+                    url: url
                 });
                 console.log('✅ Compartido de forma nativa exitosamente');
                 return;
@@ -37,13 +37,13 @@ async function compartirProducto(elemento) {
                 console.warn('⚠️ Falló Web Share API, usando enlace directo:', error);
             }
         }
-        
+
         // Fallback en móvil si falla navigator.share: Envía el texto con la URL al final
         const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
         window.open(whatsappUrl, '_blank');
     } else {
-        // En Escritorio / PC: WhatsApp Web procesa perfectamente el texto combinado
-        console.log('💻 Dispositivo de escritorio detectado - Abriendo WhatsApp Web');
+        // En Escritorio / PC
+        console.log(' Dispositivo de escritorio detectado - Abriendo WhatsApp Web');
         const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
         window.open(whatsappWebUrl, '_blank');
     }
