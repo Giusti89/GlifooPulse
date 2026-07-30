@@ -144,12 +144,12 @@
                                                      </button>
                                                  @endif
                                                  <button type="button" class="producto-compartir"
-                                                     data-url="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
+                                                     data-url="{{ url()->current() }}#prod-{{ $producto->hashid }}"
                                                      data-titulo="{{ $producto->nombre }}"
                                                      data-descripcion="{{ Str::limit($producto->descripcion, 100) }}"
-                                                     data-imagen="{{ asset($src) }}" 
+                                                     data-imagen="{{ asset($src) }}"
                                                      onclick="compartirProducto(this)">
-                                                     Compartir
+                                                     Compartir Producto
                                                  </button>
                                                  @if ($producto->precio > 0)
                                                      <span
