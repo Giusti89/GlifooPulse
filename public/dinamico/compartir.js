@@ -42,7 +42,7 @@ async function compartirProducto(elemento) {
         const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
         window.open(whatsappUrl, '_blank');
     } else {
-        // En Escritorio / PC
+        // En Escritorio / PC: WhatsApp Web procesa perfectamente el texto combinado
         console.log(' Dispositivo de escritorio detectado - Abriendo WhatsApp Web');
         const whatsappWebUrl = `https://whatsapp.com{encodeURIComponent(textoCompletoParaWhatsApp)}`;
         window.open(whatsappWebUrl, '_blank');
