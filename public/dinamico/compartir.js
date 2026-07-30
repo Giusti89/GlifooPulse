@@ -2,6 +2,7 @@ async function compartirProducto(elemento) {
     const url = elemento.getAttribute('data-url') || elemento.dataset.url;
     const titulo = elemento.getAttribute('data-titulo') || elemento.dataset.titulo;
     const descripcion = elemento.getAttribute('data-descripcion') || elemento.dataset.descripcion;
+    const imagen = elemento.dataset.imagen;
 
     console.log('🔍 Datos capturados para compartir:', { url, titulo, descripcion });
 
