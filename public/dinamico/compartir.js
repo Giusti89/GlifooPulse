@@ -44,7 +44,7 @@ async function compartirProducto(elemento) {
  * Copia el texto formateado junto al enlace al portapapeles utilizando la API moderna
  */
 async function copiarAlPortapapeles(texto, url) {
-    const textoCompleto = `${texto}\n\n🔗 Ver más detalles aquí: ${url}`;
+    const textoCompleto = `${texto}\n\n${url}`;
     
     if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
