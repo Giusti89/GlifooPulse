@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,8 @@
     <meta property="og:image:secure_url" content="{{ $meta['imagen'] }}">
     <meta property="og:url" content="{{ $meta['url_destino'] }}">
     <meta property="og:type" content="product">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +28,9 @@
         window.location.href = "{{ $meta['url_destino'] }}";
     </script>
 </head>
+
 <body>
     <p>Redirigiéndote al producto, por favor espera...</p>
 </body>
+
 </html>
