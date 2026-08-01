@@ -87,8 +87,7 @@ class ImagenProductosResource extends Resource
                         'dimensions' => 'La imagen debe ser cuadrada y tener entre 400x400 y 2000x2000 píxeles.',
                     ])
                     ->imageEditor()
-                    ->imageResizeTargetWidth(800)
-                    ->imageResizeTargetHeight(800)
+                    
                     ->imageResizeMode('cover'),
 
                 Forms\Components\TextInput::make('orden')
