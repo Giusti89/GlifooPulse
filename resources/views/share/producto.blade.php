@@ -11,7 +11,7 @@
     <meta property="og:description" content="{{ $meta['descripcion'] }}">
     <meta property="og:image" content="{{ $meta['imagen'] }}">
     <meta property="og:image:secure_url" content="{{ $meta['imagen'] }}">
-    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:url" content="{{ $meta['url_destino'] }}">
     <meta property="og:type" content="product">
 
     <!-- Twitter Cards -->
