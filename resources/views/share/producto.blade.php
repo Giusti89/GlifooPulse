@@ -12,7 +12,7 @@
     <meta property="og:description" content="{{ $meta['descripcion'] }}">
     <meta property="og:image" content="{{ $meta['imagen'] }}">
     <meta property="og:image:secure_url" content="{{ $meta['imagen'] }}">
-    <meta property="og:url" content="{{ $meta['url_destino'] }}">
+    <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="product">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">

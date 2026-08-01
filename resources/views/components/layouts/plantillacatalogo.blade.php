@@ -38,14 +38,14 @@
     <meta property="og:url" content="{{ $ogUrl ?? request()->url() }}">
     <meta property="og:locale" content="{{ $locale }}">
     @if ($imagenOg)
-        <meta property="og:image" content="{{ $imagenOg }}">
+        <meta property="og:image" content="{{ asset($imagenOg) }}">
     @endif
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $titulo }}">
     <meta name="twitter:description" content="{{ $descripcion }}">
     @if ($imagenOg)
-        <meta name="twitter:image" content="{{ $imagenOg }}">
+        <meta name="twitter:image" content="{{ asset($imagenOg) }}">
     @endif
 
     @if ($contenido)
@@ -57,7 +57,7 @@
           "description": "{{ addslashes(preg_replace('/\s+/', ' ', !empty($descripcionSEO) ? $descripcionSEO : $descripcion)) }}",
           "url": "{{ $ogUrl ?? request()->url() }}",
           @if($imagenOg)
-          "image": "{{ $imagenOg }}",
+          "image": "{{ asset($imagenOg) }}",
           @endif
           @if($contenido->phone)
           "telephone": "{{ $contenido->phone }}",
