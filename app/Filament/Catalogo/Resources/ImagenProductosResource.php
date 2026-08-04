@@ -81,10 +81,10 @@ class ImagenProductosResource extends Resource
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 5MB. Proporción recomendada: 1:1 (cuadrada)')
                     ->rules([
-                        'dimensions:min_width=300,min_height=300,max_width=2000,max_height=2000,ratio=1/1',
+                        'dimensions:min_width=200,min_height=200,max_width=2000,max_height=2000,ratio=1/1',
                     ])
                     ->validationMessages([
-                        'dimensions' => 'La imagen debe ser cuadrada y tener entre 300x300 y 2000x2000 píxeles.',
+                        'dimensions' => 'La imagen debe ser cuadrada y tener entre 200x200 y 2000x2000 píxeles.',
                     ])
                     ->imageEditor()
                     
