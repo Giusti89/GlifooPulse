@@ -54,8 +54,8 @@
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "{{ addslashes($titulo) }}",
-          "description": "{{ addslashes(preg_replace('/\s+/', ' ', !empty($descripcionSEO) ? $descripcionSEO : $descripcion)) }}",
-          "url": "{{ $ogUrl ?? request()->url() }}",
+         "description": "{{ addslashes($descripcionSEO ?? $descripcion) }}",
+          "url": "{{ request()->url() }}",
           @if($imagenOg)
           "image": "{{ asset($imagenOg) }}",
           @endif
