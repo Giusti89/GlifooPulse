@@ -119,7 +119,7 @@
                                              @if ($producto->precio > 0)
                                                  <div class="servicio-overlay">
                                                      <button class="btn-ver-detalles"
-                                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}')">
+                                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion, 200) }}')">
                                                          Ver detalles
                                                      </button>
                                                  </div>
@@ -143,7 +143,8 @@
                                                          Contactar por WhatsApp
                                                      </button>
                                                  @endif
-                                                 <button type="button" class="producto-whatsapp" onclick="compartirProducto(this)"
+                                                 <button type="button" class="producto-whatsapp"
+                                                     onclick="compartirProducto(this)"
                                                      data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
                                                      data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
                                                      data-titulo="{{ $producto->nombre }}"
@@ -346,7 +347,8 @@
  <div id="imagenModal" class="modal-ejecutivo">
      <div class="modal-contenido">
          <span class="modal-cerrar">&times;</span>
-         <img id="modalImagen" src="" alt="Vista ampliada del producto"> <!-- REPARADO AQUÍ -->
+         <img id="modalImagen" src="" alt="Vista ampliada del producto">
          <div id="modalTitulo" class="modal-titulo"></div>
+         <p id="modalDescripcion" class="modal-descripcion"></p>
      </div>
  </div>

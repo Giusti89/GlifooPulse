@@ -32,12 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('imagenModal');
     const modalImg = document.getElementById('modalImagen');
     const modalTitle = document.getElementById('modalTitulo');
+    const modalDesc = document.getElementById('modalDescripcion');
     const closeModal = document.querySelector('.modal-cerrar');
 
-    window.abrirModal = function (src, title) {
+    window.abrirModal = function (src, title, descripcion) {
         modal.style.display = 'block';
         modalImg.src = src;
         modalTitle.textContent = title;
+        modalDesc.textContent = descripcion;
     }
 
     closeModal.addEventListener('click', () => {

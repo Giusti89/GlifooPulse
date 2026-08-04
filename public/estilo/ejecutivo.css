@@ -525,6 +525,7 @@
     width: 1.2em;
     height: 1.2em;
 }
+
 .producto-compartir {
     display: inline-flex;
     align-items: center;
@@ -601,9 +602,9 @@
 .modal-contenido {
     position: relative;
     margin: 2% auto;
-    width: 90%;
-    max-width: 800px;
-    background: white;
+    width: 70%;
+    max-width: 600px;
+    background: var(--brand-background);
     border-radius: 12px;
     overflow: hidden;
     animation: modalFadeIn 0.3s ease;
@@ -739,6 +740,14 @@
     text-align: center;
     font-size: 1.25rem;
     font-weight: 600;
+    color: var(--brand-text);
+    background: var(--brand-background);
+}
+
+.modal-descripcion {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
     color: var(--brand-text);
     background: var(--brand-background);
 }
