@@ -124,9 +124,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Obtenemos la imagen y el título directamente de los elementos de la tarjeta
                 const imgElement = elementoProducto.querySelector('.servicio-imagen');
                 const titleElement = elementoProducto.querySelector('.servicio-nombre');
+                const descElement = elementoProducto.querySelector('.servicio-descripcion');
 
                 if (imgElement && titleElement && typeof window.abrirModal === 'function') {
-                    window.abrirModal(imgElement.src, titleElement.textContent.trim());
+                    window.abrirModal(imgElement.src, titleElement.textContent.trim(), descElement.textContent.trim());
                 }
             }
         }, 250);
