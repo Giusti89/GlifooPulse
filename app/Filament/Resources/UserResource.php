@@ -60,7 +60,6 @@ class UserResource extends Resource
 
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->hiddenOn(['edit'])
                     ->required()
                     ->maxLength(255),
             ]);
