@@ -100,7 +100,7 @@
                                  @endif
                              </div>
                              <div class="servicios-grid">
-                                 @foreach ($categoria->productos as $producto)
+                                 @foreach ($categoria->productos->sortBy('orden') as $producto)
                                      @php
                                          $tieneImagenes =
                                              isset($producto->imagenes) && $producto->imagenes->isNotEmpty();

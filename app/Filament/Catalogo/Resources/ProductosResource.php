@@ -108,6 +108,14 @@ class ProductosResource extends Resource
                     ->default('Disponible')
                     ->helperText('En caso de escoger la plantilla este campo no se mostrara en su web).')
                     ->required(),
+
+                Forms\Components\TextInput::make('orden')
+                    ->label('Orden')
+                    ->numeric()
+                    ->default(0)
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->helperText('Define el orden de visualización (0 = primero)'),
             ]);
     }
 
