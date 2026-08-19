@@ -104,7 +104,7 @@
         <!-- Proyectos -->
         <section id="proyectos" class="projects-section">
             <div class="container">
-                <h2 class="text-center mb-4">Mis Proyectos</h2>
+                <h2 class="text-center mb-4">Mis Trabajos</h2>
                 @if ($portfolios->count() > 0)
                     <div class="projects-grid">
                         @foreach ($portfolios as $portfolio)
@@ -128,7 +128,7 @@
                                         $encryptedId = Crypt::encrypt($portfolio->id);
                                     @endphp
                                     <x-layouts.btnenviodat class="modificar" rutaEnvio="verportfolio"
-                                        dato="{{ $encryptedId }}" nombre="Ver Proyecto" color="{{ $bgColor }}"
+                                        dato="{{ $encryptedId }}" nombre="Ver Mas" color="{{ $bgColor }}"
                                         colort="{{ $textColor }}">
                                     </x-layouts.btnenviodat>
                                     @if ($portfolio->created_at)
