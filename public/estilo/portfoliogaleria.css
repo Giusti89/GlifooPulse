@@ -439,17 +439,16 @@
 
 .piefooter {
     background-color: var(--brand-secondary, #333333);
-    color: white;
     padding: 2rem 1rem;
     text-align: center;
 }
 
 .piefooter a {
-    color: white;
+    color: var(--brand-background, #ffffff);
 }
 
 .piefooter a:hover {
-    color: var(--brand-background, #ffffff);
+    color: var(--brand-text, #ffffff);
 }
 
 /* Responsive */
