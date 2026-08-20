@@ -28,6 +28,7 @@ use Filament\Forms\Components\ColorPicker;
 use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
+use Filament\Facades\Filament;
 
 class SpotResource extends Resource
 {
@@ -124,22 +125,112 @@ class SpotResource extends Resource
                         ->schema([
                             TextInput::make('seo_title')
                                 ->label('Título SEO')
-                                ->helperText('Este será el título que aparece en Google. Sé breve (máx. 60 caracteres) y usa palabras clave importantes.')
+                                ->helperText('Este será el título que aparece en Google. Sé breve y usa palabras clave importantes.')
                                 ->maxLength(60)
-                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico')),
+                                ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico'))
+                                ->hint(function ($state) {
+                                    $length = strlen($state ?? '');
+                                    $remaining = 60 - $length;
 
+                                    if ($remaining <= 0) {
+                                        return "⚠️ {$length}/60 - ¡Límite alcanzado!";
+                                    } elseif ($remaining <= 10) {
+                                        return "⚠️ {$length}/60 - ¡Solo {$remaining} caracteres restantes!";
+                                    } elseif ($remaining <= 20) {
+                                        return "⚡ {$length}/60 - {$remaining} caracteres disponibles";
+                                    } else {
+                                        return "✅ {$length}/60 - {$remaining} caracteres disponibles";
+                                    }
+                                })
+                                ->hintColor(fn($state) => strlen($state ?? '') > 50 ? 'danger' : (strlen($state ?? '') > 40 ? 'warning' : 'success'))
+                                ->live(debounce: 100)
+                                ->afterStateUpdated(function ($state, $set) {
+                                    if (strlen($state) > 60) {
+                                        $set('seo_title', substr($state, 0, 60));
+                                        
+                                    }
+                                })
+                                ->rules([
+                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max:60' => 'El título SEO no puede exceder 60 caracteres.'
+                                ])
+                                ->validationMessages([
+                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max' => 'El título SEO no puede exceder 60 caracteres.'
+                                ]),
                             Textarea::make('descripcion')
                                 ->label('Descripcion larga')
                                 ->helperText('Describe tu producto o servicio de forma detallada. Esta descripción se mostrará dentro de tu catálogo o página principal.')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('basico'))
-                                ->maxLength(500),
+                                ->maxLength(500)
+
+
+                                ->hint(function ($state) {
+                                    $length = strlen($state ?? '');
+                                    $remaining = 500 - $length;
+
+                                    if ($remaining <= 0) {
+                                        return "⚠️ {$length}/500 - ¡Límite alcanzado!";
+                                    } elseif ($remaining <= 50) {
+                                        return "⚠️ {$length}/500 - ¡Solo {$remaining} caracteres restantes!";
+                                    } elseif ($remaining <= 100) {
+                                        return "⚡ {$length}/500 - {$remaining} caracteres disponibles";
+                                    } else {
+                                        return "✅ {$length}/500 - {$remaining} caracteres disponibles";
+                                    }
+                                })
+                                ->hintColor(fn($state) => strlen($state ?? '') > 450 ? 'danger' : (strlen($state ?? '') > 400 ? 'warning' : 'success'))
+                                ->live(debounce: 100)
+                                ->afterStateUpdated(function ($state, $set) {
+                                    if (strlen($state) > 500) {
+                                        $set('descripcion', substr($state, 0, 500));
+                                       
+                                    }
+                                })
+                                ->rules([
+                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max:500' => 'El título SEO no puede exceder 500 caracteres.'
+                                ])
+                                ->validationMessages([
+                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max' => 'El título SEO no puede exceder 500 caracteres.'
+                                ]),
 
                             Textarea::make('seo_descripcion')
                                 ->label('Descripción SEO')
                                 ->helperText('Texto que aparece debajo del título en los resultados de búsqueda (máx. 160 caracteres). Resume claramente de qué trata la página.')
                                 ->visible(fn() => SeoVisibilityHelper::visibleForSeoLevel('medio', 'completo'))
+                                ->maxLength(160)
+                                ->hint(function ($state) {
+                                    $length = strlen($state ?? '');
+                                    $remaining = 160 - $length;
 
-                                ->maxLength(160),
+                                    if ($remaining <= 0) {
+                                        return "⚠️ {$length}/160 - ¡Límite alcanzado!";
+                                    } elseif ($remaining <= 20) {
+                                        return "⚠️ {$length}/160 - ¡Solo {$remaining} caracteres restantes!";
+                                    } elseif ($remaining <= 40) {
+                                        return "⚡ {$length}/160 - {$remaining} caracteres disponibles";
+                                    } else {
+                                        return "✅ {$length}/160 - {$remaining} caracteres disponibles";
+                                    }
+                                })
+                                ->hintColor(fn($state) => strlen($state ?? '') > 140 ? 'danger' : (strlen($state ?? '') > 120 ? 'warning' : 'success'))
+                                ->live(debounce: 100)
+                                ->afterStateUpdated(function ($state, $set) {
+                                    if (strlen($state) > 160) {
+                                        $set('seo_descripcion', substr($state, 0, 160));
+                                        
+                                    }
+                                })
+                                ->rules([
+                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max:160' => 'El título SEO no puede exceder 160 caracteres.'
+                                ])
+                                ->validationMessages([
+                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
+                                    'max' => 'El título SEO no puede exceder 160 caracteres.'
+                                ]),
 
                             TextInput::make('seo_keyword')
                                 ->label('Palabras clave')
@@ -166,20 +257,42 @@ class SpotResource extends Resource
                             ColorPicker::make('background')
                                 ->label('Color primario')
                                 ->default('#ffffff')
-                                ->helperText('Elige el color principal del catálogo (fondo o encabezados). Puedes usar el selector o escribir un valor HEX, por ejemplo: #ff6600.')
-                                ->rgb(),
+                                ->helperText('HEX (#fff, #ffffff, #ffffff80), RGB o RGBA con transparencia.')
+                                ->rgba()
+                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
+                                ->rules([
+                                    'max:30', // <- Limita la longitud máxima correctamente aquí
+                                ])
+                                ->validationMessages([
+                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
+                                    'max' => 'El código de color no puede superar los 30 caracteres.',
+                                ]),
 
                             ColorPicker::make('colsecond')
                                 ->label('Color secundario')
                                 ->default('#ffffff')
-                                ->helperText('Color complementario al principal, ideal para botones o detalles visuales, titulos subtitulos(de a cuerdo la plantilla).')
-                                ->rgb(),
+                                ->rgba()
+                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
+                                ->rules([
+                                    'max:30', // <- Limita la longitud máxima correctamente aquí
+                                ])
+                                ->validationMessages([
+                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
+                                    'max' => 'El código de color no puede superar los 30 caracteres.',
+                                ]),
 
                             ColorPicker::make('ctexto')
                                 ->label('Color del texto')
                                 ->default('#ffffff')
-
-                                ->rgb(),
+                                ->rgba()
+                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
+                                ->rules([
+                                    'max:30', // <- Limita la longitud máxima correctamente aquí
+                                ])
+                                ->validationMessages([
+                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
+                                    'max' => 'El código de color no puede superar los 30 caracteres.',
+                                ]),
 
                             Forms\Components\Textarea::make('texto')
                                 ->label('Sobre ti')

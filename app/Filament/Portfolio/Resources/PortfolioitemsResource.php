@@ -102,7 +102,8 @@ class PortfolioitemsResource extends Resource
 
                 Tables\Columns\ImageColumn::make('imagen')
                     ->label('Imagen')
-                    ->size(150),
+                    ->size(150)
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 tables\Columns\TextColumn::make('orden')
                     ->sortable()
