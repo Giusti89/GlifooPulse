@@ -74,7 +74,7 @@ class PortfolioResource extends Resource
                                     ->imageEditor()
                                     ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
                                     ->image()
-                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp','image/gif'])
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                     ->maxSize(5120),
 
                                 Forms\Components\TextInput::make('orden')
