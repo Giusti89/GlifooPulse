@@ -204,7 +204,7 @@
                                         <iframe
                                             src="https://maps.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&z=15&output=embed"
                                             width="100%" height="200" style="border:0; border-radius: 8px;"
-                                            allowfullscreen>
+                                            allowfullscreen title="Ubicación de {{ $titulo }} en Google Maps">
                                         </iframe>
                                     </div>
                                 @endif

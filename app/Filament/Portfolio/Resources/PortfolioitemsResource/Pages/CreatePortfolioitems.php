@@ -11,6 +11,11 @@ class CreatePortfolioitems extends CreateRecord
 {
     protected static string $resource = PortfolioitemsResource::class;
 
+    public function getTitle(): string 
+    {
+        return 'Crear foto'; 
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

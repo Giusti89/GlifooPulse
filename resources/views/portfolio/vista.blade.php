@@ -12,8 +12,9 @@
     $bannerUrl = $contenido->banner_url ? Storage::url($contenido->banner_url) : null;
 @endphp
 
-<x-layouts.plantillaportfolioview :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType" :portfolio="$portfolio" :datosTecnicos="$datosTecnicos">
+<x-layouts.plantillaportfolioview :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots"
+    :imagenOg="$imagenOg" :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType"
+    :portfolio="$portfolio" :datosTecnicos="$datosTecnicos">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
@@ -39,7 +40,7 @@
                 <!-- Sección izquierda: Galería de imágenes -->
                 <section class="portfolio-gallery-section">
                     <div class="gallery-header">
-                        <h3 class="section-title">Galería del Proyecto</h3>
+                        <h3 class="section-title">Galería</h3>
                     </div>
                     @if ($imagenes->isNotEmpty())
                         <div class="masonry-gallery" id="portfolioGallery">
@@ -83,10 +84,23 @@
                             @if ($datosTecnicos->cliente)
                                 <div class="detail-group">
                                     <h4 class="detail-label" style="color:{{ $colsec }}">
-                                        <i class="fas fa-user-tie"></i> Cliente
+                                        <i class="fas fa-user-tie"></i> Descripción
                                     </h4>
                                     <p class="detail-value" style="color:var(--brand-text)">
                                         {{ $datosTecnicos->cliente }}</p>
+                                </div>
+                            @endif
+                            <!-- Enlace al proyecto -->
+                            @if ($datosTecnicos->tieneEnlace())
+                                <div class="detail-group">
+                                    <h4 class="detail-label" style="color:{{ $colsec }}">
+                                        <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                                    </h4>
+                                    <a href="{{ $datosTecnicos->enlace_proyecto }}" target="_blank"
+                                        rel="noopener noreferrer" class="project-link">
+                                        {{ parse_url($datosTecnicos->enlace_proyecto, PHP_URL_HOST) }}
+                                        <i class="fas fa-external-link-alt ms-1"></i>
+                                    </a>
                                 </div>
                             @endif
                             <!-- Implicación/rol -->
@@ -102,27 +116,21 @@
                             <!-- Tecnologías -->
                             @if (!empty($datosTecnicos->tecnologias))
                                 <div class="detail-group">
-                                    <h4 class="detail-label" style="color:{{ $colsec }}">
-                                        <i class="fas fa-code"></i> Tecnologías
-                                    </h4>
-                                    <div class="tech-tags">
-                                        @foreach ($datosTecnicos->tecnologias as $tech)
-                                            <span class="tech-tag">{{ $tech }}</span>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                            <!-- Enlace al proyecto -->
-                            @if ($datosTecnicos->tieneEnlace())
-                                <div class="detail-group">
-                                    <h4 class="detail-label" style="color:{{ $colsec }}">
-                                        <i class="fas fa-external-link-alt"></i> Ver Proyecto
-                                    </h4>
-                                    <a href="{{ $datosTecnicos->enlace_proyecto }}" target="_blank"
-                                        rel="noopener noreferrer" class="project-link">
-                                        {{ parse_url($datosTecnicos->enlace_proyecto, PHP_URL_HOST) }}
-                                        <i class="fas fa-external-link-alt ms-1"></i>
-                                    </a>
+                                    <details class="tech-collapse">
+                                        <!-- El <summary> actúa como el botón/encabezado para abrir y cerrar -->
+                                        <summary class="detail-label"
+                                            style="color:{{ $colsec }}; cursor: pointer; list-style: none;">
+                                            <i class="fas fa-code"></i> Tecnologías
+                                            <i class="fas fa-chevron-down toggle-icon"
+                                                style="font-size: 0.8rem; margin-left: 5px;"></i>
+                                        </summary>
+
+                                        <div class="tech-tags" style="margin-top: 10px;">
+                                            @foreach ($datosTecnicos->tecnologias as $tech)
+                                                <span class="tech-tag">{{ $tech }}</span>
+                                            @endforeach
+                                        </div>
+                                    </details>
                                 </div>
                             @endif
                         @else

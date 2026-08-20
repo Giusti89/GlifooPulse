@@ -9,7 +9,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditPortfoliodatos extends EditRecord
 {
     protected static string $resource = PortfoliodatosResource::class;
-
+    
+    public function getTitle(): string 
+    {
+        return 'Datos técnicos'; 
+    }
+    
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

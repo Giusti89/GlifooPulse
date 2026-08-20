@@ -9,6 +9,10 @@ use Filament\Resources\Pages\EditRecord;
 class EditPortfolioitems extends EditRecord
 {
     protected static string $resource = PortfolioitemsResource::class;
+    public function getTitle(): string 
+    {
+        return 'Editar foto'; 
+    }
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

@@ -14,17 +14,13 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('spot_id')->constrained('spots')->cascadeOnDelete();
-
-            $table->string('title');
+            $table->string('imagen')->nullable();            
+            $table->string('resumen', 500);
+            $table->string('titulo', 255);
             $table->string('slug');
-            $table->longText('content');
-            $table->string('status')->default('draft'); // draft, published
-            $table->boolean('is_exclusive')->default(false);
-            $table->string('youtube_url')->nullable(); 
-
+            $table->enum('status', ['publicado', 'borrador'])->default('borrador');
+            $table->boolean('exclusivo')->default(false);
             $table->timestamps();
-
-            // Un slug único por Spot evita colisiones de URL
             $table->unique(['spot_id', 'slug']);
         });
     }
