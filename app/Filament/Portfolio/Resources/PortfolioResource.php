@@ -40,84 +40,92 @@ class PortfolioResource extends Resource
     {
         return $form
             ->schema([
-                // === CAMPOS PRINCIPALES (Estructura general de 2 columnas) ===
-                Forms\Components\Grid::make(2)
+                // === SECCIÓN: CAMPOS PRINCIPALES ===
+                Forms\Components\Section::make('Información del Portafolio')
+                    ->description('Datos generales y portada principal.')
+                    ->compact() // Opcional: hace la sección más compacta
                     ->schema([
-                        Forms\Components\TextInput::make('titulo')
-                            ->label('Nombre del proyecto')
-                            ->required()
-                            ->maxLength(255),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('titulo')
+                                    ->label('Nombre del proyecto')
+                                    ->required()
+                                    ->maxLength(255),
 
-                        Forms\Components\Toggle::make('estado')
-                            ->label('Estado Activo')
-                            ->hiddenOn(['create'])
-                            ->default(false),
+                                Forms\Components\Toggle::make('estado')
+                                    ->label('Estado Activo')
+                                    ->hiddenOn(['create'])
+                                    ->default(false),
 
-                        Forms\Components\Textarea::make('descripcion')
-                            ->label('Descripción')
-                            ->required()
-                            ->maxLength(500)
-                            ->rows(3), // Ajusta la altura para que no deforme la fila
+                                Forms\Components\Textarea::make('descripcion')
+                                    ->label('Descripción')
+                                    ->required()
+                                    ->maxLength(500)
+                                    ->rows(3),
 
-                        Forms\Components\TextInput::make('video_url')
-                            ->label('URL del video')
-                            ->helperText('YouTube, Vimeo, etc.')
-                            ->maxLength(255)
-                            ->url(),
+                                Forms\Components\TextInput::make('video_url')
+                                    ->label('URL del video')
+                                    ->helperText('YouTube, Vimeo, etc.')
+                                    ->maxLength(255)
+                                    ->url(),
 
-                        Forms\Components\FileUpload::make('portada')
-                            ->label('Carátula')
-                            ->imageEditor()
-                            ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
-                            ->image()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(5120),
+                                Forms\Components\FileUpload::make('portada')
+                                    ->label('Carátula')
+                                    ->imageEditor()
+                                    ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
+                                    ->image()
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp','image/gif'])
+                                    ->maxSize(5120),
 
-                        Forms\Components\TextInput::make('orden')
-                            ->label('Orden de visualización')
-                            ->numeric()
-                            ->default(0),
+                                Forms\Components\TextInput::make('orden')
+                                    ->label('Orden de visualización')
+                                    ->numeric()
+                                    ->default(0),
+                            ]),
                     ]),
 
-                // === GALERÍA (Efecto Grid/Cuadrícula para los elementos) ===
-                Forms\Components\Repeater::make('galeria')
-                    ->label('Galería de imágenes')
-                    ->relationship('galeria')
+                // === SECCIÓN: GALERÍA ===
+                Forms\Components\Section::make('Galería de Imágenes')
+                    ->description('Administra las imágenes secundarias del proyecto.')
                     ->schema([
-                        // Campos internos del elemento de la galería
-                        Forms\Components\TextInput::make('titulo')
-                            ->label('Título')
-                            ->required()
-                            ->maxLength(255),
+                        Forms\Components\Repeater::make('galeria')
+                            ->relationship('galeria')
+                            ->schema([
+                                Forms\Components\TextInput::make('titulo')
+                                    ->label('Título')
+                                    ->required()
+                                    ->maxLength(255),
 
-                        Forms\Components\TextInput::make('orden')
-                            ->label('Orden')
-                            ->numeric()
-                            ->default(0),
+                                Forms\Components\TextInput::make('orden')
+                                    ->label('Orden')
+                                    ->numeric()
+                                    ->default(0),
 
-                        Forms\Components\TextInput::make('descripcion')
-                            ->label('Descripción')
-                            ->maxLength(255)
+                                Forms\Components\TextInput::make('descripcion')
+                                    ->label('Descripción')
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\FileUpload::make('imagen')
+                                    ->label('Imagen')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
+                                    ->maxSize(5120)
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                    ->helperText('Formatos: JPG, PNG, WEBP (máx 5MB)')
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->grid(2)
+                            ->columns(1)
+                            ->defaultItems(1)
+                            ->collapsible()
+                            ->cloneable()
+                            ->itemLabel(fn(array $state): ?string => $state['titulo'] ?? 'Nueva imagen')
+                            ->createItemButtonLabel('Añadir imagen')
                             ->columnSpanFull(),
-
-                        Forms\Components\FileUpload::make('imagen')
-                            ->label('Imagen')
-                            ->image()
-                            ->imageEditor()
-                            ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
-                            ->maxSize(5120)
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->helperText('Formatos: JPG, PNG, WEBP (máx 5MB)')
-                            ->required()
-                            ->columnSpanFull(),
-                    ])
-                    ->grid(2) // <- ESTO hace que los bloques se pongan uno al lado del otro
-                    ->columns(1) // <- Define que los componentes INTERNOS ocupen todo el ancho de su bloque
-                    ->defaultItems(1)
-                    ->collapsible()
-                    ->itemLabel(fn(array $state): ?string => $state['titulo'] ?? 'Nueva imagen')
-                    ->createItemButtonLabel('Añadir imagen')
-                    ->columnSpanFull(), // Ocupa todo el ancho del formulario principal
+                    ]),
             ]);
     }
 
