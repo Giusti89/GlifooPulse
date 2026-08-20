@@ -48,14 +48,10 @@ class PortfolioResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\Select::make('estado')
-                            ->label('Estado')
-                            ->options([
-                                'activo' => 'Activo',
-                                'inactivo' => 'Inactivo',
-                            ])
-                            ->default('activo')
-                            ->hiddenOn(['create']),
+                        Forms\Components\Toggle::make('estado')
+                            ->label('Estado Activo')
+                            ->hiddenOn(['create'])
+                            ->default(false),
 
                         Forms\Components\Textarea::make('descripcion')
                             ->label('Descripción')
