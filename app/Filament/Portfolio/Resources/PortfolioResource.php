@@ -40,38 +40,94 @@ class PortfolioResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('titulo')
-                    ->label('Nombre del proyecto')
-                    ->required()
-                    ->helperText('Nombre de tu proyecto')
-                    ->maxLength(255),
+                // === CAMPOS PRINCIPALES (2 columnas) ===
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('titulo')
+                            ->label('Nombre del proyecto')
+                            ->required()
+                            ->maxLength(255),
 
-                Forms\Components\Textarea::make('descripcion')
-                    ->label('Descripción')
-                    ->required()
-                    ->maxLength(500),
+                        Forms\Components\Select::make('estado')
+                            ->label('Estado')
+                            ->options([
+                                'activo' => 'Activo',
+                                'inactivo' => 'Inactivo',
+                            ])
+                            ->default('activo')
+                            ->hiddenOn(['create']),
+                    ]),
 
-                Forms\Components\FileUpload::make('portada')
-                    ->label('Caratula de proyecto')
-                    ->imageEditor()
-                    ->helperText('Sube la caratula de tu proyecto.')
-                    ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name)),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\Textarea::make('descripcion')
+                            ->label('Descripción')
+                            ->required()
+                            ->maxLength(500),
 
-                Forms\Components\Toggle::make('estado')
-                    ->label('Estado Activo')
-                    ->hiddenOn(['create'])
-                    ->default(false),
+                        Forms\Components\TextInput::make('video_url')
+                            ->label('URL del video')
+                            ->helperText('YouTube, Vimeo, etc.')
+                            ->maxLength(255)
+                            ->url(),
+                    ]),
 
-                Forms\Components\TextInput::make('video_url')
-                    ->label('url del video')
-                    ->helperText('Ingrese url del video')
-                    ->maxLength(255),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\FileUpload::make('portada')
+                            ->label('Carátula')
+                            ->imageEditor()
+                            ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120),
 
-                Forms\Components\TextInput::make('orden')
-                    ->label('Orden de visualización')
-                    ->numeric()
-                    ->default(0)
-                    ->helperText('Define el orden en que aparecerá el portfolio'),
+                        Forms\Components\TextInput::make('orden')
+                            ->label('Orden de visualización')
+                            ->numeric()
+                            ->default(0),
+                    ]),
+
+                // === GALERÍA (1 columna completa) ===
+                Forms\Components\Repeater::make('galeria')
+                    ->label('Galería de imágenes')
+                    ->relationship('galeria')
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('titulo')
+                                    ->label('Título')
+                                    ->required()
+                                    ->maxLength(255),
+
+                                Forms\Components\TextInput::make('orden')
+                                    ->label('Orden')
+                                    ->numeric()
+                                    ->default(0),
+                            ]),
+
+                        Forms\Components\TextInput::make('descripcion')
+                            ->label('Descripción')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
+                        Forms\Components\FileUpload::make('imagen')
+                            ->label('Imagen')
+                            ->image()
+                            ->imageEditor()
+                            ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
+                            ->maxSize(5120)
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->helperText('Formatos: JPG, PNG, WEBP (máx 5MB)')
+                            ->required()
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2)
+                    ->defaultItems(1)
+                    ->collapsible()
+                    ->cloneable()
+                    ->itemLabel(fn(array $state): ?string => $state['titulo'] ?? 'Nueva imagen')
+                    ->createItemButtonLabel('Añadir imagen'),
             ]);
     }
 

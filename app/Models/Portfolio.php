@@ -87,7 +87,7 @@ class Portfolio extends Model
          */
         static::updating(function ($model) {
             foreach (['portada'] as $attribute) {
-                if ($model->isDirty($attribute)) {
+                if ($model->isDirty($attribute) && filled($model->{$attribute})) {
                     $original = $model->getOriginal($attribute);
                     if ($original && Storage::disk('public')->exists($original)) {
                         Storage::disk('public')->delete($original);

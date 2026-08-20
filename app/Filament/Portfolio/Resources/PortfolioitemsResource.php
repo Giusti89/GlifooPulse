@@ -81,12 +81,13 @@ class PortfolioitemsResource extends Resource
                     ->helperText('Sube una imagen del proyecto.')
                     ->directory(fn() => 'portfolio/' . Str::slug(auth()->user()->name))
                     ->image()
+                    ->maxSize(5120)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->maxSize(2048)
+                    ->helperText('Formatos permitidos: JPG, PNG, WEBP. Máximo 5MB.')
                     ->validationMessages([
                         'image' => 'El archivo debe ser una imagen válida.',
                         'mimetypes' => 'Solo se permiten formatos JPG, PNG o WEBP.',
-                        'max' => 'La imagen no debe pesar más de 2MB.',
+                        'max' => 'La imagen no debe pesar más de 5MB.',
                     ]),
             ]);
     }
