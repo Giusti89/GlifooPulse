@@ -40,7 +40,7 @@ class PortfolioResource extends Resource
     {
         return $form
             ->schema([
-                // === CAMPOS PRINCIPALES (2 columnas) ===
+                // === CAMPOS PRINCIPALES (Estructura general de 2 columnas) ===
                 Forms\Components\Grid::make(2)
                     ->schema([
                         Forms\Components\TextInput::make('titulo')
@@ -56,24 +56,19 @@ class PortfolioResource extends Resource
                             ])
                             ->default('activo')
                             ->hiddenOn(['create']),
-                    ]),
 
-                Forms\Components\Grid::make(2)
-                    ->schema([
                         Forms\Components\Textarea::make('descripcion')
                             ->label('Descripción')
                             ->required()
-                            ->maxLength(500),
+                            ->maxLength(500)
+                            ->rows(3), // Ajusta la altura para que no deforme la fila
 
                         Forms\Components\TextInput::make('video_url')
                             ->label('URL del video')
                             ->helperText('YouTube, Vimeo, etc.')
                             ->maxLength(255)
                             ->url(),
-                    ]),
 
-                Forms\Components\Grid::make(2)
-                    ->schema([
                         Forms\Components\FileUpload::make('portada')
                             ->label('Carátula')
                             ->imageEditor()
@@ -88,23 +83,21 @@ class PortfolioResource extends Resource
                             ->default(0),
                     ]),
 
-                // === GALERÍA (1 columna completa) ===
+                // === GALERÍA (Efecto Grid/Cuadrícula para los elementos) ===
                 Forms\Components\Repeater::make('galeria')
                     ->label('Galería de imágenes')
                     ->relationship('galeria')
                     ->schema([
-                        Forms\Components\Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('titulo')
-                                    ->label('Título')
-                                    ->required()
-                                    ->maxLength(255),
+                        // Campos internos del elemento de la galería
+                        Forms\Components\TextInput::make('titulo')
+                            ->label('Título')
+                            ->required()
+                            ->maxLength(255),
 
-                                Forms\Components\TextInput::make('orden')
-                                    ->label('Orden')
-                                    ->numeric()
-                                    ->default(0),
-                            ]),
+                        Forms\Components\TextInput::make('orden')
+                            ->label('Orden')
+                            ->numeric()
+                            ->default(0),
 
                         Forms\Components\TextInput::make('descripcion')
                             ->label('Descripción')
@@ -122,14 +115,16 @@ class PortfolioResource extends Resource
                             ->required()
                             ->columnSpanFull(),
                     ])
-                    ->columns(2)
+                    ->grid(2) // <- ESTO hace que los bloques se pongan uno al lado del otro
+                    ->columns(1) // <- Define que los componentes INTERNOS ocupen todo el ancho de su bloque
                     ->defaultItems(1)
                     ->collapsible()
-                    ->cloneable()
                     ->itemLabel(fn(array $state): ?string => $state['titulo'] ?? 'Nueva imagen')
-                    ->createItemButtonLabel('Añadir imagen'),
+                    ->createItemButtonLabel('Añadir imagen')
+                    ->columnSpanFull(), // Ocupa todo el ancho del formulario principal
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
