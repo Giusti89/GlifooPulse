@@ -147,17 +147,9 @@ class SpotResource extends Resource
                                 ->afterStateUpdated(function ($state, $set) {
                                     if (strlen($state) > 60) {
                                         $set('seo_title', substr($state, 0, 60));
-                                        
                                     }
-                                })
-                                ->rules([
-                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max:60' => 'El título SEO no puede exceder 60 caracteres.'
-                                ])
-                                ->validationMessages([
-                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max' => 'El título SEO no puede exceder 60 caracteres.'
-                                ]),
+                                }),
+                               
                             Textarea::make('descripcion')
                                 ->label('Descripcion larga')
                                 ->helperText('Describe tu producto o servicio de forma detallada. Esta descripción se mostrará dentro de tu catálogo o página principal.')
@@ -184,17 +176,8 @@ class SpotResource extends Resource
                                 ->afterStateUpdated(function ($state, $set) {
                                     if (strlen($state) > 500) {
                                         $set('descripcion', substr($state, 0, 500));
-                                       
                                     }
-                                })
-                                ->rules([
-                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max:500' => 'El título SEO no puede exceder 500 caracteres.'
-                                ])
-                                ->validationMessages([
-                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max' => 'El título SEO no puede exceder 500 caracteres.'
-                                ]),
+                                }),
 
                             Textarea::make('seo_descripcion')
                                 ->label('Descripción SEO')
@@ -220,17 +203,8 @@ class SpotResource extends Resource
                                 ->afterStateUpdated(function ($state, $set) {
                                     if (strlen($state) > 160) {
                                         $set('seo_descripcion', substr($state, 0, 160));
-                                        
                                     }
-                                })
-                                ->rules([
-                                    'min:10' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max:160' => 'El título SEO no puede exceder 160 caracteres.'
-                                ])
-                                ->validationMessages([
-                                    'min' => 'El título SEO debe tener al menos 10 caracteres.',
-                                    'max' => 'El título SEO no puede exceder 160 caracteres.'
-                                ]),
+                                }),
 
                             TextInput::make('seo_keyword')
                                 ->label('Palabras clave')
