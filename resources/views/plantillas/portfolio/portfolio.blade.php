@@ -236,7 +236,7 @@
                     <!-- Teléfono -->
                     @if ($contenido->phone)
                         <div class="contact-card">
-                            <div class="contact-card-icon" style="background: #25D36620; color: #25D366;">
+                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div class="contact-card-content">
@@ -256,7 +256,7 @@
                     <!-- Ubicación -->
                     @if ($contenido->pie)
                         <div class="contact-card">
-                            <div class="contact-card-icon" style="background: #4285F420; color: #4285F4;">
+                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-location-dot"></i>
                             </div>
                             <div class="contact-card-content">
@@ -276,7 +276,7 @@
                     <!-- Redes Sociales -->
                     @if (isset($redes) && $redes->count() > 0)
                         <div class="contact-card contact-social">
-                            <div class="contact-card-icon" style="background: #E1306C20; color: #E1306C;">
+                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-share-alt"></i>
                             </div>
                             <div class="contact-card-content">
