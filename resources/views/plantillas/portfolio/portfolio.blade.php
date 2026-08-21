@@ -112,7 +112,7 @@
                         @foreach ($portfolios as $portfolio)
                             @php
                                 $encryptedId = Crypt::encrypt($portfolio->id);
-                                $enlace = route('verportfolio',  $encryptedId);
+                                $enlace = route('verportfolio', $encryptedId);
                             @endphp
 
                             <a href="{{ $enlace }}" class="project-card-link">
@@ -131,7 +131,7 @@
                                         <h3 class="project-title">{{ $portfolio->titulo }}</h3>
                                         <p class="project-description">{{ $portfolio->descripcion }}</p>
 
-                                        <div class="project-footer">                                            
+                                        <div class="project-footer">
                                             @if ($portfolio->created_at)
                                                 <span class="project-date">
                                                     <i class="far fa-calendar-alt"></i>
@@ -192,98 +192,126 @@
         <!-- Contacto -->
         <section id="contacto" class="contact-section">
             <div class="container">
-                <h2 class="text-center mb-4">Contáctame</h2>
-                @if ($contenido->pie)
-                    <div class="location-card" style="max-width: 600px; margin: 0 auto 3rem;">
-                        <div
-                            style="display: flex; align-items: center; gap: 1rem; background: var(--brand-secondary); color: var(--brand-background); padding: 1.5rem; border-radius: 12px;">
+                <div class="contact-header">
+                    <h2 class="section-title">Contáctame</h2>
+                    <p class="section-subtitle">¿Tienes un proyecto en mente? ¡Hablemos!</p>
+                </div>
 
-                            <div>
-                                <div style="font-weight: 600; font-size: 1.25rem;">Ubicación</div>
-                                <div style="opacity: 0.9;">{{ $contenido->pie }}</div>
+                <!-- Tarjeta de Ubicación (si tiene datos) -->
+                @if ($contenido->pie || ($contenido->latitude && $contenido->longitude))
+                    <div class="location-card">
+                        <div class="location-content">
+                            <div class="location-icon">
+                                <i class="fas fa-map-pin"></i>
+                            </div>
+                            <div class="location-info">
+                                <h3 class="location-title">Ubicación</h3>
+                                @if ($contenido->pie)
+                                    <p class="location-address">{{ $contenido->pie }}</p>
+                                @endif
                                 @if ($contenido->latitude && $contenido->longitude)
-                                    <div style="margin-top: 1rem;">
-                                        <iframe
-                                            src="https://maps.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&z=15&output=embed"
-                                            width="100%" height="200" style="border:0; border-radius: 8px;"
-                                            allowfullscreen title="Ubicación de {{ $titulo }} en Google Maps">
-                                        </iframe>
-                                    </div>
+                                    <a href="https://maps.google.com/?q={{ $contenido->latitude }},{{ $contenido->longitude }}"
+                                        target="_blank" class="location-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Ver en Google Maps
+                                    </a>
                                 @endif
                             </div>
                         </div>
+                        @if ($contenido->latitude && $contenido->longitude)
+                            <div class="location-map">
+                                <iframe
+                                    src="https://maps.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&z=15&output=embed"
+                                    width="100%" height="250" style="border:0; border-radius: 0 0 12px 12px;"
+                                    allowfullscreen loading="lazy"
+                                    title="Ubicación de {{ $titulo }} en Google Maps">
+                                </iframe>
+                            </div>
+                        @endif
                     </div>
                 @endif
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div class="contact-info">
-                        @if ($contenido->phone)
-                            <div class="contact-item">
 
-                                <div>
-                                    <div style="font-weight: 600; color: var(--brand-secondary);">
-                                        {{ $contenido->phone }}
-                                    </div>
-                                    @if ($whatsNumber)
-                                        <a href="https://wa.me/{{ $whatsNumber }}" target="_blank"
-                                            style="color: var(--brand-secondary); font-size: 0.9rem;">
-                                            Enviar mensaje por WhatsApp
+                <!-- Contact Info Grid -->
+                <div class="contact-grid">
+                    <!-- Teléfono -->
+                    @if ($contenido->phone)
+                        <div class="contact-card">
+                            <div class="contact-card-icon" style="background: #25D36620; color: #25D366;">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-card-content">
+                                <h4 class="contact-card-title">Teléfono</h4>
+                                <p class="contact-card-value">{{ $contenido->phone }}</p>
+                                @if ($whatsNumber)
+                                    <a href="https://wa.me/{{ $whatsNumber }}" target="_blank"
+                                        class="contact-card-link">
+                                        <i class="fab fa-whatsapp"></i>
+                                        Enviar mensaje por WhatsApp
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Ubicación -->
+                    @if ($contenido->pie)
+                        <div class="contact-card">
+                            <div class="contact-card-icon" style="background: #4285F420; color: #4285F4;">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div class="contact-card-content">
+                                <h4 class="contact-card-title">Ubicación</h4>
+                                <p class="contact-card-value">{{ $contenido->pie }}</p>
+                                @if ($contenido->latitude && $contenido->longitude)
+                                    <a href="https://maps.google.com/?q={{ $contenido->latitude }},{{ $contenido->longitude }}"
+                                        target="_blank" class="contact-card-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Ver en Google Maps
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Redes Sociales -->
+                    @if (isset($redes) && $redes->count() > 0)
+                        <div class="contact-card contact-social">
+                            <div class="contact-card-icon" style="background: #E1306C20; color: #E1306C;">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div class="contact-card-content">
+                                <h4 class="contact-card-title">Redes Sociales</h4>
+                                <div class="social-icons">
+                                    @foreach ($redes as $red)
+                                        @php
+                                            $encryptedId = Crypt::encrypt($red->id);
+                                        @endphp
+                                        <a href="{{ route('redireccion', $encryptedId) }}" target="_blank"
+                                            class="social-icon-link" title="{{ $red->nombre }}">
+                                            @if ($red->image_url)
+                                                <img src="{{ asset('/storage/' . $red->image_url) }}"
+                                                    alt="{{ $red->nombre }}" class="social-icon-img">
+                                            @else
+                                                <span class="social-icon-text">{{ substr($red->nombre, 0, 2) }}</span>
+                                            @endif
                                         </a>
-                                    @endif
+                                    @endforeach
                                 </div>
                             </div>
-                        @endif
-                        @if ($contenido->pie)
-                            <div class="contact-item">
-
-                                <div>
-                                    <div style="font-weight: 600; color: var(--brand-secondary);">Ubicación</div>
-                                    <div style="color: var(--brand-secondary); opacity: 0.8;">{{ $contenido->pie }}
-                                    </div>
-                                    @if ($contenido->latitude && $contenido->longitude)
-                                        <a href="https://maps.google.com/?q={{ $contenido->latitude }},{{ $contenido->longitude }}"
-                                            target="_blank" style="color: var(--brand-secondary); font-size: 0.9rem;">
-                                            Ver en Google Maps
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-                        @if (isset($redes) && $redes->count() > 0)
-                            <div class="contact-item">
-
-                                <div>
-                                    <div style="font-weight: 600; color: var(--brand-secondary);">Redes Sociales</div>
-                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                                        @foreach ($redes as $red)
-                                            @php
-                                                $encryptedId = Crypt::encrypt($red->id);
-                                            @endphp
-
-                                            <a href="{{ route('redireccion', $encryptedId) }}"
-                                                style="color: var(--brand-secondary); text-decoration: none; padding: 0.25rem 0.75rem; border: 1px solid var(--brand-secondary); border-radius: 4px;"
-                                                class="link-redess"target="_blank">
-                                                @if ($red->image_url)
-                                                    <img src="{{ asset('/storage/' . $red->image_url) }}"
-                                                        alt="{{ $red->nombre }}" class="red-social-icon">
-                                                @else
-                                                    <span
-                                                        class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
-                                                @endif
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="text-center" style="margin-top: 3rem;">
-                        @if ($whatsNumber)
-                            <a href="https://wa.me/{{ $whatsNumber }}" target="_blank" class="whatsapp-button">
-                                <span>💬</span> Contactar por WhatsApp
-                            </a>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
+
+                <!-- Botón WhatsApp -->
+                @if ($whatsNumber)
+                    <div class="contact-cta">
+                        <a href="https://wa.me/{{ $whatsNumber }}" target="_blank" class="whatsapp-button">
+                            <i class="fab fa-whatsapp"></i>
+                            Contactar por WhatsApp
+                            <span class="whatsapp-badge">💬</span>
+                        </a>
+                    </div>
+                @endif
             </div>
         </section>
     </main>

@@ -589,40 +589,265 @@ a:hover {
 }
 
 /*------------ About Section------------ */
-.about-section {
-    max-width: 1200px;
-    margin: 4rem auto;
-    padding: 0 1rem;
-}
-
-/* Contact Section */
+/* ============================================
+   SECCIÓN DE CONTACTO
+   ============================================ */
 .contact-section {
-    max-width: 800px;
-    margin: 4rem auto;
-    padding: 0 1rem;
+    padding: 5rem 1rem;
+    background: var(--brand-background, #ffffff);
+}
+
+.contact-header {
     text-align: center;
+    margin-bottom: 3rem;
 }
 
-.btn {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    background-color: var(--brand-secondary, #333333);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+.contact-header .section-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--brand-secondary, #333333);
+    margin-bottom: 0.5rem;
+}
+
+.contact-header .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--brand-text, #666666);
+    opacity: 0.8;
+}
+
+/* ========== TARJETA DE UBICACIÓN ========== */
+.location-card {
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    background: var(--brand-secondary, #333333);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.location-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    color: var(--brand-background, #ffffff);
+}
+
+.location-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.location-info {
+    flex: 1;
+}
+
+.location-title {
+    font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: var(--brand-background, #ffffff);
+    margin-bottom: 0.25rem;
 }
 
-.btn:hover {
-    background-color: var(--brand-text, #555555);
+.location-address {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.location-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--brand-background, #ffffff);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.location-link:hover {
+    opacity: 1;
+    color: var(--brand-background, #ffffff);
+}
+
+.location-map iframe {
+    display: block;
+}
+
+/* ========== GRID DE CONTACTO ========== */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto 2.5rem;
+}
+
+/* ========== TARJETA DE CONTACTO ========== */
+.contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--brand-background, #ffffff);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    border-color: var(--brand-secondary, #333333);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
 }
 
-.btn:active {
-    transform: translateY(0);
+.contact-card-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.contact-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--brand-text, #999999);
+    margin-bottom: 0.25rem;
+}
+
+.contact-card-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--brand-secondary, #333333);
+    margin: 0 0 0.25rem 0;
+}
+
+.contact-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--brand-secondary, #333333);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.contact-card-link:hover {
+    opacity: 1;
+    color: var(--brand-secondary, #333333);
+    text-decoration: underline;
+}
+
+/* ========== REDES SOCIALES ========== */
+.contact-social .contact-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.social-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--brand-secondary, #f0f0f0);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icon-link:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: var(--brand-secondary, #333333);
+}
+
+.social-icon-link:hover .social-icon-text {
+    color: var(--brand-background, #ffffff);
+}
+
+.social-icon-img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.social-icon-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-secondary, #333333);
+    text-transform: uppercase;
+}
+
+/* ========== BOTÓN WHATSAPP ========== */
+.contact-cta {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 2.5rem;
+    background: #25D366;
+    color: #ffffff;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+    text-decoration: none;
+}
+
+.whatsapp-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
+    color: #ffffff;
+    background: #20b85a;
+}
+
+.whatsapp-button i {
+    font-size: 1.3rem;
+}
+
+.whatsapp-badge {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.1rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
 }
 
 /* Footer */
@@ -776,6 +1001,42 @@ a:hover {
     .no-videos p {
         font-size: 0.9rem;
     }
+    .contact-section {
+        padding: 3rem 0.5rem;
+    }
+    
+    .location-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .location-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+    
+    .location-map iframe {
+        height: 200px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .contact-card {
+        padding: 1.25rem;
+    }
+    
+    .whatsapp-button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -831,5 +1092,36 @@ a:hover {
 
     h2 {
         font-size: 1.75rem;
+    }
+     .contact-section {
+        padding: 2rem 0.25rem;
+    }
+    
+    .contact-header .section-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .location-card {
+        margin: 0 0.5rem 2rem;
+    }
+    
+    .location-content {
+        padding: 1rem;
+    }
+    
+    .contact-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .contact-card-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+    
+    .social-icons {
+        justify-content: center;
     }
 }
