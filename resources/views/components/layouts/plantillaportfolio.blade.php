@@ -63,7 +63,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {{-- 🟢 Quitamos Str::limit para que el controlador maneje el límite según el plan --}}
-    <title>{{ $titulo }} | Glifoo</title>
+    <title>{{ $titulo }}</title>
     <meta name="description" content="{{ $descripcion }}">
     <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="Glifoo">
