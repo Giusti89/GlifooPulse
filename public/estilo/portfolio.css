@@ -40,7 +40,7 @@ html {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--brand-secondary);
+    border: 4px solid var(--brand-text);
     margin: 0 auto 2rem;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
@@ -267,7 +267,7 @@ html {
 
 .custom-footer {
     background-color: var(--brand-secondary);
-    color: var(--brand-background);
+    color: var(--brand-text);
     padding: 1rem;
     text-align: center;
     margin-top: 4rem;
@@ -363,7 +363,7 @@ a:hover {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--brand-secondary, #333333);
+    color: var(--brand-text, #333333);
 }
 
 .nav-menu {
@@ -376,7 +376,7 @@ a:hover {
     font-weight: 500;
     position: relative;
     padding: 0.5rem 0;
-    color: var(--brand-secondary);
+    color: var(--brand-text);
 }
 
 .nav-link::after {
@@ -403,12 +403,12 @@ a:hover {
 }
 
 .hero-title {
+    color: var(--brand-text, #333333);
     margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
     font-size: clamp(1.25rem, 2vw, 1.75rem);
-    color: var(--brand-secondary, #666666);
     margin-bottom: 2rem;
 }
 
@@ -859,11 +859,11 @@ a:hover {
 }
 
 .piefooter a {
-    color: var(--brand-background, #ffffff);
+    color: var(--brand-text, #ffffff);
 }
 
 .piefooter a:hover {
-    color: var(--brand-text, #ffffff);
+    color: var(--brand-background, #ffffff);
 }
 
 /* Utilidades */

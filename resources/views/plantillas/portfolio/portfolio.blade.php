@@ -325,7 +325,7 @@
                 </div>
             @endif
             <p class="footer-brand-title"
-                style="color: var(--brand-background); font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">
+                style="color: var(--brand-text); font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">
                 {{ $titulo }}
             </p>
             @if ($contenido->pie)
