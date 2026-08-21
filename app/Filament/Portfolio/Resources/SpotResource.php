@@ -149,7 +149,7 @@ class SpotResource extends Resource
                                         $set('seo_title', substr($state, 0, 60));
                                     }
                                 }),
-                               
+
                             Textarea::make('descripcion')
                                 ->label('Descripcion larga')
                                 ->helperText('Describe tu producto o servicio de forma detallada. Esta descripción se mostrará dentro de tu catálogo o página principal.')
@@ -232,39 +232,24 @@ class SpotResource extends Resource
                                 ->label('Color primario')
                                 ->default('#ffffff')
                                 ->helperText('HEX (#fff, #ffffff, #ffffff80), RGB o RGBA con transparencia.')
-                                ->rgba()
-                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
-                                ->rules([
-                                    'max:30', // <- Limita la longitud máxima correctamente aquí
-                                ])
+                                ->rgb()                                 
                                 ->validationMessages([
-                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
                                     'max' => 'El código de color no puede superar los 30 caracteres.',
                                 ]),
 
                             ColorPicker::make('colsecond')
                                 ->label('Color secundario')
                                 ->default('#ffffff')
-                                ->rgba()
-                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
-                                ->rules([
-                                    'max:30', // <- Limita la longitud máxima correctamente aquí
-                                ])
+                                ->rgb()
                                 ->validationMessages([
-                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
                                     'max' => 'El código de color no puede superar los 30 caracteres.',
                                 ]),
 
                             ColorPicker::make('ctexto')
                                 ->label('Color del texto')
                                 ->default('#ffffff')
-                                ->rgba()
-                                ->regex('/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/')
-                                ->rules([
-                                    'max:30', // <- Limita la longitud máxima correctamente aquí
-                                ])
+                                ->rgb()
                                 ->validationMessages([
-                                    'regex' => 'Formato inválido. Use HEX (#ffffff), RGB (rgb(0,0,0)) o RGBA (rgba(0,0,0,0.5)).',
                                     'max' => 'El código de color no puede superar los 30 caracteres.',
                                 ]),
 

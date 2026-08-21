@@ -11,7 +11,8 @@
     $proyectosActivos = $portfolios->where('estado', 'activo')->count();
 @endphp
 <x-layouts.plantillaportfolio :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg ?? $logoUrl"
-    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido" :portfolios="$portfolios">
+    :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
+    :portfolios="$portfolios">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
@@ -105,41 +106,42 @@
         <section id="proyectos" class="projects-section">
             <div class="container">
                 <h2 class="text-center mb-4">Mis Trabajos</h2>
+
                 @if ($portfolios->count() > 0)
                     <div class="projects-grid">
                         @foreach ($portfolios as $portfolio)
-                            <div class="project-card fade-in">
-                                @if ($portfolio->portada)
-                                    <img src="{{ asset('storage/' . $portfolio->portada) }}"
-                                        alt="{{ $portfolio->titulo }}" class="project-image">
-                                @else
-                                    <div
-                                        style="height: 250px; background: var(--brand-secondary); display: flex; align-items: center; justify-content: center;">
-                                        <span style="color: var(--brand-background); font-weight: 600; opacity: 0.7;">
-                                            <i class="fas fa-folder-open"></i> Ver Detalles
-                                        </span>
-                                    </div>
-                                @endif
-                                <div class="project-content">
-                                    <h3 class="project-title">{{ $portfolio->titulo }}</h3>
-                                    <p class="project-description">{{ $portfolio->descripcion }}</p>
+                            @php
+                                $encryptedId = Crypt::encrypt($portfolio->id);
+                                $enlace = route('verportfolio',  $encryptedId);
+                            @endphp
 
-                                    @php
-                                        $encryptedId = Crypt::encrypt($portfolio->id);
-                                    @endphp
-                                    <x-layouts.btnenviodat class="modificar" rutaEnvio="verportfolio"
-                                        dato="{{ $encryptedId }}" nombre="Ver Mas" color="{{ $bgColor }}"
-                                        colort="{{ $textColor }}">
-                                    </x-layouts.btnenviodat>
-                                    @if ($portfolio->created_at)
-                                        <div
-                                            style="font-size: 0.85rem; color: var(--brand-text); opacity: 0.7; margin-top: 0.5rem;">
-                                            Creado: {{ $portfolio->created_at->format('d/m/Y') }}
+                            <a href="{{ $enlace }}" class="project-card-link">
+                                <div class="project-card fade-in">
+                                    @if ($portfolio->portada)
+                                        <img src="{{ asset('storage/' . $portfolio->portada) }}"
+                                            alt="{{ $portfolio->titulo }}" class="project-image" loading="lazy">
+                                    @else
+                                        <div class="project-image-placeholder">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>Ver Detalles</span>
                                         </div>
                                     @endif
 
+                                    <div class="project-content">
+                                        <h3 class="project-title">{{ $portfolio->titulo }}</h3>
+                                        <p class="project-description">{{ $portfolio->descripcion }}</p>
+
+                                        <div class="project-footer">                                            
+                                            @if ($portfolio->created_at)
+                                                <span class="project-date">
+                                                    <i class="far fa-calendar-alt"></i>
+                                                    {{ $portfolio->created_at->format('d/m/Y') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 @else
