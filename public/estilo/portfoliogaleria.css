@@ -444,11 +444,12 @@
 }
 
 .piefooter a {
-    color: var(--brand-background, #ffffff);
+    text-decoration: none;
+    color: var(--brand-text, #ffffff);
 }
 
 .piefooter a:hover {
-    color: var(--brand-text, #ffffff);
+    color: var(--brand-background, #ffffff);
 }
 
 /* Responsive */

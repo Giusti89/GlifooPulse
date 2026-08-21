@@ -145,13 +145,13 @@
                             </h4>
                             <div class="info-list">
                                 <div class="info-item">
-                                    <span class="info-label" style="color:{{ $colsec }}">Imágenes:</span>
+                                    <span class="info-label" style="color:{{ $textColor }}">Imágenes:</span>
                                     <span class="info-value"
                                         style="color:{{ $textColor }}">{{ $imagenes->count() }}</span>
                                 </div>
                                 @if ($portfolio->created_at)
                                     <div class="info-item">
-                                        <span class="info-label" style="color:{{ $colsec }}">Creado:</span>
+                                        <span class="info-label" style="color:{{ $textColor }}">Creado:</span>
                                         <span class="info-value" style="color:{{ $textColor }}">
                                             {{ $portfolio->created_at->format('d/m/Y') }}
                                         </span>
@@ -162,9 +162,9 @@
                                 <div class="info-bar-content">
                                     <div class="current-image-info">
                                         <h4 class="current-title" id="currentImageTitle"
-                                            style="color:{{ $colsec }}"></h4>
+                                            style="color:{{ $textColor }}"></h4>
                                         <p class="current-desc" id="currentImageDesc"
-                                            style="color:{{ $colsec }}"></p>
+                                            style="color:{{ $textColor }}"></p>
                                     </div>
                                     <div class="image-counter">
                                         <span id="currentImageIndex" style="color:{{ $textColor }}">1</span> /
