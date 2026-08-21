@@ -109,7 +109,7 @@
     left: 0;
     right: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-    color: white;
+    color: var(--brand-text);
     padding: 2rem 1.5rem 1.5rem;
     opacity: 0;
     transform: translateY(20px);
@@ -121,7 +121,7 @@
     transform: translateY(0);
 }
 
-.overlay-content .image-title {
+.overlay-content .image-title { 
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -299,6 +299,8 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    color: var(--brand-text);
+    
 }
 
 .image-modal.active {
@@ -373,7 +375,7 @@
 
 .modal-image-info {
     padding: 1.5rem;
-    background: white;
+    background: var(--brand-secondary);
     border-top: 1px solid #e2e8f0;
 }
 
@@ -418,7 +420,7 @@
 }
 
 .nav-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--brand-secondary);
     transform: scale(1.1);
 }
 
