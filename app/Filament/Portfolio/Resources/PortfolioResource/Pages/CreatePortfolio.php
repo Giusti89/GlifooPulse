@@ -13,12 +13,21 @@ use Filament\Notifications\Notification;
 class CreatePortfolio extends CreateRecord
 {
     protected static string $resource = PortfolioResource::class;
+    public static bool $formActionsAreSticky = true;
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
-
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('saveTop')
+                ->label('Guardar cambios')
+                ->color('success')
+                ->action(fn() => $this->save()), // Llama al método de guardado de la página
+        ];
+    }
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $user = Auth::user();

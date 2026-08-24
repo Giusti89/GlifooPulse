@@ -65,8 +65,8 @@
 }
 </script>
 
-<!-- Breadcrumb -->
-<script type="application/ld+json">
+    <!-- Breadcrumb -->
+    <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -85,7 +85,7 @@
 <body>
     <header class="main-header">
         <nav class="navbar">
-            <div class="nav-container"> 
+            <div class="nav-container">
                 <div class="navbar-brand">
                     <a href="{{ route('inicio') }}">Glifoo Pulse</a>
                 </div>

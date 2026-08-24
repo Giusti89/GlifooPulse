@@ -94,7 +94,8 @@ class PortfolioResource extends Resource
                                 Forms\Components\TextInput::make('titulo')
                                     ->label('Título')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->live(onBlur: true),
 
                                 Forms\Components\TextInput::make('orden')
                                     ->label('Orden')
@@ -115,13 +116,14 @@ class PortfolioResource extends Resource
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                     ->helperText('Formatos: JPG, PNG, WEBP (máx 5MB)')
                                     ->required()
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->live()
+                                    ->preserveFilenames(),
                             ])
                             ->grid(2)
                             ->columns(1)
                             ->defaultItems(1)
                             ->collapsible()
-                            ->cloneable()
                             ->itemLabel(fn(array $state): ?string => $state['titulo'] ?? 'Nueva imagen')
                             ->createItemButtonLabel('Añadir imagen')
                             ->columnSpanFull(),

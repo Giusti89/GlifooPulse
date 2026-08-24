@@ -9,12 +9,13 @@ use Filament\Resources\Pages\EditRecord;
 class EditPortfolio extends EditRecord
 {
     protected static string $resource = PortfolioResource::class;
+    public static bool $formActionsAreSticky = true;
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
-    
+
     protected function getHeaderActions(): array
     {
         return [
