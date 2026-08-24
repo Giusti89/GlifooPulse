@@ -13,6 +13,8 @@ use Filament\Notifications\Notification;
 class CreateCategoria extends CreateRecord
 {
     protected static string $resource = CategoriaResource::class;
+    public static bool $formActionsAreSticky = true;
+
 
 
     public static function mutateFormDataBeforeSave(array $data): array

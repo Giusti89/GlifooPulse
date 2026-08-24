@@ -66,5 +66,8 @@ class Producto extends Model
                 $producto->slug = $originalSlug . '-' . $counter++;
             }
         });
+        static::deleting(function ($producto) {
+            $producto->imagenes->each->delete();
+        });
     }
 }

@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Filament\Tables\Filters\SelectFilter;
 
 class ImagenProductosResource extends Resource
 {
@@ -87,7 +88,7 @@ class ImagenProductosResource extends Resource
                         'dimensions' => 'La imagen debe ser cuadrada y tener entre 200x200 y 2000x2000 píxeles.',
                     ])
                     ->imageEditor()
-                    
+
                     ->imageResizeMode('cover'),
 
                 Forms\Components\TextInput::make('orden')
@@ -128,17 +129,32 @@ class ImagenProductosResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('producto_id')
-                    ->label('Filtrar por Producto')
+                // ===== FILTRO POR CATEGORÍA =====
+                SelectFilter::make('categoria')
+                    ->label('Filtrar por Categoría')
                     ->options(function () {
                         $userId = auth()->id();
 
-                        return Producto::whereHas('categoria.spot.suscripcion', function ($q) use ($userId) {
-                            $q->where('user_id', $userId);
+                        // Obtener categorías SOLO del usuario autenticado
+                        return Categoria::whereHas('spot.suscripcion', function ($q) use ($userId) {
+                            $q->where('user_id', $userId)
+                                ->where('estado', 1); // Solo suscripciones activas
                         })
-                            ->pluck('nombre', 'id');
+                            ->orderBy('nombre')
+                            ->pluck('nombre', 'id')
+                            ->toArray();
                     })
-                    ->placeholder('Selecciona un producto'),
+                    ->query(function (Builder $query, array $data) {
+                        // Filtrar por categoría a través de la relación producto
+                        if (!empty($data['value'])) {
+                            $query->whereHas('producto', function ($q) use ($data) {
+                                $q->where('categoria_id', $data['value']);
+                            });
+                        }
+                    })
+                    ->placeholder('Todas las categorías')
+                    ->searchable()
+                    ->preload(),
             ])
             ->persistFiltersInSession()
 

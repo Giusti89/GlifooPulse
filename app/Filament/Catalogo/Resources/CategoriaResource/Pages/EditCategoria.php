@@ -9,6 +9,8 @@ use Filament\Resources\Pages\EditRecord;
 class EditCategoria extends EditRecord
 {
     protected static string $resource = CategoriaResource::class;
+    public static bool $formActionsAreSticky = true;
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

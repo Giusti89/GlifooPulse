@@ -7,6 +7,7 @@ use App\Filament\Catalogo\Resources\CategoriaResource\RelationManagers;
 use App\Models\Categoria;
 use App\Models\Producto;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,6 +15,16 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriaResource extends Resource
 {
@@ -52,21 +63,153 @@ class CategoriaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
-                    ->label('Nombre categoria')
-                    ->required()
-                    ->maxLength(255),
+                Section::make('Información de la Categoría')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('nombre')
+                                    ->label('Nombre de la Categoría')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    // Genera el slug automáticamente si lo necesitas
+                                    ->afterStateUpdated(
+                                        fn(string $operation, $state, Forms\Set $set) =>
+                                        $operation === 'create' ? $set('slug', Str::slug($state)) : null
+                                    ),
 
-                Forms\Components\TextInput::make('descripcion')
-                    ->label('Descripcion de la categoria')
-                    ->maxLength(255),
+                                TextInput::make('slug')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->required()
+                                    ->unique(Categoria::class, 'slug', ignoreRecord: true),
 
-                Forms\Components\TextInput::make('orden')
-                    ->label('Orden de visualización')
-                    ->numeric()
-                    ->default(0)
-                    ->helperText('Define el orden en que aparecerá la categoría en el catálogo'),
+                                Textarea::make('descripcion')
+                                    ->label('Descripción')
+                                    ->columnSpanFull()
+                                    ->rows(2),
 
+                                TextInput::make('orden')
+                                    ->label('Orden de Categoría')
+                                    ->numeric()
+                                    ->default(0),
+                            ]),
+                    ]),
+
+                // === SECCIÓN: REPEATER DE PRODUCTOS ===
+                Section::make('Productos de esta Categoría')
+                    ->description('Administra los productos asociados y sus respectivas galerías.')
+                    ->schema([
+                        Repeater::make('productos')
+                            ->relationship('productos') // Relación hasMany en Categoria
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        TextInput::make('nombre')
+                                            ->label('Nombre del Producto')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true),
+
+                                        TextInput::make('precio')
+                                            ->label('Precio')
+                                            ->numeric()
+                                            ->prefix('$') // Ajusta tu moneda
+                                            ->required(),
+
+                                        Textarea::make('descripcion')
+                                            ->label('Descripción Corta')
+                                            ->columnSpanFull()
+                                            ->maxLength(255),
+
+                                        Toggle::make('estado')
+                                            ->label('Producto Activo')
+                                            ->default(true),
+
+                                        TextInput::make('orden')
+                                            ->label('Orden')
+                                            ->numeric()
+                                            ->default(0),
+                                    ]),
+
+                                // === SUB-REPEATER: IMÁGENES DEL PRODUCTO ===
+                                Section::make('Galería del Producto')
+                                    ->compact()
+                                    ->schema([
+                                        Repeater::make('imagenes')
+                                            ->relationship('imagenes') // Relación hasMany en Producto
+                                            ->schema([
+                                                FileUpload::make('url')
+                                                    ->label('Subir Imagen')
+                                                    ->image()
+                                                    ->imageEditor()
+                                                    // Almacenamiento seguro usando el slug del producto si existe
+                                                    ->directory(fn($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
+                                                    ->maxSize(5120)
+                                                    ->required()
+                                                    ->live()
+                                                    ->preserveFilenames()
+                                                    ->rules([
+                                                        fn($get) => function (string $attribute, $value, \Closure $fail) use ($get) {
+                                                            $user = Auth::user();
+                                                            $suscripcion = $user?->getSuscripcionActiva();
+
+                                                            // 1. Validar suscripción en interfaz
+                                                            if (! $suscripcion || $suscripcion->estado != 1) {
+                                                                Notification::make()
+                                                                    ->title('Suscripción requerida')
+                                                                    ->body('Necesitas una suscripción activa para subir imágenes.')
+                                                                    ->danger()
+                                                                    ->send();
+
+                                                                return $fail('Suscripción requerida.');
+                                                            }
+
+                                                            $maxImagenes = $suscripcion->paquete?->max_imagenes_producto;
+                                                            if ($maxImagenes === null) {
+                                                                return;
+                                                            }
+
+                                                            $productoId = $get('../../id');
+                                                            $imagenesEnBaseDatos = $productoId ? \App\Models\ImagenProducto::where('producto_id', $productoId)->count() : 0;
+
+                                                            $imagenesEnFormulario = count($get('../../imagenes') ?? []);
+                                                            $conteoTotal = max($imagenesEnBaseDatos, $imagenesEnFormulario);
+
+                                                            if ($conteoTotal > $maxImagenes) {
+                                                                Notification::make()
+                                                                    ->title('Límite excedido')
+                                                                    ->body("Tu plan ({$suscripcion->paquete?->nombre}) solo permite {$maxImagenes} imágenes por producto.")
+                                                                    ->danger()
+                                                                    ->send();
+
+                                                                return $fail("Límite alcanzado ({$maxImagenes} máx).");
+                                                            }
+                                                        },
+                                                    ]),
+                                                TextInput::make('orden')
+                                                    ->label('Orden de foto')
+                                                    ->numeric()
+                                                    ->default(0),
+                                            ])
+                                            ->grid(3) // Muestra las fotos en 3 columnas para optimizar espacio
+                                            ->defaultItems(0)
+                                            ->createItemButtonLabel('Añadir Foto')
+                                            ->collapsible()
+                                            ->deleteAction(
+                                                fn(Action $action) => $action->requiresConfirmation(),
+                                            ),
+                                    ]),
+                            ])
+                            ->itemLabel(fn(array $state): ?string => $state['nombre'] ?? 'Nuevo Producto')
+                            ->createItemButtonLabel('Agregar Producto')
+                            ->collapsible()
+                            ->cloneable()
+                            ->columnSpanFull()
+                            ->deleteAction(
+                                fn(Action $action) => $action->requiresConfirmation(),
+                            ),
+                    ]),
             ]);
     }
 
