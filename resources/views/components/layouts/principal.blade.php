@@ -5,16 +5,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Glifoo - {{ $titulo }}</title>
-    <meta name="description"
-        content="Glifoo es una agencia de publicidad digital que ofrece servicios de marketing digital, diseño web, redes sociales, publicidad en Google y Facebook, entre otros.">
+
+    <meta name="description" content="@yield('description', 'Glifoo Pulse es la plataforma para crear landing pages, catálogos digitales interactivos y portafolios profesionales. Ideal para negocios y emprendedores.')">
     <meta name="keywords"
-        content="Glifoo, agencia de publicidad digital, marketing digital, diseño web, redes sociales, publicidad en Google, publicidad en Facebook">
-    <meta name="author" content="Glifoo">
+        content="Glifoo Pulse, landing pages, catálogos digitales, portafolios online, marketing digital, creación de páginas web, SaaS Bolivia, herramientas digitales">
     <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="author" content="Glifoo">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('./img/logos/Boton.ico') }}">
-    <link rel="stylesheet" href="{{ asset('estilo/base.css') }}">
+
+    <meta property="og:title" content="@yield('og_title', 'Glifoo Pulse | Plataforma de Landing Pages y Catálogos Digitales')">
+    <meta property="og:description" content="@yield('og_description', 'Crea landing pages optimizadas, catálogos interactivos y portafolios profesionales con Glifoo Pulse. Panel administrativo fácil de usar.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Glifoo Pulse">
+    <meta property="og:image" content="{{ asset('img/logos/Boton.ico') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Glifoo Pulse - Plataforma Todo-en-Uno')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Crea landing pages, catálogos digitales y portafolios profesionales con un panel administrativo integrado.')">
+    <meta name="twitter:image" content="{{ asset('img/logos/Twitter.png') }}">
+
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <link rel="icon" href="{{ asset('img/logos/Boton.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('img/logos/Boton.ico') }}">
+
+    <link rel="icon" href="{{ asset('img/logos/Boton.ico') }}">
+    <link rel="stylesheet" href="{{ asset('estilo/base.css') }}?v={{ filemtime(public_path('estilo/base.css')) }}">
     <link rel="stylesheet" href="{{ $url ?? '' }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -22,7 +42,7 @@
 <body>
     <header class="main-header">
         <nav class="navbar">
-            <div class="nav-container"> <!-- Logo -->
+            <div class="nav-container"> 
                 <div class="navbar-brand">
                     <a href="{{ route('inicio') }}">Glifoo Pulse</a>
                 </div>
@@ -105,11 +125,10 @@
 
                 <div class="footer-social">
                     <a href="https://www.facebook.com/glifoo" target="_blank" rel="noopener">
-                        <img src="{{ asset('./img/logos/faceb.png') }}" alt="facebook">
+                        <img src="{{ asset('img/logos/faceb.png') }}" alt="facebook">
                     </a>
-                    <a href="https://wa.me/+59164013372" target="_blank"
-                        rel="noopener">
-                        <img src="{{ asset('./img/logos/wpb.png') }}" alt="whatsapp">
+                    <a href="https://wa.me/+59164013372" target="_blank" rel="noopener">
+                        <img src="{{ asset('img/logos/wpb.png') }}" alt="whatsapp">
                     </a>
                 </div>
             </div>

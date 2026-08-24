@@ -1,67 +1,84 @@
 <x-layouts.principal titulo="Pulse"
     url="{{ asset('estilo/inicio.css') }}?v={{ filemtime(public_path('estilo/inicio.css')) }}">
     {{-- 1. Hero --}}
-    <section class="hero">
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" aria-labelledby="hero-title">
         <div class="hero-content glass-effect">
             <div class="contenido-inicial">
-                <h1>Impulsa tu negocio al siguiente nivel</h1>
-                <p>Crea páginas de destino optimizadas, catálogos interactivos y gestiona todo desde nuestro panel
-                    Administrativo.</p>
+                <h1 id="hero-title">Crea Catálogos Digitales y Portafolios con Glifoo Pulse</h1>
+
+                <!-- ✅ SUBTÍTULO DESCRIPTIVO -->
+                <p class="hero-subtitle">
+                    La plataforma para diseñar landing pages optimizadas,
+                    catálogos interactivos y portafolios profesionales.
+                    <strong>Sin necesidad de saber programar</strong>.
+                </p>
+
+                <!-- ✅ BOTONES CON TEXTO DESCRIPTIVO -->
                 <div class="hero-buttons">
-                    <a href="{{ route('planes') }}" class="btn btn-primary">COMENZAR</a>
+                    <a href="{{ route('planes') }}" class="btn btn-primary">
+                        Comenzar ahora
+                        <span class="btn-icon">→</span>
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        Ver características
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     {{-- 2. Características --}}
-    <section class="features" id="features">
+    <!-- ===== CARACTERÍSTICAS ===== -->
+    <section class="features" id="features" aria-labelledby="features-title">
         <div class="titulo">
-            <h1>Todo lo que necesitas para crecer</h1>
+            <h2 id="features-title">Todo lo que necesitas para crecer</h2>
             <p>Herramientas poderosas diseñadas para impulsar tu productividad</p>
         </div>
+
         <div class="cartas">
-            <div class="feature-card">
-                <div class="card-icon">🔗</div>
-                <h2 class="card-title">Glifoo Bio link</h2>
-                <p class="card-description">Diseña Landing page responsive, con métricas de seguimiento.</p>
-            </div>
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">📱</div>
+                <h3 class="card-title">Glifoo Bio link</h3>
+                <p class="card-description">Diseña landing pages responsive con métricas de seguimiento y enlaces
+                    personalizados.</p>
+            </article>
 
-            <div class="feature-card">
-                <div class="card-icon">📚</div>
-                <h2 class="card-title">Catálogos digitales</h2>
-                <p class="card-description">Publica tu catálogo de productos con galerías, filtros y contacto directo.
-                </p>
-            </div>
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">📦</div>
+                <h3 class="card-title">Catálogos digitales</h3>
+                <p class="card-description">Publica tu catálogo de productos con galerías, filtros y contacto directo
+                    con clientes.</p>
+            </article>
 
-            <div class="feature-card">
-                <div class="card-icon">🎨</div>
-                <h2 class="card-title">Portfolio</h2>
-                <p class="card-description">Muestra al mundo tu experiencia y habilidades con fotos y videos.</p>
-            </div>
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">🎨</div>
+                <h3 class="card-title">Portfolio</h3>
+                <p class="card-description">Muestra al mundo tu experiencia y habilidades con fotos y videos
+                    profesionales.</p>
+            </article>
 
-            <div class="feature-card">
-                <div class="card-icon">📊</div>
-                <h2 class="card-title">Panel administrativo</h2>
-                <p class="card-description">Controla contenidos, estadísticas y suscripciones desde un solo Dashboard.
-                </p>
-            </div>
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">⚙️</div>
+                <h3 class="card-title">Panel administrativo</h3>
+                <p class="card-description">Controla contenidos, estadísticas y suscripciones desde un solo dashboard
+                    intuitivo.</p>
+            </article>
 
-            <div class="feature-card">
-                <div class="card-icon">🔒</div>
-                <h2 class="card-title">Seguridad Total</h2>
-                <p class="card-description">Protección de datos con encriptación end to end.</p>
-            </div>
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">🔒</div>
+                <h3 class="card-title">Seguridad Total</h3>
+                <p class="card-description">Protección de datos con encriptación end-to-end y certificados SSL
+                    incluidos.</p>
+            </article>
 
-            <div class="feature-card">
-                <div class="card-icon">📈</div>
-                <h2 class="card-title">Reportes avanzados</h2>
-                <p class="card-description">Visualiza el progreso con dashboard visualizando Insights en tiempo real
-                    para tomar las mejores decisiones de negocio.</p>
-            </div>
-
+            <article class="feature-card">
+                <div class="card-icon" aria-hidden="true">📊</div>
+                <h3 class="card-title">Reportes avanzados</h3>
+                <p class="card-description">Visualiza el progreso con dashboards en tiempo real para tomar las mejores
+                    decisiones.</p>
+            </article>
         </div>
-
     </section>
 
 
@@ -69,7 +86,7 @@
     <section class="pricing">
         <div class="glass-effectb">
             <div class="titulo">
-                <h1>Precios simples y transparentes</h1>
+                <h2>Precios simples y transparentes</h2>
                 <p>Elige el plan perfecto para ti</p>
             </div>
             <div class="plans-container" id="plans-container">
@@ -85,8 +102,9 @@
                     </div>
                 @endforeach
             </div>
-            <div class="caracteristicas" >
-                <div class="cajacaracteristicas" id="caracteristicas-box" style="--color-marco: {{ $paquete->marco }};">
+            <div class="caracteristicas">
+                <div class="cajacaracteristicas" id="caracteristicas-box"
+                    style="--color-marco: {{ $paquete->marco }};">
                     <div class="caract-grid">
                         <div class="caract-descripcion">
                             <h3 id="titulo-plan"></h3>
