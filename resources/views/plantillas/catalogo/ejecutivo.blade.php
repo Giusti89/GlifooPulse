@@ -119,7 +119,7 @@
                                              @if ($producto->precio > 0)
                                                  <div class="servicio-overlay">
                                                      <button class="btn-ver-detalles"
-                                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion, 200) }}')">
+                                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion) }}')">
                                                          Ver detalles
                                                      </button>
                                                  </div>

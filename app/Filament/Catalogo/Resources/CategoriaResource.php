@@ -114,13 +114,12 @@ class CategoriaResource extends Resource
                                         TextInput::make('precio')
                                             ->label('Precio')
                                             ->numeric()
-                                            ->prefix('$') // Ajusta tu moneda
+                                            ->prefix('Bs.') // Ajusta tu moneda
                                             ->required(),
 
                                         Textarea::make('descripcion')
                                             ->label('Descripción Corta')
-                                            ->columnSpanFull()
-                                            ->maxLength(255),
+                                            ->columnSpanFull(),
 
                                         Toggle::make('estado')
                                             ->label('Producto Activo')
@@ -143,9 +142,9 @@ class CategoriaResource extends Resource
                                                     ->label('Subir Imagen')
                                                     ->image()
                                                     ->imageEditor()
-                                                    // Almacenamiento seguro usando el slug del producto si existe
                                                     ->directory(fn($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
                                                     ->maxSize(5120)
+                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp','image/jfif'])
                                                     ->required()
                                                     ->live()
                                                     ->preserveFilenames()
