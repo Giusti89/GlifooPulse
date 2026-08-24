@@ -37,6 +37,49 @@
     <link rel="stylesheet" href="{{ asset('estilo/base.css') }}?v={{ filemtime(public_path('estilo/base.css')) }}">
     <link rel="stylesheet" href="{{ $url ?? '' }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Glifoo Pulse",
+    "description": "Plataforma para crear landing pages, catálogos digitales y portafolios profesionales.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "url": "{{ url('/') }}",
+    "author": {
+        "@type": "Organization",
+        "name": "Glifoo"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BOB",
+        "description": "Plan gratuito disponible"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "120"
+    }
+}
+</script>
+
+<!-- Breadcrumb -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "{{ url('/') }}"
+        }
+    ]
+}
+</script>
 </head>
 
 <body>
