@@ -38,8 +38,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--brand-secondary);
-    color: white;
+    background: var(--brand-background-secundario);
+    color: var(--brand-text-titulo);
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
@@ -158,8 +158,8 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1.5rem;
-    background: var(--brand-secondary);
-    color: var(--brand-background);
+    background: var(--brand-primary-button);
+    color: var(--brand-button-text);
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -303,7 +303,7 @@
 }
 
 .categoria-tab:hover {
-    border-color: var(--brand-accent);
+    border-color: var(--brand-background);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
@@ -323,8 +323,8 @@
 }
 
 .scroll-indicator {
-    background: white;
-    border: 1px solid #e0e0e0;
+    background: var(--brand-background);
+    border: 2px solid var(--brand-secondary);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -340,9 +340,9 @@
 }
 
 .scroll-indicator:hover {
-    background: var(--brand-accent);
-    color: white;
-    border-color: var(--brand-accent);
+    background: var(--brand-secondary);
+    color:var(--brand-background);
+    border-color: var(--brand-background);
 }
 
 /* Contenido de categorías */
@@ -387,7 +387,7 @@
 }
 
 .servicio-card {
-    background: var(--brand-secondary);
+    background:var(--brand-background-secundario);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -462,12 +462,12 @@
 .servicio-nombre {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
     margin-bottom: 0.75rem;
 }
 
 .servicio-descripcion {
-    color: var(--brand-background);
+    color: var(--brand-text-descrip);
     line-height: 1.5;
     margin-bottom: 1rem;
     flex-grow: 1;
@@ -485,12 +485,12 @@
 
 .precio-label {
     font-weight: 500;
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
 }
 
 .precio-valor {
     font-weight: 700;
-    color: var(--brand-background);
+    color: var(--brand-text-descrip);
     font-size: 1.1rem;
 }
 
@@ -506,8 +506,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background-color: var(--brand-background);
-    color: var(--brand-text);
+    background-color: var(--brand-primary-button);
+    color: var(--brand-button-text);
     padding: 0.4rem 0.8rem;
     border-radius: 30px;
     font-weight: 600;
@@ -517,7 +517,7 @@
 }
 
 .producto-whatsapp:hover {
-    background-color: #1DA851;
+    background-color: var(--brand-accent);
 }
 
 .producto-whatsapp svg {
@@ -572,13 +572,13 @@
 }
 
 .estado-disponible {
-    background: #d4edda;
-    color: #155724;
+    background: var(--brand-primary-button);
+    color: var(--brand-button-text);
 }
 
 .estado-agotado {
-    background: #f8d7da;
-    color: #721c24;
+    background:var(--brand-background);
+    color: var(--brand-text);
 }
 
 .estado-proximamente {
@@ -625,8 +625,8 @@
 }
 
 .modal-content {
-    background: var(--brand-secondary);
-    color: var(--brand-background);
+    background: var(--brand-background-secundario);
+    color: var(--brand-text-titulo);
     padding: 25px;
     border-radius: 10px;
     width: 90%;
@@ -807,7 +807,7 @@
     display: flex;
     gap: 1rem;
     padding: 1.5rem;
-    background: var(--brand-secondary);
+    background: var(--brand-background-secundario);
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     border-left: 4px solid var(--brand-text);
@@ -818,20 +818,20 @@
     flex-shrink: 0;
 }
 
-.info-content h4 {
+.info-content h3 {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
 }
 
 .info-content p {
-    color: var(--brand-background);
+    color: var(--brand-text-descrip);
     margin-bottom: 0.5rem;
 }
 
 .contact-link {
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
@@ -843,21 +843,21 @@
 
 /*----------------- Footer Ejecutivo--------------- */
 .ejecutivo-footer {
-    background: #212121;
-    color: white;
+    background: var(--brand-footer-background);
+    color: var(--brand-text);
     padding: 3rem 0 1rem;
 }
 
 .piefooter {
     display: flex;
     flex-direction: row;
-    background: #212121;
-    color: white;
+    background: var(--brand-footer-background);
+    color: var(--brand-text);
     justify-content: center;
 }
 
 .piefooter a {
-    color: white;
+    color: var(--brand-text);
     text-decoration: none;
 }
 

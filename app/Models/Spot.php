@@ -24,6 +24,16 @@ class Spot extends Model
         'contador',
     ];
 
+    // ========== RELACIONES ==========
+    
+    /**
+     * Relación con los colores del spot
+     */
+    public function colors()
+    {
+        return $this->hasOne(SuportColor::class);
+    }
+
     public function suscripcion()
     {
         return $this->belongsTo(Suscripcion::class, 'suscripcion_id', 'id');

@@ -158,7 +158,7 @@
 }
 
 .detail-group {
-    background: var(--brand-background);
+    background: var(--brand-background-secundario);
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 1.5rem;
@@ -167,7 +167,6 @@
 .detail-label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--secondary-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 0.5rem;
@@ -190,8 +189,8 @@
 }
 
 .tech-tag {
-    background: var(--brand-secondary);
-    color: var(--brand-text);
+    background: var(--brand-text-descrip);
+    color: var(--brand-background-secundario);
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -440,7 +439,7 @@
 }
 
 .piefooter {
-    background-color: var(--brand-secondary, #333333);
+    background-color: var(--brand-footer-background, #333333);
     padding: 2rem 1rem;
     text-align: center;
 }

@@ -158,6 +158,7 @@ body {
     font-size: clamp(0.9rem, 2vw, 1rem);
     text-transform: uppercase;
     white-space: nowrap;
+    color:var(--brand-text);
 }
 
 nav {
@@ -178,6 +179,10 @@ nav.scrolled {
     box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
 }
 
+nav.scrolled a{
+    color: var(--brand-background);
+}
+
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -194,7 +199,7 @@ nav ul {
 
 nav a {
     font-family: 'Rajdhani', sans-serif;
-    color: var(--star-silver);
+    color: var(--brand-text);
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
@@ -810,11 +815,11 @@ section {
 
 /* Panel Estilizado de los Horarios */
 .panel-horarios-avanzado {
-    background: var(--brand-secondary);
+    background: var(--brand-background-secundario);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    color: white;
+    color: var(--brand-text-titulo);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1139,7 +1144,7 @@ section {
 }
 
 .mission-card.product-card {
-    background: var(--brand-secondary);
+    background: var(--brand-background-secundario);
     backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 25px;
@@ -1191,7 +1196,7 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--brand-button-text);
     font-size: 1rem;
     font-weight: 600;
     text-align: center;
@@ -1199,7 +1204,7 @@ section {
     transition: all 0.4s ease;
     z-index: 2;
     pointer-events: none;
-    background: var(--brand-background);
+    background: var(--brand-primary-button);
     padding: 12px 20px;
     border-radius: 25px;
     border: 2px solid rgba(245, 158, 11, 0.5);
@@ -1230,10 +1235,6 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg,
-            rgba(139, 92, 246, 0.1) 0%,
-            rgba(245, 158, 11, 0.05) 50%,
-            rgba(236, 72, 153, 0.05) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -1258,7 +1259,7 @@ section {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 15px;
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
     text-transform: uppercase;
     letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -1267,7 +1268,7 @@ section {
 .mission-card.product-card p {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--brand-background);
+    color: var(--brand-text-descrip);
     margin-bottom: 15px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -1275,7 +1276,7 @@ section {
 .product-price {
     font-size: 1.4rem;
     font-weight: bold;
-    color: var(--brand-background);
+    color: var(--brand-text-titulo);
     margin: 10px 0;
     font-family: 'Orbitron', sans-serif;
 }
@@ -1293,8 +1294,8 @@ section {
 }
 
 .estado-disponible {
-    background: var(--brand-background);
-    color: var(--brand-text);
+    background: var(--brand-primary-button);
+    color: var(--brand-button-text);
     border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
@@ -1318,8 +1319,8 @@ section {
 
 /* Botón de WhatsApp */
 .producto-whatsapp {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
+    background: var(--brand-primary-button);
+    color: var(--brand-button-text);
     border: none;
     padding: 12px 20px;
     border-radius: 25px;
@@ -1367,17 +1368,17 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(15, 15, 35, 0.95);
+    background:var(--brand-footer-background);
     border-top: 1px solid rgba(247, 245, 252, 0.3);
     padding: 60px 50px 40px;
     position: relative;
     z-index: 2;
-    color: white;
+    color: var(--brand-text);
 }
 
 .piefooter a {
     text-decoration: none;
-    color: white;
+    color: var(--brand-text);
     text-align: center;
 }
 

@@ -1,21 +1,40 @@
 @php
-
     $bgColor = $contenido->background ?? '#ffffff';
-    $textColor = $contenido->ctexto ?? '#333333';
     $colsec = $contenido->colsecond ?? '#333333';
+    $textColor = $contenido->ctexto ?? '#333333';
+
+    $bgsecundario = $color->fondocolor ?? $bgColor;
+    $textsubtitulo = $color->text ?? $colsec;
+    $textdescrip = $color->secondary ?? $textColor;
+
+    $botonfondo = $color->primary_button ?? $colsec;
+    $botontexto = $color->button_text ?? $textColor;
+
+    $headerfondo = $color->header ?? $bgColor;
+    $footerfondo = $color->footer ?? $bgColor;
+
     $whatsNumber = Str::of($contenido->phone ?? '')
         ->replaceMatches('/\D+/', '')
         ->__toString();
 @endphp
-
 <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
     :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
-    :categoriapro="$categoriapro">
+    :categoriapro="$categoriapro" :color="$color">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
-            --brand-text: {{ $textColor }};
             --brand-secondary: {{ $colsec }};
+            --brand-text: {{ $textColor }};
+
+            --brand-background-secundario: {{ $bgsecundario }};
+            --brand-text-titulo: {{ $textsubtitulo }};
+            --brand-text-descrip: {{ $textdescrip }};
+
+            --brand-primary-button: {{ $botonfondo }};
+            --brand-button-text: {{ $botontexto }};
+
+            --brand-header-background: {{ $headerfondo }};
+            --brand-footer-background: {{ $footerfondo }};
         }
     </style>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -269,7 +288,7 @@
                                     @endphp
                                     <li class="item-dia-avanzado {{ $esHoy ? 'dia-resaltado-avanzado' : '' }}">
                                         <span class="dia-label">{{ $horario->nombre_dia }}</span>
-                                        <span class="horas-label">
+                                        <span class="horas-label" style="color: var(--brand-text-descrip)">
                                             @if ($horario->esta_cerrado || !$horario->apertura)
                                                 <span class="cerrado-avanzado">Cerrado</span>
                                             @else

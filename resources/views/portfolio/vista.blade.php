@@ -1,8 +1,17 @@
 @php
-    // Colores y estilos del contenido
     $bgColor = $contenido->background ?? '#ffffff';
     $textColor = $contenido->ctexto ?? '#333333';
     $colsec = $contenido->colsecond ?? '#333333';
+
+    $bgsecundario = $color->fondocolor ?? $bgColor;
+    $textsubtitulo = $color->text ?? $colsec;
+    $textdescrip = $color->secondary ?? $textColor;
+
+    $botonfondo = $color->primary_button ?? $colsec;
+    $botontexto = $color->button_text ?? $textColor;
+
+    $headerfondo = $color->header ?? $colsec;
+    $footerfondo = $color->footer ?? $colsec;
 
     $whatsNumber = Str::of($contenido->phone ?? '')
         ->replaceMatches('/\D+/', '')
@@ -14,12 +23,22 @@
 
 <x-layouts.plantillaportfolioview :titulo="$titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots"
     :imagenOg="$imagenOg" :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType"
-    :portfolio="$portfolio" :datosTecnicos="$datosTecnicos">
+    :portfolio="$portfolio" :datosTecnicos="$datosTecnicos" :color="$color">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
             --brand-text: {{ $textColor }};
             --brand-secondary: {{ $colsec }};
+
+            --brand-background-secundario: {{ $bgsecundario }};
+            --brand-text-titulo: {{ $textsubtitulo }};
+            --brand-text-descrip: {{ $textdescrip }};
+
+            --brand-primary-button: {{ $botonfondo }};
+            --brand-button-text: {{ $botontexto }};
+
+            --brand-header-background: {{ $headerfondo }};
+            --brand-footer-background: {{ $footerfondo }};
         }
     </style>
     <link rel="stylesheet"
@@ -78,22 +97,22 @@
                 <!-- Sección derecha: Datos técnicos -->
                 <aside class="portfolio-details-section">
                     <div class="details-card" style="background:{{ $colsec }}">
-                        <h3 class="details-title" style="color:{{ $bgColor }}">📋 Detalles del Proyecto</h3>
+                        <h3 class="details-title" style="color:{{ $textsubtitulo }}">📋 Detalles del Proyecto</h3>
                         @if ($datosTecnicos)
                             <!-- Información del cliente -->
                             @if ($datosTecnicos->cliente)
                                 <div class="detail-group">
-                                    <h4 class="detail-label" style="color:{{ $colsec }}">
+                                    <h4 class="detail-label" style="color:var(--brand-text-titulo)">
                                         <i class="fas fa-user-tie"></i> Descripción
                                     </h4>
-                                    <p class="detail-value" style="color:var(--brand-text)">
+                                    <p class="detail-value" style="color:var(--brand-text-descrip)">
                                         {{ $datosTecnicos->cliente }}</p>
                                 </div>
                             @endif
                             <!-- Enlace al proyecto -->
                             @if ($datosTecnicos->tieneEnlace())
                                 <div class="detail-group">
-                                    <h4 class="detail-label" style="color:{{ $colsec }}">
+                                    <h4 class="detail-label" style="color:{{ $textsubtitulo }}">
                                         <i class="fas fa-external-link-alt"></i> Ver Proyecto
                                     </h4>
                                     <a href="{{ $datosTecnicos->enlace_proyecto }}" target="_blank"
@@ -106,10 +125,10 @@
                             <!-- Implicación/rol -->
                             @if ($datosTecnicos->implicacion)
                                 <div class="detail-group">
-                                    <h4 class="detail-label" style="color:{{ $colsec }}">
+                                    <h4 class="detail-label" style="color:{{ $textsubtitulo }}">
                                         <i class="fas fa-tasks"></i> Rol / Implicación
                                     </h4>
-                                    <p class="detail-value" style="color:{{ $textColor }}">
+                                    <p class="detail-value" style="color:{{ $textdescrip }}">
                                         {{ $datosTecnicos->implicacion }}</p>
                                 </div>
                             @endif
@@ -119,7 +138,7 @@
                                     <details class="tech-collapse">
                                         <!-- El <summary> actúa como el botón/encabezado para abrir y cerrar -->
                                         <summary class="detail-label"
-                                            style="color:{{ $colsec }}; cursor: pointer; list-style: none;">
+                                            style="color:{{ $textsubtitulo }}; cursor: pointer; list-style: none;">
                                             <i class="fas fa-code"></i> Tecnologías
                                             <i class="fas fa-chevron-down toggle-icon"
                                                 style="font-size: 0.8rem; margin-left: 5px;"></i>
@@ -136,23 +155,23 @@
                         @else
                             <div class="no-details">
                                 <i class="fas fa-info-circle"></i>
-                                <p style="color: {{ $textColor }}">No hay datos técnicos disponibles</p>
+                                <p style="color: {{ $textsubtitulo }}">No hay datos técnicos disponibles</p>
                             </div>
                         @endif
                         <div class="detail-group">
-                            <h4 class="detail-label" style="color:{{ $colsec }}">
+                            <h4 class="detail-label" style="color:{{ $textsubtitulo }}">
                                 <i class="fas fa-calendar"></i> Información
                             </h4>
                             <div class="info-list">
                                 <div class="info-item">
-                                    <span class="info-label" style="color:{{ $textColor }}">Imágenes:</span>
+                                    <span class="info-label" style="color:{{ $textsubtitulo }}">Imágenes:</span>
                                     <span class="info-value"
-                                        style="color:{{ $textColor }}">{{ $imagenes->count() }}</span>
+                                        style="color:{{ $textdescrip }}">{{ $imagenes->count() }}</span>
                                 </div>
                                 @if ($portfolio->created_at)
                                     <div class="info-item">
-                                        <span class="info-label" style="color:{{ $textColor }}">Creado:</span>
-                                        <span class="info-value" style="color:{{ $textColor }}">
+                                        <span class="info-label" style="color:{{ $textsubtitulo }}">Creado:</span>
+                                        <span class="info-value" style="color:{{ $textdescrip }}">
                                             {{ $portfolio->created_at->format('d/m/Y') }}
                                         </span>
                                     </div>
@@ -162,14 +181,14 @@
                                 <div class="info-bar-content">
                                     <div class="current-image-info">
                                         <h4 class="current-title" id="currentImageTitle"
-                                            style="color:{{ $textColor }}"></h4>
+                                            style="color:{{ $textsubtitulo }}"></h4>
                                         <p class="current-desc" id="currentImageDesc"
-                                            style="color:{{ $textColor }}"></p>
+                                            style="color:{{ $textsubtitulo }}"></p>
                                     </div>
                                     <div class="image-counter">
-                                        <span id="currentImageIndex" style="color:{{ $textColor }}">1</span> /
+                                        <span id="currentImageIndex" style="color:{{ $textdescrip }}">1</span> /
                                         <span id="totalImages"
-                                            style="color:{{ $textColor }}">{{ $imagenes->count() }}</span>
+                                            style="color:{{ $textdescrip }}">{{ $imagenes->count() }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +207,8 @@
                                 </div>
                                 <div class="modal-navigation">
                                     <button class="nav-btn prev-btn" id="prevImage">
-                                        <i class="fas fa-chevron-left"><</i>
+                                        <i class="fas fa-chevron-left">
+                                            << /i>
                                     </button>
                                     <button class="nav-btn next-btn" id="nextImage">
                                         <i class="fas fa-chevron-right">></i>

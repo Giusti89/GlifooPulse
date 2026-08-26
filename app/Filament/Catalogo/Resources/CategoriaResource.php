@@ -121,9 +121,17 @@ class CategoriaResource extends Resource
                                             ->label('Descripción Corta')
                                             ->columnSpanFull(),
 
-                                        Toggle::make('estado')
-                                            ->label('Producto Activo')
-                                            ->default(true),
+                                        Forms\Components\Select::make('estado')
+                                            ->label('Estado')
+                                            ->options([
+                                                'Disponible' => 'Disponible',
+                                                'Agotado' => 'Agotado',
+                                                'No disponible' => 'No disponible',
+                                                'Proximamente' => 'Proximamente',
+                                            ])
+                                            ->default('Disponible')
+                                            ->helperText('En caso de escoger la plantilla este campo no se mostrara en su web).')
+                                            ->required(),
 
                                         TextInput::make('orden')
                                             ->label('Orden')
@@ -144,7 +152,7 @@ class CategoriaResource extends Resource
                                                     ->imageEditor()
                                                     ->directory(fn($record) => 'imagenes-productos/' . Str::slug(auth()->user()->name . '-' . auth()->user()->lastname))
                                                     ->maxSize(5120)
-                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp','image/jfif'])
+                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jfif'])
                                                     ->required()
                                                     ->live()
                                                     ->preserveFilenames()

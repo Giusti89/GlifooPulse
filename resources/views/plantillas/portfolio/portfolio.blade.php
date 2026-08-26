@@ -2,6 +2,17 @@
     $bgColor = $contenido->background ?? '#ffffff';
     $textColor = $contenido->ctexto ?? '#333333';
     $colsec = $contenido->colsecond ?? '#333333';
+
+    $bgsecundario = $color->fondocolor ?? $bgColor;
+    $textsubtitulo = $color->text ?? $colsec;
+    $textdescrip = $color->secondary ?? $textColor;
+
+    $botonfondo = $color->primary_button ?? $colsec;
+    $botontexto = $color->button_text ?? $textColor;
+
+    $headerfondo = $color->header ?? $colsec;
+    $footerfondo = $color->footer ?? $colsec;
+
     $whatsNumber = Str::of($contenido->phone ?? '')
         ->replaceMatches('/\D+/', '')
         ->__toString();
@@ -12,12 +23,22 @@
 @endphp
 <x-layouts.plantillaportfolio :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg ?? $logoUrl"
     :locale="$locale" :backgroud="$bgColor" :icono="$logoUrl" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
-    :portfolios="$portfolios">
+    :portfolios="$portfolios" :color="$color">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
-            --brand-text: {{ $textColor }};
             --brand-secondary: {{ $colsec }};
+            --brand-text: {{ $textColor }};
+
+            --brand-background-secundario: {{ $bgsecundario }};
+            --brand-text-titulo: {{ $textsubtitulo }};
+            --brand-text-descrip: {{ $textdescrip }};
+
+            --brand-primary-button: {{ $botonfondo }};
+            --brand-button-text: {{ $botontexto }};
+
+            --brand-header-background: {{ $headerfondo }};
+            --brand-footer-background: {{ $footerfondo }};
         }
     </style>
 
@@ -45,7 +66,7 @@
                 <a href="#contacto" class="nav-link">Contacto</a>
                 @if ($whatsNumber)
                     <a href="https://wa.me/{{ $whatsNumber }}" target="_blank" class="nav-link"
-                        style="color: #25D366;">
+                        style="color: var(--brand-secondary); font-weight: bold;">
                         <span>💬</span> WhatsApp
                     </a>
                 @endif
@@ -67,7 +88,7 @@
 
                 <h1 class="hero-title">{{ $titulo }}</h1>
                 <h2 class="hero-subtitle"
-                    style="text-align: center; color: var(--brand-text); opacity: 0.9; font-size: 1.5rem; margin-top: 0.5rem;">
+                    style="text-align: center; color: var(--brand-secondary); opacity: 0.9; font-size: 1.5rem; margin-top: 0.5rem;">
                     {{ $contenido->subtitulo_hero ?? '' }}
                 </h2>
 
@@ -84,7 +105,7 @@
         <!-- Videos -->
         <section class="portfolio-videos py-5">
             <div class="container">
-                <h2 class="text-center mb-5 section-title" style="color:{{ $colsec }}">Videos del Portfolio</h2>
+                <h2 class="text-center mb-5 section-title" style="color:{{ $colsec }}">Videos del Portafolio</h2>
 
                 @if (isset($videoportfolio) && $videoportfolio->count() > 0)
                     <div class="hero-visual shadow-lg rounded-3">
@@ -97,7 +118,7 @@
                             <i class="fas fa-video-slash fa-4x text-muted"></i>
                         </div>
                         <h3 class="text-muted mb-3">No hay videos disponibles</h3>
-                        <p class="text-muted">Este portfolio no contiene videos por el momento.</p>
+                        <p class="text-muted">Este portafolio no contiene videos por el momento.</p>
                     </div>
                 @endif
             </div>
@@ -236,7 +257,8 @@
                     <!-- Teléfono -->
                     @if ($contenido->phone)
                         <div class="contact-card">
-                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
+                            <div class="contact-card-icon"
+                                style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div class="contact-card-content">
@@ -256,7 +278,8 @@
                     <!-- Ubicación -->
                     @if ($contenido->pie)
                         <div class="contact-card">
-                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
+                            <div class="contact-card-icon"
+                                style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-location-dot"></i>
                             </div>
                             <div class="contact-card-content">
@@ -276,7 +299,8 @@
                     <!-- Redes Sociales -->
                     @if (isset($redes) && $redes->count() > 0)
                         <div class="contact-card contact-social">
-                            <div class="contact-card-icon" style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
+                            <div class="contact-card-icon"
+                                style="background: var(--brand-secondary, #333333); color: var(--brand-text, #333333);">
                                 <i class="fas fa-share-alt"></i>
                             </div>
                             <div class="contact-card-content">

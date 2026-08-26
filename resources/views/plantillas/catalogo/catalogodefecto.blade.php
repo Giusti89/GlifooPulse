@@ -1,21 +1,40 @@
 @php
-
     $bgColor = $contenido->background ?? '#ffffff';
-    $textColor = $contenido->ctexto ?? '#333333';
     $colsec = $contenido->colsecond ?? '#333333';
+    $textColor = $contenido->ctexto ?? '#333333';
+
+    $bgsecundario = $color->fondocolor ?? $bgColor;
+    $textsubtitulo = $color->text ?? $colsec;
+    $textdescrip = $color->secondary ?? $textColor;
+
+    $botonfondo = $color->primary_button ?? $colsec;
+    $botontexto = $color->button_text ?? $textColor;
+
+    $headerfondo = $color->header ?? $bgColor;
+    $footerfondo = $color->footer ?? $bgColor;
+
     $whatsNumber = Str::of($contenido->phone ?? '')
         ->replaceMatches('/\D+/', '')
         ->__toString();
 @endphp
-
 <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
     :locale="$locale" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :ogUrl="$ogUrl" :ogType="$ogType" :contenido="$contenido"
-    :categoriapro="$categoriapro">
+    :categoriapro="$categoriapro" :color="$color">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
-            --brand-text: {{ $textColor }};
             --brand-secondary: {{ $colsec }};
+            --brand-text: {{ $textColor }};
+
+            --brand-background-secundario: {{ $bgsecundario }};
+            --brand-text-titulo: {{ $textsubtitulo }};
+            --brand-text-descrip: {{ $textdescrip }};
+
+            --brand-primary-button: {{ $botonfondo }};
+            --brand-button-text: {{ $botontexto }};
+
+            --brand-header-background: {{ $headerfondo }};
+            --brand-footer-background: {{ $footerfondo }};
         }
     </style>
     <link rel="stylesheet"
@@ -216,7 +235,7 @@
                                 title="Mapa de ubicación">
                             </iframe>
                         </div>
-                        <div class="direccion-info" style="color: {{ $contenido->background }}">
+                        <div class="direccion-info" style="color: {{$textsubtitulo}}">
                             <i class="icono-ubicacion"></i>
                             <p>{{ $contenido->pie }}</p>
                         </div>
@@ -242,8 +261,8 @@
                                         $esHoy = \Carbon\Carbon::now('America/La_Paz')->isoweekday() == $horario->dia;
                                     @endphp
                                     <li class="fila-dia-clean {{ $esHoy ? 'hoy-resaltado-clean' : '' }}">
-                                        <span class="dia-nombre-clean">{{ $horario->nombre_dia }}</span>
-                                        <span class="dia-horas-clean">
+                                        <span class="dia-nombre-clean" style="color: var(--brand-text-titulo)">{{ $horario->nombre_dia }}</span>
+                                        <span class="dia-horas-clean" style="color: var(--brand-text-descrip)">
                                             @if ($horario->esta_cerrado || !$horario->apertura)
                                                 <span class="cerrado-clean">Cerrado</span>
                                             @else
@@ -268,5 +287,5 @@
             </div>
     </div>
     <script src="{{ asset('dinamico/catalogo.js') }}?v={{ filemtime(public_path('dinamico/catalogo.js')) }}"></script>
-     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
+    <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
 </x-layouts.plantillacatalogo>

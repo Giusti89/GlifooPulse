@@ -9,6 +9,7 @@ use App\Models\Portfolio;
 use App\Models\Seo;
 use App\Models\Social;
 use App\Models\Spot;
+use App\Models\SuportColor;
 use App\Models\Video;
 use App\Models\Visit;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class PublicidadController extends Controller
         try {
             // 🔹 Obtenemos la publicidad principal
             $publicidad = Spot::where('slug', $slug)->firstOrFail();
+            $color=SuportColor::where('spot_id',$publicidad->id)->first();
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
@@ -158,7 +160,8 @@ class PublicidadController extends Controller
                         'videos',
                         'ogUrl',
                         'ogType',
-                        'spot'
+                        'spot',
+                        'color',
                     ));
                 } elseif ($grupo === "portfolio") { // Agregado caso portfolio
                     if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
@@ -178,7 +181,8 @@ class PublicidadController extends Controller
                         'portfolios',
                         'videoportfolio',
                         'ogUrl',
-                        'ogType'
+                        'ogType',
+                        'color',
 
                     ));
                 } else {
@@ -197,7 +201,8 @@ class PublicidadController extends Controller
                         'imagenOg',
                         'locale',
                         'ogUrl',
-                        'ogType'
+                        'ogType',
+                        'color',
                     ));
                 }
             } else {

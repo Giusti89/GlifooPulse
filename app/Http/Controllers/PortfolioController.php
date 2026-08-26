@@ -9,6 +9,7 @@ use App\Models\Portfoliodatos;
 use App\Models\Portfolioitem;
 use App\Models\Seo;
 use App\Models\Spot;
+use App\Models\SuportColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +24,7 @@ class PortfolioController extends Controller
             $decryptedId = Crypt::decrypt($id);
             $portfolio = Portfolio::where('id', $decryptedId)->firstOrFail();
             $publicidad = Spot::find($portfolio->spot_id);
+            $color = SuportColor::where('spot_id', $publicidad->id)->first();
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $portfolio->spot_id)->first();
             $seo = Seo::where('spot_id', $contenido->spot_id)->first();
@@ -53,7 +55,8 @@ class PortfolioController extends Controller
                 'imagenOg',
                 'locale',
                 'ogUrl',
-                'ogType'
+                'ogType',
+                'color'
             ));
         } catch (\Throwable $th) {
             abort(404);

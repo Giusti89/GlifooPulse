@@ -37,7 +37,7 @@ class SpotResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-wrench';
     protected static ?string $navigationLabel = 'Datos iniciales';
     protected static ?string $pluralModelLabel = 'Configuracion Inicial';
-    protected static ?string $navigationGroup = 'Configuracion Inicial';
+    protected static ?string $navigationGroup = 'Configuracion principal';
 
     protected static ?int $navigationSort = 1;
 
@@ -231,7 +231,7 @@ class SpotResource extends Resource
                             ColorPicker::make('background')
                                 ->label('Color primario')
                                 ->default('#ffffff')
-                                ->helperText('HEX (#fff, #ffffff, #ffffff80), RGB o RGBA con transparencia.')
+                                ->helperText('HEX (#fff, #ffffff, #ffffff80), RGB).')
                                 ->rgb()                                 
                                 ->validationMessages([
                                     'max' => 'El código de color no puede superar los 30 caracteres.',

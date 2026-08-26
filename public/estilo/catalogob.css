@@ -65,17 +65,19 @@
  }
 
  .catalogo-titulo {
-     color: var(--brand-text);
+     color: var(--brand-secondary);
      text-align: center;
      margin-bottom: 30px;
      font-size: 2.5rem;
  }
-.catalogo-subtitulo {
+
+ .catalogo-subtitulo {
      color: var(--brand-text);
      text-align: center;
      margin-bottom: 30px;
      font-size: 1.5rem;
  }
+
  /*--------------- Navegación de categorías--------------------- */
  .categorias-navegacion {
      position: sticky;
@@ -142,7 +144,7 @@
  }
 
  .categoria-titulo {
-     color: var(--brand-text);
+     color: var(--brand-secondary);
      border-bottom: 2px solid var(--brand-secondary);
      padding-bottom: 10px;
      margin-bottom: 30px;
@@ -271,7 +273,7 @@
  }
 
  .producto-card {
-     background: var(--brand-secondary);
+     background: var(--brand-background-secundario);
      border-radius: 12px;
      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
      overflow: hidden;
@@ -411,7 +413,7 @@
  }
 
  .producto-nombre {
-     color: var(--brand-background);
+     color: var(--brand-text-titulo);
      font-size: 1.1rem;
      margin-bottom: 8px;
      font-weight: 600;
@@ -419,7 +421,7 @@
  }
 
  .producto-descripcion {
-     color: var(--brand-background);
+     color: var(--brand-text-descrip);
      font-size: 0.8rem;
      line-height: 1.4;
      margin-bottom: 10px;
@@ -431,7 +433,7 @@
  }
 
  .producto-precio {
-     color: var(--brand-background);
+     color: var(--brand-text-titulo);
      font-size: 1.2rem;
      font-weight: bold;
      margin: 8px 0;
@@ -446,48 +448,50 @@
  /* -----------------boton contacto---------------- */
 
  .producto-compartir {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background-color: transparent;
-    color: var(--brand-background);
-    border: 2px solid var(--brand-background);
-    padding: 0.4rem 0.8rem;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin-top: 0.75rem;
-    transition: all 0.2s ease;
-}
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     gap: 0.5rem;
+     background-color: var(--brand-primary-button);
+     color: var(--brand-button-text);
+     border: 2px solid var(--brand-button-text);
+     padding: 0.4rem 0.8rem;
+     border-radius: 30px;
+     font-weight: 600;
+     font-size: 0.9rem;
+     cursor: pointer;
+     margin-top: 0.75rem;
+     transition: all 0.2s ease;
+ }
 
-.producto-compartir:hover {
-    background-color: var(--brand-background);
-    color: var(--brand-text);
-}
+ .producto-compartir:hover {
+     
+     color: var(--brand-button-text);
+     background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15));
+ }
 
-.producto-compartir svg {
-    flex-shrink: 0;
-    width: 1.1em;
-    height: 1.1em;
-    fill: currentColor;
-}
+ .producto-compartir svg {
+     flex-shrink: 0;
+     width: 1.1em;
+     height: 1.1em;
+     fill: currentColor;
+ }
 
-/* Ajuste de estructura para agrupar los botones de acción */
-.servicio-action-buttons {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-}
+ /* Ajuste de estructura para agrupar los botones de acción */
+ .servicio-action-buttons {
+     display: flex;
+     gap: 0.5rem;
+     flex-wrap: wrap;
+     align-items: center;
+ }
+
  .producto-whatsapp {
      display: inline-flex;
      align-items: center;
      justify-content: center;
      gap: 0.5rem;
-     background-color: var(--brand-background);
-     color: var(--brand-text);
+     background-color: var(--brand-primary-button);
+     color: var(--brand-button-text);
      padding: 0.4rem 0.8rem;
      border-radius: 30px;
      font-weight: 600;
@@ -497,7 +501,7 @@
  }
 
  .producto-whatsapp:hover {
-     background-color: #1DA851;
+     background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15));
  }
 
  .producto-whatsapp svg {
@@ -528,7 +532,7 @@
  }
 
  footer {
-     background: var(--primary-color);
+     background: var(--brand-secondary);
      color: white;
      text-align: center;
      padding: 30px 0;
@@ -537,7 +541,7 @@
  }
 
  footer a {
-     color: white;
+     color: var(--brand-text);
      cursor: pointer;
      text-decoration: none;
  }
@@ -685,7 +689,7 @@
  /* ---------MAPA---------- */
  .mapa {
      padding: 80px 0;
-     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+     background: var(--brand-secondary);
  }
 
  .mapa-layout-grid {
@@ -699,7 +703,7 @@
 
  /* Contenedor derecho de horarios */
  .horarios-contenedor-clean {
-     background: #ffffff;
+     background: var(--brand-background-secundario);
      border-radius: 12px;
      padding: 2rem;
      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
@@ -721,7 +725,7 @@
  .horarios-clean-header h3 {
      font-size: 1.3rem;
      font-weight: 700;
-     color: #2c3e50;
+     color: var(--brand-text-titulo);
      margin: 0;
  }
 
@@ -759,7 +763,7 @@
      justify-content: space-between;
      padding: 11px 0;
      border-bottom: 1px dashed #e2e8f0;
-     color: #4a5568;
+     color:var(--brand-text-descrip);
      font-size: 0.95rem;
  }
 
@@ -778,8 +782,10 @@
  }
 
  .cerrado-clean {
+    background-color: #fef2f2;
      color: #e53e3e;
      font-weight: 500;
+     border: 1px solid #fecaca;
  }
 
  .separador-clean {
@@ -798,7 +804,7 @@
      font-size: 2.5rem;
      font-weight: 700;
      margin-bottom: 3rem;
-     color: #2c3e50;
+     color: var(--brand-background);
      position: relative;
  }
 
@@ -810,7 +816,7 @@
      transform: translateX(-50%);
      width: 80px;
      height: 4px;
-     background: linear-gradient(90deg, #3498db, #2ecc71);
+     background:var(--brand-background);
      border-radius: 2px;
  }
 
@@ -843,7 +849,7 @@
      display: flex;
      align-items: center;
      gap: 10px;
-     background-color: var(--brand-secondary);
+     background-color: var(--brand-background-secundario);
  }
 
  .direccion-info::before {

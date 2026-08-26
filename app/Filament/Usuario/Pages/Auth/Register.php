@@ -12,6 +12,7 @@ use App\Models\Spot;
 use App\Models\Suscripcion;
 use App\Models\User;
 use App\Models\Sell;
+use App\Models\SuportColor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
@@ -238,6 +239,15 @@ class Register extends BaseRegister
 
             ]);
         }
+
+        $color=SuportColor::create([
+            'spot_id' => $spot->id,
+            'background' => "#b4b6b9",
+            'text' => "#000000",
+            'secondary' => "#333333",
+            'primary_button' => "#007bff",
+            'button_text' => "#ffffff",
+        ]);
 
         // 6. Envio email
         $adminEmails = User::where('id', 1)->pluck('email')->toArray();

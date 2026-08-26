@@ -1,354 +1,376 @@
- @php
-     $bgColor = $contenido->background ?? '#ffffff';
-     $textColor = $contenido->ctexto ?? '#333333';
-     $colsec = $contenido->colsecond ?? '#333333';
-     $whatsNumber = Str::of($contenido->phone ?? '')
-         ->replaceMatches('/\D+/', '')
-         ->__toString();
- @endphp
- <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
-     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :contenido="$contenido"
-     :categoriapro="$categoriapro">
-     <style>
-         :root {
-             --brand-background: {{ $bgColor }};
-             --brand-text: {{ $textColor }};
-             --brand-secondary: {{ $colsec }};
-         }
-     </style>
-     <link rel="stylesheet"
-         href="{{ asset('estilo/ejecutivo.css') }}?v={{ filemtime(public_path('estilo/ejecutivo.css')) }}">
-     <div class="catalogo-ejecutivo">
-         <!-- Header Ejecutivo -->
-         <header class="ejecutivo-header">
-             <div class="container">
-                 <div class="header-content">
-                     <div class="brand-section">
-                         <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="{{ $titulo }}"
-                             class="brand-logo">
-                         <div class="brand-info">
-                             <h1 class="company-name">{{ $titulo }}</h1>
-                         </div>
-                     </div>
-                     @if ($whatsNumber)
-                         <div class="contact-section">
-                             <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
+@php
+    $bgColor = $contenido->background ?? '#ffffff';
+    $colsec = $contenido->colsecond ?? '#333333';
+    $textColor = $contenido->ctexto ?? '#333333';
 
-                                 <span class="contact-text">
-                                     <strong>Número de contacto</strong>
+    $bgsecundario = $color->fondocolor ?? $bgColor;
+    $textsubtitulo = $color->text ?? $colsec;
+    $textdescrip = $color->secondary ?? $textColor;
 
-                                 </span>
-                             </a>
-                         </div>
-                     @endif
-                 </div>
-             </div>
-         </header>
-         <!-- Sección Hero -->
-         <section class="hero-section">
-             <div class="container">
-                 <div class="hero-content">
-                     <div class="hero-text">
-                         <h2 class="hero-title">{{ $contenido->subtitulo_hero ?? 'Bienvenidos a nuestro espacio' }}</h2>
-                         <p class="hero-description">
-                             {{ $contenido->texto ?? '' }}
-                         </p>
-                     </div>
-                     @if (isset($videos) && $videos->count() > 0)
-                         <div class="hero-visual">
-                             @include('partials.reproductor-videos', ['videos' => $videos])
-                         </div>
-                     @elseif ($contenido->banner_url ?? false)
-                         <div class="hero-visual">
-                             <img src="/storage/{{ $contenido->banner_url }}" alt="Banner" class="hero-image">
-                         </div>
-                     @endif
-                 </div>
-             </div>
-         </section>
-         <!-- Sección Catálogo/Servicios Ejecutivos -->
-         <section id="catalogo" class="servicios-ejecutivos">
-             <div class="container">
-                 <div class="section-header">
-                     <h2 class="section-title">SERVICIOS</h2>
-                     {{-- <p class="section-subtitle">Soluciones especializadas para necesidades empresariales</p> --}}
-                 </div>
-                 <!-- Navegación por categorías - Versión Ejecutiva -->
-                 <div class="categorias-navegacion">
-                     <div class="nav-scroll-container">
-                         <div class="scroll-indicator left" id="scrollLeft">‹</div>
-                         <div class="categorias-lista" id="stickyTabs">
-                             @foreach ($categoriapro as $categoria)
-                                 <button class="categoria-tab {{ $loop->first ? 'active' : '' }}"
-                                     data-tab="categoria-{{ $categoria->id }}">
-                                     <span class="tab-icon">⚙️</span>
-                                     <span class="tab-text">{{ $categoria->nombre }}</span>
-                                 </button>
-                             @endforeach
-                         </div>
-                         <div class="scroll-indicator right" id="scrollRight">›</div>
-                     </div>
-                 </div>
-                 <div class="categorias-contenido">
-                     @foreach ($categoriapro as $categoria)
-                         <div class="categoria-content {{ $loop->first ? 'active' : '' }}"
-                             id="categoria-{{ $categoria->id }}">
-                             <div class="categoria-header">
-                                 <h2 class="categoria-titulo">{{ $categoria->nombre }}</h2>
-                                 @if ($categoria->descripcion)
-                                     <p class="categoria-descripcion">{{ $categoria->descripcion }}</p>
-                                 @endif
-                             </div>
-                             <div class="servicios-grid">
-                                 @foreach ($categoria->productos->sortBy('orden') as $producto)
-                                     @php
-                                         $tieneImagenes =
-                                             isset($producto->imagenes) && $producto->imagenes->isNotEmpty();
-                                         $imagenRelacion = $tieneImagenes ? $producto->imagenes->first() : null;
-                                         $src =
-                                             $imagenRelacion && !empty($imagenRelacion->url)
-                                                 ? Storage::url($imagenRelacion->url)
-                                                 : asset('placeholder.jpg');
-                                     @endphp
-                                     <div class="servicio-card" id="prod-{{ $producto->slug }}">
-                                         <div class="servicio-imagen-contenedor">
-                                             <img src="{{ $src }}" alt="{{ $producto->nombre }}"
-                                                 class="servicio-imagen" width="400" height="300"
-                                                 onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}'; this.alt='Imagen no disponible'">
+    $botonfondo = $color->primary_button ?? $colsec;
+    $botontexto = $color->button_text ?? $textColor;
 
-                                             @if ($producto->precio > 0)
-                                                 <div class="servicio-overlay">
-                                                     <button class="btn-ver-detalles"
-                                                         onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion) }}')">
-                                                         Ver detalles
-                                                     </button>
-                                                 </div>
-                                             @endif
-                                         </div>
-                                         <div class="servicio-info">
-                                             <h4 class="servicio-nombre">{{ $producto->nombre }}</h4>
-                                             <p class="servicio-descripcion">
-                                                 {{ Str::limit($producto->descripcion, 1200) }}</p>
-                                             @if ($producto->precio > 0)
-                                                 <div class="servicio-precio">
-                                                     <span class="precio-label">Costo:</span>
-                                                     <span
-                                                         class="precio-valor">Bs.{{ number_format($producto->precio, 2) }}</span>
-                                                 </div>
-                                             @endif
-                                             <div class="servicio-actions">
-                                                 @if ($whatsNumber)
-                                                     <button type="button" class="producto-whatsapp"
-                                                         onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
-                                                         Contactar por WhatsApp
-                                                     </button>
-                                                 @endif
-                                                 <button type="button" class="producto-whatsapp"
-                                                     onclick="compartirProducto(this)"
-                                                     data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
-                                                     data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
-                                                     data-titulo="{{ $producto->nombre }}"
-                                                     data-descripcion="{{ Str::limit($producto->descripcion, 120, '...') }}"
-                                                     class="btn-compartir">
-                                                     Compartir Producto
-                                                 </button>
-                                                 @if ($producto->precio > 0)
-                                                     <span
-                                                         class="servicio-estado estado-{{ Str::slug($producto->estado) }}">
-                                                         {{ $producto->estado }}
-                                                     </span>
-                                                 @endif
-                                             </div>
-                                         </div>
-                                     </div>
-                                 @endforeach
-                             </div>
-                         </div>
-                     @endforeach
-                 </div>
-             </div>
-         </section>
-         <div id="consultaModal" class="modal-overlay" style="display: none;">
-             <div class="modal-content">
-                 <button class="modal-close" onclick="cerrarConsulta()">&times;</button>
-                 <h2 id="modalProductoNombre">Consultar producto</h2>
-                 <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
-                 <form id="consultaForm" method="POST" target="_blank" action=""
-                     onsubmit="setTimeout(() => cerrarConsulta(), 100)">
-                     @csrf
-                     <input type="hidden" id="productoId" name="producto_id">
-                     <div class="form-group">
-                         <label for="nombre">Nombre (opcional)</label>
-                         <input type="text" name="nombre" id="nombre" class="form-control">
-                     </div>
-                     <div class="form-group"> <label for="telefono">Teléfono (opcional)</label>
-                         <input type="tel" name="telefono" id="telefono" class="form-control"
-                             pattern="^\+?[0-9]{7,15}$" maxlength="15" placeholder="Ej: +59112345678">
-                         <small class="form-text text-muted">
-                             Ingrese un número válido (7–15 dígitos, opcionalmente con +). </small>
-                     </div>
-                     <div class="form-group">
-                         <label for="mensaje">Mensaje</label>
-                         <textarea name="mensaje" id="mensaje" class="form-control" required
-                             placeholder="Hola, me interesa el producto..."></textarea>
-                     </div>
-                     <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
-                 </form>
-             </div>
-         </div>
-         <!------------------ Servicios-------------->
-         <!------------------Enlaces y redes sociales-------------->
-         @if ($redes->count() > 0)
-             <div class="redes-sociales-sticky">
-                 <div class="redes-sociales-container">
-                     @foreach ($redes as $red)
-                         @php
-                             $encryptedId = Crypt::encrypt($red->id);
-                         @endphp
-                         <a href="{{ route('redireccion', $encryptedId) }}" class="red-social-link" target="_blank">
-                             @if ($red->image_url)
-                                 <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
-                                     class="red-social-icon">
-                             @else
-                                 <span class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
-                             @endif
-                         </a>
-                     @endforeach
-                 </div>
-             </div>
-         @endif
-         <!------------------Enlaces y redes sociales-------------->
-         <!-- Mapa Ejecutivo -->
-         <section id="mapa" class="mapa-ejecutivo">
-             <div class="container">
-                 <div class="section-header">
-                     <h2 class="section-title">NUESTRA UBICACIÓN</h2>
-                     <p class="section-subtitle">Encuentre nuestras instalaciones principales</p>
-                 </div>
-                 <div class="mapa-contenedor-ejecutivo">
-                     <div class="mapframe-ejecutivo">
-                         <iframe
-                             src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
-                             width="100%" height="450" style="border: 0;" allowfullscreen loading="lazy"
-                             referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación corporativa">
-                         </iframe>
-                     </div>
-                     <div class="info-corporativa">
-                         <div class="info-card">
-                             <div class="info-content">
-                                 <h3>Dirección Principal</h3>
-                                 <p style="color: {{ $bgColor }}">{{ $contenido->pie }}</p>
-                             </div>
-                         </div>
+    $headerfondo = $color->header ?? $colsec;
+    $footerfondo = $color->footer ?? $colsec;
 
-                         <!-- 🌟 NUEVA SECCIÓN DE HORARIOS INTELIGENTES -->
-                         @if (isset($horarios) && $horarios->isNotEmpty())
-                             <div class="info-card horarios-corporativos">
-                                 <div class="info-content" style="width: 100%;">
-                                     <div class="horarios-header-inline"
-                                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                         <h3 style="margin: 0;">Horario de Atención</h3>
+    $whatsNumber = Str::of($contenido->phone ?? '')
+        ->replaceMatches('/\D+/', '')
+        ->__toString();
+@endphp
+<x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
+    :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :contenido="$contenido"
+    :categoriapro="$categoriapro" :color="$color">
+    <style>
+        :root {
+            --brand-background: {{ $bgColor }};
+            --brand-secondary: {{ $colsec }};
+            --brand-text: {{ $textColor }};
 
-                                         <!-- Insignia dinámica de Abierto/Cerrado -->
-                                         @if (isset($estadoTienda) && $estadoTienda['texto'])
-                                             <span
-                                                 class="badge-estado {{ $estadoTienda['abierto'] ? 'badge-abierto' : 'badge-cerrado' }}"
-                                                 style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: {{ $bgColor }}">
-                                                 {{ $estadoTienda['texto'] }}
-                                             </span>
-                                         @endif
-                                     </div>
+            --brand-background-secundario: {{ $bgsecundario }};
+            --brand-text-titulo: {{ $textsubtitulo }};
+            --brand-text-descrip: {{ $textdescrip }};
 
-                                     <!-- Listado de los 7 días de la semana -->
-                                     <ul class="lista-horarios-web"
-                                         style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem;">
-                                         @foreach ($horarios as $horario)
-                                             @php
-                                                 // Detectamos si el día de la fila corresponde al día de hoy en Bolivia
-                                                 $esHoy =
-                                                     \Carbon\Carbon::now('America/La_Paz')->isoweekday() ==
-                                                     $horario->dia;
-                                             @endphp
-                                             <li class="fila-horario"
-                                                 style="display: flex;color: {{ $bgColor }}; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; {{ $esHoy ? 'font-weight: bold; background-color: rgba(0,0,0,0.02); border-left: 3px solid #4a5568; padding-left: 6px;' : '' }}">
-                                                 <span class="dia-texto">{{ $horario->nombre_dia }}</span>
-                                                 <span class="horas-texto">
-                                                     @if ($horario->esta_cerrado || !$horario->apertura)
-                                                         <span
-                                                             style="color: #e53e3e; font-style: italic;">Cerrado</span>
-                                                     @else
-                                                         <!-- Turno 1 -->
-                                                         {{ \Carbon\Carbon::parse($horario->apertura)->format('H:i') }}
-                                                         -
-                                                         {{ \Carbon\Carbon::parse($horario->cierre)->format('H:i') }}
+            --brand-primary-button: {{ $botonfondo }};
+            --brand-button-text: {{ $botontexto }};
 
-                                                         <!-- Turno 2 (Si el cliente lo configuró) -->
-                                                         @if ($horario->apertura_2 && $horario->cierre_2)
-                                                             <span style="color: #a0aec0; margin: 0 4px;">/</span>
-                                                             {{ \Carbon\Carbon::parse($horario->apertura_2)->format('H:i') }}
-                                                             -
-                                                             {{ \Carbon\Carbon::parse($horario->cierre_2)->format('H:i') }}
-                                                         @endif
-                                                     @endif
-                                                 </span>
-                                             </li>
-                                         @endforeach
-                                     </ul>
-                                 </div>
-                             </div>
-                         @endif
+            --brand-header-background: {{ $headerfondo }};
+            --brand-footer-background: {{ $footerfondo }};
+        }
+    </style>
+    <link rel="stylesheet"
+        href="{{ asset('estilo/ejecutivo.css') }}?v={{ filemtime(public_path('estilo/ejecutivo.css')) }}">
+    <div class="catalogo-ejecutivo">
+        <!-- Header Ejecutivo -->
+        <header class="ejecutivo-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="brand-section">
+                        <img src="{{ asset('/storage/' . $contenido->logo_url) }}" alt="{{ $titulo }}"
+                            class="brand-logo">
+                        <div class="brand-info">
+                            <h1 class="company-name">{{ $titulo }}</h1>
+                        </div>
+                    </div>
+                    @if ($whatsNumber)
+                        <div class="contact-section">
+                            <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
 
-                         @if ($whatsNumber)
-                             <div class="info-card">
-                                 <div class="info-content">
-                                     <h3>Contacto Directo</h3>
-                                     <p>{{ $contenido->phone ?? '' }}</p>
-                                     <a href="https://wa.me/{{ $whatsNumber }}" class="contact-link"
-                                         target="_blank">
-                                         Agenda una reunión
-                                     </a>
-                                 </div>
-                             </div>
-                         @endif
-                     </div>
-                 </div>
-             </div>
-         </section>
-         <!-- Footer Ejecutivo -->
-         <footer class="ejecutivo-footer">
-             <div class="container">
-                 <div class="footer-content">
-                     <div class="footer-brand">
-                         <img src="/storage/{{ $contenido->logo_url }}" alt="{{ $titulo }}"
-                             class="footer-logo">
-                         <p class="footer-descripcion">
-                             {{ $titulo ?? 'Líderes en soluciones empresariales innovadoras' }}
-                         </p>
-                     </div>
-                     <div class="footer-contact">
-                         <h3>Contacto</h3>
-                         @if ($whatsNumber)
-                             <p><strong>Teléfono:</strong> {{ $contenido->phone ?? '' }}</p>
-                         @endif
-                         @if ($contenido->email ?? false)
-                             <p><strong>Email:</strong> {{ $contenido->email }}</p>
-                         @endif
-                         @if ($contenido->pie ?? false)
-                             <p><strong>Dirección:</strong> {{ $contenido->pie }}</p>
-                         @endif
-                     </div>
-                 </div>
-             </div>
-         </footer>
-     </div>
-     <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}"></script>
-     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
- </x-layouts.plantillacatalogo>
- <div id="imagenModal" class="modal-ejecutivo">
-     <div class="modal-contenido">
-         <span class="modal-cerrar">&times;</span>
-         <img id="modalImagen" src="" alt="Vista ampliada del producto">
-         <div id="modalTitulo" class="modal-titulo"></div>
-         <p id="modalDescripcion" class="modal-descripcion"></p>
-     </div>
- </div>
+                                <span class="contact-text">
+                                    <strong>Número de contacto</strong>
+
+                                </span>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </header>
+        <!-- Sección Hero -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2 class="hero-title">{{ $contenido->subtitulo_hero ?? 'Bienvenidos a nuestro espacio' }}
+                        </h2>
+                        <p class="hero-description">
+                            {{ $contenido->texto ?? '' }}
+                        </p>
+                    </div>
+                    @if (isset($videos) && $videos->count() > 0)
+                        <div class="hero-visual">
+                            @include('partials.reproductor-videos', ['videos' => $videos])
+                        </div>
+                    @elseif ($contenido->banner_url ?? false)
+                        <div class="hero-visual">
+                            <img src="/storage/{{ $contenido->banner_url }}" alt="Banner" class="hero-image">
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </section>
+        <!-- Sección Catálogo/Servicios Ejecutivos -->
+        <section id="catalogo" class="servicios-ejecutivos">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">SERVICIOS</h2>
+                    {{-- <p class="section-subtitle">Soluciones especializadas para necesidades empresariales</p> --}}
+                </div>
+                <!-- Navegación por categorías - Versión Ejecutiva -->
+                <div class="categorias-navegacion">
+                    <div class="nav-scroll-container">
+                        <div class="scroll-indicator left" id="scrollLeft">‹</div>
+                        <div class="categorias-lista" id="stickyTabs">
+                            @foreach ($categoriapro as $categoria)
+                                <button class="categoria-tab {{ $loop->first ? 'active' : '' }}"
+                                    data-tab="categoria-{{ $categoria->id }}">
+                                    <span class="tab-icon">⚙️</span>
+                                    <span class="tab-text">{{ $categoria->nombre }}</span>
+                                </button>
+                            @endforeach
+                        </div>
+                        <div class="scroll-indicator right" id="scrollRight">›</div>
+                    </div>
+                </div>
+                <div class="categorias-contenido">
+                    @foreach ($categoriapro as $categoria)
+                        <div class="categoria-content {{ $loop->first ? 'active' : '' }}"
+                            id="categoria-{{ $categoria->id }}">
+                            <div class="categoria-header">
+                                <h2 class="categoria-titulo">{{ $categoria->nombre }}</h2>
+                                @if ($categoria->descripcion)
+                                    <p class="categoria-descripcion">{{ $categoria->descripcion }}</p>
+                                @endif
+                            </div>
+                            <div class="servicios-grid">
+                                @foreach ($categoria->productos->sortBy('orden') as $producto)
+                                    @php
+                                        $tieneImagenes =
+                                            isset($producto->imagenes) && $producto->imagenes->isNotEmpty();
+                                        $imagenRelacion = $tieneImagenes ? $producto->imagenes->first() : null;
+                                        $src =
+                                            $imagenRelacion && !empty($imagenRelacion->url)
+                                                ? Storage::url($imagenRelacion->url)
+                                                : asset('placeholder.jpg');
+                                    @endphp
+                                    <div class="servicio-card" id="prod-{{ $producto->slug }}">
+                                        <div class="servicio-imagen-contenedor">
+                                            <img src="{{ $src }}" alt="{{ $producto->nombre }}"
+                                                class="servicio-imagen" width="400" height="300"
+                                                onerror="this.onerror=null; this.src='{{ asset('placeholder.jpg') }}'; this.alt='Imagen no disponible'">
+
+                                            @if ($producto->precio > 0)
+                                                <div class="servicio-overlay">
+                                                    <button class="btn-ver-detalles"
+                                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion) }}')">
+                                                        Ver detalles
+                                                    </button>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="servicio-info">
+                                            <h4 class="servicio-nombre">{{ $producto->nombre }}</h4>
+                                            <p class="servicio-descripcion">
+                                                {{ Str::limit($producto->descripcion, 1200) }}</p>
+                                            @if ($producto->precio > 0)
+                                                <div class="servicio-precio">
+                                                    <span class="precio-label">Costo:</span>
+                                                    <span
+                                                        class="precio-valor">Bs.{{ number_format($producto->precio, 2) }}</span>
+                                                </div>
+                                            @endif
+                                            <div class="servicio-actions">
+                                                @if ($whatsNumber)
+                                                    <button type="button" class="producto-whatsapp"
+                                                        onclick="abrirConsulta('{{ $src }}', '{{ $producto->nombre }}', '{{ $producto->id }}')">
+                                                        Contactar por WhatsApp
+                                                    </button>
+                                                @endif
+                                                <button type="button" class="producto-whatsapp"
+                                                    onclick="compartirProducto(this)"
+                                                    data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
+                                                    data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
+                                                    data-titulo="{{ $producto->nombre }}"
+                                                    data-descripcion="{{ Str::limit($producto->descripcion, 120, '...') }}"
+                                                    class="btn-compartir">
+                                                    Compartir Producto
+                                                </button>
+                                                @if ($producto->precio > 0)
+                                                    <span
+                                                        class="servicio-estado estado-{{ Str::slug($producto->estado) }}">
+                                                        {{ $producto->estado }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        <div id="consultaModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <button class="modal-close" onclick="cerrarConsulta()">&times;</button>
+                <h2 id="modalProductoNombre">Consultar producto</h2>
+                <img id="modalProductoImagen" src="" alt="" class="modal-imagen">
+                <form id="consultaForm" method="POST" target="_blank" action=""
+                    onsubmit="setTimeout(() => cerrarConsulta(), 100)">
+                    @csrf
+                    <input type="hidden" id="productoId" name="producto_id">
+                    <div class="form-group">
+                        <label for="nombre">Nombre (opcional)</label>
+                        <input type="text" name="nombre" id="nombre" class="form-control">
+                    </div>
+                    <div class="form-group"> <label for="telefono">Teléfono (opcional)</label>
+                        <input type="tel" name="telefono" id="telefono" class="form-control"
+                            pattern="^\+?[0-9]{7,15}$" maxlength="15" placeholder="Ej: +59112345678">
+                        <small class="form-text text-muted">
+                            Ingrese un número válido (7–15 dígitos, opcionalmente con +). </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea name="mensaje" id="mensaje" class="form-control" required
+                            placeholder="Hola, me interesa el producto..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
+                </form>
+            </div>
+        </div>
+        <!------------------ Servicios-------------->
+        <!------------------Enlaces y redes sociales-------------->
+        @if ($redes->count() > 0)
+            <div class="redes-sociales-sticky">
+                <div class="redes-sociales-container">
+                    @foreach ($redes as $red)
+                        @php
+                            $encryptedId = Crypt::encrypt($red->id);
+                        @endphp
+                        <a href="{{ route('redireccion', $encryptedId) }}" class="red-social-link" target="_blank">
+                            @if ($red->image_url)
+                                <img src="{{ asset('/storage/' . $red->image_url) }}" alt="{{ $red->nombre }}"
+                                    class="red-social-icon">
+                            @else
+                                <span class="red-social-text">{{ substr($red->nombre, 0, 2) }}</span>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        <!------------------Enlaces y redes sociales-------------->
+        <!-- Mapa Ejecutivo -->
+        <section id="mapa" class="mapa-ejecutivo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">NUESTRA UBICACIÓN</h2>
+                    <p class="section-subtitle">Encuentre nuestras instalaciones principales</p>
+                </div>
+                <div class="mapa-contenedor-ejecutivo">
+                    <div class="mapframe-ejecutivo">
+                        <iframe
+                            src="https://www.google.com/maps?q={{ $contenido->latitude }},{{ $contenido->longitude }}&hl=es&z=16&output=embed"
+                            width="100%" height="450" style="border: 0;" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación corporativa">
+                        </iframe>
+                    </div>
+                    <div class="info-corporativa">
+                        <div class="info-card">
+                            <div class="info-content">
+                                <h3>Dirección Principal</h3>
+                                <p style="color: {{ $textdescrip }}">{{ $contenido->pie }}</p>
+                            </div>
+                        </div>
+
+                        <!-- 🌟 NUEVA SECCIÓN DE HORARIOS INTELIGENTES -->
+                        @if (isset($horarios) && $horarios->isNotEmpty())
+                            <div class="info-card horarios-corporativos">
+                                <div class="info-content" style="width: 100%;">
+                                    <div class="horarios-header-inline"
+                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                        <h3 style="margin: 0;">Horario de Atención</h3>
+
+                                        <!-- Insignia dinámica de Abierto/Cerrado -->
+                                        @if (isset($estadoTienda) && $estadoTienda['texto'])
+                                            <span
+                                                class="badge-estado {{ $estadoTienda['abierto'] ? 'badge-abierto' : 'badge-cerrado' }}"
+                                                style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: {{ $textsubtitulo }}">
+                                                {{ $estadoTienda['texto'] }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- Listado de los 7 días de la semana -->
+                                    <ul class="lista-horarios-web"
+                                        style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem;">
+                                        @foreach ($horarios as $horario)
+                                            @php
+                                                // Detectamos si el día de la fila corresponde al día de hoy en Bolivia
+                                                $esHoy =
+                                                    \Carbon\Carbon::now('America/La_Paz')->isoweekday() ==
+                                                    $horario->dia;
+                                            @endphp
+                                            <li class="fila-horario"
+                                                style="display: flex;color: {{ $textdescrip }}; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; {{ $esHoy ? 'font-weight: bold; background-color: rgba(0,0,0,0.02); border-left: 3px solid #4a5568; padding-left: 6px;' : '' }}">
+                                                <span class="dia-texto">{{ $horario->nombre_dia }}</span>
+                                                <span class="horas-texto">
+                                                    @if ($horario->esta_cerrado || !$horario->apertura)
+                                                        <span
+                                                            style="color: #e53e3e; font-style: italic;">Cerrado</span>
+                                                    @else
+                                                        <!-- Turno 1 -->
+                                                        {{ \Carbon\Carbon::parse($horario->apertura)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($horario->cierre)->format('H:i') }}
+
+                                                        <!-- Turno 2 (Si el cliente lo configuró) -->
+                                                        @if ($horario->apertura_2 && $horario->cierre_2)
+                                                            <span style="color: #a0aec0; margin: 0 4px;">/</span>
+                                                            {{ \Carbon\Carbon::parse($horario->apertura_2)->format('H:i') }}
+                                                            -
+                                                            {{ \Carbon\Carbon::parse($horario->cierre_2)->format('H:i') }}
+                                                        @endif
+                                                    @endif
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($whatsNumber)
+                            <div class="info-card">
+                                <div class="info-content">
+                                    <h3>Contacto Directo</h3>
+                                    <p>{{ $contenido->phone ?? '' }}</p>
+                                    <a href="https://wa.me/{{ $whatsNumber }}" class="contact-link"
+                                        target="_blank">
+                                        Agenda una reunión
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer Ejecutivo -->
+        <footer class="ejecutivo-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="/storage/{{ $contenido->logo_url }}" alt="{{ $titulo }}"
+                            class="footer-logo">
+                        <p class="footer-descripcion">
+                            {{ $titulo ?? 'Líderes en soluciones empresariales innovadoras' }}
+                        </p>
+                    </div>
+                    <div class="footer-contact">
+                        <h3>Contacto</h3>
+                        @if ($whatsNumber)
+                            <p><strong>Teléfono:</strong> {{ $contenido->phone ?? '' }}</p>
+                        @endif
+                        @if ($contenido->email ?? false)
+                            <p><strong>Email:</strong> {{ $contenido->email }}</p>
+                        @endif
+                        @if ($contenido->pie ?? false)
+                            <p><strong>Dirección:</strong> {{ $contenido->pie }}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}"></script>
+    <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
+</x-layouts.plantillacatalogo>
+<div id="imagenModal" class="modal-ejecutivo">
+    <div class="modal-contenido">
+        <span class="modal-cerrar">&times;</span>
+        <img id="modalImagen" src="" alt="Vista ampliada del producto">
+        <div id="modalTitulo" class="modal-titulo"></div>
+        <p id="modalDescripcion" class="modal-descripcion"></p>
+    </div>
+</div>
