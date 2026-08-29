@@ -207,8 +207,8 @@
                                 </div>
                                 <div class="modal-navigation">
                                     <button class="nav-btn prev-btn" id="prevImage">
-                                        <i class="fas fa-chevron-left">
-                                            << /i>
+                                        <i class="fas fa-chevron-left"><
+                                            </i>
                                     </button>
                                     <button class="nav-btn next-btn" id="nextImage">
                                         <i class="fas fa-chevron-right">></i>
