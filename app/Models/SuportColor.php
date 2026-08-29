@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Swindon\FilamentHashids\Traits\HasHashid;
 
 class SuportColor extends Model
 {
     use HasFactory;
+    use HasHashid;
+
 
     protected $fillable = [
         'spot_id',
