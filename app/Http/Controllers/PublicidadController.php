@@ -28,7 +28,7 @@ class PublicidadController extends Controller
         try {
             // 🔹 Obtenemos la publicidad principal
             $publicidad = Spot::where('slug', $slug)->firstOrFail();
-            $color=SuportColor::where('spot_id',$publicidad->id)->first();
+            $color = SuportColor::where('spot_id', $publicidad->id)->first();
             $tipopublicidad = Landing::find($publicidad->tipolanding);
             $contenido = Contenido::where('spot_id', $publicidad->id)->first();
             $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
@@ -40,8 +40,10 @@ class PublicidadController extends Controller
                 ->orderBy('orden', 'asc')
                 ->get();
 
-            $videoportfolio = $portfolios->pluck('url_embed')->filter();
-
+            $videoportfolio = $portfolios
+                ->pluck('url_embed')
+                ->filter()
+                ->values();
 
             $videos = Video::where('spot_id', $publicidad->id)
                 ->where('estado', 1)
