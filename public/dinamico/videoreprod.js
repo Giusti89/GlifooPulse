@@ -18,7 +18,10 @@ if (window.YT && window.YT.Player) {
 }
 
 function extractVideoId(url) {
-    const match = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
+    const match = url.match(
+        /(?:v=|youtu\.be\/|embed\/|shorts\/)([^&?/]+)/
+    );
+
     return match ? match[1] : null;
 }
 
