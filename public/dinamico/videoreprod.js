@@ -33,7 +33,7 @@ function loadVideo(index) {
             videoId: videoId,
             playerVars: {
                 autoplay: 1,
-                mute: 1,         
+                mute: 1,
                 controls: 1,
                 modestbranding: 1,
                 rel: 0,
@@ -52,6 +52,7 @@ function loadVideo(index) {
 }
 
 function onVideoStateChange(event) {
+    console.log('Estado del reproductor:', event.data);
     const ENDED = YT.PlayerState.ENDED;
     if (event.data === ENDED) {
         const videos = window.__TV_VIDEOS;
