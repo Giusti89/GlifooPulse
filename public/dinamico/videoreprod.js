@@ -33,7 +33,7 @@ function loadVideo(index) {
             videoId: videoId,
             playerVars: {
                 autoplay: 1,
-                mute: 1,
+                mute: 1,         
                 controls: 1,
                 modestbranding: 1,
                 rel: 0,
@@ -42,37 +42,24 @@ function loadVideo(index) {
                 origin: window.location.origin
             },
             events: {
-                onReady: onPlayerReady, // Modificado aquí
+                onReady: (e) => e.target.playVideo(),
                 onStateChange: onVideoStateChange
             }
         });
     } else {
-        player.loadVideoById({
-            videoId: videoId,
-            startSeconds: 0
-        });
+        player.loadVideoById(videoId);
     }
 }
-
-function onPlayerReady(event) {
-    event.target.mute();
-
-    const playPromise = event.target.playVideo();
-
-    if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => {
-            console.log("El navegador bloqueó el autoplay. Esperando interacción del usuario...");
-    
-        });
-    }
-}
-
 
 function onVideoStateChange(event) {
-    const ENDED = 0;
-
+    const ENDED = YT.PlayerState.ENDED;
     if (event.data === ENDED) {
-        goToNextVideo();
+        const videos = window.__TV_VIDEOS;
+        if (videos.length === 1) {
+            player.playVideo(); // reinicia el mismo video
+        } else {
+            goToNextVideo();
+        }
     }
 }
 
