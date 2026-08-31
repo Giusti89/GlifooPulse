@@ -133,9 +133,6 @@ function initPlayer() {
     if (!videos.length) {
         return;
     }
-
-    console.log('🎬 Videos encontrados:', videos);
-
     loadVideo(currentIndex);
 }
 
@@ -144,9 +141,6 @@ function initPlayer() {
  * YouTube API lista.
  */
 function onYouTubeIframeAPIReady() {
-
-    console.log('🎥 YouTube API lista');
-
     initPlayer();
 }
 
@@ -165,11 +159,6 @@ function loadVideo(index) {
 
     const provider = detectProvider(url);
 
-    console.log('================================');
-    console.log('🎬 Cargando video');
-    console.log('Índice:', index);
-    console.log('URL:', url);
-    console.log('Proveedor:', provider);
 
     if (!provider) {
 
@@ -202,8 +191,6 @@ function loadVideo(index) {
 function loadYouTubeVideo(url) {
 
     const videoId = extractYouTubeId(url);
-
-    console.log('🎥 YouTube ID:', videoId);
 
     if (!videoId) {
 
@@ -241,8 +228,6 @@ function loadYouTubeVideo(url) {
 
             onReady: function (event) {
 
-                console.log('▶️ YouTube listo');
-
                 event.target.playVideo();
             },
 
@@ -265,15 +250,8 @@ function loadYouTubeVideo(url) {
  */
 function onYouTubeStateChange(event) {
 
-    console.log(
-        'Estado YouTube:',
-        event.data
-    );
 
     if (event.data === YT.PlayerState.ENDED) {
-
-        console.log('🔥 YouTube terminó');
-
         goToNextVideo();
     }
 }
@@ -285,8 +263,6 @@ function onYouTubeStateChange(event) {
 function loadTikTokVideo(url) {
 
     const videoId = extractTikTokId(url);
-
-    console.log('🎵 TikTok ID:', videoId);
 
     if (!videoId) {
 
@@ -323,8 +299,6 @@ function loadTikTokVideo(url) {
     tiktokIframe.title = 'TikTok video';
 
     container.appendChild(tiktokIframe);
-
-    console.log('▶️ TikTok cargado');
 }
 
 
@@ -345,14 +319,7 @@ window.addEventListener('message', function (event) {
         return;
     }
 
-    console.log(
-        '📩 Evento TikTok:',
-        data
-    );
-
     if (data.type === 'onPlayerReady') {
-
-        console.log('▶️ TikTok listo');
 
         tiktokIframe.contentWindow.postMessage(
             {
@@ -364,22 +331,7 @@ window.addEventListener('message', function (event) {
     }
 
     if (data.type === 'onStateChange') {
-
-        console.log(
-            'Estado TikTok:',
-            data.value
-        );
-
-        // TikTok:
-        // 0 = ended
-        // 1 = playing
-        // 2 = paused
-        // 3 = buffering
-
         if (data.value === 0) {
-
-            console.log('🔥 TikTok terminó');
-
             goToNextVideo();
         }
     }
@@ -394,11 +346,6 @@ function goToNextVideo() {
 
     currentIndex =
         (currentIndex + 1) % videos.length;
-
-    console.log(
-        '➡️ Siguiente video:',
-        currentIndex
-    );
 
     loadVideo(currentIndex);
 }
