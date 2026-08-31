@@ -105,7 +105,7 @@
         <!-- Videos -->
         <section class="portfolio-videos py-5">
             <div class="container">
-                <h2 class="text-center mb-5 section-title" style="color:{{ $colsec }}">Videos del Portafolio</h2>
+                <h2 class="text-center mb-5 section-title" style="color:{{ $colsec }};margin-top:50px;margin-bottom:50px">Videos del Portafolio</h2>
 
                 @if (isset($videoportfolio) && $videoportfolio->count() > 0)
                     <div class="hero-visual shadow-lg rounded-3">

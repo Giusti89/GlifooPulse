@@ -33,23 +33,40 @@ function loadVideo(index) {
             videoId: videoId,
             playerVars: {
                 autoplay: 1,
-                mute: 1,          // ✅ autoplay garantizado en móvil
+                mute: 1,
                 controls: 1,
                 modestbranding: 1,
                 rel: 0,
                 playsinline: 1,
-                enablejsapi: 1,                   
+                enablejsapi: 1,
                 origin: window.location.origin
             },
             events: {
-                onReady: (e) => e.target.playVideo(),
+                onReady: onPlayerReady, // Modificado aquí
                 onStateChange: onVideoStateChange
             }
         });
     } else {
-        player.loadVideoById(videoId);
+        player.loadVideoById({
+            videoId: videoId,
+            startSeconds: 0
+        });
     }
 }
+
+function onPlayerReady(event) {
+    event.target.mute();
+
+    const playPromise = event.target.playVideo();
+
+    if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+            console.log("El navegador bloqueó el autoplay. Esperando interacción del usuario...");
+    
+        });
+    }
+}
+
 
 function onVideoStateChange(event) {
     const ENDED = 0;
