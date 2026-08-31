@@ -23,14 +23,29 @@ function extractVideoId(url) {
 }
 
 function loadVideo(index) {
+
     const videos = window.__TV_VIDEOS;
+
+    console.log('🎬 loadVideo()');
+    console.log('Índice recibido:', index);
+    console.log('URL recibida:', videos[index]);
+
     const videoId = extractVideoId(videos[index]);
 
-    if (!videoId) return;
+    console.log('ID de YouTube:', videoId);
+
+    if (!videoId) {
+        console.error('❌ No se pudo obtener el ID del video');
+        return;
+    }
 
     if (!player) {
+
+        console.log('🆕 Creando reproductor');
+
         player = new YT.Player('player', {
             videoId: videoId,
+
             playerVars: {
                 autoplay: 1,
                 mute: 1,
@@ -41,31 +56,63 @@ function loadVideo(index) {
                 enablejsapi: 1,
                 origin: window.location.origin
             },
+
             events: {
                 onReady: (e) => e.target.playVideo(),
                 onStateChange: onVideoStateChange
             }
         });
+
     } else {
+
+        console.log('🔄 Cargando nuevo video:', videoId);
+
         player.loadVideoById(videoId);
     }
 }
 
 function onVideoStateChange(event) {
+
+    console.log('=================================');
     console.log('Estado del reproductor:', event.data);
+
     const ENDED = YT.PlayerState.ENDED;
+
     if (event.data === ENDED) {
+
+        console.log('🔥🔥🔥 VIDEO TERMINADO 🔥🔥🔥');
+
         const videos = window.__TV_VIDEOS;
+
+        console.log('Cantidad de videos:', videos.length);
+        console.log('Índice actual:', currentIndex);
+        console.log('Videos:', videos);
+
         if (videos.length === 1) {
-            player.playVideo(); // reinicia el mismo video
+
+            console.log('🔄 Solo hay un video, reiniciando');
+
+            player.playVideo();
+
         } else {
+
+            console.log('➡️ Hay varios videos, pasando al siguiente');
+
             goToNextVideo();
         }
     }
 }
 
 function goToNextVideo() {
+
     const videos = window.__TV_VIDEOS;
+
+    console.log('🚀 EJECUTANDO goToNextVideo()');
+
     currentIndex = (currentIndex + 1) % videos.length;
+
+    console.log('Nuevo índice:', currentIndex);
+    console.log('Nuevo video:', videos[currentIndex]);
+
     loadVideo(currentIndex);
 }
