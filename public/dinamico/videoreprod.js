@@ -131,12 +131,27 @@ function extractTikTokId(url) {
                 .split('/')
                 .filter(Boolean);
 
+        // Formato:
+        // /@usuario/video/123456789
         const videoIndex =
             pathParts.indexOf('video');
 
         if (videoIndex !== -1) {
 
             return pathParts[videoIndex + 1] || null;
+        }
+
+        // Formato:
+        // /embed/v2/123456789
+        const embedIndex =
+            pathParts.indexOf('embed');
+
+        if (
+            embedIndex !== -1 &&
+            pathParts[embedIndex + 1] === 'v2'
+        ) {
+
+            return pathParts[embedIndex + 2] || null;
         }
 
     } catch (error) {
@@ -149,7 +164,6 @@ function extractTikTokId(url) {
 
     return null;
 }
-
 
 /**
  * Inicializa el reproductor.
