@@ -157,6 +157,38 @@ html {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+#tv-player {
+    position: relative;
+}
+
+#volume-toggle {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 20;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+#volume-toggle:hover {
+    transform: scale(1.08);
+    background: rgba(0, 0, 0, 0.85);
+}
 
 /* ------------video----------- */
 .portfolio-status {
