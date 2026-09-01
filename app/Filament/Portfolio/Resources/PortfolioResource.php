@@ -65,7 +65,7 @@ class PortfolioResource extends Resource
 
                                 Forms\Components\TextInput::make('video_url')
                                     ->label('URL del video')
-                                    ->helperText('YouTube, Vimeo, etc.')
+                                    ->helperText('Solo videos de YouTube y tiktok.')
                                     ->maxLength(255)
                                     ->url(),
 
