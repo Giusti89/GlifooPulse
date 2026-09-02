@@ -57,8 +57,8 @@ class ClicksChartC extends ChartWidget
     {
         $user = auth()->user();
 
-        // Obtener el spot del usuario
-        $spot = Spot::with('suscripcion')
+        // Obtener el spot del usuario junto con sus redes sociales
+        $spot = Spot::with('socials')
             ->whereHas('suscripcion', function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             })
@@ -77,20 +77,22 @@ class ClicksChartC extends ChartWidget
             ];
         }
 
-        // Determinar número de meses según filtro
+        // Determinar cantidad de meses según filtro
         $mesesCount = match ($this->filter) {
             '12' => 11,
-            '24' => 23,
             default => 5,
         };
 
-        // Obtener los meses
-        $meses = collect(range($mesesCount, 0))->map(function ($i) {
-            return Carbon::now()->subMonths($i)->startOfMonth();
-        });
+        // Generar los meses que mostrará el gráfico
+        $meses = collect(range($mesesCount, 0))
+            ->map(function ($i) {
+                return Carbon::now()
+                    ->subMonths($i)
+                    ->startOfMonth();
+            });
 
-        // Obtener las redes sociales del spot del usuario
-        $redesSociales = $spot->socials()->get();
+        // Obtener las redes sociales del Spot
+        $redesSociales = $spot->socials;
 
         if ($redesSociales->isEmpty()) {
             return [
@@ -102,9 +104,48 @@ class ClicksChartC extends ChartWidget
                         'borderDash' => [5, 5],
                     ]
                 ],
-                'labels' => $meses->map(fn($mes) => $mes->format('M Y'))->toArray(),
+                'labels' => $meses
+                    ->map(fn($mes) => $mes->format('M Y'))
+                    ->toArray(),
             ];
         }
+
+        /*
+     * ============================================================
+     * OBTENER TODOS LOS CLICKS EN UNA SOLA CONSULTA
+     * ============================================================
+     */
+
+        $inicio = $meses->first();
+
+        $fin = $meses->last()
+            ->copy()
+            ->addMonth();
+
+        $socialIds = $redesSociales->pluck('id');
+
+        $clicksPorMes = SocialClicks::query()
+            ->selectRaw('
+            social_id,
+            YEAR(created_at) as year,
+            MONTH(created_at) as month,
+            COUNT(*) as total
+        ')
+            ->whereIn('social_id', $socialIds)
+            ->where('created_at', '>=', $inicio)
+            ->where('created_at', '<', $fin)
+            ->groupBy('social_id')
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->social_id . '-' . $item->year . '-' . $item->month;
+            });
+
+        /*
+     * ============================================================
+     * CONSTRUIR DATASETS DEL GRÁFICO
+     * ============================================================
+     */
 
         $datasets = [];
 
@@ -130,16 +171,22 @@ class ClicksChartC extends ChartWidget
         $indiceColor = 0;
 
         foreach ($redesSociales as $red) {
+
             $datosPorMes = [];
 
             foreach ($meses as $mes) {
-                $siguienteMes = $mes->copy()->addMonth();
 
-                $totalClicks = SocialClicks::where('social_id', $red->id)
-                    ->whereBetween('created_at', [$mes, $siguienteMes])
-                    ->count();
+                $clave = $red->id
+                    . '-' . $mes->year
+                    . '-' . $mes->month;
 
-                $datosPorMes[] = $totalClicks;
+                /*
+             * Si existe el registro usamos su total.
+             * Si no existe, mostramos 0.
+             */
+                $datosPorMes[] = isset($clicksPorMes[$clave])
+                    ? (int) $clicksPorMes[$clave]->total
+                    : 0;
             }
 
             // Obtener color según el nombre de la red
@@ -148,6 +195,7 @@ class ClicksChartC extends ChartWidget
             // Si no hay color asignado, usar uno de la paleta
             if (!$color) {
                 $color = $paletaColores[$indiceColor % count($paletaColores)];
+
                 $indiceColor++;
             }
 
@@ -168,7 +216,9 @@ class ClicksChartC extends ChartWidget
 
         return [
             'datasets' => $datasets,
-            'labels' => $meses->map(fn($mes) => $mes->format('M Y'))->toArray(),
+            'labels' => $meses
+                ->map(fn($mes) => $mes->format('M Y'))
+                ->toArray(),
         ];
     }
 
