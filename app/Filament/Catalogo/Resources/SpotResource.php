@@ -210,6 +210,10 @@ class SpotResource extends Resource
                                 ->maxLength(255)
                                 ->rows(2),
 
+                            Forms\Components\Textarea::make('pie')
+                                ->label('Dirección')
+                                ->maxLength(255),
+
                             TextInput::make('phone')
                                 ->label('Número de contacto para los artículos')
                                 ->tel()

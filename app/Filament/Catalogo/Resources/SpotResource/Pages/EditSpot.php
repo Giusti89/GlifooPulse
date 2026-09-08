@@ -14,6 +14,10 @@ class EditSpot extends EditRecord
     {
         return [];
     }
+    public function getTitle(): string 
+    {
+        return 'Configuración principal'; 
+    }
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
@@ -94,6 +98,7 @@ class EditSpot extends EditRecord
                 'background'       => $state['background']       ?? null,
                 'ctexto' => $state['ctexto'] ?? null,
                 'colsecond' => $state['colsecond'] ?? null,
+                'pie' => $state['pie'] ?? null,
                 'texto' => $state['texto'] ?? null,
                 'subtitulo_hero' => $state['subtitulo_hero'] ?? null,
                 'phone' => $state['phone'] ?? null,
