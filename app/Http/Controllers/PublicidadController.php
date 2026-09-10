@@ -23,199 +23,169 @@ use Illuminate\Support\Facades\Storage;
 
 class PublicidadController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         try {
-            // 🔹 Obtenemos la publicidad principal
-            $publicidad = Spot::where('slug', $slug)->firstOrFail();
-            $color = SuportColor::where('spot_id', $publicidad->id)->first();
+            // CERO CONSULTAS: Recuperamos el objeto con todas sus relaciones desde el Middleware
+            $publicidad = $request->attributes->get('publicidad_precargada');
+
+            // Si por alguna razón externa no viene del middleware, usamos un fallback seguro
+            if (!$publicidad) {
+                $publicidad = Spot::where('slug', $slug)
+                    ->with(['colors', 'contenido', 'seo', 'suscripcion.user', 'suscripcion.paquete', 'socials.tipoRed', 'videos', 'portfolios', 'horarios'])
+                    ->firstOrFail();
+            }
+
+            // Extraemos las relaciones instantáneamente desde la memoria RAM
+            $color = $publicidad->colors;
+            $contenido = $publicidad->contenido;
+            $redes = $publicidad->socials;
+            $portfolios = $publicidad->portfolios;
+            $videos = $publicidad->videos;
+            $catalogos = $publicidad->seo;
+
+            // Buscamos la landing (No es relación Eloquent en tu modelo)
             $tipopublicidad = Landing::find($publicidad->tipolanding);
-            $contenido = Contenido::where('spot_id', $publicidad->id)->first();
-            $redes = Social::where('spot_id', $publicidad->id)->with('tipoRed')->get();
-            $spot = Spot::where('slug', $slug)->first();
 
-            $portfolios = Portfolio::where('spot_id', $publicidad->id)
-                ->with(['galeria', 'dato'])
-                ->where('estado', 1)
-                ->orderBy('orden', 'asc')
-                ->get();
+            $spot = $publicidad;
 
-            $videoportfolio = $portfolios
-                ->pluck('url_embed')
-                ->filter()
-                ->values();
-
-            $videos = Video::where('spot_id', $publicidad->id)
-                ->where('estado', 1)
-                ->orderBy('orden', 'asc')
-                ->get();
+            // Filtrado de videos de portafolios en memoria
+            $videoportfolio = $portfolios->pluck('url_embed')->filter()->values();
 
             $titulo = $publicidad->titulo;
             $usuarioSpot = optional(optional($publicidad->suscripcion)->user);
             $marca = optional($tipopublicidad)->nombre;
 
-            // 🔹 Grupo y plantilla (para cargar la vista correcta)
+            // Grupo y plantilla
             $grupo = Str::slug($tipopublicidad->grupo ?? 'basico');
             $plantilla = Str::slug($tipopublicidad->nombre ?? 'default');
             $vista = "plantillas.$grupo.$plantilla";
-
-            // 🔹 SEO dinámico
-            $catalogos = Seo::where('spot_id', $publicidad->id)->first();
 
             // Nivel de SEO según el paquete
             $seoNivel = optional($publicidad->suscripcion->paquete)->seo_level ?? 'basico';
 
             // Valores base (SEO básico)
             $tituloSEO = $catalogos->seo_title ?? $publicidad->titulo;
-            $descripcionSEO = $catalogos->seo_descripcion ?? $contenido->descripcion ?? '';
+            $descripcionSEO = $catalogos->seo_descripcion ?? $contenido->descripcion ?? "";
             $keywordsSEO = $catalogos->seo_keyword ?? '';
             $robots = 'index, follow';
-            $imagenOg = $contenido->banner_url
+            $imagenOg = $contenido && $contenido->banner_url
                 ? asset('storage/' . $contenido->logo_url)
                 : asset('img/logos/Boton.ico');
+
             $locale = 'es_ES';
             $categoriapro = collect();
             $horarios = collect();
-            $estadoTienda = ['abierto' => false, 'texto' => ''];
 
+            // 3. Optimizamos la carga condicional para el catálogo
             if ($grupo === 'catalogo') {
-                // Cargar categorías → productos → imágenes
+                // Cargamos categorías -> productos -> imágenes filtrando por el spot_id
                 $categoriapro = Categoria::with(['productos.imagenes'])
                     ->where('spot_id', $publicidad->id)
                     ->orderBy('orden', 'asc')
                     ->get();
-                $horarios = $publicidad->horarios()->orderBy('dia', 'asc')->get();
 
-                $estadoTienda = $publicidad->obtenerEstadoActual();
+                // REEMPLAZO CLAVE: Usamos la relación ya cargada como colección con ->get() viejo cambiado a ->horarios
+                $horarios = $publicidad->horarios;
             }
 
-            // 🔹 Ajustes según nivel SEO
-            if ($seoNivel === 'basico') {
+            $estadoTienda = $publicidad->obtenerEstadoActual();
 
-                $tituloSEO = Str::limit($tituloSEO, 60, '');
-                $descripcionSEO = Str::limit($descripcionSEO, 150, '');
+            // Ajustes según nivel SEO (Se conserva tu lógica intacta)
+            if ($seoNivel === 'basico') {
+                $tituloSEO = Str::limit($tituloSEO, 60, "");
+                $descripcionSEO = Str::limit($descripcionSEO, 150, "");
                 $robots = 'index, follow';
                 $imagenOg = asset('img/logos/Boton.ico');
             }
 
             if ($seoNivel === 'medio') {
-                $tituloSEO = Str::limit($tituloSEO, 65, '');
-                $descripcionSEO = Str::limit($descripcionSEO, 160, '');
+                $tituloSEO = Str::limit($tituloSEO, 65, "");
+                $descripcionSEO = Str::limit($descripcionSEO, 160, "");
                 $robots = $catalogos->seo_robots ?? 'index, follow';
                 $imagenOg = asset('img/logos/Boton.ico');
             }
 
             if ($seoNivel === 'completo') {
-                $tituloSEO = Str::limit($tituloSEO, 65, '');
-                $descripcionSEO = Str::limit($descripcionSEO, 170, '');
+                $tituloSEO = Str::limit($tituloSEO, 65, "");
+                $descripcionSEO = Str::limit($descripcionSEO, 170, "");
                 $robots = $catalogos->seo_robots ?? 'index, follow';
-                $imagenOg = $contenido->banner_url
+                $imagenOg = $contenido && $contenido->banner_url
                     ? asset('storage/' . $contenido->logo_url)
                     : null;
                 $locale = $catalogos->seo_locale ?? 'es_ES';
-            }
-            if (request()->has('prod')) {
-                $productSlug = request()->query('prod');
-                $productoSEO = $categoriapro->flatMap->productos->firstWhere('slug', $productSlug);
-                if ($productoSEO) {
-                    $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
-                    $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
-                    // Obtener la imagen del producto
-                    $imagenRelacionSEO = $productoSEO->imagenes->first();
-                    if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
-                        $imagenOg = Storage::url($imagenRelacionSEO->url);
-                    } else {
-                        // Fallback a la imagen del spot
-                        $imagenOg = $contenido->banner_url ? Storage::url($contenido->banner_url) : asset('img/logos/Boton.ico');
+
+                if (request()->has('prod')) {
+                    $productSlug = request()->query('prod');
+                    $productoSEO = $categoriapro->flatMap->productos->firstWhere('slug', $productSlug);
+
+                    if ($productoSEO) {
+                        $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
+                        $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
+
+                        $imagenRelacionSEO = $productoSEO->imagenes->first();
+                        if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
+                            $imagenOg = Storage::url($imagenRelacionSEO->url);
+                        } else {
+                            $imagenOg = $contenido && $contenido->banner_url
+                                ? Storage::url($contenido->banner_url)
+                                : asset('img/logos/Boton.ico');
+                        }
                     }
                 }
             }
+
             $ogUrl = request()->url();
             $ogType = ($grupo === 'catalogo') ? 'business.business' : 'profile';
 
-            // 🔹 Verificamos si existe la vista
             if (!View::exists($vista)) {
-
                 return redirect()->route('inicio')->with('msj', 'noexiste');
             }
 
-            // 🔹 Validamos si la publicidad está activa
             if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
-                if ($grupo === "catalogo") {
-                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
+                    dispatch(function () use ($publicidad) {
                         $publicidad->incrementarVisita();
-                    }
-                    return view($vista, compact(
-                        'titulo',
-                        'catalogos',
-                        'contenido',
-                        'categoriapro',
-                        'tituloSEO',
-                        'horarios',
-                        'estadoTienda',
-                        'descripcionSEO',
-                        'keywordsSEO',
-                        'redes',
-                        'robots',
-                        'imagenOg',
-                        'locale',
-                        'videos',
-                        'ogUrl',
-                        'ogType',
-                        'spot',
-                        'color',
-                    ));
-                } elseif ($grupo === "portfolio") { // Agregado caso portfolio
-                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                        $publicidad->incrementarVisita();
-                    }
-                    return view($vista, compact(
-                        'titulo',
-                        'contenido',
-                        'redes',
-                        'catalogos',
-                        'tituloSEO',
-                        'descripcionSEO',
-                        'keywordsSEO',
-                        'robots',
-                        'imagenOg',
-                        'locale',
-                        'portfolios',
-                        'videoportfolio',
-                        'ogUrl',
-                        'ogType',
-                        'color',
-
-                    ));
-                } else {
-                    if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                        $publicidad->incrementarVisita();
-                    }
-                    return view($vista, compact(
-                        'titulo',
-                        'contenido',
-                        'redes',
-                        'catalogos',
-                        'tituloSEO',
-                        'descripcionSEO',
-                        'keywordsSEO',
-                        'robots',
-                        'imagenOg',
-                        'locale',
-                        'ogUrl',
-                        'ogType',
-                        'color',
-                    ));
+                    })->afterResponse();
                 }
+                $dataCompact = compact(
+                    'titulo',
+                    'catalogos',
+                    'contenido',
+                    'categoriapro',
+                    'tituloSEO',
+                    'horarios',
+                    'estadoTienda',
+                    'descripcionSEO',
+                    'keywordsSEO',
+                    'redes',
+                    'robots',
+                    'imagenOg',
+                    'locale',
+                    'videos',
+                    'ogUrl',
+                    'ogType',
+                    'spot',
+                    'color'
+                );
+
+                if ($grupo === "portfolio") {
+                    $dataCompact['portfolios'] = $portfolios;
+                    $dataCompact['videoportfolio'] = $videoportfolio;
+                }
+
+                return view($vista, $dataCompact);
             } else {
                 return redirect()->route('inicio')->with('msj', 'noactivo');
             }
         } catch (\Exception $e) {
             if (app()->environment('local')) {
-                return redirect()->route('inicio')->with('msj', 'pagvencida');
+                throw $e; // Te ayudará a ver errores reales en desarrollo
             }
+            return redirect()->route('inicio')->with('msj', 'pagvencida');
         }
     }
+
 
     public function redirecion(string $encryptedId, SocialClickService $clickService)
     {

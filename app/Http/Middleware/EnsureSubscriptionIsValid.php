@@ -24,14 +24,20 @@ class EnsureSubscriptionIsValid
             return Redirect::route('inicio')->with('msj', 'prohibido');
         }
 
-        // 2. Si no tiene suscripción
-        if (!$user->suscripcion) {
-            return $this->forceLogout($request, 'sinsuscripcion');
+        $suscripcion = $user->suscripcion;
+
+        if (!$suscripcion) {
+            return $this->forceLogout(
+                $request,
+                'sinsuscripcion.'
+            );
         }
 
-        // 3. Si la suscripción no está activa
-        if (!$user->tieneSuscripcionActiva()) {
-            return $this->forceLogout($request, 'sinsuscripcion');
+        if (!$suscripcion->estado) {
+            return $this->forceLogout(
+                $request,
+                'sinsuscripcion.'
+            );
         }
 
         // 4. Todo correcto → añade headers de no-cache

@@ -45,10 +45,29 @@ class CategoriaResource extends Resource
             return false;
         }
 
-        // Verifica si el usuario tiene al menos una categoría a través de la relación
-        return Categoria::whereHas('spot.suscripcion', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->exists();
+        return cache()->driver('array')->remember('user_onboarding_check_' . $user->id, 60, function () use ($user) {
+            
+            $suscripcion = $user->getSuscripcionActiva();
+            
+            if ($suscripcion instanceof \Illuminate\Support\Collection) {
+                $suscripcion = $suscripcion->first();
+            }
+
+            if (!$suscripcion) {
+                return false;
+            }
+            
+            $spot = $suscripcion->spot;
+            if ($spot instanceof \Illuminate\Support\Collection) {
+                $spot = $spot->first();
+            }
+
+            if (!$spot) {
+                return false;
+            }
+
+            return \App\Models\Categoria::where('spot_id', $spot->id)->exists();
+        });
     }
 
     public static function getEloquentQuery(): Builder

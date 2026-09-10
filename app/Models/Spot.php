@@ -25,7 +25,7 @@ class Spot extends Model
     ];
 
     // ========== RELACIONES ==========
-    
+
     /**
      * Relación con los colores del spot
      */
@@ -73,7 +73,6 @@ class Spot extends Model
     public function incrementarVisita()
     {
         $this->increment('contador');
-        $this->save();
     }
     protected static function booted()
     {
