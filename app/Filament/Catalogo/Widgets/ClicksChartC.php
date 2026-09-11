@@ -25,7 +25,7 @@ class ClicksChartC extends ChartWidget
         })->exists();
     }
     protected static ?int $sort = 2;
-    protected static ?string $heading = 'Evolución de clicks por red social';
+    protected static ?string $heading = 'Evolución de interacción de redes sociales';
 
     protected static ?string $pollingInterval = '60s';
 

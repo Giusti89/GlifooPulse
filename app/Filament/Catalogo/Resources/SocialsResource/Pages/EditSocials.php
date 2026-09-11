@@ -10,6 +10,12 @@ class EditSocials extends EditRecord
 {
     protected static string $resource = SocialsResource::class;
 
+    public function getTitle(): string
+    {
+        return 'Editar redes social';
+    }
+
+
     protected function getHeaderActions(): array
     {
         return [

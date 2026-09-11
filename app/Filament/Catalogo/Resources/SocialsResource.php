@@ -39,14 +39,10 @@ class SocialsResource extends Resource
             return false;
         }
 
-        // Usamos una única llave 'user_onboarding_check_' compartida por TODOS los recursos.
-        // El primer recurso que se cargue hará la consulta; los demás leerán de la RAM directamente.
         return cache()->driver('array')->remember('user_onboarding_check_' . $user->id, 60, function () use ($user) {
-
-            // 1. Obtenemos la suscripción activa
+            
             $suscripcion = $user->getSuscripcionActiva();
-
-            // Si la suscripción viene como colección por algún motivo, extraemos el primero
+            
             if ($suscripcion instanceof \Illuminate\Support\Collection) {
                 $suscripcion = $suscripcion->first();
             }
@@ -54,8 +50,7 @@ class SocialsResource extends Resource
             if (!$suscripcion) {
                 return false;
             }
-
-            // 2. Buscamos el spot de forma segura
+            
             $spot = $suscripcion->spot;
             if ($spot instanceof \Illuminate\Support\Collection) {
                 $spot = $spot->first();
@@ -63,10 +58,8 @@ class SocialsResource extends Resource
 
             if (!$spot) {
                 return false;
-            }
-
-            // 3. Verificamos si ya completó el onboarding (si tiene al menos una categoría)
-            // Consulta indexada ultra veloz que tarda microsegundos
+            }            
+            
             return \App\Models\Categoria::where('spot_id', $spot->id)->exists();
         });
     }
@@ -84,7 +77,7 @@ class SocialsResource extends Resource
 
         return $form
             ->schema([
-                Section::make('Social')
+                Section::make('Enlace')
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('url')
@@ -95,7 +88,7 @@ class SocialsResource extends Resource
 
                     ]),
 
-                Section::make('Recursos')
+                Section::make('Botón')
                     ->columns()
                     ->schema([
                         Forms\Components\Select::make('enlace_id')

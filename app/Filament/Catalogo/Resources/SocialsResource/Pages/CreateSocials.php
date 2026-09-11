@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
 class CreateSocials extends CreateRecord
 {
     protected static string $resource = SocialsResource::class;
+    public function getTitle(): string
+    {
+        return 'Crear red social';
+    }
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
