@@ -141,7 +141,6 @@ body {
 .nav-menu ul {
     list-style: none;
     display: flex;
-    gap: clamp(20px, 3vw, 35px);
     margin: 0;
     padding: 0;
 }
@@ -282,6 +281,109 @@ nav ul a.active::after {
 
 .mobile-menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(8px, -8px);
+}
+/* --------qr---------- */
+
+.contact-button {
+    background: var(--brand-primary-button);
+    color: var(--brand-button-text);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 0;    
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+#compartirCatalogoModal {
+    display: none;
+}
+
+#qrCatalogo {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+}
+
+#qrCatalogo .qr-logo-overlay {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 4px;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#compartirCatalogoModal {
+    display: none;
+}
+
+#compartirCatalogoModal .compartir-catalogo-modal {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px 24px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.compartir-catalogo-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+
+    padding: 5px;
+}
+
+.compartir-catalogo-header h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+}
+
+.compartir-catalogo-header p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    opacity: 0.75;
+}
+
+.compartir-catalogo-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto 24px;
+}
+
+#qrCatalogo {
+    position: relative;
+    width: 220px;
+    height: 220px;
+}
+
+.compartir-catalogo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* Hero Section */
@@ -586,7 +688,7 @@ section {
 }
 
 .modal-content {
-    background: #272626;
+    background: var(--brand-background);
     padding: 25px;
     border-radius: 10px;
     width: 90%;

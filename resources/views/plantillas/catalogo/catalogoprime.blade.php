@@ -87,10 +87,15 @@
                             <li><a href="#video">Video institucional</a></li>
                         @endif
                         <li><a href="#catalogo">CATALOGO</a></li>
-                        <li><a href="#mapa">MAPA</a></li>
-
+                        <li><a href="#mapa">MAPA</a></li>                        
+                        <li><a href="#horario">HORARIOS</a></li>
                     </ul>
                 </div>
+                <button type="button" class="contact-button" onclick="abrirCompartirCatalogo()">
+                    <span class="contact-text">
+                        <strong>Compartir catálogo</strong>
+                    </span>
+                </button>
             </div>
         </nav>
 
@@ -269,7 +274,7 @@
 
                     <!-- Columna Nueva: Panel Avanzado de Horarios -->
                     @if (isset($horarios) && $horarios->isNotEmpty())
-                        <div class="panel-horarios-avanzado">
+                        <div id="horario" class="panel-horarios-avanzado">
                             <div class="horarios-avanzado-header">
                                 <h3>Horario de Atención</h3>
 
@@ -311,10 +316,50 @@
             </div>
         </section>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script
         src="{{ asset('dinamico/tooplate-stellaris-script.js') }}?v={{ filemtime(public_path('dinamico/tooplate-stellaris-script.js')) }}">
-        < script src = "{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}" >
     </script>
+    <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
 
-    </script>
 </x-layouts.plantillacatalogo>
+
+<div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">
+
+    <div class="modal-content compartir-catalogo-modal">
+
+        <button type="button" class="compartir-catalogo-close" onclick="cerrarCompartirCatalogo()"
+            aria-label="Cerrar">
+            &times;
+        </button>
+
+        <div class="compartir-catalogo-header">
+            <h2>Compartir catálogo</h2>
+
+            <p>
+                Escanea el código QR para visitar nuestro catálogo.
+            </p>
+        </div>
+
+        <div class="compartir-catalogo-qr">
+            <div id="qrCatalogo"></div>
+        </div>
+
+        <div class="compartir-catalogo-actions">
+
+            <button type="button" class="contact-button" onclick="compartirCatalogo()">
+                Compartir catálogo
+            </button>
+
+            <button type="button" class="contact-button" onclick="copiarEnlaceCatalogo()">
+                Copiar enlace
+            </button>
+
+            <button type="button" class="contact-button" onclick="descargarQrCatalogo()">
+                Descargar código QR
+            </button>
+
+        </div>
+
+    </div>
+</div>

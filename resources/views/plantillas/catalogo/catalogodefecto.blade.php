@@ -73,6 +73,23 @@
         <h1 class="catalogo-titulo">{{ $titulo ?? 'Mi Catálogo' }}</h1>
         <h2 class="catalogo-subtitulo">{{ $contenido->subtitulo_hero ?? '' }}</h2>
 
+        <div class="contacto-compartir">
+            <div class="contact-section">
+                <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
+
+                    <span class="contact-text">
+                        <strong>Número de contacto</strong>
+
+                    </span>
+                </a>
+
+                <button type="button" class="contact-button" onclick="abrirCompartirCatalogo()">
+                    <span class="contact-text">
+                        <strong>Compartir catálogo</strong>
+                    </span>
+                </button>
+            </div>
+        </div>
 
         <section id="nosotros" class="missions-section fade-in">
             <div class="nosotros-container">
@@ -235,7 +252,7 @@
                                 title="Mapa de ubicación">
                             </iframe>
                         </div>
-                        <div class="direccion-info" style="color: {{$textsubtitulo}}">
+                        <div class="direccion-info" style="color: {{ $textsubtitulo }}">
                             <i class="icono-ubicacion"></i>
                             <p>{{ $contenido->pie }}</p>
                         </div>
@@ -261,7 +278,8 @@
                                         $esHoy = \Carbon\Carbon::now('America/La_Paz')->isoweekday() == $horario->dia;
                                     @endphp
                                     <li class="fila-dia-clean {{ $esHoy ? 'hoy-resaltado-clean' : '' }}">
-                                        <span class="dia-nombre-clean" style="color: var(--brand-text-titulo)">{{ $horario->nombre_dia }}</span>
+                                        <span class="dia-nombre-clean"
+                                            style="color: var(--brand-text-titulo)">{{ $horario->nombre_dia }}</span>
                                         <span class="dia-horas-clean" style="color: var(--brand-text-descrip)">
                                             @if ($horario->esta_cerrado || !$horario->apertura)
                                                 <span class="cerrado-clean">Cerrado</span>
@@ -286,6 +304,47 @@
                 </div>
             </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="{{ asset('dinamico/catalogo.js') }}?v={{ filemtime(public_path('dinamico/catalogo.js')) }}"></script>
     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
 </x-layouts.plantillacatalogo>
+
+<div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">
+
+    <div class="modal-content compartir-catalogo-modal">
+
+        <button type="button" class="compartir-catalogo-close" onclick="cerrarCompartirCatalogo()"
+            aria-label="Cerrar">
+            &times;
+        </button>
+
+        <div class="compartir-catalogo-header">
+            <h2>Compartir catálogo</h2>
+
+            <p>
+                Escanea el código QR para visitar nuestro catálogo.
+            </p>
+        </div>
+
+        <div class="compartir-catalogo-qr">
+            <div id="qrCatalogo"></div>
+        </div>
+
+        <div class="compartir-catalogo-actions">
+
+            <button type="button" class="contact-button" onclick="compartirCatalogo()">
+                Compartir catálogo
+            </button>
+
+            <button type="button" class="contact-button" onclick="copiarEnlaceCatalogo()">
+                Copiar enlace
+            </button>
+
+            <button type="button" class="contact-button" onclick="descargarQrCatalogo()">
+                Descargar código QR
+            </button>
+
+        </div>
+
+    </div>
+</div>

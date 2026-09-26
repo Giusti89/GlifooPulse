@@ -70,6 +70,11 @@
                         <span>💬</span> WhatsApp
                     </a>
                 @endif
+                <button type="button" class="contact-button" onclick="abrirCompartirCatalogo()">
+                    <span class="contact-text">
+                        <strong>Compartir portafolio</strong>
+                    </span>
+                </button>
             </nav>
         </div>
     </header>
@@ -105,7 +110,8 @@
         <!-- Videos -->
         <section class="portfolio-videos py-5">
             <div class="container">
-                <h2 class="text-center mb-5 section-title" style="color:{{ $colsec }};margin-top:50px;margin-bottom:50px">Videos del Portafolio</h2>
+                <h2 class="text-center mb-5 section-title"
+                    style="color:{{ $colsec }};margin-top:50px;margin-bottom:50px">Videos del Portafolio</h2>
 
                 @if (isset($videoportfolio) && $videoportfolio->count() > 0)
                     <div class="hero-visual shadow-lg rounded-3">
@@ -365,5 +371,48 @@
         </div>
     </footer>
     <!-- Font Awesome para iconos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{{ asset('dinamico/compartirport.js') }}?v={{ filemtime(public_path('dinamico/compartirport.js')) }}"></script>
+
 </x-layouts.plantillaportfolio>
+
+<div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">
+
+    <div class="modal-content compartir-catalogo-modal">
+
+        <button type="button" class="compartir-catalogo-close" onclick="cerrarCompartirCatalogo()"
+            aria-label="Cerrar">
+            &times;
+        </button>
+
+        <div class="compartir-catalogo-header">
+            <h2>Compartir catálogo</h2>
+
+            <p>
+                Escanea el código QR para visitar nuestro catálogo.
+            </p>
+        </div>
+
+        <div class="compartir-catalogo-qr">
+            <div id="qrCatalogo"></div>
+        </div>
+
+        <div class="compartir-catalogo-actions">
+
+            <button type="button" class="contact-button" onclick="compartirCatalogo()">
+                Compartir catálogo
+            </button>
+
+            <button type="button" class="contact-button" onclick="copiarEnlaceCatalogo()">
+                Copiar enlace
+            </button>
+
+            <button type="button" class="contact-button" onclick="descargarQrCatalogo()">
+                Descargar código QR
+            </button>
+
+        </div>
+
+    </div>
+</div>

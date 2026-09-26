@@ -89,6 +89,7 @@
 
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
     {!! $styles !!}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body style="background-color: {{ $backgroud ?? 'white' }}">

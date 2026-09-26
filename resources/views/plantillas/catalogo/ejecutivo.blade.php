@@ -60,6 +60,12 @@
 
                                 </span>
                             </a>
+
+                            <button type="button" class="contact-button" onclick="abrirCompartirCatalogo()">
+                                <span class="contact-text">
+                                    <strong>Compartir catálogo</strong>
+                                </span>
+                            </button>
                         </div>
                     @endif
                 </div>
@@ -363,6 +369,7 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="{{ asset('dinamico/ejecutivo.js') }}?v={{ filemtime(public_path('dinamico/ejecutivo.js')) }}"></script>
     <script src="{{ asset('dinamico/compartir.js') }}?v={{ filemtime(public_path('dinamico/compartir.js')) }}"></script>
 </x-layouts.plantillacatalogo>
@@ -372,5 +379,44 @@
         <img id="modalImagen" src="" alt="Vista ampliada del producto">
         <div id="modalTitulo" class="modal-titulo"></div>
         <p id="modalDescripcion" class="modal-descripcion"></p>
+    </div>
+</div>
+<div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">
+
+    <div class="modal-content compartir-catalogo-modal">
+
+        <button type="button" class="compartir-catalogo-close" onclick="cerrarCompartirCatalogo()"
+            aria-label="Cerrar">
+            &times;
+        </button>
+
+        <div class="compartir-catalogo-header">
+            <h2>Compartir catálogo</h2>
+
+            <p>
+                Escanea el código QR para visitar nuestro catálogo.
+            </p>
+        </div>
+
+        <div class="compartir-catalogo-qr">
+            <div id="qrCatalogo"></div>
+        </div>
+
+        <div class="compartir-catalogo-actions">
+
+            <button type="button" class="contact-button" onclick="compartirCatalogo()">
+                Compartir catálogo
+            </button>
+
+            <button type="button" class="contact-button" onclick="copiarEnlaceCatalogo()">
+                Copiar enlace
+            </button>
+
+            <button type="button" class="contact-button" onclick="descargarQrCatalogo()">
+                Descargar código QR
+            </button>
+
+        </div>
+
     </div>
 </div>

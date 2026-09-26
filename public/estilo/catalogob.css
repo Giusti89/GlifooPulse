@@ -94,6 +94,131 @@
      -webkit-overflow-scrolling: touch;
  }
 
+ .contacto-compartir {
+    position: fixed; 
+    bottom: 20px;    
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 2000;   
+}
+
+ .contact-section {
+    
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 15px;
+     background-color: rgba(255, 255, 255, 0.9);
+     padding: 10px 20px;
+     border-radius: 50px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ }
+
+ /* --------qr---------- */
+
+ .contact-button {
+     background: var(--brand-primary-button);
+     color: var(--brand-button-text);
+     border: none;
+     padding: 12px 20px;
+     border-radius: 25px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     margin: 15px 0;
+     text-transform: uppercase;
+     letter-spacing: 1px;
+     font-family: 'Rajdhani', sans-serif;
+     text-decoration: none;
+ }
+
+ .contact-button:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+ }
+
+ 
+ #qrCatalogo {
+     position: relative;
+     width: 220px;
+     height: 220px;
+     margin: 0 auto;
+ }
+
+ #qrCatalogo .qr-logo-overlay {
+     position: absolute;
+     width: 44px;
+     height: 44px;
+     object-fit: contain;
+     background: #ffffff;
+     padding: 4px;
+     border-radius: 8px;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+ }
+
+ #compartirCatalogoModal {
+     display: none;
+ }
+
+ #compartirCatalogoModal .compartir-catalogo-modal {
+     position: relative;
+     width: 90%;
+     max-width: 400px;
+     padding: 30px 24px;
+     text-align: center;
+     border-radius: 16px;
+ }
+
+ .compartir-catalogo-close {
+     position: absolute;
+     top: 10px;
+     right: 14px;
+
+     border: none;
+     background: transparent;
+
+     font-size: 28px;
+     line-height: 1;
+     cursor: pointer;
+
+     padding: 5px;
+ }
+
+ .compartir-catalogo-header h2 {
+     margin: 0 0 8px;
+     font-size: 24px;
+ }
+
+ .compartir-catalogo-header p {
+     margin: 0 0 20px;
+     font-size: 14px;
+     opacity: 0.75;
+ }
+
+ .compartir-catalogo-qr {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+
+     margin: 0 auto 24px;
+ }
+
+ #qrCatalogo {
+     position: relative;
+     width: 220px;
+     height: 220px;
+ }
+
+ .compartir-catalogo-actions {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+ }
+
  /* Opcional: oculta scrollbar en Webkit/Firefox */
  .categorias-navegacion::-webkit-scrollbar {
      display: none;
@@ -465,7 +590,7 @@
  }
 
  .producto-compartir:hover {
-     
+
      color: var(--brand-button-text);
      background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15));
  }
@@ -763,7 +888,7 @@
      justify-content: space-between;
      padding: 11px 0;
      border-bottom: 1px dashed #e2e8f0;
-     color:var(--brand-text-descrip);
+     color: var(--brand-text-descrip);
      font-size: 0.95rem;
  }
 
@@ -782,7 +907,7 @@
  }
 
  .cerrado-clean {
-    background-color: #fef2f2;
+     background-color: #fef2f2;
      color: #e53e3e;
      font-weight: 500;
      border: 1px solid #fecaca;
@@ -816,7 +941,7 @@
      transform: translateX(-50%);
      width: 80px;
      height: 4px;
-     background:var(--brand-background);
+     background: var(--brand-background);
      border-radius: 2px;
  }
 
