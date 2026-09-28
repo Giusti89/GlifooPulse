@@ -119,7 +119,7 @@
 
                 <div class="compartir-categoria">
                     <button type="button" class="btn-compartir-categoria" onclick="compartirCategoriaActiva()">
-                        Compartir Categoría Activa
+                        Compartir Categoría
                     </button>
                 </div>
 

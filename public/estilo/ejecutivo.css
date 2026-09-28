@@ -252,7 +252,7 @@
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
-    background-color: var(--brand-primary-button);
+    background-color: var(--brand-background);
     color: var(--brand-button-text);
     border: none;
 }
