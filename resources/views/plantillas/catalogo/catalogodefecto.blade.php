@@ -75,14 +75,12 @@
 
         <div class="contacto-compartir">
             <div class="contact-section">
-                <a href="https://wa.me/{{ $whatsNumber }}" class="contact-button" target="_blank">
-
+                <button type="button" class="contact-button"
+                    onclick="window.open('https://wa.me/{{ $whatsNumber }}', '_blank')">
                     <span class="contact-text">
                         <strong>Número de contacto</strong>
-
                     </span>
-                </a>
-
+                </button>
                 <button type="button" class="contact-button" onclick="abrirCompartirCatalogo()">
                     <span class="contact-text">
                         <strong>Compartir catálogo</strong>

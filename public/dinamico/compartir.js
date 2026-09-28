@@ -273,3 +273,61 @@ function descargarCanvasQr(canvas) {
 
     enlace.click();
 }
+
+function compartirCategoriaActiva() {
+    // 1. Encontrar la pestaña de categoría activa
+    const tabActiva = document.querySelector('.categoria-tab.active');
+    if (!tabActiva) {
+        alert('No se pudo detectar ninguna categoría activa.');
+        return;
+    }
+
+    // 2. Extraer el nombre estético y el identificador slug
+    const nombreCategoria = tabActiva.querySelector('.tab-text').innerText.trim();
+    const idContenedor = tabActiva.getAttribute('data-tab'); // Ej: "categoria-calzado-hombre"
+    const categoriaSlug = idContenedor.replace('categoria-', ''); // Ej: "calzado-hombre"
+
+    // 3. Construir la URL limpia usando el parámetro slug
+    const urlBase = window.location.origin + window.location.pathname;
+    const urlDestino = `${urlBase}?cat=${categoriaSlug}#${idContenedor}`;
+
+    const titulo = `Categoría: ${nombreCategoria}`;
+    const descripcion = `Mira todas nuestras soluciones y productos en la categoría ${nombreCategoria}.`;
+
+    // 4. Compartir (Móvil)
+    if (navigator.share) {
+        const textoMovil = ` *${nombreCategoria}*\n${descripcion}\n\n Ver categoría completa aquí:`;
+        navigator.share({
+            title: titulo,
+            text: textoMovil,
+            url: urlDestino
+        })
+            .catch((error) => console.log('Interrupción al compartir categoría', error));
+    } else {
+        // 5. Compartir (Escritorio / Portapapeles con Swal)
+        const textoEscritorio = ` *${nombreCategoria}*\n${descripcion}\n\n Ver categoría completa aquí:\n${urlDestino}`;
+
+        navigator.clipboard.writeText(textoEscritorio).then(() => {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Copiado!',
+                    position: 'top-end',
+                    toast: true,
+                    text: '¡Enlace de la categoría copiado al portapapeles!',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    didOpen: (toast) => {
+                        const container = Swal.getContainer();
+                        if (container) container.style.zIndex = '999999';
+                    }
+                });
+            } else {
+                alert('¡Enlace de la categoría copiado! Abre WhatsApp y pégalo.');
+            }
+        }).catch(err => {
+            const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoEscritorio)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    }
+}

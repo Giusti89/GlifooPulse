@@ -133,3 +133,32 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 250);
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Capturar el parámetro 'cat' de la URL (que ahora es el slug)
+    const urlParams = new URLSearchParams(window.location.search);
+    const catSlug = urlParams.get('cat');
+
+    if (catSlug) {
+        // Reconstruimos el ID del contenedor que armamos en Blade
+        const targetTabId = `categoria-${catSlug}`;
+        
+        // 1. Limpiar estados activos previos
+        document.querySelectorAll('.categoria-tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.categoria-content').forEach(content => content.classList.remove('active'));
+        
+        // 2. Buscar y activar la pestaña vinculada al slug
+        const tabToActivate = document.querySelector(`[data-tab="${targetTabId}"]`);
+        const contentToActivate = document.getElementById(targetTabId);
+        
+        if (tabToActivate && contentToActivate) {
+            tabToActivate.classList.add('active');
+            contentToActivate.classList.add('active');
+            
+            // Scroll suave hacia la sección elegida
+            setTimeout(() => {
+                contentToActivate.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+});

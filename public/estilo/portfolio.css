@@ -140,15 +140,13 @@ html {
     position: absolute;
     top: 10px;
     right: 14px;
-
     border: none;
     background: transparent;
-
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-
     padding: 5px;
+    color: var(--brand-text);
 }
 
 .compartir-catalogo-header h2 {
@@ -166,8 +164,11 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-
     margin: 0 auto 24px;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    width: fit-content;
 }
 
 #qrCatalogo {

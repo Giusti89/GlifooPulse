@@ -240,6 +240,23 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+.compartir-categoria {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.btn-compartir-categoria {
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background-color: var(--brand-primary-button);
+    color: var(--brand-button-text);
+    border: none;
+}
+
 /* --------qr---------- */
 #compartirCatalogoModal {
     display: none;
@@ -282,34 +299,37 @@
     position: absolute;
     top: 10px;
     right: 14px;
-
     border: none;
     background: transparent;
-
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-
     padding: 5px;
+    color: var(--brand-text);
 }
 
 .compartir-catalogo-header h2 {
     margin: 0 0 8px;
     font-size: 24px;
+    color: var(--brand-text);
 }
 
 .compartir-catalogo-header p {
     margin: 0 0 20px;
     font-size: 14px;
     opacity: 0.75;
+    color: var(--brand-text);
 }
 
 .compartir-catalogo-qr {
     display: flex;
     justify-content: center;
     align-items: center;
-
     margin: 0 auto 24px;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    width: fit-content;
 }
 
 #qrCatalogo {
@@ -715,7 +735,7 @@
 }
 
 .modal-content {
-    background: var(--brand-background-secundario);
+    background: var(--brand-background);
     color: var(--brand-text-titulo);
     padding: 25px;
     border-radius: 10px;
@@ -734,7 +754,7 @@
     border: none;
     font-size: 22px;
     cursor: pointer;
-    color: #333;
+    color: var(--brand-text-titulo);
 }
 
 .modal-imagen {

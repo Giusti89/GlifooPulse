@@ -108,8 +108,7 @@
                         <div class="categorias-lista" id="stickyTabs">
                             @foreach ($categoriapro as $categoria)
                                 <button class="categoria-tab {{ $loop->first ? 'active' : '' }}"
-                                    data-tab="categoria-{{ $categoria->id }}">
-                                    <span class="tab-icon">⚙️</span>
+                                    data-tab="categoria-{{ Str::slug($categoria->slug ?? $categoria->nombre) }}">
                                     <span class="tab-text">{{ $categoria->nombre }}</span>
                                 </button>
                             @endforeach
@@ -117,10 +116,17 @@
                         <div class="scroll-indicator right" id="scrollRight">›</div>
                     </div>
                 </div>
+
+                <div class="compartir-categoria">
+                    <button type="button" class="btn-compartir-categoria" onclick="compartirCategoriaActiva()">
+                        Compartir Categoría Activa
+                    </button>
+                </div>
+
                 <div class="categorias-contenido">
                     @foreach ($categoriapro as $categoria)
                         <div class="categoria-content {{ $loop->first ? 'active' : '' }}"
-                            id="categoria-{{ $categoria->id }}">
+                            id="categoria-{{ Str::slug($categoria->slug ?? $categoria->nombre) }}">
                             <div class="categoria-header">
                                 <h2 class="categoria-titulo">{{ $categoria->nombre }}</h2>
                                 @if ($categoria->descripcion)
