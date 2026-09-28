@@ -253,7 +253,7 @@
     border-radius: 20px;
     font-size: 0.8rem;
     background-color: var(--brand-background);
-    color: var(--brand-button-text);
+    color: var(--brand-text);
     border: none;
 }
 
