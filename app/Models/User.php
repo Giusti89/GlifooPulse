@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Swindon\FilamentHashids\Traits\HasHashid;
 
 class User extends Authenticatable implements FilamentUser
@@ -151,5 +152,10 @@ class User extends Authenticatable implements FilamentUser
             'id',
             'paquete_id'
         );
+    }
+
+    protected function spotSlug(): Attribute
+    {
+        return Attribute::get(fn() => $this->getSuscripcionActiva()?->spot?->slug);
     }
 }

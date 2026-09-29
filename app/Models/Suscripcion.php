@@ -34,7 +34,7 @@ class Suscripcion extends Model
     }
     public function spot()
     {
-        return $this->hasMany(Spot::class);
+        return $this->hasOne(Spot::class);
     }
 
     public function renewals()

@@ -23,7 +23,7 @@ use App\Filament\Pages\Auth\Register;
 use App\Http\Middleware\EnsureSubscriptionIsValid;
 use App\Http\Middleware\SuscripcionActiva;
 use Swindon\FilamentHashids\Middleware\FilamentHashidsMiddleware;
-
+use Filament\Navigation\NavigationItem;
 
 class CatalogoPanelProvider extends PanelProvider
 {
@@ -35,6 +35,21 @@ class CatalogoPanelProvider extends PanelProvider
             ->profile()
             ->passwordReset()
             ->topNavigation()
+            ->navigationItems([
+                NavigationItem::make('Vista preliminar')
+                    ->icon('heroicon-o-eye')
+                    ->url(function (): ?string {
+                        $slug = filament()->auth()->user()?->spot_slug;
+
+                        if (! $slug) {
+                            return null;
+                        }
+
+                        return route('publicidad', ['slug' => $slug]);
+                    }, shouldOpenInNewTab: true)
+                    ->visible(fn(): bool => filled(filament()->auth()->user()?->spot_slug))
+                    ->sort(1),
+            ])
             ->middleware([
                 FilamentHashidsMiddleware::class,
             ])
@@ -47,9 +62,7 @@ class CatalogoPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Catalogo/Widgets'), for: 'App\\Filament\\Catalogo\\Widgets')
-            ->widgets([
-               
-            ])
+            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
