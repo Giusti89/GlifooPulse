@@ -149,9 +149,9 @@
                                         <h4 class="producto-nombre">{{ $producto->nombre }}</h4>
 
                                         @if ($producto->descripcion)
-                                            <p class="producto-descripcion">
-                                                {{ $producto->descripcion }}
-                                            </p>
+                                            <div class="producto-descripcion">
+                                                {!! str(Str::limit($producto->descripcion, 1200))->sanitizeHtml() !!}
+                                            </div>
                                         @endif
 
                                         @if ($producto->precio)

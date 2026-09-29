@@ -129,9 +129,11 @@
                             id="categoria-{{ Str::slug($categoria->slug ?? $categoria->nombre) }}">
                             <div class="categoria-header">
                                 <h2 class="categoria-titulo">{{ $categoria->nombre }}</h2>
-                                @if ($categoria->descripcion)
-                                    <p class="categoria-descripcion">{{ $categoria->descripcion }}</p>
-                                @endif
+                                <div class="categoria-descripcion">
+                                    @if ($categoria->descripcion)
+                                        {!! str(Str::limit($categoria->descripcion, 1200))->sanitizeHtml() !!}
+                                    @endif
+                                </div>
                             </div>
                             <div class="servicios-grid">
                                 @foreach ($categoria->productos->sortBy('orden') as $producto)
@@ -161,8 +163,9 @@
                                         </div>
                                         <div class="servicio-info">
                                             <h4 class="servicio-nombre">{{ $producto->nombre }}</h4>
-                                            <p class="servicio-descripcion">
-                                                {{ Str::limit($producto->descripcion, 1200) }}</p>
+                                            <div class="servicio-descripcion">
+                                                {!! str(Str::limit($producto->descripcion, 1200))->sanitizeHtml() !!}
+                                            </div>
                                             @if ($producto->precio > 0)
                                                 <div class="servicio-precio">
                                                     <span class="precio-label">Costo:</span>
@@ -177,13 +180,12 @@
                                                         Contactar por WhatsApp
                                                     </button>
                                                 @endif
-                                                <button type="button" class="producto-whatsapp"
+                                                <button type="button" class="producto-whatsapp btn-compartir"
                                                     onclick="compartirProducto(this)"
                                                     data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
                                                     data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
                                                     data-titulo="{{ $producto->nombre }}"
-                                                    data-descripcion="{{ Str::limit($producto->descripcion, 120, '...') }}"
-                                                    class="btn-compartir">
+                                                    data-descripcion="{{ Str::limit(strip_tags($producto->descripcion), 120, '...') }}">
                                                     Compartir Producto
                                                 </button>
                                                 @if ($producto->precio > 0)

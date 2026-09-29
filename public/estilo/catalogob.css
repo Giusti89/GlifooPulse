@@ -545,16 +545,35 @@
  }
 
  .producto-descripcion {
-     color: var(--brand-text-descrip);
-     font-size: 0.8rem;
-     line-height: 1.4;
-     margin-bottom: 10px;
-     flex-grow: 1;
-     display: -webkit-box;
-     -webkit-line-clamp: 3;
-     -webkit-box-orient: vertical;
-     overflow: hidden;
- }
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--brand-text-descrip);
+}
+
+.producto-descripcion p {
+    color: var(--brand-text-descrip);
+}
+
+.producto-descripcion ul {
+    list-style-type: disc;
+    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center; /* Asegura el centrado */
+}
+
+.producto-descripcion ol {
+    list-style-type: decimal;
+    list-style-position: inside; /* Aplica también para listas numeradas */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.producto-descripcion li {
+    color: var(--brand-text-descrip);
+    margin-bottom: 0.25rem;
+}
 
  .producto-precio {
      color: var(--brand-text-titulo);

@@ -25,6 +25,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\RichEditor;
 
 class CategoriaResource extends Resource
 {
@@ -46,9 +47,9 @@ class CategoriaResource extends Resource
         }
 
         return cache()->driver('array')->remember('user_onboarding_check_' . $user->id, 60, function () use ($user) {
-            
+
             $suscripcion = $user->getSuscripcionActiva();
-            
+
             if ($suscripcion instanceof \Illuminate\Support\Collection) {
                 $suscripcion = $suscripcion->first();
             }
@@ -56,7 +57,7 @@ class CategoriaResource extends Resource
             if (!$suscripcion) {
                 return false;
             }
-            
+
             $spot = $suscripcion->spot;
             if ($spot instanceof \Illuminate\Support\Collection) {
                 $spot = $spot->first();
@@ -103,10 +104,13 @@ class CategoriaResource extends Resource
                                     ->required()
                                     ->unique(Categoria::class, 'slug', ignoreRecord: true),
 
-                                Textarea::make('descripcion')
+
+                                RichEditor::make('descripcion')
                                     ->label('Descripción')
                                     ->columnSpanFull()
-                                    ->rows(2),
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                    ]),
 
                                 TextInput::make('orden')
                                     ->label('Orden de Categoría')
@@ -136,9 +140,12 @@ class CategoriaResource extends Resource
                                             ->prefix('Bs.') // Ajusta tu moneda
                                             ->required(),
 
-                                        Textarea::make('descripcion')
+                                        RichEditor::make('descripcion')
                                             ->label('Descripción Corta')
-                                            ->columnSpanFull(),
+                                            ->columnSpanFull()
+                                            ->disableToolbarButtons([
+                                                'attachFiles',
+                                            ]),
 
                                         Forms\Components\Select::make('estado')
                                             ->label('Estado')
@@ -248,7 +255,8 @@ class CategoriaResource extends Resource
                     ->label('Categoria'),
 
                 tables\Columns\TextColumn::make('descripcion')
-                    ->label('Descripcion'),
+                    ->label('Descripcion')
+                    ->html(),
 
                 tables\Columns\TextColumn::make('orden')
                     ->sortable()

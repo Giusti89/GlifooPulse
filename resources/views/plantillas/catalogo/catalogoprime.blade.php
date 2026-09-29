@@ -87,7 +87,7 @@
                             <li><a href="#video">Video institucional</a></li>
                         @endif
                         <li><a href="#catalogo">CATALOGO</a></li>
-                        <li><a href="#mapa">MAPA</a></li>                        
+                        <li><a href="#mapa">MAPA</a></li>
                         <li><a href="#horario">HORARIOS</a></li>
                     </ul>
                 </div>
@@ -215,7 +215,9 @@
                                                 onerror="this.src='/images/placeholder.jpg'; this.alt='Imagen no disponible'">
                                         </div>
                                         <h4>{{ $producto->nombre }}</h4>
-                                        <p>{{ Str::limit($producto->descripcion, 250) }}</p>
+                                        <div class="producto-descripcion">
+                                            {!! str(Str::limit($producto->descripcion, 1200))->sanitizeHtml() !!}
+                                        </div>
 
                                         @if ($producto->precio)
                                             <div class="product-price">Bs.{{ number_format($producto->precio, 2) }}

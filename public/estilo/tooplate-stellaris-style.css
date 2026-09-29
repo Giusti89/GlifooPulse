@@ -1329,6 +1329,37 @@ section {
 
 }
 
+ .producto-descripcion {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--brand-text-descrip);
+}
+
+.producto-descripcion p {
+    color: var(--brand-text-descrip);
+}
+
+.producto-descripcion ul {
+    list-style-type: disc;
+    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center; /* Asegura el centrado */
+}
+
+.producto-descripcion ol {
+    list-style-type: decimal;
+    list-style-position: inside; /* Aplica también para listas numeradas */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.producto-descripcion li {
+    color: var(--brand-text-descrip);
+    margin-bottom: 0.25rem;
+}
+
 .mission-card.product-card::before {
     content: '';
     position: absolute;

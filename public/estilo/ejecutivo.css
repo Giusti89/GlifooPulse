@@ -369,6 +369,67 @@
 }
 
 /* Navegación de categorías */
+.categoria-descripcion {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.categoria-descripcion p {
+    color: var(--brand-text);
+}
+
+.categoria-descripcion ul {
+    list-style-type: disc;
+    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center; /* Asegura el centrado */
+}
+
+.categoria-descripcion ol {
+    list-style-type: decimal;
+    list-style-position: inside; /* Aplica también para listas numeradas */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.categoria-descripcion li {
+    color: var(--brand-text);
+    margin-bottom: 0.25rem;
+}
+
+
+
+.servicio-descripcion {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.servicio-descripcion p {
+    color: var(--brand-text-descrip);
+}
+
+.servicio-descripcion ul {
+    list-style-type: disc;
+    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center; /* Asegura el centrado */
+}
+
+.servicio-descripcion ol {
+    list-style-type: decimal;
+    list-style-position: inside; /* Aplica también para listas numeradas */
+    padding: 0;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.servicio-descripcion li {
+    color: var(--brand-text-descrip);
+    margin-bottom: 0.25rem;
+}
 
 .categorias-navegacion {
     margin-bottom: 3rem;
@@ -430,6 +491,7 @@
 
 .tab-text {
     font-size: 0.95rem;
+    color:var(--brand-button-text);
 }
 
 .scroll-indicator {
