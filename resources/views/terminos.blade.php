@@ -12,14 +12,16 @@
         </p><br>
 
         <h3><b>2. Descripción del servicio</b></h3><br>
-        <p>Glifoo Pulse es un servicio web de suscripción que permite a los usuarios crear:
-
-            Sitios tipo biolink (páginas de enlaces personales o de negocios).
-
-            Catálogos digitales de productos o servicios.
-
-            El objetivo del servicio es brindar herramientas simples de presencia digital a emprendedores, marcas o
-            empresas que deseen promocionar sus productos o servicios mediante enlaces personalizados.
+        <p>Glifoo Pulse es un servicio web de suscripción que permite a los usuarios crear:</p>
+        <ul>
+            <li>Sitios tipo biolink (páginas de enlaces personales o de negocios).</li>
+            <li>Portafolio (páginas de proyectos realizados).</li>
+            <li>Catálogos digitales de productos o servicios.</li>
+            <li>Estadísticas de tráfico y atribución de campañas.</li>
+        </ul>
+        <p>El objetivo del servicio es brindar herramientas simples de presencia digital a emprendedores, marcas o
+            empresas que deseen promocionar sus productos o servicios mediante enlaces personalizados, así como medir
+            el rendimiento de sus acciones de marketing digital.
         </p><br>
 
         <h3><b>3. Registro y acceso</b></h3><br>
@@ -116,23 +118,88 @@
         </p><br>
 
         <h3><b>10. Privacidad y protección de datos</b></h3><br>
-        <p>Glifoo Pulse recopila y almacena únicamente los datos necesarios para la prestación del servicio: nombre,
-            correo electrónico y número de celular.
+        <p>Glifoo Pulse recopila y almacena los siguientes datos:</p>
 
-            La información no será vendida ni cedida a terceros, salvo requerimiento legal.
-            El usuario puede solicitar la actualización o eliminación de sus datos personales escribiendo a
+        <p><b>10.1 Datos del usuario registrado:</b></p>
+        <p>Nombre, apellido, correo electrónico y número de celular. Estos datos son utilizados para la gestión de
+            la cuenta, la facturación, el contacto y la prestación del servicio contratado.
+        </p>
+
+        <p><b>10.2 Datos estadísticos de los catálogos:</b></p>
+        <p>Con el fin de generar estadísticas de tráfico para los usuarios, Glifoo Pulse recopila información
+            agregada de las visitas a los catálogos y biolinks, incluyendo:
+        </p>
+        <ul>
+            <li>Dirección IP almacenada de forma anonimizada mediante hash criptográfico irreversible.</li>
+            <li>Tipo de dispositivo y navegador (user-agent).</li>
+            <li>Sitio de referencia (referrer).</li>
+            <li>Parámetros de campaña (UTM source, medium, campaign).</li>
+            <li>Fecha y hora de la visita.</li>
+            <li>Clicks en enlaces y redes sociales.</li>
+        </ul>
+
+        <p><b>10.3 Finalidad:</b></p>
+        <p>Los datos recopilados se utilizan exclusivamente para proveer el servicio contratado, generar
+            estadísticas agregadas que el usuario puede consultar en su panel, y mejorar la plataforma.
+        </p>
+
+        <p><b>10.4 Limitaciones:</b></p>
+        <p>Glifoo Pulse no realiza perfilado publicitario, no vende ni cede datos a terceros salvo requerimiento
+            legal, y no cruza datos personales identificables con las estadísticas de visitantes.
+        </p>
+
+        <p><b>10.5 Derechos del usuario:</b></p>
+        <p>El usuario puede solicitar la actualización o eliminación de sus datos personales escribiendo a
             pulse@glifoo.com.
-
-            Para más detalles, consulta la [Política de Privacidad] (documento separado).
         </p><br>
 
-        <h3><b>11. Contacto</b></h3><br>
+        <h3><b>11. Cookies</b></h3><br>
+        <p>Glifoo Pulse utiliza cookies propias para el funcionamiento del servicio y la medición de estadísticas.
+            Estas cookies no recopilan información personal identificable y no se comparten con terceros.
+        </p>
+
+        <p><b>Cookies utilizadas:</b></p>
+        <ul>
+            <li><b>_sid:</b> identifica una sesión de visita y evita duplicados en las estadísticas. Duración: 1 día.
+            </li>
+            <li><b>origen_visita:</b> recuerda el origen de la visita (parámetros UTM) para atribuir conversiones.
+                Duración: 30 días.</li>
+            <li><b>cookies_ok:</b> almacena la aceptación del aviso de cookies por parte del visitante. Duración:
+                indefinida (hasta que el visitante borre sus datos).</li>
+        </ul>
+
+        <p>El visitante puede bloquear o eliminar estas cookies desde la configuración de su navegador. Si las
+            bloquea, es posible que las estadísticas no reflejen correctamente su visita, aunque el catálogo seguirá
+            funcionando con normalidad.
+        </p><br>
+        <h3><b>12. Retención de datos</b></h3><br>
+        <p>Los datos estadísticos crudos (registros individuales de visitas y clicks) se conservan por un período
+            máximo de <b>12 meses</b> desde su registro. Pasado ese período son eliminados automáticamente de la base
+            de datos.
+        </p>
+        <p>Los datos agregados (estadísticas diarias agrupadas por fuente, campaña y dispositivo) se conservan de
+            forma indefinida, ya que no permiten identificar usuarios individuales.
+        </p><br>
+        <h3><b>13. Responsabilidad del usuario sobre sus visitantes</b></h3><br>
+        <p>El usuario (cliente de Glifoo Pulse) reconoce que su catálogo público puede recibir visitas de terceros y
+            se compromete a:
+        </p>
+        <ul>
+            <li>Informar a sus visitantes, cuando la legislación aplicable lo requiera, sobre el uso de cookies y
+                tecnologías de medición.</li>
+            <li>Cumplir con las leyes locales de protección de datos aplicables a su actividad.</li>
+        </ul>
+        <p>Glifoo Pulse no se hace responsable del uso que el usuario dé a las estadísticas obtenidas ni de las
+            obligaciones legales que apliquen en la jurisdicción del usuario.
+        </p><br>
+
+        <h3><b>14. Contacto</b></h3><br>
         <p>Cualquier duda, reclamo o solicitud puede dirigirse a:
             📩 Correo: pulse@glifoo.com
             🌐 Sitio web: glifoo.org
         </p><br>
 
-        <h3><b>12. Legislación aplicable</b></h3><br>
+        <h3><b>15. Legislación aplicable</b></h3><br>
         <p>Estos Términos y Condiciones se rigen por las leyes vigentes en el Estado Plurinacional de Bolivia.
             En caso de disputa, las partes se someterán a los tribunales competentes de la ciudad de residencia del
             propietario del servicio.

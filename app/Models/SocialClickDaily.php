@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialClicks extends Model
+class SocialClickDaily extends Model
 {
     use HasFactory;
     protected $fillable = [
         'social_id',
-        'clicked_at',
-        'ip',
-        'user_agent',
+        'date',
         'utm_source',
         'utm_campaign',
         'device_type',
+        'clicks',
     ];
 
     protected $casts = [
-        'clicked_at' => 'datetime',
+        'date' => 'date',
     ];
-    
+
     public function social()
     {
         return $this->belongsTo(Social::class);

@@ -20,10 +20,11 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Services\SocialClickService;
 use Illuminate\Support\Facades\Storage;
+use App\Services\VisitService;
 
 class PublicidadController extends Controller
 {
-    public function show(Request $request, $slug)
+    public function show(Request $request, $slug, VisitService $visitService)
     {
         try {
             // CERO CONSULTAS: Recuperamos el objeto con todas sus relaciones desde el Middleware
@@ -144,9 +145,7 @@ class PublicidadController extends Controller
 
             if ($publicidad->estado || Auth::id() == optional($usuarioSpot)->id) {
                 if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
-                    dispatch(function () use ($publicidad) {
-                        $publicidad->incrementarVisita();
-                    })->afterResponse();
+                    $visitService->register($request, $publicidad);
                 }
                 $dataCompact = compact(
                     'titulo',

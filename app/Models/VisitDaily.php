@@ -5,25 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialClicks extends Model
+class VisitDaily extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'social_id',
-        'clicked_at',
-        'ip',
-        'user_agent',
+        'spot_id',
+        'date',
         'utm_source',
         'utm_campaign',
+        'referrer_domain',
         'device_type',
+        'visits',
+        'unique_visitors',
     ];
 
     protected $casts = [
-        'clicked_at' => 'datetime',
+        'date' => 'date',
     ];
-    
-    public function social()
+
+    public function spot()
     {
-        return $this->belongsTo(Social::class);
+        return $this->belongsTo(Spot::class);
     }
 }

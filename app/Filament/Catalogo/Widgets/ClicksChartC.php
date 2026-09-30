@@ -24,7 +24,7 @@ class ClicksChartC extends ChartWidget
             $query->where('user_id', $user->id);
         })->exists();
     }
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 7;
     protected static ?string $heading = 'Evolución de interacción de redes sociales';
 
     protected static ?string $pollingInterval = '60s';

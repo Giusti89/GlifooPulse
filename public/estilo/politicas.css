@@ -27,3 +27,15 @@
     font-family: 'Segoe';
     font-size: 2vh;
 }
+
+.politica ul {
+    color: white;
+    width: 70vw;
+    text-align: justify;
+    word-break: break-word;
+    line-break: normal;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    font-family: 'Segoe';
+    font-size: 2vh;
+}
