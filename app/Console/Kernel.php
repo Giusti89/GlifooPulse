@@ -13,11 +13,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('analytics:aggregate-visits --days=1')
-            ->everyMinute()
+            ->dailyAt('03:00')
             ->withoutOverlapping();
 
         $schedule->command('analytics:aggregate-social-clicks --days=1')
-            ->everyMinute()
+            ->dailyAt('03:10')
             ->withoutOverlapping();
 
         $schedule->command('analytics:purge --months=12')
