@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping();
 
         $schedule->command('analytics:aggregate-social-clicks --days=1')
-            ->dailyAt('03:10')
+            ->everyMinute()
             ->withoutOverlapping();
 
         $schedule->command('analytics:purge --months=12')
