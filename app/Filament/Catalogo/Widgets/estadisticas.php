@@ -80,16 +80,41 @@ class Estadisticas extends BaseWidget
             ->where('fecha_consulta', '>=', now()->subDays(7))
             ->count();
 
-        $consultas30d = (clone $consultasQuery)
-            ->where('fecha_consulta', '>=', now()->subDays(30))
-            ->count();
+        // 👇 CORRECCIÓN: solo contar consultas desde que existe tracking
+        // (primera fecha con datos en visit_dailies)
+        $fechaInicioTracking = VisitDaily::where('spot_id', $spot->id)
+            ->min('date');
+
+        $consultas30dQuery = (clone $consultasQuery)
+            ->where('fecha_consulta', '>=', now()->subDays(30));
+
+        if ($fechaInicioTracking) {
+            $consultas30dQuery->where('fecha_consulta', '>=', $fechaInicioTracking);
+        }
+
+        $consultas30d = $consultas30dQuery->count();
 
         // ============ TASA DE CONVERSIÓN (30d) ============
-        $conversion = $visitas30 > 0
-            ? round(($consultas30d / $visitas30) * 100, 2)
+        // Solo calcular si hay tracking activo con al menos 7 días de datos
+        $diasTracking = $fechaInicioTracking
+            ? Carbon::parse($fechaInicioTracking)->diffInDays(now())
             : 0;
 
-        $colorConversion = $conversion >= 3 ? 'success' : ($conversion >= 1 ? 'warning' : 'gray');
+        $puedeCalcularConversion = $diasTracking >= 7 && $visitas30 >= 10;
+
+        $conversion = $puedeCalcularConversion && $visitas30 > 0
+            ? round(($consultas30d / $visitas30) * 100, 2)
+            : null;
+
+        $colorConversion = $conversion === null
+            ? 'gray'
+            : ($conversion >= 3 ? 'success' : ($conversion >= 1 ? 'warning' : 'gray'));
+
+        $valorConversion = $conversion === null ? '—' : "{$conversion}%";
+
+        $descripcionConversion = $conversion === null
+            ? 'Se calculará cuando haya más datos'
+            : "{$consultas30d} consultas / {$visitas30} visitas";
 
         // ============ FUENTE TOP DE TRÁFICO (30d) ============
         $fuenteTop = VisitDaily::where('spot_id', $spot->id)
@@ -102,6 +127,22 @@ class Estadisticas extends BaseWidget
 
         $fuenteTopNombre = $fuenteTop?->utm_source ?? 'Tráfico directo';
         $fuenteTopVisitas = $fuenteTop?->total ?? 0;
+
+        // Si no hay UTM pero sí hay referrer, usarlo como fuente
+        if (! $fuenteTop) {
+            $referrerTop = VisitDaily::where('spot_id', $spot->id)
+                ->where('date', '>=', now()->subDays(30)->toDateString())
+                ->whereNotNull('referrer_domain')
+                ->selectRaw('referrer_domain, SUM(visits) as total')
+                ->groupBy('referrer_domain')
+                ->orderByDesc('total')
+                ->first();
+
+            if ($referrerTop) {
+                $fuenteTopNombre = $referrerTop->referrer_domain;
+                $fuenteTopVisitas = $referrerTop->total;
+            }
+        }
 
         // ============ PRODUCTO MÁS CONSULTADO ============
         $productoTop = (clone $consultasQuery)
@@ -121,7 +162,6 @@ class Estadisticas extends BaseWidget
 
         // ============ REDES SOCIALES ============
         $socialsList = $spot->socials;
-        $totalRedes = $socialsList->count();
         $topSocials = $socialsList->sortByDesc('clicks');
 
         // ============ CONSTRUIR STATS ============
@@ -156,8 +196,8 @@ class Estadisticas extends BaseWidget
             ->color('info');
 
         // 5. Tasa de conversión
-        $stats[] = Stat::make('Tasa de conversión (30d)', "{$conversion}%")
-            ->description("{$consultas30d} consultas / {$visitas30} visitas")
+        $stats[] = Stat::make('Tasa de conversión (30d)', $valorConversion)
+            ->description($descripcionConversion)
             ->descriptionIcon('heroicon-m-calculator')
             ->icon('heroicon-o-arrow-trending-up')
             ->color($colorConversion);

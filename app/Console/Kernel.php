@@ -12,7 +12,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('analytics:aggregate-visits --days=1')
+            ->dailyAt('03:00')
+            ->withoutOverlapping();
+
+        $schedule->command('analytics:aggregate-social-clicks --days=1')
+            ->dailyAt('03:10')
+            ->withoutOverlapping();
+
+        $schedule->command('analytics:purge --months=12')
+            ->monthlyOn(1, '04:00')
+            ->withoutOverlapping();
     }
 
     /**
@@ -20,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
