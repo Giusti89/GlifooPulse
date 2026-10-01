@@ -145,6 +145,7 @@
         </footer>
     </div>
     {!! $scripts !!}
+     @include('partials.cookie-banner')
 </body>
 
 </html>

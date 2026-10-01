@@ -182,6 +182,8 @@
     {{-- <script src="./js/avisoCokies.js"></script> --}}
     <script src="{{ asset('./dinamico/index.js') }}"></script>
     <script src="{{ $js ?? '' }}"></script>
+     @include('partials.cookie-banner')
+
 </body>
 
 </html>

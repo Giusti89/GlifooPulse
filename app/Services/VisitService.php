@@ -17,9 +17,13 @@ class VisitService
             return;
         }
 
+        if ($request->cookie('cookies_ok') !== '1') {
+            return;
+        }
+
         $sessionId = $this->resolveSessionId($request);
         if (! $sessionId) {
-            return; // visita duplicada dentro de la ventana anti-spam
+            return; 
         }
 
         $referrer = $request->headers->get('referer');
@@ -46,9 +50,16 @@ class VisitService
     protected function isBot(string $ua): bool
     {
         return Str::contains($ua, [
-            'bot', 'crawl', 'spider', 'slurp',
-            'facebookexternalhit', 'whatsapp', 'telegrambot',
-            'twitterbot', 'linkedinbot', 'preview',
+            'bot',
+            'crawl',
+            'spider',
+            'slurp',
+            'facebookexternalhit',
+            'whatsapp',
+            'telegrambot',
+            'twitterbot',
+            'linkedinbot',
+            'preview',
         ]);
     }
 
