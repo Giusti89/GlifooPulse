@@ -89,11 +89,12 @@ class PublicidadController extends Controller
                 $categoriapro->each(function ($categoria) {
                     $categoria->productos->each(function ($producto) {
                         if ($producto->descripcion) {
-                            // Removemos las etiquetas HTML de Filament, decodificamos entidades y limpiamos espacios
-                            $textoLimpio = strip_tags($producto->descripcion);
+                            // Reemplazamos los cierres de bloque </p> y <br> por saltos de línea reales para que no se pegue el texto
+                            $conSaltos = str_replace(['</p>', '<br>', '<br/>'], ["\n", "\n", "\n"], $producto->descripcion);
+
+                            $textoLimpio = strip_tags($conSaltos);
                             $textoLimpio = html_entity_decode($textoLimpio, ENT_QUOTES, 'UTF-8');
 
-                            // Guardamos el resultado limpio de vuelta en el atributo del objeto en memoria
                             $producto->descripcion_plana = trim($textoLimpio);
                         } else {
                             $producto->descripcion_plana = '';
@@ -135,7 +136,7 @@ class PublicidadController extends Controller
 
                     if ($productoSEO) {
                         $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
-                        $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
+                       $descripcionSEO = Str::limit($productoSEO->descripcion_plana, 150, '...');
 
                         $imagenRelacionSEO = $productoSEO->imagenes->first();
                         if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
