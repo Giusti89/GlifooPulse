@@ -386,7 +386,6 @@
         <span class="modal-cerrar">&times;</span>
         <img id="modalImagen" src="" alt="Vista ampliada del producto">
         <div id="modalTitulo" class="modal-titulo"></div>
-        <p id="modalDescripcion" class="modal-descripcion"></p>
     </div>
 </div>
 <div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">

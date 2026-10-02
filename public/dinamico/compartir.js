@@ -2,7 +2,10 @@ function compartirProducto(boton) {
     const urlSeo = boton.getAttribute('data-url-seo'); // URL limpia para los bots e intermedia
     const urlDestino = boton.getAttribute('data-url-destino'); // URL final con hash para el usuario
     const titulo = boton.getAttribute('data-titulo');
-    const descripcion = boton.getAttribute('data-descripcion');
+    const htmlSucio = boton.getAttribute('data-descripcion');
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlSucio;
+    const descripcion = tempDiv.innerText || tempDiv.textContent || "";
 
     // 1. FLUJO PARA MÓVILES (API NATIVA)
     if (navigator.share) {
