@@ -14,7 +14,7 @@ class TrafficTrendChart extends ChartWidget
 {
     protected static ?int $sort = 6;
     protected static ?string $pollingInterval = '60s';
-    protected int|string|array $columnSpan = 2;
+    
 
     public static function canView(): bool
     {

@@ -14,7 +14,7 @@ class DeviceBreakdownChart extends ChartWidget
      protected static ?int $sort = 5;
     protected static ?string $heading = 'Dispositivos (últimos 30 días)';
     protected static ?string $pollingInterval = '60s';
-    protected int|string|array $columnSpan = 1;
+    
 
     public static function canView(): bool
     {

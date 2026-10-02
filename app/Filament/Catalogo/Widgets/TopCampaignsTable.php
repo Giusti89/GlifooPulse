@@ -15,7 +15,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class TopCampaignsTable extends BaseWidget
 {
     protected static ?int $sort = 4;
-    protected int|string|array $columnSpan = 1;
+    
     protected static ?string $heading = 'Rendimiento por campaña (últimos 30 días)';
 
     public static function canView(): bool

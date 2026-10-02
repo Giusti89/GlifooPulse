@@ -14,7 +14,7 @@ class ClicksByNetworkChart extends ChartWidget
     protected static ?int $sort = 3;
     protected static ?string $heading = 'Clicks en redes (últimos 30 días)';
     protected static ?string $pollingInterval = '60s';
-    protected int|string|array $columnSpan = 1;
+    
 
     public static function canView(): bool
     {
