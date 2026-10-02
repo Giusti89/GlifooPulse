@@ -86,7 +86,20 @@ class PublicidadController extends Controller
                     ->orderBy('orden', 'asc')
                     ->get();
 
-                // REEMPLAZO CLAVE: Usamos la relación ya cargada como colección con ->get() viejo cambiado a ->horarios
+                $categoriapro->each(function ($categoria) {
+                    $categoria->productos->each(function ($producto) {
+                        if ($producto->descripcion) {
+                            // Removemos las etiquetas HTML de Filament, decodificamos entidades y limpiamos espacios
+                            $textoLimpio = strip_tags($producto->descripcion);
+                            $textoLimpio = html_entity_decode($textoLimpio, ENT_QUOTES, 'UTF-8');
+
+                            // Guardamos el resultado limpio de vuelta en el atributo del objeto en memoria
+                            $producto->descripcion_plana = trim($textoLimpio);
+                        } else {
+                            $producto->descripcion_plana = '';
+                        }
+                    });
+                });
                 $horarios = $publicidad->horarios;
             }
 
