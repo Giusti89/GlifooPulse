@@ -155,7 +155,7 @@
                                             @if ($producto->precio > 0)
                                                 <div class="servicio-overlay">
                                                     <button class="btn-ver-detalles"
-                                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit($producto->descripcion) }}')">
+                                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit(strip_tags($producto->descripcion), 120, '...') }}')">
                                                         Ver detalles
                                                     </button>
                                                 </div>
@@ -185,7 +185,7 @@
                                                     data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
                                                     data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
                                                     data-titulo="{{ $producto->nombre }}"
-                                                    data-descripcion="{{ Str::limit($producto->descripcion_plana, 120, '...') }}">
+                                                    data-descripcion="{{ Str::limit(strip_tags($producto->descripcion), 120, '...') }}">
                                                     Compartir Producto
                                                 </button>
                                                 @if ($producto->precio > 0)
@@ -386,6 +386,7 @@
         <span class="modal-cerrar">&times;</span>
         <img id="modalImagen" src="" alt="Vista ampliada del producto">
         <div id="modalTitulo" class="modal-titulo"></div>
+        <p id="modalDescripcion" class="modal-descripcion"></p>
     </div>
 </div>
 <div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">
