@@ -24,12 +24,16 @@ class ShareController extends Controller
             ? asset('storage/' . $imagenRelacion->url)
             : asset('img/default-product.jpg');
 
+        $descripcionLimpia = strip_tags(html_entity_decode($producto->descripcion, ENT_QUOTES, 'UTF-8'));
+        $descripcionAcortada = Str::limit($descripcionLimpia, 150, '...');
+
+
         // 4. Preparamos la data estructurada de los Meta Tags
         $meta = [
-            'titulo' => $producto->nombre . " | " . $spot->titulo,
-            'descripcion' => Str::limit($producto->descripcion, 150, '...'),
+            
+            'titulo' => e($producto->nombre . " | " . $spot->titulo),
+            'descripcion' => e($descripcionAcortada),
             'imagen' => $imagenOg,
-            // Esta es la URL final a donde irá el usuario (con el hash para hacer scroll automático)
             'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
         ];
 
@@ -43,7 +47,7 @@ class ShareController extends Controller
         if ($imagenProducto && !empty($imagenProducto->url)) {
             return asset('storage/' . $imagenProducto->url);
         }
-        
+
         if ($contenido && !empty($contenido->banner_url)) {
             return asset('storage/' . $contenido->banner_url);
         }
