@@ -25,18 +25,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $titulo }}</title>
+
+    {{-- Evaluamos cuál descripción usar y la limpiamos de HTML --}}
     @php
         $descripcionLimpia = strip_tags(!empty($descripcionSEO) ? $descripcionSEO : $descripcion);
     @endphp
 
-    <meta name="description" content="{{ $descripcionLimpia }}">
+    <meta name="description" content="{{ e($descripcionLimpia) }}">
     <meta name="author" content="Glifoo">
     <meta name="robots" content="{{ $robots }}">
     <link rel="canonical" href="{{ $ogUrl ?? request()->url() }}">
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
 
+    {{-- Metadatos para Redes Sociales usando la descripción sanitizada --}}
     <meta property="og:title" content="{{ $titulo }}">
-    <meta property="og:description" content="{{ $descripcionLimpia }}">
+    <meta property="og:description" content="{{ e($descripcionLimpia) }}">
     <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:url" content="{{ $ogUrl ?? request()->url() }}">
     <meta property="og:locale" content="{{ $locale }}">
@@ -46,7 +49,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $titulo }}">
-    <meta name="twitter:description" content="{{ $descripcionLimpia }}">
+    <meta name="twitter:description" content="{{ e($descripcionLimpia) }}">
     @if ($imagenOg)
         <meta name="twitter:image" content="{{ asset($imagenOg) }}">
     @endif
