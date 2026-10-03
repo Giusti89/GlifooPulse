@@ -151,6 +151,8 @@ class PublicidadController extends Controller
                 if (!Auth::check() || Auth::id() !== optional($usuarioSpot)->id) {
                     $visitService->register($request, $publicidad);
                 }
+                $descripcionSEO = strip_tags($descripcionSEO);
+                $descripcion = strip_tags($descripcion ?? '');
                 $dataCompact = compact(
                     'titulo',
                     'catalogos',
