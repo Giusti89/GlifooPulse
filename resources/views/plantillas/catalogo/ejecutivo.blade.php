@@ -185,7 +185,7 @@
                                                     data-url-seo="{{ route('producto.compartir.enlace', ['spot_slug' => $spot->slug, 'product_slug' => $producto->slug]) }}"
                                                     data-url-destino="{{ route('publicidad', ['slug' => $spot->slug]) . '?prod=' . $producto->slug . '#prod-' . $producto->slug }}"
                                                     data-titulo="{{ $producto->nombre }}"
-                                                    data-descripcion="{{ Str::limit(strip_tags($producto->descripcion), 120, '...') }}">
+                                                    data-descripcion="{!! str(Str::limit($producto->descripcion, 1200))->sanitizeHtml() !!}">
                                                     Compartir Producto
                                                 </button>
                                                 @if ($producto->precio > 0)

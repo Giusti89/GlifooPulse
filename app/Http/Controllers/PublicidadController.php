@@ -67,7 +67,10 @@ class PublicidadController extends Controller
 
             // Valores base (SEO básico)
             $tituloSEO = $catalogos->seo_title ?? $publicidad->titulo;
+
             $descripcionSEO = $catalogos->seo_descripcion ?? $contenido->descripcion ?? "";
+            $descripcionSEO = strip_tags($descripcionSEO);
+
             $keywordsSEO = $catalogos->seo_keyword ?? '';
             $robots = 'index, follow';
             $imagenOg = $contenido && $contenido->banner_url
@@ -122,7 +125,8 @@ class PublicidadController extends Controller
 
                     if ($productoSEO) {
                         $tituloSEO = $productoSEO->nombre . " | " . $publicidad->titulo;
-                        $descripcionSEO = Str::limit($productoSEO->descripcion, 150, '...');
+                        $textoPlanoProducto = strip_tags($productoSEO->descripcion);
+                        $descripcionSEO = Str::limit($textoPlanoProducto, 150, '...');
 
                         $imagenRelacionSEO = $productoSEO->imagenes->first();
                         if ($imagenRelacionSEO && !empty($imagenRelacionSEO->url)) {
