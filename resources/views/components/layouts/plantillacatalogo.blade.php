@@ -25,15 +25,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $titulo }}</title>
+    @php
+        $descripcionLimpia = strip_tags(!empty($descripcionSEO) ? $descripcionSEO : $descripcion);
+    @endphp
 
-    <meta name="description" content="{{ !empty($descripcionSEO) ? $descripcionSEO : $descripcion }}">
+    <meta name="description" content="{{ $descripcionLimpia }}">
     <meta name="author" content="Glifoo">
     <meta name="robots" content="{{ $robots }}">
     <link rel="canonical" href="{{ $ogUrl ?? request()->url() }}">
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
 
     <meta property="og:title" content="{{ $titulo }}">
-    <meta property="og:description" content="{{ $descripcion }}">
+    <meta property="og:description" content="{{ $descripcionLimpia }}">
     <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:url" content="{{ $ogUrl ?? request()->url() }}">
     <meta property="og:locale" content="{{ $locale }}">
@@ -43,7 +46,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $titulo }}">
-    <meta name="twitter:description" content="{{ $descripcion }}">
+    <meta name="twitter:description" content="{{ $descripcionLimpia }}">
     @if ($imagenOg)
         <meta name="twitter:image" content="{{ asset($imagenOg) }}">
     @endif
@@ -145,7 +148,7 @@
         </footer>
     </div>
     {!! $scripts !!}
-     @include('partials.cookie-banner')
+    @include('partials.cookie-banner')
 </body>
 
 </html>
