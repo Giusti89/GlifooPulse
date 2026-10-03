@@ -26,18 +26,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $titulo }}</title>
 
-    {{-- Evaluamos cuál descripción usar y la limpiamos de HTML --}}
-    
-    <meta name="description" content="<?php echo htmlspecialchars(strip_tags($descripcionSEO ?? $descripcion), ENT_QUOTES, 'UTF-8'); ?>">
-
+    <meta name="description" content="{{ !empty($descripcionSEO) ? $descripcionSEO : $descripcion }}">
     <meta name="author" content="Glifoo">
     <meta name="robots" content="{{ $robots }}">
     <link rel="canonical" href="{{ $ogUrl ?? request()->url() }}">
     <link rel="icon" href="{{ $icono ? asset($icono) : asset('img/logos/Boton.ico') }}" type="image/x-icon">
 
-    {{-- Metadatos para Redes Sociales usando la descripción sanitizada --}}
     <meta property="og:title" content="{{ $titulo }}">
-    <meta property="og:description" content="<?php echo htmlspecialchars(strip_tags($descripcionSEO ?? $descripcion), ENT_QUOTES, 'UTF-8'); ?>">
+    <meta property="og:description" content="{{ $descripcion }}">
     <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:url" content="{{ $ogUrl ?? request()->url() }}">
     <meta property="og:locale" content="{{ $locale }}">
@@ -47,7 +43,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $titulo }}">
-    <meta name="twitter:description" content="<?php echo htmlspecialchars(strip_tags($descripcionSEO ?? $descripcion), ENT_QUOTES, 'UTF-8'); ?>">
+    <meta name="twitter:description" content="{{ $descripcion }}">
     @if ($imagenOg)
         <meta name="twitter:image" content="{{ asset($imagenOg) }}">
     @endif
@@ -149,7 +145,7 @@
         </footer>
     </div>
     {!! $scripts !!}
-    @include('partials.cookie-banner')
+     @include('partials.cookie-banner')
 </body>
 
 </html>
