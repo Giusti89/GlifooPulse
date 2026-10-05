@@ -1,35 +1,60 @@
 function compartirProducto(boton) {
-    const urlSeo = boton.getAttribute('data-url-seo'); // URL limpia para los bots e intermedia
-    const urlDestino = boton.getAttribute('data-url-destino'); // URL final con hash para el usuario
+    const urlSeo = boton.getAttribute('data-url-seo');
+    const urlDestino = boton.getAttribute('data-url-destino');
     const titulo = boton.getAttribute('data-titulo');
     const htmlSucio = boton.getAttribute('data-descripcion');
+    const productSlug = urlSeo.split('/').filter(Boolean).pop() || 'producto';
+    const urlConUtms = urlSeo + '?utm_source=share&utm_medium=button&utm_campaign=' + encodeURIComponent(productSlug);
+
+    // Limpiar descripción HTML
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlSucio;
     const descripcion = tempDiv.innerText || tempDiv.textContent || "";
-    // 1. FLUJO PARA MÓVILES (API NATIVA)
+
     if (navigator.share) {
-        // En móviles mandamos el texto estético y dejamos que la API nativa procese la URL intermedia
         const textoMovil = `⭐ *${titulo}*\n${descripcion}\n\n👉 Ver producto completo aquí:`;
 
         navigator.share({
             title: titulo,
             text: textoMovil,
-            url: urlSeo // El sistema operativo procesará esta URL y jalará la foto de tu controlador
+            url: urlConUtms // ✅ URL con UTMs
         })
-            .catch((error) => console.log('Interrupción al compartir', error));
+            .catch((error) => {
+                if (error.name !== 'AbortError') {
+                    console.log('Interrupción al compartir', error);
+                }
+            });
 
     } else {
-        // 2. FLUJO PARA ESCRITORIO (WHATSAPP WEB O PORTAPAPELES)
-        // IMPORTANTE: En escritorio compartimos ÚNICAMENTE la URL intermedia para que WhatsApp Web la escanee
-        const textoEscritorio = `⭐ *${titulo}*\n${descripcion}\n\n👉 Ver producto completo aquí:\n${urlSeo}`;
+        // 2. FLUJO PARA ESCRITORIO
+        const textoEscritorio = `⭐ *${titulo}*\n${descripcion}\n\n👉 Ver producto completo aquí:\n${urlConUtms}`;
 
-        navigator.clipboard.writeText(textoEscritorio).then(() => {
-            alert('¡Detalles y enlace del producto copiados! Abre WhatsApp y pégalo.');
-        }).catch(err => {
-            // Si el portapapeles falla, abrimos la API con la URL de compartir
-            const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoEscritorio)}`;
-            window.open(whatsappUrl, '_blank');
-        });
+        navigator.clipboard.writeText(textoEscritorio)
+            .then(() => {
+                // ✅ Cambiado alert() por Swal (consistente)
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Copiado!',
+                        position: 'top-end',
+                        toast: true,
+                        text: 'Detalles y enlace copiados. Abre WhatsApp y pégalo.',
+                        timer: 2500,
+                        showConfirmButton: false,
+                        didOpen: (toast) => {
+                            const container = Swal.getContainer();
+                            if (container) container.style.zIndex = '999999';
+                        }
+                    });
+                } else {
+                    alert('¡Detalles y enlace del producto copiados! Abre WhatsApp y pégalo.');
+                }
+            })
+            .catch(() => {
+                // ✅ URL de WhatsApp corregida (falta ?text=)
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(textoEscritorio)}`;
+                window.open(whatsappUrl, '_blank');
+            });
     }
 }
 
@@ -291,10 +316,12 @@ function compartirCategoriaActiva() {
 
     // 3. Construir la URL limpia usando el parámetro slug
     const urlBase = window.location.origin + window.location.pathname;
-    const urlDestino = `${urlBase}?cat=${categoriaSlug}#${idContenedor}`;
+    const urlDestino = `${urlBase}?cat=${categoriaSlug}&utm_source=share&utm_medium=button&utm_campaign=categoria_${categoriaSlug}#${idContenedor}`;
 
     const titulo = `Categoría: ${nombreCategoria}`;
     const descripcion = `Mira todas nuestras soluciones y productos en la categoría ${nombreCategoria}.`;
+
+
 
     // 4. Compartir (Móvil)
     if (navigator.share) {
@@ -328,7 +355,7 @@ function compartirCategoriaActiva() {
                 alert('¡Enlace de la categoría copiado! Abre WhatsApp y pégalo.');
             }
         }).catch(err => {
-            const whatsappUrl = `https://whatsapp.com{encodeURIComponent(textoEscritorio)}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(textoEscritorio)}`;
             window.open(whatsappUrl, '_blank');
         });
     }
