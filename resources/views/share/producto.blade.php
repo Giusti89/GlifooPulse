@@ -23,14 +23,19 @@
     <meta name="twitter:description" content="{{ $meta['descripcion'] }}">
     <meta name="twitter:image" content="{{ $meta['imagen'] }}">
 
-    <!-- Redirección instantánea si es un usuario real -->
-    <script>
-        window.location.href = "{{ $meta['url_destino'] }}";
-    </script>
+    <!-- ⚠️ Redirección con fallback: meta refresh + JS -->
+    <noscript>
+        <meta http-equiv="refresh" content="0;url={{ $meta['url_destino'] }}">
+    </noscript>
 </head>
 
 <body>
     <p>Redirigiéndote al producto, por favor espera...</p>
+
+    <!-- Script al final del body para que los meta tags OG se lean primero -->
+    <script>
+        window.location.href = "{{ $meta['url_destino'] }}";
+    </script>
 </body>
 
 </html>

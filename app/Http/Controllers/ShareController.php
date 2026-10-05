@@ -8,9 +8,9 @@ use App\Models\Spot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ShareController extends Controller
+   class ShareController extends Controller
 {
-    public function shareProducto($spotSlug, $productSlug)
+    public function shareProducto(Request $request, $spotSlug, $productSlug)
     {
         // 1. Buscamos el negocio (Spot) de forma rápida
         $spot = Spot::where('slug', $spotSlug)->firstOrFail();
@@ -27,19 +27,34 @@ class ShareController extends Controller
         $descripcionLimpia = strip_tags(html_entity_decode($producto->descripcion, ENT_QUOTES, 'UTF-8'));
         $descripcionAcortada = Str::limit($descripcionLimpia, 150, '...');
 
+        // ✅ NUEVO: capturar UTMs de la request original para propagarlos
+        $utmParams = array_filter([
+            'utm_source'   => $request->query('utm_source'),
+            'utm_medium'   => $request->query('utm_medium'),
+            'utm_campaign' => $request->query('utm_campaign'),
+        ]);
+
+        // Construir URL destino con UTMs + prod
+        $urlDestino = route('publicidad', ['slug' => $spot->slug])
+            . '?prod=' . $producto->slug;
+
+        if (! empty($utmParams)) {
+            $urlDestino .= '&' . http_build_query($utmParams);
+        }
+
+        $urlDestino .= '#prod-' . $producto->slug;
 
         // 4. Preparamos la data estructurada de los Meta Tags
         $meta = [
-            
             'titulo' => e($producto->nombre . " | " . $spot->titulo),
             'descripcion' => e($descripcionAcortada),
             'imagen' => $imagenOg,
-            'url_destino' => route('publicidad', ['slug' => $spot->slug]) . "?prod=" . $producto->slug . "#prod-" . $producto->slug
+            'url_destino' => $urlDestino, // ✅ Ahora incluye UTMs
         ];
 
-        // 5. Retornamos una vista intermedia ultra-ligera diseñada EXCLUSIVAMENTE para los bots
         return view('share.producto', compact('meta'));
     }
+
 
     private function getProductImage($producto, $contenido)
     {
