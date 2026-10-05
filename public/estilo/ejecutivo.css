@@ -797,7 +797,7 @@
 }
 
 .modal-content {
-    background: var(--brand-background);
+    background: var(--brand-secondary);
     color: var(--brand-text-titulo);
     padding: 25px;
     border-radius: 10px;
@@ -816,7 +816,7 @@
     border: none;
     font-size: 22px;
     cursor: pointer;
-    color: var(--brand-text-titulo);
+    color: var(--brand-primary);
 }
 
 .modal-imagen {
