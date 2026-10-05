@@ -225,7 +225,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mensaje">Mensaje</label>
-                        <textarea name="mensaje" id="mensaje" class="form-control" required
+                        <textarea name="mensaje" id="mensaje" class="form-control"
                             placeholder="Hola, me interesa el producto..."></textarea>
                     </div>
                     <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
