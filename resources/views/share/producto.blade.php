@@ -34,7 +34,7 @@
 
     <!-- Script al final del body para que los meta tags OG se lean primero -->
     <script>
-        window.location.href = "{{ $meta['url_destino'] }}";
+        window.location.href = "{!! $meta['url_destino'] !!}";
     </script>
 </body>
 
