@@ -83,47 +83,50 @@
                         }
                     }
                 }
+
+                $productosSchema = [];
+                foreach ($todosLosProductos as $producto) {
+                    // ✅ Imagen
+                    $primeraImagen = $producto->imagenes?->first();
+                    if ($primeraImagen && !empty($primeraImagen->url)) {
+                        $urlImagenProducto = asset('storage/' . $primeraImagen->url);
+                    } elseif (!empty($imagenOg)) {
+                        $urlImagenProducto = $imagenOg;
+                    } else {
+                        $urlImagenProducto = asset('img/default-product.jpg');
+                    }
+
+                    // ✅ Limpiar HTML de la descripción
+                    $descProducto = $producto->descripcion ?? 'Producto disponible en el catálogo de ' . $titulo;
+                    $descProductoLimpia = strip_tags(html_entity_decode($descProducto, ENT_QUOTES, 'UTF-8'));
+                    $descProductoLimpia = preg_replace('/\s+/', ' ', trim($descProductoLimpia));
+                    $descProductoLimpia = Str::limit($descProductoLimpia, 300, '');
+
+                    $productosSchema[] = [
+                        '@context' => 'https://schema.org',
+                        '@type' => 'Product',
+                        'name' => strip_tags($producto->nombre),
+                        'description' => $descProductoLimpia,
+                        'image' => $urlImagenProducto,
+                        'sku' => 'GLI-' . ($producto->id ?? ''),
+                        'brand' => [
+                            '@type' => 'Brand',
+                            'name' => strip_tags($titulo),
+                        ],
+                        'offers' => [
+                            '@type' => 'Offer',
+                            'price' => (string) ($producto->precio ?? '0'),
+                            'priceCurrency' => 'BOB',
+                            'availability' => 'https://schema.org/InStock', // ✅ URL válida
+                        ],
+                    ];
+                }
             @endphp
 
-            @if ($todosLosProductos->count() > 0)
+            @if (count($productosSchema) > 0)
                 <script type="application/ld+json">
-                [
-                  @foreach($todosLosProductos as $producto)
-                    @php
-                        $primeraImagen = $producto->imagenes?->first(); 
-                        if ($primeraImagen && !empty($primeraImagen->url)) {
-                            $urlImagenProducto = asset('storage/' . $primeraImagen->url);
-                        } elseif (!empty($imagenOg)) {
-                            $urlImagenProducto = $imagenOg;
-                        } else {
-                            $urlImagenProducto = asset('img/default-product.jpg');
-                        }
-
-                        // Limpiamos saltos de línea y retornos de carro del texto del cliente para no romper el JSON
-                        $descProducto = $producto->descripcion ?? 'Producto disponible en el catálogo de ' . $titulo;
-                        $descProductoLimpia = preg_replace('/\s+/', ' ', $descProducto);
-                    @endphp
-                    {
-                      "@context": "https://schema.org",
-                      "@type": "Product",
-                      "name": "{{ addslashes($producto->nombre) }}",
-                      "description": "{{ addslashes($descProductoLimpia) }}",
-                      "image": "{{ $urlImagenProducto }}",
-                      "sku": "GLI-{{ $producto->id ?? $loop->index }}",
-                      "brand": {
-                        "@type": "Brand",
-                        "name": "{{ addslashes($titulo) }}"
-                      },
-                      "offers": {
-                        "@type": "Offer",
-                        "price": "{{ $producto->precio ?? '0' }}",
-                        "priceCurrency": "BOB",
-                        "availability": "https://schema.org"
-                      }
-                    }{{ !$loop->last ? ',' : '' }}
-                  @endforeach
-                ]
-                </script>
+            {!! json_encode($productosSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
             @endif
         @endif
     @endif
@@ -145,7 +148,7 @@
         </footer>
     </div>
     {!! $scripts !!}
-     @include('partials.cookie-banner')
+    @include('partials.cookie-banner')
 </body>
 
 </html>
