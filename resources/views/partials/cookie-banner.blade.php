@@ -21,7 +21,7 @@
                 <path d="M12 16v.01"></path>
             </svg>
             <p style="margin: 0; flex: 1;">
-                Usamos cookies para medir el tráfico y mejorar tu experiencia.
+                Usamos cookies propias para mostrar estadísticas al dueño de este catálogo. No compartimos datos con terceros.
                 <a href="{{ url('/terminos') }}" target="_blank"
                    style="color: #f59e0b; text-decoration: underline;">
                     Más información
@@ -33,7 +33,7 @@
                     style="background: #f59e0b; color: #111827; padding: 0.55rem 1.25rem;
                            border: none; border-radius: 0.5rem; font-weight: 600;
                            cursor: pointer; font-size: 0.875rem; transition: background 0.2s;">
-                Aceptar
+                Entendido
             </button>
         </div>
     </div>

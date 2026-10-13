@@ -17,13 +17,14 @@ class VisitService
             return;
         }
 
-        if ($request->cookie('cookies_ok') !== '1') {
-            return;
-        }
-
+        // ⚠️ COMENTADO: Ahora trackeamos siempre, sin requerir aceptación
+        // if ($request->cookie('cookies_ok') !== '1') {
+        //     return;
+        // }
+        
         $sessionId = $this->resolveSessionId($request);
         if (! $sessionId) {
-            return; 
+            return;
         }
 
         $referrer = $request->headers->get('referer');
