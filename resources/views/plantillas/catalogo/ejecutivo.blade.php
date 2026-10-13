@@ -155,10 +155,14 @@
                                             @if ($producto->precio > 0)
                                                 <div class="servicio-overlay">
                                                     <button class="btn-ver-detalles"
-                                                        onclick="abrirModal('{{ $src }}', '{{ $producto->nombre }}', '{{ Str::limit(strip_tags($producto->descripcion), 120, '...') }}')">
+                                                        onclick="abrirModal(
+                                                                    @js($src),
+                                                                    @js($producto->nombre),
+                                                                    @js(str($producto->descripcion)->sanitizeHtml())
+                                                                    )">
                                                         Ver detalles
                                                     </button>
-                                                </div>
+                                                </div>  
                                             @endif
                                         </div>
                                         <div class="servicio-info">
@@ -225,8 +229,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mensaje">Mensaje</label>
-                        <textarea name="mensaje" id="mensaje" class="form-control"
-                            placeholder="Hola, me interesa el producto..."></textarea>
+                        <textarea name="mensaje" id="mensaje" class="form-control" placeholder="Hola, me interesa el producto..."></textarea>
                     </div>
                     <button type="submit" class="btn-enviar">Enviar por WhatsApp</button>
                 </form>
@@ -386,7 +389,7 @@
         <span class="modal-cerrar">&times;</span>
         <img id="modalImagen" src="" alt="Vista ampliada del producto">
         <div id="modalTitulo" class="modal-titulo"></div>
-        <p id="modalDescripcion" class="modal-descripcion"></p>
+        <div id="modalDescripcion" class="modal-descripcion"></div>
     </div>
 </div>
 <div id="compartirCatalogoModal" class="modal-overlay" data-logo="{{ asset('/storage/' . $contenido->logo_url) }}">

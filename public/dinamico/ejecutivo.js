@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalDesc = document.getElementById('modalDescripcion');
     const closeModal = document.querySelector('.modal-cerrar');
 
-    window.abrirModal = function (src, title, descripcion) {
+    window.abrirModal = function (src, title, descripcionHtml) {
         modal.style.display = 'block';
         modalImg.src = src;
         modalTitle.textContent = title;
-        modalDesc.textContent = descripcion;
+        modalDesc.innerHTML = descripcionHtml;   // ✅ interpreta el HTML
     }
 
     closeModal.addEventListener('click', () => {
@@ -125,16 +125,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 const imgElement = elementoProducto.querySelector('.servicio-imagen');
                 const titleElement = elementoProducto.querySelector('.servicio-nombre');
                 const descElement = elementoProducto.querySelector('.servicio-descripcion');
+                const descripcionHtml = descElement.getAttribute('data-descripcion-html') || descElement.innerHTML;
 
                 if (imgElement && titleElement && typeof window.abrirModal === 'function') {
-                    window.abrirModal(imgElement.src, titleElement.textContent.trim(), descElement.textContent.trim());
+                    window.abrirModal(imgElement.src, titleElement.textContent.trim(), descripcionHtml);
                 }
             }
         }, 250);
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Capturar el parámetro 'cat' de la URL (que ahora es el slug)
     const urlParams = new URLSearchParams(window.location.search);
     const catSlug = urlParams.get('cat');
@@ -142,19 +143,19 @@ document.addEventListener("DOMContentLoaded", function() {
     if (catSlug) {
         // Reconstruimos el ID del contenedor que armamos en Blade
         const targetTabId = `categoria-${catSlug}`;
-        
+
         // 1. Limpiar estados activos previos
         document.querySelectorAll('.categoria-tab').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.categoria-content').forEach(content => content.classList.remove('active'));
-        
+
         // 2. Buscar y activar la pestaña vinculada al slug
         const tabToActivate = document.querySelector(`[data-tab="${targetTabId}"]`);
         const contentToActivate = document.getElementById(targetTabId);
-        
+
         if (tabToActivate && contentToActivate) {
             tabToActivate.classList.add('active');
             contentToActivate.classList.add('active');
-            
+
             // Scroll suave hacia la sección elegida
             setTimeout(() => {
                 contentToActivate.scrollIntoView({ behavior: 'smooth', block: 'start' });

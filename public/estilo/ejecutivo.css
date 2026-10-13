@@ -380,15 +380,18 @@
 
 .categoria-descripcion ul {
     list-style-type: disc;
-    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    list-style-position: inside;
+    /* Mueve la viñeta dentro del flujo centrado */
     padding: 0;
     margin-bottom: 0.75rem;
-    text-align: center; /* Asegura el centrado */
+    text-align: center;
+    /* Asegura el centrado */
 }
 
 .categoria-descripcion ol {
     list-style-type: decimal;
-    list-style-position: inside; /* Aplica también para listas numeradas */
+    list-style-position: inside;
+    /* Aplica también para listas numeradas */
     padding: 0;
     margin-bottom: 0.75rem;
     text-align: center;
@@ -412,15 +415,18 @@
 
 .servicio-descripcion ul {
     list-style-type: disc;
-    list-style-position: inside; /* Mueve la viñeta dentro del flujo centrado */
+    list-style-position: inside;
+    /* Mueve la viñeta dentro del flujo centrado */
     padding: 0;
     margin-bottom: 0.75rem;
-    text-align: center; /* Asegura el centrado */
+    text-align: center;
+    /* Asegura el centrado */
 }
 
 .servicio-descripcion ol {
     list-style-type: decimal;
-    list-style-position: inside; /* Aplica también para listas numeradas */
+    list-style-position: inside;
+    /* Aplica también para listas numeradas */
     padding: 0;
     margin-bottom: 0.75rem;
     text-align: center;
@@ -491,7 +497,7 @@
 
 .tab-text {
     font-size: 0.95rem;
-    color:var(--brand-button-text);
+    color: var(--brand-button-text);
 }
 
 .scroll-indicator {
@@ -725,6 +731,36 @@
     width: 1.1em;
     height: 1.1em;
     fill: currentColor;
+}
+/* Amodal ver detalles */
+
+#modalDescripcion {
+    text-align: left;
+    line-height: 1.6;
+    padding: 1.5rem;
+    font-size: 1rem;
+    color: var(--brand-text);
+    background: var(--brand-background);
+}
+
+#modalDescripcion p {
+    margin-bottom: 0.75rem;
+}
+
+#modalDescripcion strong {
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+#modalDescripcion ul,
+#modalDescripcion ol {
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    text-align: left;
+}
+
+#modalDescripcion li {
+    margin-bottom: 0.25rem;
 }
 
 /* Ajuste de estructura para agrupar los botones de acción */
