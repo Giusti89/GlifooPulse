@@ -736,8 +736,8 @@
 
 #modalDescripcion {
     text-align: left;
-    line-height: 1.6;
-    padding: 1.5rem;
+    line-height: 1.2;
+    padding: 1.0rem;
     font-size: 1rem;
     color: var(--brand-text);
     background: var(--brand-background);
