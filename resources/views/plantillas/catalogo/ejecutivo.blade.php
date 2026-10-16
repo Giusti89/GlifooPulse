@@ -19,7 +19,7 @@
 @endphp
 <x-layouts.plantillacatalogo :titulo="$tituloSEO ?? $titulo" :descripcion="$descripcionSEO" :keywords="$keywordsSEO" :robots="$robots" :imagenOg="$imagenOg"
     :locale="$locale" :ogUrl="$ogUrl" :ogType="$ogType" :backgroud="$contenido->background" :icono="'/storage/' . $contenido->logo_url" :contenido="$contenido"
-    :categoriapro="$categoriapro" :color="$color">
+    :categoriapro="$categoriapro" :color="$color" :horarios="$horarios" :redes="$redes">
     <style>
         :root {
             --brand-background: {{ $bgColor }};
